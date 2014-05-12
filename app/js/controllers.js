@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', [])
+angular.module('kunishu.controllers', [])
   .controller('MyCtrl1', ['$scope', function($scope) {
 
   }])
