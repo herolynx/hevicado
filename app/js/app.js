@@ -13,5 +13,6 @@ angular.module('kunishu', [
         $routeProvider.when('/userList', {templateUrl: 'partials/userList.html', controller: 'MyCtrl1'});
         $routeProvider.when('/messages', {templateUrl: 'partials/messages.html', controller: 'MyCtrl2'});
         $routeProvider.when('/calendar', {templateUrl: 'partials/calendar.html', controller: 'MyCtrl2'});
-        $routeProvider.otherwise({redirectTo: '/messages'});
+        $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'MyCtrl2'});
+        $routeProvider.otherwise({redirectTo: '/login'});
     }]);
