@@ -7,9 +7,9 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="stylesheets/perfect-scrollbar.css">
-    <link rel="stylesheet" href="css/fontawesome.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="common/css/fontawesome.css">
+    <link rel="stylesheet" href="common/css/style.css">
+    <link rel="stylesheet" href="common/css/jquery.mCustomScrollbar.css">
 
     <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
@@ -102,7 +102,9 @@ null
             'js/services.js',
             'js/controllers.js',
             'js/filters.js',
-            'js/directives.js'
+            'js/directives.js',
+            'modules/auth/js/auth-controller.js',
+            'modules/auth/js/auth-service.js'
         ], function () {
             // when all is done, execute bootstrap angular application
             angular.bootstrap(document, ['kunishu']);
