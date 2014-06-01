@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('kunishu-auth', []).
+angular.module('kunishu-auth.services', []).
     factory('AuthService', function ($http, Session) {
         return {
             login: function (credentials) {

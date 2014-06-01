@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('kunishu-auth', [])
+angular.module('kunishu-auth.controllers', [])
     .controller('LoginCtrl', function ($scope, $rootScope, $log, AUTH_EVENTS, AuthService) {
         $scope.credentials = {
             username: '',
