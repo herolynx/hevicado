@@ -7,16 +7,10 @@
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
     <!-- css -->
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/perfect-scrollbar.css">
-    <link rel="stylesheet" href="css/fontawesome.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
-    <!-- components -->
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <link rel="stylesheet" href="common/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="common/css/fontawesome.css">
+    <link rel="stylesheet" href="common/css/style.css">
+    <link rel="stylesheet" href="common/css/jquery.mCustomScrollbar.css">
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -81,12 +75,19 @@
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
+<!--TODO connect requirejs for bigger amount of modules -->
+<!--<script src="../bower_components/requirejs/require.js"></script>-->
 <script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="modules/auth/js/auth-app.js"></script>
+<script src="modules/auth/js/auth-controller.js"></script>
+<script src="modules/auth/js/auth-service.js"></script>
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/filters.js"></script>
 <script src="js/directives.js"></script>
+
 </body>
 </html>
