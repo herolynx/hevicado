@@ -14,9 +14,12 @@ angular.module('kunishu-auth.controllers', [])
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
             }, function () {
                 $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                $scope.loginMessage='Wrong login and/or password';
+                $scope.loginMessage = 'Wrong login and/or password';
             });
         };
+        $scope.logout = function () {
+            AuthService.logout();
+        }
     }).
     constant('AUTH_EVENTS', {
         loginSuccess: 'auth-login-success',

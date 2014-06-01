@@ -3,12 +3,12 @@
 angular.module('kunishu',
     [
         'ngRoute',
+        'ngCookies',
+        'kunishu-auth',
         'kunishu.filters',
         'kunishu.services',
         'kunishu.directives',
-        'kunishu.controllers',
-        'kunishu-auth.controllers',
-        'kunishu-auth.services'
+        'kunishu.controllers'
     ]
 ).
     value('version', '0.01').
@@ -18,4 +18,8 @@ angular.module('kunishu',
         $routeProvider.when('/calendar', {templateUrl: '/app/partials/calendar.html', controller: 'EmptyCtrl'});
         $routeProvider.when('/login', {templateUrl: '/app/modules/auth/partials/login.html', controller: 'LoginCtrl'});
         $routeProvider.otherwise({redirectTo: '/login'});
-    }]);
+    }]).
+    config(function ($httpProvider) {
+        $httpProvider.interceptors.push('AuthInterceptor');
+    });
+;

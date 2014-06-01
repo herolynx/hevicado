@@ -8,11 +8,14 @@ angular.module('kunishu-auth.services', []).
                 return $http
                     .post('/login', credentials)
                     .then(function (res) {
-                        Session.create(res.id, res.userid, res.role);
+                        Session.create(res.token, res.userid, res.role);
                     });
             },
+            logout: function () {
+                Session.destroy();
+            },
             isAuthenticated: function () {
-                return !!Session.userId;
+                return !Session.token;
             },
             isAuthorized: function (authorizedRoles) {
                 if (!angular.isArray(authorizedRoles)) {
@@ -23,17 +26,40 @@ angular.module('kunishu-auth.services', []).
             }
         };
     }).
-    service('Session', function () {
-        this.create = function (sessionId, userId, userRole) {
-            this.id = sessionId;
+    service('Session', function ($window, $log) {
+        this.create = function (token, userId, userRole) {
+            $log.debug('Creating session - user: ' + userId + ", userRole: " + userRole + ", token:" + token);
+            $window.sessionStorage.user = this;
+            this.token = token;
             this.userId = userId;
             this.userRole = userRole;
+
         };
         this.destroy = function () {
-            this.id = null;
+            $log.debug('Deleting session - user: ' + this.userId);
+            delete $window.sessionStorage.user;
+            this.token = null;
             this.userId = null;
             this.userRole = null;
         };
         return this;
+    }).
+    factory('AuthInterceptor', function ($rootScope, $q, Session) {
+        return {
+            request: function (config) {
+                config.headers = config.headers || {};
+                if (Session.token) {
+                    config.headers.Authorization = 'Bearer ' + Session.token;
+                }
+                return config;
+            },
+            response: function (response) {
+                if (response.status === 401) {
+                    // handle the case where the user is not authenticated
+                }
+                return response || $q.when(response);
+            }
+        };
     });
+;
 
