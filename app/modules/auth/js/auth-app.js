@@ -21,7 +21,25 @@ angular.module('kunishu-auth',
         guest: 'guest'
     }).
     constant('ACCESS_LEVELS', {
-        public: '*',
+        public: ['guest', 'client', 'admin'],
         user: ['client', 'admin'],
         admin: ['admin']
+    }).
+    run(function ($rootScope, $log, AUTH_EVENTS, AuthService) {
+        $rootScope.$on('$stateChangeStart', function (event, next) {
+            var authorizedRoles = next.data.access;
+            if (!AuthService.isAuthorized(authorizedRoles)) {
+                $log.info('User is not allowed to see resource ' + next.url + ' - required roles: ' + authorizedRoles);
+                event.preventDefault();
+                if (AuthService.isAuthenticated()) {
+                    // user is not logged in
+                    $log.info('User is not allowed to see resource ' + next.url + ' - user is not logged in');
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                } else {
+                    // user has no permissions
+                    $log.info('User is not allowed to see resource ' + next.url + ' - user has no rights');
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                }
+            }
+        });
     });
