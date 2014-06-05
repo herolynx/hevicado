@@ -1,6 +1,6 @@
 'use strict';
 
-var routes = angular.module('kunishu-routes', []);
+var routes = angular.module('kunishu.routes', []);
 
 /**
  * Configure routing rules between application states

@@ -5,14 +5,20 @@
  */
 var module = angular.module('kunishu',
     [
+        /*
+         * External modules
+         */
         'ngRoute',
         'ngCookies',
         'kunishu-auth',
+        /*
+         * Internal modules
+         */
         'kunishu.filters',
         'kunishu.services',
         'kunishu.directives',
         'kunishu.controllers',
-        'kunishu-routes'
+        'kunishu.routes'
     ]
 ).
     value('version', '0.01');
