@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('kunishu',
+/**
+ * Define main kunishu module
+ */
+var module = angular.module('kunishu',
     [
         'ngRoute',
         'ngCookies',
@@ -12,8 +15,11 @@ angular.module('kunishu',
         'kunishu-routes'
     ]
 ).
-    value('version', '0.01').
-    config(function ($httpProvider) {
-        $httpProvider.interceptors.push('AuthInterceptor');
-    });
-;
+    value('version', '0.01');
+
+//register authentication interceptor in order to perform
+// default actions related with incoming and outgoing communication
+module.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('AuthInterceptor');
+});
+

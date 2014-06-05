@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('kunishu-auth',
+/**
+ * Configure authentication module
+ */
+var module = angular.module('kunishu-auth',
     [
         'kunishu-auth.controllers',
         'kunishu-auth.services',
@@ -8,38 +11,48 @@ angular.module('kunishu-auth',
     ]
 ).
     constant('AUTH_EVENTS', {
-        loginSuccess: 'auth-login-success',
-        loginFailed: 'auth-login-failed',
-        logoutSuccess: 'auth-logout-success',
-        sessionTimeout: 'auth-session-timeout',
-        notAuthenticated: 'auth-not-authenticated',
-        notAuthorized: 'auth-not-authorized'
+        USER_LOGGED_IN: 'auth-login-success',
+        LOGIN_FAILED: 'auth-login-failed',
+        USER_LOGGED_OUT: 'auth-logout-success',
+        SESSION_TIMEOUT: 'auth-session-timeout',
+        USER_NOT_AUTHENTICATED: 'auth-not-authenticated',
+        USER_NOT_AUTHORIZED: 'auth-not-authorized'
     }).
     constant('USER_ROLES', {
-        admin: 'admin',
-        client: 'client',
-        guest: 'guest'
+        ADMIN: 'admin',
+        CLIENT: 'client',
+        GUEST: 'guest'
     }).
     constant('ACCESS_LEVELS', {
-        public: ['guest', 'client', 'admin'],
-        user: ['client', 'admin'],
-        admin: ['admin']
-    }).
-    run(function ($rootScope, $log, AUTH_EVENTS, AuthService) {
-        $rootScope.$on('$stateChangeStart', function (event, next) {
-            var authorizedRoles = next.data.access;
-            if (!AuthService.isAuthorized(authorizedRoles)) {
-                $log.info('User is not allowed to see resource ' + next.url + ' - required roles: ' + authorizedRoles);
-                event.preventDefault();
-                if (AuthService.isAuthenticated()) {
-                    // user is not logged in
-                    $log.info('User is not allowed to see resource ' + next.url + ' - user is not logged in');
-                    $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                } else {
-                    // user has no permissions
-                    $log.info('User is not allowed to see resource ' + next.url + ' - user has no rights');
-                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-                }
-            }
-        });
+        PUBLIC: ['guest', 'client', 'admin'],
+        USER: ['client', 'admin'],
+        ADMIN: ['admin']
     });
+
+/**
+ * Check whether current has privileges to see visited resources
+ * @param $rootScope Angie's root scope
+ * @param AuthService service for checking user access rights
+ * @param AUTH_EVENTS list of authentication events
+ * @param $log Angie's logger
+ */
+var checkUserAccessRights = function ($rootScope, AuthService, AUTH_EVENTS, $log) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+        var requiredAccessRoles = next.data.access;
+        if (!AuthService.isAuthorized(requiredAccessRoles)) {
+            $log.info('User is not allowed to see resource ' + next.url + ' - required roles: ' + requiredAccessRoles);
+            event.preventDefault();
+            if (!AuthService.isAuthenticated()) {
+                $log.info('User is not allowed to see resource ' + next.url + ' - USER is not logged in');
+                $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHENTICATED);
+            } else {
+                $log.info('User is not allowed to see resource ' + next.url + ' - no sufficient privileges of: ' +
+                    AuthService.getCurrentSession().getUserRole());
+                $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHORIZED);
+            }
+        }
+    })
+}
+
+// check user access rights when visiting stuff in application
+module.run(checkUserAccessRights);

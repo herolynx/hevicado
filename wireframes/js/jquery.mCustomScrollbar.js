@@ -51,13 +51,13 @@ along with this program.  If not, see http://www.gnu.org/licenses/lgpl.html.
 				},
 				contentTouchScroll:true, /*scrolling by touch-swipe content: boolean*/
 				callbacks:{
-					onScrollStart:function(){}, /*user custom callback function on scroll start event*/
-					onScroll:function(){}, /*user custom callback function on scroll event*/
-					onTotalScroll:function(){}, /*user custom callback function on scroll end reached event*/
-					onTotalScrollBack:function(){}, /*user custom callback function on scroll begin reached event*/
+					onScrollStart:function(){}, /*USER custom callback function on scroll start event*/
+					onScroll:function(){}, /*USER custom callback function on scroll event*/
+					onTotalScroll:function(){}, /*USER custom callback function on scroll end reached event*/
+					onTotalScrollBack:function(){}, /*USER custom callback function on scroll begin reached event*/
 					onTotalScrollOffset:0, /*scroll end reached offset: integer (pixels)*/
 					onTotalScrollBackOffset:0, /*scroll begin reached offset: integer (pixels)*/
-					whileScrolling:function(){} /*user custom callback function on scrolling event*/
+					whileScrolling:function(){} /*USER custom callback function on scrolling event*/
 				},
 				theme:"light" /*"light", "dark", "light-2", "dark-2", "light-thick", "dark-thick", "light-thin", "dark-thin"*/
 			},

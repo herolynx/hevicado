@@ -1,6 +1,5 @@
 'use strict';
 
-angular.module('kunishu.controllers', [])
-    .controller('EmptyCtrl', function ($scope) {
+var controllers = angular.module('kunishu.controllers', []);
 
-    });
+//TODO add generic controllers here
