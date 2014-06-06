@@ -25,38 +25,17 @@
             </a>
             <ul>
                 <li>
-                    <a href="#/calendar" class="icon-folder-open"></a>
+                    <a ui-sref="calendar" class="icon-folder-open"></a>
 
                     <div class="description">
-                        <a href="#">Category 1</a>
+                        <a href="#">Calendar</a>
                     </div>
                 </li>
                 <li>
-                    <a href="#" class="icon-edit-alt"></a>
+                    <a ui-sref="users" class="icon-user"></a>
 
                     <div class="description">
-                        <a href="#">Category 2</a>
-                    </div>
-                </li>
-                <li>
-                    <a href="#" class="icon-cog"></a>
-
-                    <div class="description">
-                        <a href="#">Category 3</a>
-                    </div>
-                </li>
-                <li>
-                    <a href="#/userList" class="icon-user"></a>
-
-                    <div class="description">
-                        <a href="#">Category 4</a>
-                    </div>
-                </li>
-                <li>
-                    <a href="#" class="icon-arrows-cw"></a>
-
-                    <div class="description">
-                        <a href="#">Category 5</a>
+                        <a href="#">User list</a>
                     </div>
                 </li>
             </ul>
@@ -67,6 +46,7 @@
 
         <!-- page context -->
         <div ng-view></div>
+        <div ui-view></div>
         <div>Kunishu: v<span app-version></span></div>
     </div>
 </div>
@@ -80,6 +60,7 @@
 <script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/angular-route/angular-route.js"></script>
 <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="modules/auth/js/auth-app.js"></script>
 <script src="modules/auth/js/auth-controller.js"></script>
 <script src="modules/auth/js/auth-service.js"></script>
@@ -88,6 +69,6 @@
 <script src="js/controllers.js"></script>
 <script src="js/filters.js"></script>
 <script src="js/directives.js"></script>
-
+<script src="js/routes.js"></script>
 </body>
 </html>

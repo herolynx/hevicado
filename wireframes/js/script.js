@@ -55,13 +55,13 @@ $(function() {
 $("#edit, #save").click(function(event){
 	event.preventDefault();
 	if ($(this).hasClass("no") ) {
-		$(".user .personal-data input").attr('disabled', 'disabled');
-		$(".user .action #save").removeClass('visible').addClass('hidden').animate({opacity: '1'}, 500);
+		$(".USER .personal-data input").attr('disabled', 'disabled');
+		$(".USER .action #save").removeClass('visible').addClass('hidden').animate({opacity: '1'}, 500);
 	$(this).removeClass("no");
 	} else {
 		$(this).addClass("no");
-		$(".user .personal-data input").removeAttr('disabled', 'disabled');
-		$(".user .action #save").removeClass('hidden').addClass('visible');
+		$(".USER .personal-data input").removeAttr('disabled', 'disabled');
+		$(".USER .action #save").removeClass('hidden').addClass('visible');
 	}		
 	return false;
 });
@@ -78,7 +78,7 @@ $("#edit, #save").click(function(event){
 	});	
 	
 // USER
-	$('.user .list-user .user-view').hover(		
+	$('.USER .list-USER .USER-view').hover(
 		function () {
 			$(this).css('border', '1px solid #000');
 			$(this).find('img').animate({
