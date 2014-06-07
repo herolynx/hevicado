@@ -1,33 +1,44 @@
-module.exports = function(config){
-  config.set({
+module.exports = function (config) {
+    config.set({
 
-    basePath : '../',
+        basePath: '../',
 
-    files : [
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-route/angular-route.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
-      '../app/common/js/**/*.js',
-      'test/unit/**/*.js'
-    ],
+        files: [
+            /* dependencies */
+            'bower_components/angular/angular.js',
+            'bower_components/angular-cookies/angular-cookies.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/angular-ui-router/release/angular-ui-router.js',
+            /* test dependencies */
+            'bower_components/angular-mocks/angular-mocks.js',
+            /* tested components */
+            'app/js/*.js',
+            'app/common/**/*.js',
+            'app/modules/**/*.js',
+            /* test cases */
+            'test/unit/**/*.js'
+        ],
 
-    autoWatch : true,
+        exclude: [
 
-    frameworks: ['jasmine'],
+        ],
 
-    browsers : ['Chrome'],
+        autoWatch: true,
+        frameworks: ['jasmine'],
+        browsers: ['PhantomJS'],
 
-    plugins : [
+        plugins: [
+            'karma-junit-reporter',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
-            'karma-junit-reporter'
-            ],
+            'karma-phantomjs-launcher'
+        ],
 
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    }
+        junitReporter: {
+            outputFile: 'test_out/unit.xml',
+            suite: 'unit'
+        }
 
-  });
+    });
 };
