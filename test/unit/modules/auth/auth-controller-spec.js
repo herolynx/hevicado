@@ -1,32 +1,44 @@
 'use strict';
 
-describe('kunishu-auth.controllers', function () {
+describe('auth-controller-spec - Login controller:', function () {
 
-    //mock module
-    beforeEach(angular.mock.module('kunishu-auth'));
+    var $rootScope, $scope;
+    var mockAuthService, mockLog;
 
-    //mock component's dependencies
-    //$rootScope, $scope, AuthService, AUTH_EVENTS, $log
-    beforeEach(angular.mock.inject(function ($rootScope, $controller) {
-        //create an empty scope
-        var rootScope = $rootScope.$new();
-        //declare the controller and inject our empty scope
-        $controller('LoginCtrl', {$scope: rootScope});
+    beforeEach(angular.module('kunishu-auth.services', function ($provide) {
+        $provide.value('AuthService', {
+            logout: jasmine.createSpy('logout')
+        });
+
+    }));
+    beforeEach(angular.module('kunishu-auth'));
+    beforeEach(angular.module('kunishu-auth.controllers'));
+
+//    //prepare mocked components
+//    beforeEach(angular.mock.inject(function ($controller, _$rootScope_) {
+//        $rootScope = _$rootScope_;
+//        $scope = $rootScope.$new();
+//        mockAuthService = { };
+//        mockLog = { };
+//        $controller('LoginCtrl', {
+//            $rootScope: $rootScope,
+//            $scope: $scope,
+//            AuthService: AuthService,
+//            AUTH_EVENTS: AUTH_EVENTS,
+//            $log: mockLog
+//        });
+//    }));
+
+    it('should log-out current user', inject(function (AuthService) {
+        //given user session exists
+
+        //when user is logging out
+//        $scope.logout();
+        //then session is destroyed
+        expect(true).toBe(true);
+        //and broadcast event is sent
+
     }));
 
-    it('should log-out current user', inject(function ($controllers, $rootScope, AuthService) {
-        //given
-        var loginCtrl = $controllers('LoginCtrl', { $scope: {} });
-        expect(loginCtrl).toBeDefined();
-        //when
-
-        //then
-    }));
-
-    it('should ....', inject(function ($controller) {
-        //spec body
-        var myCtrl2 = $controller('MyCtrl2', { $scope: {} });
-        expect(myCtrl2).toBeDefined();
-    }));
 
 });
