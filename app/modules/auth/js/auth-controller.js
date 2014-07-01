@@ -38,7 +38,9 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, AuthService, A
      * Logout current user
      */
     $scope.logout = function () {
-//        AuthService.logout();
-//        $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_OUT);
+        if (AuthService.isAuthenticated()) {
+            AuthService.logout();
+            $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_OUT);
+        }
     }
 });
