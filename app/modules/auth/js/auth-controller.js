@@ -26,9 +26,10 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, AuthService, A
      * @param credentials user's login and password
      */
     $scope.login = function (credentials) {
-        $log.debug('Logging in USER:' + credentials.username);
+        $log.debug('Logging in USER: ' + credentials.username);
         AuthService.login(credentials).then(function () {
             $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);
+            $scope.loginMessage = '';
         }, function () {
             $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILED);
             $scope.loginMessage = 'Wrong login and/or password';
