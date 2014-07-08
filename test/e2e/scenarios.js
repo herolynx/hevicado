@@ -10,15 +10,31 @@ describe('routes-spec:', function () {
         expect(browser.getLocationAbsUrl()).toMatch("/#/login");
     });
 
-    describe('checking user\'s access rights-spec:', function () {
+    it('should allow entering login page', function () {
+        //given any user
+        //when accessing login page
+        browser.get('/app/#login');
+        //then access to resource is granted
+        expect(browser.getLocationAbsUrl()).toMatch("/#/login");
+    });
 
-        it('should redirect guest to login page while entering calendar page', function () {
+    describe('checking access rights to calendar:', function () {
+
+        it('should deny guest to enter calendar page', function () {
             //given user is not logged in
-            //and user has not sufficient rights
             //when accessing private resource
             browser.get('/app/#calendar');
             //then user is redirected to login page
             expect(browser.getLocationAbsUrl()).toMatch("/#/login");
+        });
+
+        it('should allow logged in user to enter calendar page', function () {
+            //given user is logged in
+           
+            //when accessing private resource
+            browser.get('/app/#calendar');
+            //then access to resource is granted
+            expect(browser.getLocationAbsUrl()).toMatch("/#/calendar");
         });
 
     });
