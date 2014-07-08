@@ -43,7 +43,7 @@ var checkUserAccessRights = function ($rootScope, AuthService, AUTH_EVENTS, $log
             $log.info('User is not allowed to see resource ' + next.url + ' - required roles: ' + requiredAccessRoles);
             event.preventDefault();
             if (!AuthService.isAuthenticated()) {
-                $log.info('User is not allowed to see resource ' + next.url + ' - USER is not logged in');
+                $log.info('User is not allowed to see resource ' + next.url + ' - user is not logged in');
                 $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHENTICATED);
             } else {
                 $log.info('User is not allowed to see resource ' + next.url + ' - no sufficient privileges of: ' +
