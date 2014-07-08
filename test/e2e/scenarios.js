@@ -1,42 +1,26 @@
 'use strict';
 
-/* https://github.com/angular/protractor/blob/master/docs/getting-started.md */
+describe('routes-spec:', function () {
 
-describe('my app', function() {
-
-  browser.get('index.html');
-
-  it('should automatically redirect to /view1 when location hash/fragment is empty', function() {
-    expect(browser.getLocationAbsUrl()).toMatch("/view1");
-  });
-
-
-  describe('view1', function() {
-
-    beforeEach(function() {
-      browser.get('index.html#/view1');
+    it('should automatically redirect to default page', function () {
+        //given user is entering app
+        //when using generic address of the application
+        browser.get('/app');
+        //then user is redirected to login page
+        expect(browser.getLocationAbsUrl()).toMatch("/#/login");
     });
 
+    describe('checking user\'s access rights-spec:', function () {
 
-    it('should render view1 when USER navigates to /view1', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 1/);
+        it('should redirect guest to login page while entering calendar page', function () {
+            //given user is not logged in
+            //and user has not sufficient rights
+            //when accessing private resource
+            browser.get('/app/#calendar');
+            //then user is redirected to login page
+            expect(browser.getLocationAbsUrl()).toMatch("/#/login");
+        });
+
     });
 
-  });
-
-
-  describe('view2', function() {
-
-    beforeEach(function() {
-      browser.get('index.html#/view2');
-    });
-
-
-    it('should render view2 when USER navigates to /view2', function() {
-      expect(element.all(by.css('[ng-view] p')).first().getText()).
-        toMatch(/partial for view 2/);
-    });
-
-  });
 });

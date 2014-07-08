@@ -8,7 +8,7 @@ describe('auth-app-spec:', function () {
     describe('check user access rights:', function () {
 
         var spyRootScope;
-        var mockAuthService, mockAuthEvents, mockLog;
+        var mockAuthService, mockState, mockAuthEvents, mockLog;
 
         beforeEach(angular.mock.module(function ($provide) {
             //mock dependencies
@@ -18,6 +18,9 @@ describe('auth-app-spec:', function () {
             $provide.value('AuthService', mockAuthService);
             mockLog = jasmine.createSpyObj('$log', ['info']);
             $provide.value('$log', mockLog);
+            mockState = jasmine.createSpyObj('$state', ['go']);
+            $provide.value('$state', mockState);
+
         }));
 
         beforeEach(inject(function (_$rootScope_) {
@@ -46,6 +49,7 @@ describe('auth-app-spec:', function () {
             var subScope = spyRootScope.$new();
             subScope.$emit('$stateChangeStart', nextResource);
             //then access to resource is prohibited
+            expect(mockState.go).toHaveBeenCalledWith('login');
             //and proper broadcast message is dispatched
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith('auth-not-authorized');
             //and proper log info appears
@@ -73,6 +77,7 @@ describe('auth-app-spec:', function () {
             var subScope = spyRootScope.$new();
             subScope.$emit('$stateChangeStart', nextResource);
             //then access to resource is prohibited
+            expect(mockState.go).toHaveBeenCalledWith('login');
             //and proper broadcast message is dispatched
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith('auth-not-authenticated');
             //and proper log info appears
@@ -101,6 +106,7 @@ describe('auth-app-spec:', function () {
             var subScope = spyRootScope.$new();
             subScope.$emit('$stateChangeStart', nextResource);
             //then access to resource is granted
+            expect(mockState.go).not.toHaveBeenCalledWith('login');
             expect(spyRootScope.$broadcast).not.toHaveBeenCalled();
         });
 
