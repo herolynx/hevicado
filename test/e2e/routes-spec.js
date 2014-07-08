@@ -30,7 +30,11 @@ describe('routes-spec:', function () {
 
         it('should allow logged in user to enter calendar page', function () {
             //given user is logged in
-           
+            browser.addMockModule('kunishu', function () {
+                angular.module('kunishu').run(function (Session, USER_ROLES) {
+                    Session.create('token-123', 'user-456', USER_ROLES.CLIENT);
+                });
+            });
             //when accessing private resource
             browser.get('/app/#calendar');
             //then access to resource is granted
