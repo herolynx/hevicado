@@ -97,7 +97,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
             'userId': userId,
             'userRole': userRole
         };
-        $cokieStore.put('currentUser', _currentUser);
+        $cookieStore.put('currentUser', _currentUser);
     };
 
     /**
@@ -105,7 +105,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
      */
     this.destroy = function () {
         $log.debug('Deleting session - USER: ' + _currentUser.userId);
-        $cokieStore.remove('currentUser');
+        $cookieStore.remove('currentUser');
         _currentUser = null;
     };
 

@@ -32,18 +32,20 @@ var module = angular.module('kunishu-auth',
 /**
  * Check whether current has privileges to see visited resources
  * @param $rootScope Angie's root scope
+ * @param $state state manager that handles navigation between resources
  * @param AuthService service for checking user access rights
  * @param AUTH_EVENTS list of authentication events
  * @param $log Angie's logger
  */
-var checkUserAccessRights = function ($rootScope, AuthService, AUTH_EVENTS, $log) {
+var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVENTS, $log) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
         var requiredAccessRoles = next.data.access;
         if (!AuthService.isAuthorized(requiredAccessRoles)) {
             $log.info('User is not allowed to see resource ' + next.url + ' - required roles: ' + requiredAccessRoles);
             event.preventDefault();
+            $state.go('login');
             if (!AuthService.isAuthenticated()) {
-                $log.info('User is not allowed to see resource ' + next.url + ' - USER is not logged in');
+                $log.info('User is not allowed to see resource ' + next.url + ' - user is not logged in');
                 $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHENTICATED);
             } else {
                 $log.info('User is not allowed to see resource ' + next.url + ' - no sufficient privileges of: ' +

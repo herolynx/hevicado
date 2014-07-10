@@ -21,7 +21,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
-        })
+        });
     //
     // access level: USER (logged in users)
     $stateProvider.
@@ -38,7 +38,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             data: {
                 access: ACCESS_LEVELS.USER
             }
-        })
+        });
     //
     // access level: ADMIN
     $stateProvider.
@@ -48,6 +48,6 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             data: {
                 access: ACCESS_LEVELS.ADMIN
             }
-        })
+        });
 });
 
