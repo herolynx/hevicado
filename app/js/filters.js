@@ -1,6 +1,6 @@
 'use strict';
 
-var filters = angular.module('kunishu.filters', []);
+var filters = angular.module('angular-base.filters', []);
 
 /**
  * Initialize app's current version filter

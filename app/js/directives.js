@@ -1,6 +1,6 @@
 'use strict';
 
-var directives = angular.module('kunishu.directives', []);
+var directives = angular.module('angular-base.directives', []);
 
 /**
  * Directive displays current version of application

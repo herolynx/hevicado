@@ -1,69 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="kunishu">
+<html lang="en" ng-app="angular-base">
 <head>
-    <title>Kunishu</title>
+    <title>Angular - base</title>
     <meta charset="UTF-8"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
     <!-- css -->
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="common/css/perfect-scrollbar.css">
-    <link rel="stylesheet" href="common/css/fontawesome.css">
-    <link rel="stylesheet" href="common/css/style.css">
-    <link rel="stylesheet" href="common/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.css">
+    <link rel="stylesheet" href="bower_components/toastr/toastr.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
-<div id="page">
-    <div class="content-site">
-        <nav>
-            <a href="#" class="logo">
-                logo
-            </a>
-            <ul>
-                <li>
-                    <a ui-sref="calendar" class="icon-folder-open"></a>
-
-                    <div class="description">
-                        <a href="#">Calendar</a>
-                    </div>
-                </li>
-                <li>
-                    <a ui-sref="users" class="icon-user"></a>
-
-                    <div class="description">
-                        <a href="#">User list</a>
-                    </div>
-                </li>
-            </ul>
-            <div class="quick">
-                <a href="#" class="icon-off"></a>
-            </div>
-        </nav>
-
+<div>
+    <div ng-controller="LangCtrl">
+        <a class="btn btn-success" ng-click="changeLanguage('en')" translate>lang.en</a>
+        <a class="btn btn-success" ng-click="changeLanguage('pl')" translate>lang.pl</a>
+        <a class="btn btn-primary" ui-sref="login" translate>menu.login-page</a>
+        <a class="btn btn-primary" ui-sref="public" translate>menu.public-page</a>
+        <a class="btn btn-primary" ui-sref="private" translate>menu.private-page</a>
+        <a class="btn btn-primary" ui-sref="admin" translate>menu.admin-page</a>
+        <a class="btn btn-primary" ui-sref="dashboard" translate>menu.dashboard-page</a>
+    </div>
+    <div>&nbsp;</div>
+    <div class="well well-lg">
         <!-- page context -->
         <div ng-view></div>
         <div ui-view></div>
-        <div>Kunishu: v<span app-version></span></div>
     </div>
+    <div>&nbsp;</div>
+    <div>Angular-base: v<span app-version></span></div>
 </div>
 
 
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
-<!--TODO connect requirejs for bigger amount of modules -->
-<!--<script src="../bower_components/requirejs/require.js"></script>-->
+<script src="bower_components/underscore/underscore.js"></script>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+<script src="bower_components/toastr/toastr.js"></script>
+
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="modules/auth/js/auth-app.js"></script>
-<script src="modules/auth/js/auth-controller.js"></script>
-<script src="modules/auth/js/auth-service.js"></script>
+<script src="bower_components/angular-translate/angular-translate.js"></script>
+<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-ui-sortable/sortable.js"></script>
+<script src="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js"></script>
+
+<script src="modules/bolt/js/bolt-app.js"></script>
+<script src="modules/bolt/js/bolt-controller.js"></script>
+<script src="modules/bolt/js/bolt-service.js"></script>
+
+<script src="modules/dashboard/js/dashboard-app.js"></script>
+<script src="modules/dashboard/js/dashboard-controller.js"></script>
+<script src="modules/dashboard/js/dashboard-widgets.js"></script>
+
+<script src="modules/ui/js/ui-notifications.js"></script>
+
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>

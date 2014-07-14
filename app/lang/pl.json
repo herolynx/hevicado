@@ -1,0 +1,25 @@
+{
+    "lang": {
+        "en": "Angielski",
+        "pl": "Polski"
+    },
+    "generic": {
+        "welcome-public": "Strona publiczna dla wszystkich uzytkownikow",
+        "generic.welcome-private": "Strona chroniona dla klientow",
+        "generic.welcome-admin": "Strona chroniona dla administratorow",
+        "no-lang-support": "Wersja demo - brack wsparcia jezykowego dla tej strony"
+    },
+    "menu": {
+        "login-page": "Logowanie",
+        "public-page": "Strona publiczna",
+        "private-page": "Strona prywatna",
+        "admin-page": "Administrator",
+        "dashboard-page": "Dashboard"
+    },
+    "login": {
+        "username": "Uzytkownik: ",
+        "password": "Haslo: ",
+        "login": "Zaloguj",
+        "wrongCredentials": "'Zly login i/lub haslo'"
+    }
+}

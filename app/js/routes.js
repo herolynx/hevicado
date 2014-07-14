@@ -1,6 +1,6 @@
 'use strict';
 
-var routes = angular.module('kunishu.routes', []);
+var routes = angular.module('angular-base.routes', []);
 
 /**
  * Configure routing rules between application states
@@ -17,7 +17,22 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     $stateProvider.
         state('login', {
             url: "/login",
-            templateUrl: "/app/modules/auth/partials/login.html",
+            templateUrl: "modules/bolt/partials/login.html",
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
+        }).
+        state('public', {
+            url: "/public",
+            templateUrl: "partials/public.html",
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
+        }).
+        state('dashboard', {
+            url: "/dashboard",
+            templateUrl: "modules/dashboard/partials/dashboard.html",
+            controller: 'DashboardCtrl',
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
@@ -25,16 +40,9 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     //
     // access level: USER (logged in users)
     $stateProvider.
-        state('calendar', {
-            url: "/calendar",
-            templateUrl: "/app/partials/calendar.html",
-            data: {
-                access: ACCESS_LEVELS.USER
-            }
-        }).
-        state('messages', {
-            url: "/messages",
-            templateUrl: "/app/partials/messages.html",
+        state('private', {
+            url: "/private",
+            templateUrl: "partials/private.html",
             data: {
                 access: ACCESS_LEVELS.USER
             }
@@ -42,9 +50,9 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     //
     // access level: ADMIN
     $stateProvider.
-        state('users', {
-            url: "/users",
-            templateUrl: "/app/partials/userList.html",
+        state('admin', {
+            url: "/admin",
+            templateUrl: "partials/admin.html",
             data: {
                 access: ACCESS_LEVELS.ADMIN
             }
