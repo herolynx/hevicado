@@ -1,9 +1,9 @@
 {
   "name": "angular-base",
-  "private": false,
-  "version": "0.0.3",
-  "description": "Kick-off project for AngularJS with set project structure and basic modules (authentication, authorization, etc.)",
-  "repository": "https://github.com/m-wrona/angular-base.git",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Cloud management of the business",
+  "repository": "https://github.com/m-wrona/kunishu",
   "license": "MIT",
   "devDependencies": {
     "karma": "~0.10",

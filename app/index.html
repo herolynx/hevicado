@@ -1,42 +1,144 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="angular-base">
 <head>
-    <title>Angular - base</title>
+    <title>Kunishu</title>
     <meta charset="UTF-8"/>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <!-- css -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- css external -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&subset=latin,latin-ext'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&subset=latin,latin-ext'
+          rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.css">
     <link rel="stylesheet" href="bower_components/toastr/toastr.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.css">
+
+    <!-- css internal -->
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="fonts/entypo.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="css/jquery.selectbox-0.2.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="css/base.css" type="text/css">
+
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 </head>
 <body>
+
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
-<div>
-    <div ng-controller="LangCtrl">
-        <a class="btn btn-success" ng-click="changeLanguage('en')" translate>lang.en</a>
-        <a class="btn btn-success" ng-click="changeLanguage('pl')" translate>lang.pl</a>
-        <a class="btn btn-primary" ui-sref="login" translate>menu.login-page</a>
-        <a class="btn btn-primary" ui-sref="public" translate>menu.public-page</a>
-        <a class="btn btn-primary" ui-sref="private" translate>menu.private-page</a>
-        <a class="btn btn-primary" ui-sref="admin" translate>menu.admin-page</a>
-        <a class="btn btn-primary" ui-sref="dashboard" translate>menu.dashboard-page</a>
-    </div>
-    <div>&nbsp;</div>
-    <div class="well well-lg">
+
+<div id="page" class="blue">
+    <header>
+        <section id="navigation">
+            <div class="content">
+                <section id="login">
+                    <div class="content">
+                        <div class="member">
+                            <div class="pic-user">
+                                <img src="images/temp/user-1.jpg" alt="User profile">
+                            </div>
+                            <div class="name-user">
+                                Welcome<br/>
+                                Barack Obama
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <nav>
+                    <ul class="nav">
+                        <li>
+                            <a href="#" ui-sref="dashboard">
+                                <i class="icon-doc-landscape"></i>{{'menu.dashboard-page' | translate}}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" ui-sref="calendar">
+                                <i class="icon-calendar"></i> Calendar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" ui-sref="calendar-events">
+                                <i class="icon-calendar"></i> Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" ui-sref="login">
+                                <i class="icon-users"></i> Login
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Nav -->
+                <section id="logout">
+                    <a href="#">
+                        <i class="icon-logout"></i> Logout
+                    </a>
+                    <a href="#">
+                        <i class="icon-cog"></i>Preferences
+                    </a>
+                </section>
+            </div>
+        </section>
+        <!-- Navigation -->
+    </header>
+    <!-- Header -->
+    <section id="breadcrumbs">
+        <div class="content">
+            <div class="describe">
+                <div class="title">
+                    <h2><span>Homepage / </span>Calendar </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs -->
+            <div class="optional">
+                <div class="row">
+                    <a href="#" class="open-search"><i class="icon-search"></i>Search</a>
+
+                    <div class="search">
+                        <a href="#" class="close">
+                            <i class="icon-cancel"></i>
+                        </a>
+
+                        <form action="#" method="post">
+                            <label>Search all word</label>
+                            <fieldset>
+                                <input type="text">
+                                <button><i class="icon-search"></i></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <a href="#"><i class="icon-comment"></i>Messages
+                        <span>6</span>
+                    </a>
+                </div>
+                <div class="row">
+                    <a href="#"><i class="icon-help-circled"></i>Help</a>
+                </div>
+            </div>
+            <!-- Right Submenu -->
+        </div>
+    </section>
+    <!-- Section Breadcrumbs -->
+    <div>
         <!-- page context -->
         <div ng-view></div>
         <div ui-view></div>
+        <!-- app version -->
+        <div>Kunishu: v<span app-version></span></div>
     </div>
-    <div>&nbsp;</div>
-    <div>Angular-base: v<span app-version></span></div>
 </div>
-
 
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>

@@ -36,6 +36,22 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
+        }).
+        state('calendar', {
+            url: "/calendar",
+            templateUrl: "modules/calendar/partials/calendar.html",
+            controller: 'DashboardCtrl',
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
+        }).
+        state('calendar-events', {
+            url: "/calendar-events",
+            templateUrl: "modules/calendar/partials/calendar-events.html",
+            controller: 'DashboardCtrl',
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
         });
     //
     // access level: USER (logged in users)
