@@ -1,27 +1,39 @@
 'use strict';
 
 /**
- * Define main kunishu module
+ * Define main base module
  */
-var module = angular.module('kunishu',
+var module = angular.module('angular-base',
     [
         /*
          * External modules
          */
         'ngRoute',
         'ngCookies',
-        'kunishu-auth',
+        'bolt',
+        'pascalprecht.translate',
+        'dashboard',
+        'ui.bootstrap',
         /*
          * Internal modules
          */
-        'kunishu.filters',
-        'kunishu.services',
-        'kunishu.directives',
-        'kunishu.controllers',
-        'kunishu.routes'
+        'angular-base.filters',
+        'angular-base.services',
+        'angular-base.directives',
+        'angular-base.controllers',
+        'angular-base.routes'
     ]
 ).
-    value('version', '0.01');
+    /* configure language settings */
+    config(function ($translateProvider) {
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'lang/',
+            suffix: '.json'
+        });
+        $translateProvider.preferredLanguage('en');
+        $translateProvider.useCookieStorage(); //store lang in cookies
+    }).
+    value('version', '0.0.1');
 
 //register authentication interceptor in order to perform
 // default actions related with incoming and outgoing communication

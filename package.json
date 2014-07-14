@@ -1,9 +1,9 @@
 {
-  "name": "kunishu",
+  "name": "angular-base",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Cloud management of the business",
-  "repository": "https://github.com/m-wrona/kunishu.git",
+  "repository": "https://github.com/m-wrona/kunishu",
   "license": "MIT",
   "devDependencies": {
     "karma": "~0.10",

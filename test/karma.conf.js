@@ -9,11 +9,17 @@ module.exports = function (config) {
             'app/bower_components/angular-cookies/angular-cookies.js',
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-ui-router/release/angular-ui-router.js',
+            'app/bower_components/angular-translate/angular-translate.js',
+            'app/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+            'app/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+            'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'app/bower_components/angular-ui-sortable/sortable.js',
+            'app/bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js',
+            'modules/ui/js/ui-notifications.js',
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
             /* tested components */
             'app/js/*.js',
-            'app/common/**/*.js',
             'app/modules/**/*.js',
             /* test cases */
             'test/unit/**/*.js'

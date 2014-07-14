@@ -2,7 +2,7 @@
 
 describe('directives-spec:', function () {
 
-    beforeEach(angular.mock.module('kunishu.directives'));
+    beforeEach(angular.mock.module('angular-base.directives'));
 
     describe('app-version-spec:', function () {
 

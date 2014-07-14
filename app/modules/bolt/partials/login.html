@@ -1,0 +1,17 @@
+<section id="main-content" class="calendar">
+    <div class="content">
+        <div class="main">
+            <div ng-app="bolt" ng-controller="LoginCtrl">
+                <form name="loginForm" ng-submit="login(credentials)" novalidate>
+                    <label for="username" translate>login.username</label>
+                    <input type="text" id="username" ng-model="credentials.username">
+                    <label for="password" translate>login.password</label>
+                    <input type="password" id="password" ng-model="credentials.password">
+                    <button class="btn" type="submit" translate>login.login</button>
+                </form>
+                <ui-notify event="auth-login-failed" type="warning" message="{{'login.wrongCredentials' | translate}}"/>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="back-to-top">Top</a>
+</section> <!

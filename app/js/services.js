@@ -1,6 +1,6 @@
 'use strict';
 
-var services = angular.module('kunishu.services', []);
+var services = angular.module('angular-base.services', []);
 
 //TODO add generic services here
 

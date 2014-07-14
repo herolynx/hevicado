@@ -2,7 +2,7 @@
 
 describe('filters-spec:', function () {
 
-    beforeEach(angular.mock.module('kunishu.filters'));
+    beforeEach(angular.mock.module('angular-base.filters'));
 
     describe('interpolate-spec:', function () {
 

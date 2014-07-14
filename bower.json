@@ -1,17 +1,27 @@
 {
-  "name": "kunishu",
-  "description": "Cloud management of the business",
-  "version": "0.0.0",
-  "homepage": "https://github.com/m-wrona/kunishu.git",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "angular": "1.2.x",
-    "angular-route": "1.2.x",
-    "angular-loader": "1.2.x",
-    "angular-cookies": "1.2.x",
-    "angular-mocks": "~1.2.x",
-    "angular-ui-router": "0.2.x"
-  }
+    "name": "angular-base",
+    "description": "Cloud management of the business",
+    "version": "0.0.1",
+    "homepage": "https://github.com/m-wrona/kunishu",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "angular": "1.2.x",
+        "angular-route": "1.2.x",
+        "angular-loader": "1.2.x",
+        "angular-cookies": "1.2.x",
+        "angular-ui-router": "0.2.x",
+        "angular-ui-sortable": "~0.12.8",
+        "angular-translate": "2.2.x",
+        "angular-translate-loader-static-files": "2.2.x",
+        "angular-translate-storage-cookie": "2.2.x",
+        "angular-bootstrap": "0.9.0",
+        "angular-ui-dashboard": "0.3.x",
+        "toastr": "2.0.x"
+    },
+
+    "devDependencies": {
+        "angular-mocks": "~1.2.x"
+    }
 
 }

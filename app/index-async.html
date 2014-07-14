@@ -1,18 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>Angular - base</title>
     <meta charset="UTF-8"/>
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <title>Kunishu</title>
-
+    <!-- css -->
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="stylesheets/perfect-scrollbar.css">
-    <link rel="stylesheet" href="common/css/fontawesome.css">
-    <link rel="stylesheet" href="common/css/style.css">
-    <link rel="stylesheet" href="common/css/jquery.mCustomScrollbar.css">
-
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
     <style>
         [ng-cloak] {
             display: none;
@@ -22,7 +16,16 @@
     <script>
         // include angular loader, which allows the files to load in any order
         //@@NG_LOADER_START@@
-null
+/*
+ AngularJS v1.2.19
+ (c) 2010-2014 Google, Inc. http://angularjs.org
+ License: MIT
+*/
+(function(){'use strict';function d(a){return function(){var c=arguments[0],b,c="["+(a?a+":":"")+c+"] http://errors.angularjs.org/1.2.19/"+(a?a+"/":"")+c;for(b=1;b<arguments.length;b++)c=c+(1==b?"?":"&")+"p"+(b-1)+"="+encodeURIComponent("function"==typeof arguments[b]?arguments[b].toString().replace(/ \{[\s\S]*$/,""):"undefined"==typeof arguments[b]?"undefined":"string"!=typeof arguments[b]?JSON.stringify(arguments[b]):arguments[b]);return Error(c)}}(function(a){var c=d("$injector"),b=d("ng");a=a.angular||
+(a.angular={});a.$minErr=a.$minErr||d;return a.module||(a.module=function(){var a={};return function(e,d,f){if("hasOwnProperty"===e)throw b("badname","module");d&&a.hasOwnProperty(e)&&(a[e]=null);return a[e]||(a[e]=function(){function a(c,d,e){return function(){b[e||"push"]([c,d,arguments]);return g}}if(!d)throw c("nomod",e);var b=[],h=[],k=a("$injector","invoke"),g={_invokeQueue:b,_runBlocks:h,requires:d,name:e,provider:a("$provide","provider"),factory:a("$provide","factory"),service:a("$provide",
+"service"),value:a("$provide","value"),constant:a("$provide","constant","unshift"),animation:a("$animateProvider","register"),filter:a("$filterProvider","register"),controller:a("$controllerProvider","register"),directive:a("$compileProvider","directive"),config:k,run:function(a){h.push(a);return this}};f&&k(f);return g}())}}())})(window)})(window);
+//# sourceMappingURL=angular-loader.min.js.map
+
 //@@NG_LOADER_END@@
 
         // include a third-party async loader library
@@ -98,75 +101,55 @@ null
         $script([
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
+            'bower_components/angular-cookies/angular-cookies.js',
+            'bower_components/angular-ui-router/release/angular-ui-router.js',
+            'bower_components/angular-translate/angular-translate.js',
+            'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+            'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+            'modules/bolt/js/bolt-app.js',
+            'modules/bolt/js/bolt-controller-app.js',
+            'modules/bolt/js/bolt-service-app.js',
             'js/app.js',
             'js/services.js',
             'js/controllers.js',
             'js/filters.js',
             'js/directives.js',
-            'modules/auth/js/auth-controller.js',
-            'modules/auth/js/auth-service.js'
+            'js/routes.js'
         ], function () {
             // when all is done, execute bootstrap angular application
-            angular.bootstrap(document, ['kunishu']);
+            angular.bootstrap(document, ['angular-base']);
         });
     </script>
 </head>
 <body ng-cloak>
-<div id="page">
-    <div class="content-site">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div>
+    <div>
         <nav>
-            <a href="#" class="logo">
-                logo
-            </a>
             <ul>
                 <li>
-                    <a href="#" class="icon-folder-open"></a>
-
-                    <div class="description">
-                        <a href="#">Category 1</a>
-                    </div>
+                    <a ui-sref="login">Login page</a>
                 </li>
                 <li>
-                    <a href="#" class="icon-edit-alt"></a>
-
-                    <div class="description">
-                        <a href="#">Category 2</a>
-                    </div>
+                    <a ui-sref="public">Public</a>
                 </li>
                 <li>
-                    <a href="#" class="icon-cog"></a>
-
-                    <div class="description">
-                        <a href="#">Category 3</a>
-                    </div>
+                    <a ui-sref="private">Private</a>
                 </li>
                 <li>
-                    <a href="#" class="icon-user"></a>
-
-                    <div class="description">
-                        <a href="#">Category 4</a>
-                    </div>
-                </li>
-                <li>
-                    <a href="#" class="icon-arrows-cw"></a>
-
-                    <div class="description">
-                        <a href="#">Category 5</a>
-                    </div>
+                    <a ui-sref="admin">Admin page</a>
                 </li>
             </ul>
-            <div class="quick">
-                <a href="#" class="icon-off"></a>
-            </div>
         </nav>
 
         <!-- page context -->
         <div ng-view></div>
-
+        <div ui-view></div>
+        <div>Angular-base: v<span app-version></span></div>
     </div>
 </div>
-
-<div>Kunishu: v<span app-version></span></div>
-
 </body>
 </html>
