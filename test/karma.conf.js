@@ -15,7 +15,6 @@ module.exports = function (config) {
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/bower_components/angular-ui-sortable/sortable.js',
             'app/bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js',
-            'modules/ui/js/ui-notifications.js',
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
             /* tested components */

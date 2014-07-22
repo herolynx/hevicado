@@ -1,0 +1,69 @@
+<section id="main-content" class="calendar">
+    <div class="content" ng-app="chronos" ng-controller="CalendarCtrl">
+        <div class="main">
+            <div class="row-bg-white">
+                <div class="row-content">
+                    <div class="calendar-hour">
+                        <div class="year">
+                            <a><i class="icon-left-open"></i></a>
+                            2013
+                            <a><i class="icon-right-open"></i></a>
+                        </div>
+                        <div class="view">
+                            Change view:
+                            <a ui-sref="calendar-events">
+                                <i class="icon-doc-text"></i>Short
+                            </a><span>/</span>
+                            <a ui-sref="calendar">
+                                <i class="icon-book-open"></i>Full
+                            </a>
+                        </div>
+                        <div class="month">
+                            <ul>
+                                <li ng-repeat="month in months"><a>{{month}}</a></li>
+                            </ul>
+                        </div>
+                        <div class="pagination">
+                            <a class="prev-week">
+                                <i class="icon-left-open"></i>Preview week
+                            </a>
+                            <a class="next-week">
+                                Next week<i class="icon-right-open"></i>
+                            </a>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Note</td>
+                                <td ng-repeat="day in days">
+                                    <div class="note-box">
+                                        <a class="read-note-link">
+                                            <i class="icon-comment"></i>(2)
+                                        </a>
+                                        <a class="add-new-note">
+                                            <i class="icon-plus-circled"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Hour</th>
+                                <th ng-repeat="date in dates">{{days[dates.indexOf(date)]}} / {{date}}</th>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="box" ng-repeat="hour in hours">{{hour}}</div>
+                                </td>
+                                <td class="select" ng-repeat="day in days">
+                                    <div class="box" ng-repeat="hour in hours"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a ui-sref="calendar" class="back-to-top">Top</a>
+</section> <!-- Main Content -->

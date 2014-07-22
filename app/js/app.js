@@ -14,6 +14,7 @@ var module = angular.module('angular-base',
         'pascalprecht.translate',
         'dashboard',
         'ui.bootstrap',
+        'chronos',
         /*
          * Internal modules
          */
