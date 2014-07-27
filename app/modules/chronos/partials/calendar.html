@@ -20,7 +20,8 @@
                         </div>
                         <div class="month">
                             <ul>
-                                <li ng-repeat="month in months"><a>{{month}}</a></li>
+                                <li ng-repeat="month in months"><a
+                                        ng-click="setMonth(months.indexOf(month))">{{month}}</a></li>
                             </ul>
                         </div>
                         <div class="pagination">
@@ -47,7 +48,9 @@
                             </tr>
                             <tr>
                                 <th>Hour</th>
-                                <th ng-repeat="date in dates">{{days[dates.indexOf(date)]}} / {{date | date: "yyyy-MM-dd"}}</th>
+                                <th ng-repeat="date in dates">{{days[dates.indexOf(date)]}} / {{date | date:
+                                    "yyyy-MM-dd"}}
+                                </th>
                             </tr>
                         </table>
                         <table>

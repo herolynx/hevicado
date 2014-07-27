@@ -85,5 +85,11 @@ controllers.controller('CalendarCtrl', function ($scope, $log) {
         $scope.refresh();
     };
 
+    $scope.setMonth = function (month) {
+        var direction = $scope.beginDate.getMonth() >= month ? -1 : 1;
+        $scope.beginDate.moveToMonth(month, direction).next().monday();
+        $scope.refresh();
+    };
+
 });
 
