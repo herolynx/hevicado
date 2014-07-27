@@ -85,6 +85,10 @@ controllers.controller('CalendarCtrl', function ($scope, $log) {
         $scope.refresh();
     };
 
+    /**
+     * Set chosen month of current year
+     * @param month number of month to be set
+     */
     $scope.setMonth = function (month) {
         var direction = $scope.beginDate.getMonth() >= month ? -1 : 1;
         $scope.beginDate.moveToMonth(month, direction).next().monday();
