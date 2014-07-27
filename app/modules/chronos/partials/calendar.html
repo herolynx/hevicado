@@ -1,13 +1,13 @@
 <section id="main-content" class="calendar">
     <div class="content" ng-app="chronos" ng-controller="CalendarCtrl">
-        <div class="main">
+        <div class="main" ng-init="init()">
             <div class="row-bg-white">
                 <div class="row-content">
                     <div class="calendar-hour">
                         <div class="year">
-                            <a><i class="icon-left-open"></i></a>
-                            2013
-                            <a><i class="icon-right-open"></i></a>
+                            <a ng-click="previousYear()"><i class="icon-left-open"></i></a>
+                            {{getYear()}}
+                            <a ng-click="nextYear()"><i class="icon-right-open"></i></a>
                         </div>
                         <div class="view">
                             Change view:
@@ -24,10 +24,10 @@
                             </ul>
                         </div>
                         <div class="pagination">
-                            <a class="prev-week">
+                            <a class="prev-week" ng-click="previousWeek()">
                                 <i class="icon-left-open"></i>Preview week
                             </a>
-                            <a class="next-week">
+                            <a class="next-week" ng-click="nextWeek()">
                                 Next week<i class="icon-right-open"></i>
                             </a>
                         </div>
@@ -47,7 +47,7 @@
                             </tr>
                             <tr>
                                 <th>Hour</th>
-                                <th ng-repeat="date in dates">{{days[dates.indexOf(date)]}} / {{date}}</th>
+                                <th ng-repeat="date in dates">{{days[dates.indexOf(date)]}} / {{date | date: "yyyy-MM-dd"}}</th>
                             </tr>
                         </table>
                         <table>
