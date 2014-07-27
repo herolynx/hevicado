@@ -22,8 +22,7 @@ controllers.controller('CalendarCtrl', function ($scope, $log) {
      */
     $scope.setTimePeriod = function (startDate, daysCount) {
         $log.debug('Setting time period - startDate: ' + startDate + ", daysCount: " + daysCount);
-        $scope.beginDate = startDate;
-        var currentDate = new Date($scope.beginDate);
+        var currentDate = new Date(startDate);
         $scope.dates = [];
         for (var i = 0; i < daysCount; i++) {
             $scope.dates[i] = new Date(currentDate);
@@ -35,7 +34,8 @@ controllers.controller('CalendarCtrl', function ($scope, $log) {
      * Initialize calendar with chosen time period to be displayed
      */
     $scope.init = function () {
-        $scope.setTimePeriod(Date.today().previous().monday(), 7);
+        $scope.beginDate = Date.today().previous().monday();
+        $scope.setTimePeriod($scope.beginDate, 7);
     };
 
     /**
