@@ -3,7 +3,7 @@
 var controllers = angular.module('chronos.controllers', ['ui-notifications']);
 
 
-controllers.controller('CalendarCtrl', function ($scope, $log) {
+controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
 
     $scope.beginDate = Date.today().set({ hour: 8, minute: 0 });
 
@@ -95,5 +95,30 @@ controllers.controller('CalendarCtrl', function ($scope, $log) {
         $scope.refresh();
     };
 
+    $scope.addEvent = function (date) {
+        var modalInstance = $modal.open({
+            templateUrl: 'modules/chronos/partials/add-event.html',
+            controller: addEventCtrl,
+
+            resolve: {
+                newEventDate: function () {
+                    return date;
+                }
+            },
+            backdrop: 'static',
+            windowClass: 'window'
+        });
+    };
+
+    $scope.addDayEvent = function (day) {
+        $scope.addEvent(Date.today());
+    };
+
 });
+
+var addEventCtrl = function ($scope, $modalInstance, newEventDate, $log) {
+
+    $scope.newEventDate = newEventDate;
+    $log.debug('New event: ' + newEventDate)
+};
 
