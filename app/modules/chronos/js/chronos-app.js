@@ -4,6 +4,9 @@
  * Configure module for time and calendar management
  */
 var module = angular.module('chronos', [
-    'chronos.controllers'
+    /*internal modules*/
+    'chronos.controllers',
+    /*external modules*/
+    'ngDragDrop'
 ]);
 

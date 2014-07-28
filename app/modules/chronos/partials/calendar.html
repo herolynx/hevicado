@@ -59,7 +59,16 @@
                                     <div class="box" ng-repeat="hour in hours">{{hour}}</div>
                                 </td>
                                 <td class="select" ng-repeat="day in days">
-                                    <div class="box" ng-repeat="hour in hours"></div>
+                                    <div class="box"
+                                         ng-repeat="hour in hours"
+                                         ng-model='days[day]'
+                                         data-drag="true"
+                                         jqyoui-draggable="{index: {{$index}},animate:true}"
+                                         data-drop="true"
+                                         jqyoui-droppable="{multiple:true}"
+                                         data-jqyoui-options>
+                                        {{hour}}
+                                    </div>
                                 </td>
                             </tr>
                         </table>

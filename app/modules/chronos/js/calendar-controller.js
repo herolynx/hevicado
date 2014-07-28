@@ -95,6 +95,10 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
         $scope.refresh();
     };
 
+    /**
+     * Add new event to calendar
+     * @param date starting date of event
+     */
     $scope.addEvent = function (date) {
         var modalInstance = $modal.open({
             templateUrl: 'modules/chronos/partials/add-event.html',
