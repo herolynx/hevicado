@@ -4,11 +4,13 @@
             <div class="row-bg-white">
                 <div class="row-content">
                     <div class="calendar-hour">
+                        <!-- CALENDAR SETTINGS - next/previous year, change month etc. -->
                         <div class="year">
                             <a ng-click="previousYear()"><i class="icon-left-open"></i></a>
                             {{getYear()}}
                             <a ng-click="nextYear()"><i class="icon-right-open"></i></a>
                         </div>
+
                         <div class="view">
                             Change view:
                             <a ui-sref="calendar-events">
@@ -18,6 +20,7 @@
                                 <i class="icon-book-open"></i>Full
                             </a>
                         </div>
+
                         <div class="month">
                             <ul>
                                 <li ng-repeat="month in months"><a
@@ -32,6 +35,7 @@
                                 Next week<i class="icon-right-open"></i>
                             </a>
                         </div>
+                        <!-- CALENDAR HEADER - days, whole day events, notes etc. -->
                         <table>
                             <tr>
                                 <td>Note</td>
@@ -40,7 +44,7 @@
                                         <a class="read-note-link">
                                             <i class="icon-comment"></i>(2)
                                         </a>
-                                        <a class="add-new-note" ng-click="addDayEvent(day)">
+                                        <a class="add-new-note" ng-click="addEvent(day)">
                                             <i class="icon-plus-circled"></i>
                                         </a>
                                     </div>
@@ -48,11 +52,12 @@
                             </tr>
                             <tr>
                                 <th>Hour</th>
-                                <th ng-repeat="date in dates">{{days[dates.indexOf(date)]}} / {{date | date:
-                                    "yyyy-MM-dd"}}
+                                <th ng-repeat="day in days">
+                                    {{day | date: "EEE / yyyy-MM-dd"}}
                                 </th>
                             </tr>
                         </table>
+                        <!-- CALENDAR CONTEXT - events -->
                         <table>
                             <tr>
                                 <td>
@@ -72,6 +77,7 @@
                                 </td>
                             </tr>
                         </table>
+
                     </div>
                 </div>
             </div>

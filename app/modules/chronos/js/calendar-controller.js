@@ -7,11 +7,9 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
 
     $scope.beginDate = Date.today().set({ hour: 8, minute: 0 });
 
-    $scope.dates = [ ];
+    $scope.days = [ ];
 
     $scope.months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-
-    $scope.days = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
 
     $scope.hours = [ '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00' ];
 
@@ -23,9 +21,9 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
     $scope.setTimePeriod = function (startDate, daysCount) {
         $log.debug('Setting time period - startDate: ' + startDate + ", daysCount: " + daysCount);
         var currentDate = new Date(startDate);
-        $scope.dates = [];
+        $scope.days = [];
         for (var i = 0; i < daysCount; i++) {
-            $scope.dates[i] = new Date(currentDate);
+            $scope.days[i] = new Date(currentDate);
             currentDate = currentDate.add(1).days();
         }
     };
@@ -36,13 +34,27 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
     $scope.init = function () {
         $scope.beginDate = Date.today().previous().monday();
         $scope.setTimePeriod($scope.beginDate, 7);
+        //TODO remove sample data
+        $scope.days[$scope.beginDate] = [
+            $scope.sampleEvent('badanie 1', Date.today(), 8, 9),
+            $scope.sampleEvent('badanie 2', Date.today(), 10, 11),
+            $scope.sampleEvent('badanie 3', Date.today(), 12, 14)
+        ];
+    };
+
+    $scope.sampleEvent = function (eventTitle, date, startHour, endHour) {
+       return {
+           title: eventTitle,
+           start: new Date(date.set({ hour: startHour, minute: 0 })),
+           end: new Date(date.set({ hour: endHour, minute: 0 }))
+       };
     };
 
     /**
      * Refresh calendar's data
      */
     $scope.refresh = function () {
-        $scope.setTimePeriod($scope.beginDate, $scope.dates.length);
+        $scope.setTimePeriod($scope.beginDate, $scope.days.length);
     };
 
     /**
@@ -90,7 +102,12 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
      * @param month number of month to be set
      */
     $scope.setMonth = function (month) {
-        var direction = $scope.beginDate.getMonth() >= month ? -1 : 1;
+        //TODO simplify this
+        var currentMonth = $scope.beginDate.getMonth();
+        if (month == currentMonth) {
+            return;
+        }
+        var direction = currentMonth >= month ? -1 : 1;
         $scope.beginDate.moveToMonth(month, direction).next().monday();
         $scope.refresh();
     };
@@ -112,10 +129,6 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
             backdrop: 'static',
             windowClass: 'window'
         });
-    };
-
-    $scope.addDayEvent = function (day) {
-        $scope.addEvent(Date.today());
     };
 
 });
