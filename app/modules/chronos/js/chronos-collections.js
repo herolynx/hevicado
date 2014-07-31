@@ -5,7 +5,7 @@ var collections = angular.module('chronos.collections', []);
 /**
  * Multi-map of events with day->[event1, event2,...] map entries.
  */
-collections.service('EventsMap', function () {
+collections.service('EventsMap', function ($log) {
 
     var dayEvents = [];
 
@@ -14,7 +14,7 @@ collections.service('EventsMap', function () {
      * @param event for which key should be created
      * @returns {Date} time window key
      */
-    this.dayKey = function (event) {
+    var dayKey = function (event) {
         var key = new Date(event.start);
         key.clearTime();
         return key;
@@ -25,14 +25,14 @@ collections.service('EventsMap', function () {
      * @param day day key where event should be stored
      * @param event element to be added
      */
-    this.addEntry = function (day, event) {
+    var addEntry = function (day, event) {
         var events = dayEvents[day];
         if (events == null) {
             events = [];
             dayEvents[day] = events;
         }
         events.push(event);
-    }
+    };
 
     return {
 
@@ -89,13 +89,13 @@ collections.service('EventsMap', function () {
          */
         add: function (event) {
             var days = [];
-            var currentDay = this.dayKey(event.start);
-            var endKey = this.dayKey(event.end);
+            var currentDay = dayKey(event.start);
+            var endKey = dayKey(event.end);
             do {
-                this.addEntry(currentDay, event);
+                addEntry(currentDay, event);
                 days.push(currentDay);
                 currentDay = new Date(currentDay.add(1).days());
-            } while (currentDate.isBefore(endKey));
+            } while (currentDay.isBefore(endKey));
             return days;
         }
     };
