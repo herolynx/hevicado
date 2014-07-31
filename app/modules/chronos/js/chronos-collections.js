@@ -1,11 +1,11 @@
 'use strict'
 
-var services = angular.module('chronos.services', []);
+var collections = angular.module('chronos.collections', []);
 
 /**
  * Multi-map of events with day->[event1, event2,...] map entries.
  */
-services.service('EventsMap', function () {
+collections.service('EventsMap', function () {
 
     var dayEvents = [];
 
@@ -62,7 +62,15 @@ services.service('EventsMap', function () {
             return dayEvents.length;
         },
 
-        forEach: dayEvents.prototype.forEach,
+        /**
+         * Go through all day keys
+         * @param callback
+         * @param thisObject
+         * @see Array#forEach
+         */
+        forEachDay: function (callback, thisObject) {
+            dayEvents.forEach(callback, thisObject);
+        },
 
         /**
          * Add events
