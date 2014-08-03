@@ -10,31 +10,30 @@ collections.service('EventsMap', function ($log) {
     var dayEvents = [];
 
     /**
-     * Function creates day key for given event
-     * @param event for which key should be created
-     * @returns {Date} time window key
-     */
-    var dayKey = function (event) {
-        var key = new Date(event.start);
-        key.clearTime();
-        return key;
-    };
-
-    /**
      * Add event
-     * @param day day key where event should be stored
+     * @param key day key where event should be stored
      * @param event element to be added
      */
-    var addEntry = function (day, event) {
-        var events = dayEvents[day];
+    var addEntry = function (key, event) {
+        var events = dayEvents[key];
         if (events == null) {
             events = [];
-            dayEvents[day] = events;
+            dayEvents.push(key);
+            dayEvents[key] = events;
         }
         events.push(event);
     };
 
     return {
+
+        /**
+         * Function creates day key for given date
+         * @param date for which key should be created
+         * @returns {Date} time window key
+         */
+        dayKey: function (date) {
+            return date.clone().clearTime();
+        },
 
         /**
          * Get all events in given day
@@ -77,9 +76,9 @@ collections.service('EventsMap', function ($log) {
          * @param events elements to be added
          */
         addAll: function (events) {
-            events.forEach(function (event) {
-                this.add(event);
-            });
+            for (var i = 0; i < events.length; i++) {
+                this.add(events[i]);
+            }
         },
 
         /**
@@ -89,16 +88,17 @@ collections.service('EventsMap', function ($log) {
          */
         add: function (event) {
             var days = [];
-            var currentDay = dayKey(event.start);
-            var endKey = dayKey(event.end);
+            var currentDay = this.dayKey(event.start);
+            var endKey = this.dayKey(event.end).add(1).days();
             do {
-                addEntry(currentDay, event);
-                days.push(currentDay);
-                currentDay = new Date(currentDay.add(1).days());
+                addEntry(currentDay.clone(), event);
+                days.push(currentDay.clone());
+                currentDay = currentDay.add(1).days();
             } while (currentDay.isBefore(endKey));
             return days;
         }
     };
 
-});
+})
+;
 

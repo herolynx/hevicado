@@ -3,7 +3,7 @@
 var controllers = angular.module('chronos.controllers', ['ui-notifications']);
 
 
-controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
+controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log) {
 
     $scope.beginDate = Date.today().set({ hour: 8, minute: 0 });
 
@@ -13,6 +13,8 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
 
     $scope.hours = [ '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00' ];
 
+    $scope.events = [ ];
+
     /**
      * Set time period displayed on calendar
      * @param startDate first day displayed on calendar
@@ -20,10 +22,10 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
      */
     $scope.setTimePeriod = function (startDate, daysCount) {
         $log.debug('Setting time period - startDate: ' + startDate + ", daysCount: " + daysCount);
-        var currentDate = new Date(startDate);
+        var currentDate = startDate.clone();
         $scope.days = [];
         for (var i = 0; i < daysCount; i++) {
-            $scope.days[i] = new Date(currentDate);
+            $scope.days.push(EventsMap.dayKey(currentDate));
             currentDate = currentDate.add(1).days();
         }
     };
@@ -35,20 +37,16 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
         $scope.beginDate = Date.today().previous().monday();
         $scope.setTimePeriod($scope.beginDate, 7);
         //TODO remove sample data
-        $scope.days[$scope.beginDate] = [
-            $scope.sampleEvent('badanie 1', Date.today(), 8, 9),
-            $scope.sampleEvent('badanie 2', Date.today(), 10, 11),
-            $scope.sampleEvent('badanie 3', Date.today(), 12, 14)
+        var dayKey = EventsMap.dayKey(Date.today());
+        $scope.events[dayKey] = [];
+        $scope.events[dayKey]['8:00'] = [
+            {title: 'Badanie 1'}
+        ];
+        $scope.events[dayKey]['10:00'] = [
+            {title: 'Badanie 2'}
         ];
     };
 
-    $scope.sampleEvent = function (eventTitle, date, startHour, endHour) {
-       return {
-           title: eventTitle,
-           start: new Date(date.set({ hour: startHour, minute: 0 })),
-           end: new Date(date.set({ hour: endHour, minute: 0 }))
-       };
-    };
 
     /**
      * Refresh calendar's data
@@ -130,6 +128,10 @@ controllers.controller('CalendarCtrl', function ($scope, $modal, $log) {
             windowClass: 'window'
         });
     };
+
+    $scope.timeWindow = function (day, dayHour) {
+        return day.toString('dd-MM-yyyy') + ' ' + dayHour;
+    }
 
 });
 

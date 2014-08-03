@@ -11,24 +11,149 @@ describe('events-map-spec:', function () {
         eventsMap = $injector.get('EventsMap');
     }));
 
-    describe('events modification', function () {
+    describe('adding events', function () {
 
-        it('should store single day event in single day entry', function () {
+        it('should add single day event to single day entry', function () {
             //given event is defined for single day
             var event = {
-                start: new Date(2014, 7, 31, 8, 0),
-                end: new Date(2014, 7, 31, 12, 0)
+                title: "Sample event",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 0})
             };
             //when event is added to map
             var days = eventsMap.add(event);
             //then event is stored in single day entry
             expect(days).not.toBeNull();
             expect(days.length).toBe(1);
+            expect(eventsMap.size()).toBe(1);
             //and key has proper format
-            expect(days[0]).toBe("");
+            expect(days[0].toString('dd-MM-yyyy HH:mm')).toBe("12-08-2014 00:00");
+            //and added event can be reached using key
+            var key12 = Date.today().set({year: 2014, month: 7, day: 12});
+            expect(eventsMap.contains(days[0])).toBeTruthy();
+            expect(eventsMap.contains(key12)).toBeTruthy();
+            var dayEvents = eventsMap.events(key12);
+            expect(dayEvents).not.toBeNull();
+            expect(dayEvents.length).toBe(1);
+            expect(dayEvents[0].title).toBe("Sample event");
+        });
+
+        it('should add two day event to two day entries', function () {
+            //given event is defined for two days
+            var event = {
+                title: "Sample event",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 13, hour: 8, minute: 0})
+            };
+            //when event is added to map
+            var days = eventsMap.add(event);
+            //then event is stored in two day entries
+            expect(days).not.toBeNull();
+            expect(days.length).toBe(2);
+            expect(eventsMap.size()).toBe(2);
+            //and keys have proper format
+            expect(days[0].toString('dd-MM-yyyy HH:mm')).toBe("12-08-2014 00:00");
+            expect(days[1].toString('dd-MM-yyyy HH:mm')).toBe("13-08-2014 00:00");
+            //and added event can be reached using first key
+            var key12 = Date.today().set({year: 2014, month: 7, day: 12});
+            expect(eventsMap.contains(days[0])).toBeTruthy();
+            expect(eventsMap.contains(key12)).toBeTruthy();
+            var eventKey12 = eventsMap.events(key12);
+            expect(eventKey12).not.toBeNull();
+            expect(eventKey12.length).toBe(1);
+            expect(eventKey12[0].title).toBe("Sample event");
+            //and added event can be reached using second key
+            var key13 = Date.today().set({year: 2014, month: 7, day: 13});
+            expect(eventsMap.contains(days[1])).toBeTruthy();
+            expect(eventsMap.contains(key13)).toBeTruthy();
+            var eventKey13 = eventsMap.events(key13);
+            expect(eventKey13).not.toBeNull();
+            expect(eventKey13.length).toBe(1);
+            expect(eventKey13[0].title).toBe("Sample event");
+        });
+
+        it('should add two events to single day entry', function () {
+            //given two events are defined
+            var event1 = {
+                title: "Sample event1",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 0})
+            };
+            var event2 = {
+                title: "Sample event2",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 30}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 13, minute: 0})
+            };
+            //when events are added to collection
+            eventsMap.add(event1);
+            eventsMap.add(event2);
+            //then events are stored in single day entry
+            expect(eventsMap.size()).toBe(1);
+            var key12 = Date.today().set({year: 2014, month: 7, day: 12});
+            expect(eventsMap.contains(key12)).toBeTruthy();
+            //and events can be reached using key
+            var eventKey12 = eventsMap.events(key12);
+            expect(eventKey12).not.toBeNull();
+            expect(eventKey12.length).toBe(2);
+            //and events contains proper data
+            expect(eventKey12[0].title).toBe("Sample event1");
+            expect(eventKey12[1].title).toBe("Sample event2");
+        });
+
+        it('should add all events to single day entry', function () {
+            //given two events are defined
+            var event1 = {
+                title: "Sample event1",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 0})
+            };
+            var event2 = {
+                title: "Sample event2",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 30}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 13, minute: 0})
+            };
+            //when all events are added to collection
+            eventsMap.addAll([event1, event2]);
+            //then events are stored in single day entry
+            expect(eventsMap.size()).toBe(1);
+            var key12 = Date.today().set({year: 2014, month: 7, day: 12});
+            expect(eventsMap.contains(key12)).toBeTruthy();
+            //and events can be reached using key
+            var eventKey12 = eventsMap.events(key12);
+            expect(eventKey12).not.toBeNull();
+            expect(eventKey12.length).toBe(2);
+            //and events contains proper data
+            expect(eventKey12[0].title).toBe("Sample event1");
+            expect(eventKey12[1].title).toBe("Sample event2");
+        });
+
+        it('should add over-lapping day events to single day entry', function () {
+            //given two over-lapping events are defined
+            var event1 = {
+                title: "Sample event1",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 0})
+            };
+            var event2 = {
+                title: "Sample event2",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 0})
+            };
+            //when events are added to collection
+            eventsMap.addAll([event1, event2]);
+            //then events are stored in single day entry
+            expect(eventsMap.size()).toBe(1);
+            var key12 = Date.today().set({year: 2014, month: 7, day: 12});
+            expect(eventsMap.contains(key12)).toBeTruthy();
+            //and events can be reached using key
+            var eventKey12 = eventsMap.events(key12);
+            expect(eventKey12).not.toBeNull();
+            expect(eventKey12.length).toBe(2);
+            //and events contains proper data
+            expect(eventKey12[0].title).toBe("Sample event1");
+            expect(eventKey12[1].title).toBe("Sample event2");
         });
 
     });
 
-})
-;
+});
