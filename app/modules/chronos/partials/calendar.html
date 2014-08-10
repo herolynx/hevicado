@@ -66,8 +66,8 @@
                                 <td class="select" ng-repeat="day in days">
                                     <div class="box"
                                          ng-repeat="hour in hours">
-                                        <div
-                                                ng-repeat="event in events[day][hour]"
+                                        <div class="event h-15 wrapper yellow time"
+                                                ng-repeat="event in getEvents(day,hour, 0)"
                                                 ng-model='days[day]'
                                                 data-drag="true"
                                                 jqyoui-draggable="{index: {{$index}},animate:true}"

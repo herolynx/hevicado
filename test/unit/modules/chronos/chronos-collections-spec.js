@@ -156,4 +156,48 @@ describe('events-map-spec:', function () {
 
     });
 
+    describe('filtering events', function () {
+
+        it('should filter events by time period', function () {
+            //given events are defined
+            var event1 = {
+                title: "Sample event1",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 9, minute: 0})
+            };
+            var event2 = {
+                title: "Sample event2",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 30})
+            };
+            var event3 = {
+                title: "Sample event3",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 9, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 12, minute: 0})
+            };
+            var event4 = {
+                title: "Sample event4",
+                start: new Date().set({year: 2014, month: 7, day: 12, hour: 9, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 12, hour: 10, minute: 0})
+            };
+            var event5 = {
+                title: "Sample event5",
+                start: new Date().set({year: 2014, month: 7, day: 13, hour: 9, minute: 0}),
+                end: new Date().set({year: 2014, month: 7, day: 13, hour: 12, minute: 0})
+            };
+            eventsMap.addAll([event1, event2, event3, event4, event5]);
+            //and start hour filter
+            var startFrom = new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0});
+            var filterByStartDate = function (event) {
+                return startFrom.isAfter(event.start) && startFrom.isBefore(event.end);
+            };
+            //when events are filtered
+            var filtered = eventsMap.filter(filterByStartDate());
+            //then single day entry is returned
+            expect(filtered).not.toBeNull();
+            expect(filtered.length).toBe(1);
+
+        });
+    });
+
 });

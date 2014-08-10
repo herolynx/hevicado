@@ -11,9 +11,7 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
 
     $scope.months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
 
-    $scope.hours = [ '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00' ];
-
-    $scope.events = [ ];
+    $scope.hours = [ 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
 
     /**
      * Set time period displayed on calendar
@@ -36,15 +34,9 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
     $scope.init = function () {
         $scope.beginDate = Date.today().previous().monday();
         $scope.setTimePeriod($scope.beginDate, 7);
-        //TODO remove sample data
-        var dayKey = EventsMap.dayKey(Date.today());
-        $scope.events[dayKey] = [];
-        $scope.events[dayKey]['8:00'] = [
-            {title: 'Badanie 1'}
-        ];
-        $scope.events[dayKey]['10:00'] = [
-            {title: 'Badanie 2'}
-        ];
+        EventsMap.add({title: "Meeting 8:00", start: Date.today().set({hour: 8, minute: 0}), end: Date.today().set({hour: 8, minute: 15})});
+        var keys = EventsMap.add({title: "Meeting 9:00", start: Date.today().set({hour: 9, minute: 0}), end: Date.today().set({hour: 10, minute: 0})});
+        var events = EventsMap.events(keys[0]);
     };
 
 
@@ -129,9 +121,21 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
         });
     };
 
-    $scope.timeWindow = function (day, dayHour) {
-        return day.toString('dd-MM-yyyy') + ' ' + dayHour;
-    }
+    /**
+     * Get events in given time period
+     * @param day
+     * @param dayHour
+     * @param minutes
+     * @returns {Array}
+     */
+    $scope.getEvents = function (day, dayHour, minutes) {
+        var startFrom = day.clone();
+        startFrom.set({hour: dayHour, minute: minutes});
+        var filtered = EventsMap.filter(function (event) {
+            return startFrom.isAfter(event.start) && startFrom.isBefore(event.end);
+        });
+        return filtered.length == 1 ? filtered[0] : [];
+    };
 
 });
 

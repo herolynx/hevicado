@@ -7,19 +7,19 @@ var collections = angular.module('chronos.collections', []);
  */
 collections.service('EventsMap', function ($log) {
 
-    var dayEvents = [];
+    var dayEvents = {};
 
     /**
      * Add event
+     * @param eventsMap map where events will be stored per day
      * @param key day key where event should be stored
      * @param event element to be added
      */
-    var addEntry = function (key, event) {
-        var events = dayEvents[key];
+    var addEntry = function (eventsMap, key, event) {
+        var events = eventsMap[key];
         if (events == null) {
             events = [];
-            dayEvents.push(key);
-            dayEvents[key] = events;
+            eventsMap[key] = events;
         }
         events.push(event);
     };
@@ -45,6 +45,24 @@ collections.service('EventsMap', function ($log) {
         },
 
         /**
+         * Get filtered events
+         * @param filter event filtering criteria.
+         * @returns {*} array of events
+         */
+        filter: function (filter) {
+            var filtered = {};
+            for (var day in dayEvents) {
+                for (var i = 0; i < dayEvents[day].length; i++) {
+                    var event = dayEvents[day][i];
+                    if (filter(event)) {
+                        addEntry(filter, day, event);
+                    }
+                }
+            }
+            return filtered;
+        },
+
+        /**
          * Check whether given key is present in this collection
          * @param day day key
          * @returns {boolean} true is key exists, false otherwise
@@ -58,7 +76,7 @@ collections.service('EventsMap', function ($log) {
          * @returns {Number} of days
          */
         size: function () {
-            return dayEvents.length;
+            return Object.keys(dayEvents).length;
         },
 
         /**
@@ -91,7 +109,7 @@ collections.service('EventsMap', function ($log) {
             var currentDay = this.dayKey(event.start);
             var endKey = this.dayKey(event.end).add(1).days();
             do {
-                addEntry(currentDay.clone(), event);
+                addEntry(dayEvents, currentDay.clone(), event);
                 days.push(currentDay.clone());
                 currentDay = currentDay.add(1).days();
             } while (currentDay.isBefore(endKey));
