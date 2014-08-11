@@ -55,7 +55,7 @@ collections.service('EventsMap', function ($log) {
                 for (var i = 0; i < dayEvents[day].length; i++) {
                     var event = dayEvents[day][i];
                     if (filter(event)) {
-                        addEntry(filter, day, event);
+                        addEntry(filtered, day, event);
                     }
                 }
             }

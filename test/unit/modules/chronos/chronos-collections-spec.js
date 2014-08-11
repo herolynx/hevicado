@@ -189,14 +189,21 @@ describe('events-map-spec:', function () {
             //and start hour filter
             var startFrom = new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0});
             var filterByStartDate = function (event) {
-                return startFrom.isAfter(event.start) && startFrom.isBefore(event.end);
+                return (startFrom.equals(event.start) || startFrom.isAfter(event.start))
+                    && (startFrom.isBefore(event.end));
             };
             //when events are filtered
-            var filtered = eventsMap.filter(filterByStartDate());
+            var filtered = eventsMap.filter(filterByStartDate);
             //then single day entry is returned
             expect(filtered).not.toBeNull();
-            expect(filtered.length).toBe(1);
-
+            var keys = Object.keys(filtered);
+            expect(keys.length).toBe(1);
+            //and day contains proper events
+            var events = filtered[keys[0]];
+            expect(events).not.toBeNull();
+            expect(events.length).toBe(2);
+            expect(events[0].title).toBe("Sample event1");
+            expect(events[1].title).toBe("Sample event2");
         });
     });
 
