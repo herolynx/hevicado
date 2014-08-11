@@ -34,8 +34,20 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
     $scope.init = function () {
         $scope.beginDate = Date.today().previous().monday();
         $scope.setTimePeriod($scope.beginDate, 7);
-        EventsMap.add({title: "Meeting 8:00-8:15", start: Date.today().set({hour: 8, minute: 0}), end: Date.today().set({hour: 8, minute: 15})});
-        var keys = EventsMap.add({title: "Meeting 9:00-10:00", start: Date.today().set({hour: 9, minute: 0}), end: Date.today().set({hour: 10, minute: 0})});
+        EventsMap.add({
+            title: "Meeting 8:00-8:15",
+            start: Date.today().set({hour: 8, minute: 0}),
+            end: Date.today().set({hour: 8, minute: 15}),
+            color: 'red',
+            duration: 15
+        });
+        var keys = EventsMap.add({
+            title: "Meeting 9:00-10:00",
+            start: Date.today().set({hour: 9, minute: 0}),
+            end: Date.today().set({hour: 10, minute: 0}),
+            color: 'yellow',
+            duration: 60
+        });
         var events = EventsMap.events(keys[0]);
     };
 
