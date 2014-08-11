@@ -188,12 +188,12 @@ describe('events-map-spec:', function () {
             eventsMap.addAll([event1, event2, event3, event4, event5]);
             //and start hour filter
             var startFrom = new Date().set({year: 2014, month: 7, day: 12, hour: 8, minute: 0});
-            var filterByStartDate = function (event) {
+            var inTimePeriod = function (event) {
                 return (startFrom.equals(event.start) || startFrom.isAfter(event.start))
                     && (startFrom.isBefore(event.end));
             };
             //when events are filtered
-            var filtered = eventsMap.filter(filterByStartDate);
+            var filtered = eventsMap.filter(inTimePeriod);
             //then single day entry is returned
             expect(filtered).not.toBeNull();
             var keys = Object.keys(filtered);
