@@ -182,7 +182,25 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
         if (event.end.clone === undefined) {
             event.end = new Date(event.end);
         }
+        //TODO add duration
         return event;
+    };
+
+    /**
+     * Change event time period based on given UI event
+     * @param event resizable event
+     * @param ui ui element details
+     * @param calendarEvent event to be changed
+     */
+    $scope.changeEventTime = function (event, ui, calendarEvent) {
+        $log.debug('Changing event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
+        EventsMap.remove(calendarEvent);
+        var deltaHeight = ui.size.height - ui.originalSize.height;
+        var addMinutes = 15 * Math.round(deltaHeight / 15);
+        calendarEvent.end = calendarEvent.end.add(addMinutes).minute();
+        calendarEvent.duration += addMinutes;
+        $log.debug('Event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
+        EventsMap.add(calendarEvent);
     };
 
 });

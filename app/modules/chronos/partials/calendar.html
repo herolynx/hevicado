@@ -74,6 +74,8 @@
                                         <!-- currently defined events -->
                                         <div ng-repeat="event in getEvents(day,hour, 0)"
                                              class="event h-{{event.duration}} wrapper {{event.color}} time"
+                                             ui-resizable
+                                             ui-on-resize="changeEventTime($event, $ui, event)"
                                              ui-draggable="true"
                                              drag="event"
                                              drag-channel="dndDayChannel"

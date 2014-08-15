@@ -132,6 +132,7 @@ collections.service('EventsMap', function ($log) {
          */
         add: function (event) {
             var days = [];
+            //TODO move creatiing keys into separate function
             var currentDay = this.dayKey(event.start);
             var endKey = this.dayKey(event.end).add(1).days();
             do {
@@ -151,6 +152,7 @@ collections.service('EventsMap', function ($log) {
             if (event.id === undefined) {
                 return false;
             }
+            //TODO handle many keys
             var key = this.dayKey(event.start);
             var dayEvents = this.events(key);
             var eventIndex = dayEvents.indexOf(event);

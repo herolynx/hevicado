@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="bower_components/toastr/toastr.css">
     <link rel="stylesheet" href="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.css">
-
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/jquery-ui.css">
     <!-- css internal -->
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="fonts/entypo.css" type="text/css" media="screen"/>
@@ -143,12 +143,13 @@
 <!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
+<!-- generic utils -->
 <script src="bower_components/underscore/underscore.js"></script>
 <script src="bower_components/jquery/jquery.js"></script>
 <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
 <script src="bower_components/toastr/toastr.js"></script>
 <script src="bower_components/datejs/build/date.js"></script>
-
+<!-- angular related stuff -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -159,23 +160,24 @@
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/angular-ui-sortable/sortable.js"></script>
 <script src="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js"></script>
-
+<!-- ui utils -->
+<script src="modules/ui/js/ui-notifications.js"></script>
+<script src="modules/ui/js/ui-dnd.js"></script>
+<script src="modules/ui/js/ui-elements.js"></script>
+<!-- security module -->
 <script src="modules/bolt/js/bolt-app.js"></script>
 <script src="modules/bolt/js/bolt-controller.js"></script>
 <script src="modules/bolt/js/bolt-service.js"></script>
-
+<!-- dashborad -->
 <script src="modules/dashboard/js/dashboard-app.js"></script>
 <script src="modules/dashboard/js/dashboard-controller.js"></script>
 <script src="modules/dashboard/js/dashboard-widgets.js"></script>
-
-<script src="modules/ui/js/ui-notifications.js"></script>
-<script src="modules/ui/js/ui-dnd.js"></script>
-
+<!-- calendar -->
 <script src="modules/chronos/js/chronos-app.js"></script>
 <script src="modules/chronos/js/chronos-controller.js"></script>
 <script src="modules/chronos/js/chronos-services.js"></script>
 <script src="modules/chronos/js/chronos-collections.js"></script>
-
+<!-- main app scripts -->
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>
