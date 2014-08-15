@@ -192,7 +192,7 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
      * @param ui ui element details
      * @param calendarEvent event to be changed
      */
-    $scope.changeEventTime = function (event, ui, calendarEvent) {
+    $scope.dndChangeTime = function (event, ui, calendarEvent) {
         $log.debug('Changing event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
         EventsMap.remove(calendarEvent);
         var deltaHeight = ui.size.height - ui.originalSize.height;
