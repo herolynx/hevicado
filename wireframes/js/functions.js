@@ -19,6 +19,7 @@ $(function() {
 		});
 	
 	// WINDOW 
+	
 		$('.close-window').click(function() {
 			$('section#bg-window').slideUp(300);
 		});
@@ -51,8 +52,8 @@ $(function() {
 		
 		$('.icon-trash-link').click(function() {
 			$('.delete-visit').slideDown('fast');
-		});
-		
+		});		
+				
 		$('.calendar .row-content-left .event-day .row .note').on( 'click', '.close-note', function(e) {
 			e.preventDefault();
 			$(this).parent().slideUp('fast');

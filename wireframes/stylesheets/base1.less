@@ -216,6 +216,10 @@ button {
 	cursor:pointer;
 }	
 
+select {
+	font-family: 'Titillium Web', sans-serif;
+}
+
 .visible {
 	display:block!important;
 }
@@ -659,6 +663,7 @@ section#main-content {
 	}
 }
 
+
 section#bg-window {
 	.absolute;
 	.w;
@@ -852,6 +857,29 @@ section#bg-window {
 }
 
 
+.login-widget {
+	.absolute!important;
+	top:0;
+	left:0;
+	.dib!important;
+	.bg(rgba(0,0,0,0.8))!important;
+	.w!important;
+	.h(100%)!important;
+	z-index:99!important;
+	
+	.window {
+		.w(30%)!important;
+		top:5%!important;
+		
+		label {
+			a {
+				.bold;
+				.tdn;				
+			}
+		}
+	}	
+}
+
 /* PARTS ELELEMNT *//* PARTS ELELEMNT *//* PARTS ELELEMNT *//* PARTS ELELEMNT *//* PARTS ELELEMNT */
 
 .row-bg-white {
@@ -927,6 +955,7 @@ section#bg-window {
 	.pagination {
 		.fl;
 		.w;
+		.mt(40px);
 		.mb(10px);
 		
 		.prev-week, .next-week {			
@@ -1187,8 +1216,8 @@ section#bg-window {
 			
 			.month {
 				.fl;
-				.w;
-				.m(20px 0);
+				.w(85%);
+				.m(40px 0 0px);
 				
 				ul {
 					.m(auto);
@@ -1233,10 +1262,11 @@ section#bg-window {
 				
 				td {				
 					.w(12.5%);
+					.relative;
 					
 					&:first-child {
 						.box {
-							background:url(../images/calendar-box-hour-bg.png);						
+							background:url(../images/calendar-box-hour-bg.png) repeat;						
 						}
 					}
 					
@@ -1265,9 +1295,135 @@ section#bg-window {
 						.w;
 						.h(60px);
 						.relative;					
-						background:url(../images/calendar-box-bg.png);					
+						background:url(../images/calendar-box-bg.png);		
+							
+						.event {
+							.absolute;
+							top:1px;
+							.w;
+							left:0;		
+							.center;
+							border-spacing:0;
+							
+							.wrapper {
+								.w(96%);
+								.m(auto);		
+								.h(100%);
+								.radius(4px);
+								box-shadow:inset 1px 1px 0 #FFF, 1px 0px 0 #FFF;
+								.relative; 
+							
+								&:before {
+									content:'';
+									.absolute;
+									bottom:2px;
+									right:2px;
+									width: 0px;
+									height: 0px;
+									border-style: solid;
+									border-width: 0 0 6px 6px;
+									border-color: transparent transparent rgba(0,0,0,0.5) transparent;
+									cursor:se-resize;						
+								}
+								
+								
+								.time {
+									.size(0.625em);
+									.c(#000);
+								}
+								
+								.note {
+									.fl;
+									.w;
+									.center;
+									
+									p {
+										.w(90%);
+										.m(auto);
+										.c(#000);
+									}
+								}								
+							}							
+						}
+						
+						.h-15 {
+							.h(13px);
+						}
+						.h-30 {
+							.h(28px);
+						}
+						.h-45 {
+							.h(43px);
+						}
+						.h-60 {
+							.h(58px);
+						}
+						
+						.yellow {
+							.bg(rgba(251,215,91,0.8));
+						}
+						
+						.green {
+							.bg(rgba(81,193,73,0.8));
+						}
+						
+						.blue {
+							.bg(rgba(56,196,253,0.8));
+						}
+						
+						.red {
+							.bg(rgba(255,100,58,0.8));
+						}
 					}
 				}							
+			}
+		}	
+	}
+	
+	.calendar-mini {
+		.absolute;
+		top:8%;
+		right:2%;
+		.w(200px);
+		.b(1px solid #cccccc);
+		.radius(10px);
+		.pp(8px);
+		.box-sizing;
+		
+		.select {
+			&:before {
+				content:'';
+				.w(22px);
+				.h(22px);
+				.radius(50px);
+				.absolute;
+				top:0px;
+				left:2px;			
+			}							
+		}	
+		
+		.calendar-day {
+			
+			select {
+				.w;
+				.fl;
+				.c(#656565);
+				.radius(5px);
+			}	
+			table {
+				th,	td {
+					.b(0);
+					
+					a {
+						.dib;
+						.w(25px);
+						.c(#656565);
+					}
+				}
+				
+				th {
+					.h(20px);
+				}
 			}
 		}	
 	}
@@ -1678,6 +1834,32 @@ section#bg-window {
 				}				
 			}
 		}
+		
+		.calendar-mini {
+		
+			.select {
+				&:before {
+					.b(1px solid @blue);		
+				}
+			}			
+		
+			.calendar-day {
+				
+				th.select, td.select {
+					background:rgba(220, 241, 255, 0.3);
+				}
+
+				table {
+					th,	td {				
+						
+						a.select {
+							.c(@blue);
+						}
+					}
+				}
+			}
+		}
+		
 	}	
 }
 

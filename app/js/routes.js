@@ -39,7 +39,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
         }).
         state('calendar', {
             url: "/calendar",
-            templateUrl: "modules/calendar/partials/calendar.html",
+            templateUrl: "modules/chronos/partials/calendar.html",
             controller: 'DashboardCtrl',
             data: {
                 access: ACCESS_LEVELS.PUBLIC
@@ -47,7 +47,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
         }).
         state('calendar-events', {
             url: "/calendar-events",
-            templateUrl: "modules/calendar/partials/calendar-events.html",
+            templateUrl: "modules/chronos/partials/calendar-events.html",
             controller: 'DashboardCtrl',
             data: {
                 access: ACCESS_LEVELS.PUBLIC

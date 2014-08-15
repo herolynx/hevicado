@@ -17,7 +17,9 @@
         "angular-translate-storage-cookie": "2.2.x",
         "angular-bootstrap": "0.9.0",
         "angular-ui-dashboard": "0.3.x",
-        "toastr": "2.0.x"
+        "bootstrap": "3.2.x",
+        "toastr": "2.0.x",
+        "datejs": "1.0.x"
     },
 
     "devDependencies": {
