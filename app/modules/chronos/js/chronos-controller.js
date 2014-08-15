@@ -48,7 +48,6 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
             color: 'yellow',
             duration: 60
         });
-        var events = EventsMap.events(keys[0]);
     };
 
 
@@ -149,6 +148,41 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
         });
         var keys = Object.keys(filtered);
         return keys.length == 1 ? filtered[keys[0]] : [];
+    };
+
+
+    /**
+     * Handle on drop event
+     * @param dndEvent DnD event
+     * @param calendarEvent moved event
+     * @param day new day of event
+     * @param hour new hour of event
+     * @param minute new minute of event
+     */
+    $scope.dndDrop = function (dndEvent, calendarEvent, day, hour, minute) {
+        $log.debug('DnD stop on - day: ' + day + ', hour: ' + hour + ', minutes: ' + minute);
+        $log.debug('DnD event moved - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
+        $scope.normalize(calendarEvent);
+        EventsMap.remove(calendarEvent);
+        calendarEvent.start = day.clone().set({hour: hour, minute: minute});
+        calendarEvent.end = calendarEvent.start.clone().add(calendarEvent.duration).minute();
+        $log.debug('DnD adding updated event - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
+        EventsMap.add(calendarEvent);
+    };
+
+    /**
+     * Normalize event so it can be displayed on calendar
+     * @param event event to be normalized
+     * @return the same instance of event
+     */
+    $scope.normalize = function (event) {
+        if (event.start.clone === undefined) {
+            event.start = new Date(event.start);
+        }
+        if (event.end.clone === undefined) {
+            event.end = new Date(event.end);
+        }
+        return event;
     };
 
 });

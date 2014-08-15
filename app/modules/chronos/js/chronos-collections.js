@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var collections = angular.module('chronos.collections', []);
 
@@ -21,7 +21,33 @@ collections.service('EventsMap', function ($log) {
             events = [];
             eventsMap[key] = events;
         }
-        events.push(event);
+        events.push(normalize(event));
+    };
+
+    /**
+     * Normalize event
+     * @param event to be normalized
+     * @return the same instance of event
+     */
+    var normalize = function (event) {
+        if (event.id === undefined) {
+            event.id = generateUUID();
+        }
+        return event
+    };
+
+    /**
+     * Generate unique ID
+     * @returns {string} non-nullable string
+     */
+    var generateUUID = function () {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+        });
+        return uuid;
     };
 
     return {
@@ -114,6 +140,27 @@ collections.service('EventsMap', function ($log) {
                 currentDay = currentDay.add(1).days();
             } while (currentDay.isBefore(endKey));
             return days;
+        },
+
+        /**
+         * Remove event
+         * @param event event to be removed
+         * @param {boolean} true if element was removed, false otherwise
+         */
+        remove: function (event) {
+            if (event.id === undefined) {
+                return false;
+            }
+            var key = this.dayKey(event.start);
+            var dayEvents = this.events(key);
+            var eventIndex = dayEvents.indexOf(event);
+            for (var i = 0; i < dayEvents.length; i++) {
+                if (dayEvents[i].id === event.id) {
+                    dayEvents.splice(i, 1);
+                    return true;
+                }
+            }
+            return false;
         }
     };
 

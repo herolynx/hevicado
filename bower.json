@@ -19,8 +19,7 @@
         "angular-ui-dashboard": "0.3.x",
         "bootstrap": "3.2.x",
         "toastr": "2.0.x",
-        "datejs": "1.0.x",
-        "angular-dragdrop": "1.0.x"
+        "datejs": "1.0.x"
     },
 
     "devDependencies": {

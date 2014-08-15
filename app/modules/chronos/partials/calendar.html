@@ -64,16 +64,21 @@
                                     <div class="box" ng-repeat="hour in hours">{{hour}}</div>
                                 </td>
                                 <td class="select" ng-repeat="day in days">
-                                    <div class="box"
-                                         ng-repeat="hour in hours">
+                                    <div class="box" ng-repeat="hour in hours">
+                                        <!-- placeholder where events can be dropped or added -->
+                                        <div
+                                                drop-channel="dndDayChannel"
+                                                ui-on-drop="dndDrop($event, $data, day, hour, 0)"
+                                                >&nbsp;
+                                        </div>
+                                        <!-- currently defined events -->
                                         <div ng-repeat="event in getEvents(day,hour, 0)"
-                                             ng-model='days[day]'
-                                             data-drag="true"
-                                             jqyoui-draggable="{index: {{$index}},animate:true}"
-                                             data-drop="true"
-                                             jqyoui-droppable="{multiple:true}"
-                                             data-jqyoui-options
                                              class="event h-{{event.duration}} wrapper {{event.color}} time"
+                                             ui-draggable="true"
+                                             drag="event"
+                                             drag-channel="dndDayChannel"
+                                             drop-channel="dndDayChannel"
+                                             ui-on-drop="dndDrop($event, $data, day, hour, 0)"
                                                 >
                                             {{event.title}}
                                         </div>

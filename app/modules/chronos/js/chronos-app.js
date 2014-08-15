@@ -8,7 +8,6 @@ var module = angular.module('chronos', [
     'chronos.controllers',
     'chronos.services',
     'chronos.collections',
-    /*external modules*/
-    'ngDragDrop'
+    'ui-dnd'
 ]);
 
