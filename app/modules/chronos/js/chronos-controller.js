@@ -3,15 +3,18 @@
 var controllers = angular.module('chronos.controllers', ['ui-notifications']);
 
 
-controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log) {
+controllers.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, $modal, $log) {
+
+    /**
+     * Include underscore
+     */
+    $scope._ = _;
+
+    $scope.months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
 
     $scope.beginDate = Date.today().set({ hour: 8, minute: 0 });
 
     $scope.days = [ ];
-
-    $scope.months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-
-    $scope.hours = [ 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
 
     /**
      * Set time period displayed on calendar
@@ -30,24 +33,15 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
 
     /**
      * Initialize calendar with chosen time period to be displayed
+     *
+     * @param daysAmount number of days to be displayed on calendar
+     *
      */
-    $scope.init = function () {
+    $scope.init = function (daysAmount) {
         $scope.beginDate = Date.today().previous().monday();
-        $scope.setTimePeriod($scope.beginDate, 7);
-        EventsMap.add({
-            title: "Meeting 8:00-8:15",
-            start: Date.today().set({hour: 8, minute: 0}),
-            end: Date.today().set({hour: 8, minute: 15}),
-            color: 'red',
-            duration: 15
-        });
-        var keys = EventsMap.add({
-            title: "Meeting 9:00-10:00",
-            start: Date.today().set({hour: 9, minute: 0}),
-            end: Date.today().set({hour: 10, minute: 0}),
-            color: 'yellow',
-            duration: 60
-        });
+        $scope.setTimePeriod($scope.beginDate, daysAmount);
+        var calendarEvents = CalendarService.events($scope.days[0], $scope.days[$scope.days.length - 1]);
+        EventsMap.addAll(calendarEvents);
     };
 
 
@@ -103,7 +97,6 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
      * @param month number of month to be set
      */
     $scope.setMonth = function (month) {
-        //TODO simplify this
         var currentMonth = $scope.beginDate.getMonth();
         if (month == currentMonth) {
             return;
@@ -115,16 +108,25 @@ controllers.controller('CalendarCtrl', function ($scope, EventsMap, $modal, $log
 
     /**
      * Add new event to calendar
-     * @param date starting date of event
+     * @param day day of new event
+     * @param optional statring hour of event
      */
-    $scope.addEvent = function (date) {
+    $scope.addEvent = function (day, hour) {
+        var date = day.clone();
+        if (hour !== undefined) {
+            date = date.set({hour: hour});
+        }
+        if (!CalendarService.canAdd(date)) {
+            $log.debug('Events cannot be added on: ' + date);
+            return;
+        }
         var modalInstance = $modal.open({
             templateUrl: 'modules/chronos/partials/add-event.html',
             controller: addEventCtrl,
 
             resolve: {
                 newEventDate: function () {
-                    return date;
+                    return day;
                 }
             },
             backdrop: 'static',

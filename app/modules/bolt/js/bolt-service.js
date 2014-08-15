@@ -74,15 +74,15 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
 
     this.getToken = function () {
         return _currentUser.token;
-    }
+    };
 
     this.getUserId = function () {
         return _currentUser.userId;
-    }
+    };
 
     this.getUserRole = function () {
         return _currentUser.userRole;
-    }
+    };
 
     /**
      * Create new user's session

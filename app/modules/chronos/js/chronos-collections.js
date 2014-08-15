@@ -62,6 +62,23 @@ collections.service('EventsMap', function ($log) {
         },
 
         /**
+         * Create keys for given time period
+         * @param start start date
+         * @param end end date
+         * @return {array} time window keys
+         */
+        dayKeys: function (start, end) {
+            var dayKeys = [];
+            var currentKey = this.dayKey(start);
+            var endKey = this.dayKey(end).add(1).days();
+            do {
+                dayKeys.push(currentKey.clone());
+                currentKey = currentKey.add(1).days();
+            } while (currentKey.isBefore(endKey));
+            return dayKeys;
+        },
+
+        /**
          * Get all events in given day
          * @param day day key
          * @returns {*} array of events
@@ -131,16 +148,11 @@ collections.service('EventsMap', function ($log) {
          * @returns {*} day keys where given event has been stored
          */
         add: function (event) {
-            var days = [];
-            //TODO move creatiing keys into separate function
-            var currentDay = this.dayKey(event.start);
-            var endKey = this.dayKey(event.end).add(1).days();
-            do {
-                addEntry(dayEvents, currentDay.clone(), event);
-                days.push(currentDay.clone());
-                currentDay = currentDay.add(1).days();
-            } while (currentDay.isBefore(endKey));
-            return days;
+            var dayKeys = this.dayKeys(event.start, event.end);
+            for (var i = 0; i < dayKeys.length; i++) {
+                addEntry(dayEvents, dayKeys[i].clone(), event);
+            }
+            return dayKeys;
         },
 
         /**
@@ -152,20 +164,22 @@ collections.service('EventsMap', function ($log) {
             if (event.id === undefined) {
                 return false;
             }
-            //TODO handle many keys
-            var key = this.dayKey(event.start);
-            var dayEvents = this.events(key);
-            var eventIndex = dayEvents.indexOf(event);
-            for (var i = 0; i < dayEvents.length; i++) {
-                if (dayEvents[i].id === event.id) {
-                    dayEvents.splice(i, 1);
-                    return true;
+            var dayKeys = this.dayKeys(event.start, event.end);
+            var removed = false;
+            for (var k = 0; k < dayKeys.length; k++) {
+                var key = dayKeys[k];
+                var dayEvents = this.events(key);
+                for (var i = 0; i < dayEvents.length; i++) {
+                    if (dayEvents[i].id === event.id) {
+                        dayEvents.splice(i, 1);
+                        removed = true;
+                        break;
+                    }
                 }
             }
-            return false;
+            return removed;
         }
+
     };
 
-})
-;
-
+});

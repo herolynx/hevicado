@@ -1,6 +1,6 @@
 <section id="main-content" class="calendar">
     <div class="content" ng-app="chronos" ng-controller="CalendarCtrl">
-        <div class="main" ng-init="init()">
+        <div class="main" ng-init="init(7)">
             <div class="row-bg-white">
                 <div class="row-content">
                     <div class="calendar-hour">
@@ -61,14 +61,15 @@
                         <table>
                             <tr>
                                 <td>
-                                    <div class="box" ng-repeat="hour in hours">{{hour}}</div>
+                                    <div class="box" ng-repeat="hour in _.range(0,24)">{{hour}}</div>
                                 </td>
                                 <td class="select" ng-repeat="day in days">
-                                    <div class="box" ng-repeat="hour in hours">
+                                    <div class="box" ng-repeat="hour in _.range(0,24)">
                                         <!-- placeholder where events can be dropped or added -->
                                         <div
                                                 drop-channel="dndDayChannel"
                                                 ui-on-drop="dndDrop($event, $data, day, hour, 0)"
+                                                ng-click="addEvent(day, hour)"
                                                 >&nbsp;
                                         </div>
                                         <!-- currently defined events -->
