@@ -38,9 +38,14 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      *
      */
     $scope.init = function (daysAmount) {
-        $scope.beginDate = Date.today().previous().monday();
+        if (daysAmount == 7) {
+            $scope.beginDate = Date.today().previous().monday();
+        } else {
+            $scope.beginDate.clearTime();
+        }
         $scope.setTimePeriod($scope.beginDate, daysAmount);
         var calendarEvents = CalendarService.events($scope.days[0], $scope.days[$scope.days.length - 1]);
+        EventsMap.clear();
         EventsMap.addAll(calendarEvents);
     };
 
@@ -136,17 +141,29 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
 
     /**
      * Get events in given time period
-     * @param day
-     * @param dayHour
-     * @param minutes
+     * @param day day without time period
+     * @param dayHour optional hour
+     * @param minutes optional minutes
      * @returns {Array}
      */
     $scope.getEvents = function (day, dayHour, minutes) {
+        //TODO filter on view
         var startFrom = day.clone();
         startFrom.set({hour: dayHour, minute: minutes});
         var filtered = EventsMap.filter(function (event) {
             return (startFrom.equals(event.start) || startFrom.isAfter(event.start))
                 && (startFrom.isBefore(event.end));
+        });
+        var keys = Object.keys(filtered);
+        return keys.length == 1 ? filtered[keys[0]] : [];
+    };
+
+    $scope.getDayEvents = function (day) {
+        //TODO filter on view
+        var start = day.clone().clearTime();
+        var end = start.clone().add(1).days();
+        var filtered = EventsMap.filter(function (event) {
+            return (event.start.between(start, end));
         });
         var keys = Object.keys(filtered);
         return keys.length == 1 ? filtered[keys[0]] : [];

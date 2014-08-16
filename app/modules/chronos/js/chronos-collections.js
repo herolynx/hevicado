@@ -178,6 +178,13 @@ collections.service('EventsMap', function ($log) {
                 }
             }
             return removed;
+        },
+
+        /**
+         * Clear collection
+         */
+        clear: function () {
+            dayEvents = {};
         }
 
     };
