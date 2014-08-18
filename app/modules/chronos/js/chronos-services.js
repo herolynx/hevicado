@@ -29,27 +29,18 @@ services.service('CalendarService', function ($http, $log) {
          * Get events in given time period
          * @param start start time date
          * @param end end time date
-         * @returns non-nullable array
+         * @returns http promise
          */
         events: function (start, end) {
-            return [
-                {
-                    title: "Meeting 8:00-8:15",
-                    description: "Details go here about meeting....",
-                    start: Date.today().set({hour: 8, minute: 0}),
-                    end: Date.today().set({hour: 8, minute: 15}),
-                    color: 'red',
-                    duration: 15
-                },
-                {
-                    title: "Meeting 9:00-10:00",
-                    description: "Details go here about meeting....",
-                    start: Date.today().set({hour: 9, minute: 0}),
-                    end: Date.today().set({hour: 10, minute: 0}),
-                    color: 'yellow',
-                    duration: 60
+            $log.debug('Getting events - start: ' + start + ', end: ' + end);
+            return $http({
+                method: 'GET',
+                url: '/calendar/events/search',
+                params: {
+                    start: start,
+                    end: end
                 }
-            ];
+            });
         }
 
 

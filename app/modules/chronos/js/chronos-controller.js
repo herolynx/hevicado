@@ -44,9 +44,16 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             $scope.beginDate.clearTime();
         }
         $scope.setTimePeriod($scope.beginDate, daysAmount);
-        var calendarEvents = CalendarService.events($scope.days[0], $scope.days[$scope.days.length - 1]);
-        EventsMap.clear();
-        EventsMap.addAll(calendarEvents);
+        CalendarService.events($scope.days[0], $scope.days[$scope.days.length - 1]).
+            success(function (data) {
+                $log.debug('Events received from back-end - data:' + data);
+                EventsMap.clear();
+                EventsMap.addAll(data);
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t get data from back-end - data: ' + data + ', status: ' + status);
+            });
+
     };
 
 
