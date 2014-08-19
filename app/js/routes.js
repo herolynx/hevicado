@@ -28,30 +28,6 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
-        }).
-        state('dashboard', {
-            url: "/dashboard",
-            templateUrl: "modules/dashboard/partials/dashboard.html",
-            controller: 'DashboardCtrl',
-            data: {
-                access: ACCESS_LEVELS.PUBLIC
-            }
-        }).
-        state('calendar', {
-            url: "/calendar",
-            templateUrl: "modules/chronos/partials/calendar.html",
-            controller: 'DashboardCtrl',
-            data: {
-                access: ACCESS_LEVELS.PUBLIC
-            }
-        }).
-        state('calendar-events', {
-            url: "/calendar-events",
-            templateUrl: "modules/chronos/partials/calendar-events.html",
-            controller: 'DashboardCtrl',
-            data: {
-                access: ACCESS_LEVELS.PUBLIC
-            }
         });
     //
     // access level: USER (logged in users)
@@ -59,6 +35,30 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
         state('private', {
             url: "/private",
             templateUrl: "partials/private.html",
+            data: {
+                access: ACCESS_LEVELS.USER
+            }
+        }).
+        state('dashboard', {
+            url: "/dashboard",
+            templateUrl: "modules/dashboard/partials/dashboard.html",
+            controller: 'DashboardCtrl',
+            data: {
+                access: ACCESS_LEVELS.USER
+            }
+        }).
+        state('calendar', {
+            url: "/calendar",
+            templateUrl: "modules/chronos/partials/calendar.html",
+            controller: 'DashboardCtrl',
+            data: {
+                access: ACCESS_LEVELS.USER
+            }
+        }).
+        state('calendar-events', {
+            url: "/calendar-events",
+            templateUrl: "modules/chronos/partials/calendar-events.html",
+            controller: 'DashboardCtrl',
             data: {
                 access: ACCESS_LEVELS.USER
             }

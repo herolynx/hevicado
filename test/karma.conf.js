@@ -25,6 +25,7 @@ module.exports = function (config) {
             /* tested components */
             'app/js/*.js',
             'app/modules/**/*.js',
+            'app/mock-server/js/*.js',
             /* test cases */
             'test/unit/**/*.js'
         ],

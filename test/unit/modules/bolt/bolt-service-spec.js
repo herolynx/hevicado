@@ -40,11 +40,11 @@ describe('bolt-service-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //when creating new session
-            session.create('token-123', 'user-456', 'USER');
+            session.create({ token: 'token-123', id: 'user-456', userRole: 'USER'});
             //then cookie is created for current user
-            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', { token: 'token-123', userId: 'user-456', userRole: 'USER' });
+            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', { token: 'token-123', id: 'user-456', userRole: 'USER' });
             //and proper log message appears
-            expect(mockLog.debug).toHaveBeenCalledWith('Creating session - USER: user-456, userRole: USER, token: token-123');
+            expect(mockLog.debug).toHaveBeenCalledWith('Creating session - user id: user-456, userRole: USER, token: token-123');
         });
 
         it('should destroy current session', function () {
@@ -55,7 +55,7 @@ describe('bolt-service-spec:', function () {
             //then cookie for current user is removed
             expect(mockCookieStore.remove).toHaveBeenCalledWith('currentUser');
             //and proper log message appears
-            expect(mockLog.debug).toHaveBeenCalledWith('Deleting session - USER: null');
+            expect(mockLog.debug).toHaveBeenCalledWith('Deleting session - user id: null');
         });
     });
 
@@ -83,7 +83,7 @@ describe('bolt-service-spec:', function () {
             deferredHttp = $q.defer();
             mockHttp.post = function (url, args) {
                 return deferredHttp.promise;
-            }
+            };
             //get service
             authService = $injector.get('AuthService');
         }));
@@ -93,16 +93,17 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             var user = {
                 token: 'token-123',
-                userid: 'user-345',
-                role: 'USER'
+                id: 'user-345',
+                userRole: 'USER'
             };
             //when trying to log in with user's credentials
             authService.login({ user: 'user@bolt.com', password: 'pass#123' });
             //and response for authentication is positive
-            deferredHttp.resolve(user);
+            var response = { data: user };
+            deferredHttp.resolve(response);
             $rootScope.$apply();
             //then session is created for validated user
-            expect(mockSession.create).toHaveBeenCalledWith(user.token, user.userid, user.role);
+            expect(mockSession.create).toHaveBeenCalledWith(user);
         });
 
         it('should not login user with wrong credentials', function () {
@@ -110,8 +111,8 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             var user = {
                 token: 'token-123',
-                userid: 'user-345',
-                role: 'USER'
+                id: 'user-345',
+                userRole: 'USER'
             };
             //when trying to log in with wrong credentials
             authService.login({ user: 'user@bolt.com', password: 'pass#123' });
@@ -136,7 +137,7 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             mockSession.getToken = function () {
                 return 'token-123';
-            }
+            };
             //when checking user whether user is authenticated
             //then check is positive
             expect(authService.isAuthenticated()).toBe(true);
@@ -147,7 +148,7 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             mockSession.getToken = function () {
                 return null;
-            }
+            };
             //when checking user whether user is authenticated
             //then check is negative
             expect(authService.isAuthenticated()).toBe(false);
@@ -158,7 +159,7 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             mockSession.getUserRole = function () {
                 return 'ADMIN';
-            }
+            };
             //when checking whether user is authorized
             //then check is positive
             expect(authService.isAuthorized(['USER', 'ADMIN'])).toBe(true);
@@ -169,7 +170,7 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             mockSession.getUserRole = function () {
                 return 'GUEST';
-            }
+            };
             //when checking whether user is authorized
             //then check is negative
             expect(authService.isAuthorized(['USER', 'ADMIN'])).toBe(false);
@@ -216,7 +217,7 @@ describe('bolt-service-spec:', function () {
             //and current user has valid token
             mockSession.getToken = function () {
                 return 'token-123';
-            }
+            };
             //when HTTP request is about to be sent
             var config = { };
             config.headers = { Authorization: null };
@@ -231,7 +232,7 @@ describe('bolt-service-spec:', function () {
             //and current user has invalid token
             mockSession.getToken = function () {
                 return null;
-            }
+            };
             //when HTTP request is about to be sent
             var config = { };
             config.headers = { Authorization: null };

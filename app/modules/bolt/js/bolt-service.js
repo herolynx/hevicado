@@ -14,13 +14,13 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
         /**
          * Login user with given credentials
          * @param credentials user's credentials (login, password etc.)
-         * @returns {*} future object
+         * @returns {*} promise
          */
         login: function (credentials) {
             return $http
-                .post('/login', credentials)
-                .then(function (res) {
-                    Session.create(res.token, res.userid, res.role);
+                .post('/users/login', credentials).then(
+                function (res) {
+                    Session.create(res.data);
                 });
         },
         /**
@@ -68,7 +68,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
 
     var _currentUser = {
         'token': null,
-        'userId': null,
+        'id': null,
         'userRole': USER_ROLES.GUEST
     };
 
@@ -77,7 +77,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
     };
 
     this.getUserId = function () {
-        return _currentUser.userId;
+        return _currentUser.id;
     };
 
     this.getUserRole = function () {
@@ -86,17 +86,11 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
 
     /**
      * Create new user's session
-     * @param token session's token
-     * @param userId
-     * @param userRole user's privileges
+     * @param user user data
      */
-    this.create = function (token, userId, userRole) {
-        $log.debug('Creating session - USER: ' + userId + ', userRole: ' + userRole + ', token: ' + token);
-        _currentUser = {
-            'token': token,
-            'userId': userId,
-            'userRole': userRole
-        };
+    this.create = function (user) {
+        $log.debug('Creating session - user id: ' + user.id + ', userRole: ' + user.userRole + ', token: ' + user.token);
+        _currentUser = user;
         $cookieStore.put('currentUser', _currentUser);
     };
 
@@ -104,11 +98,11 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
      * Destroy user's current session
      */
     this.destroy = function () {
-        $log.debug('Deleting session - USER: ' + _currentUser.userId);
+        $log.debug('Deleting session - user id: ' + _currentUser.id);
         $cookieStore.remove('currentUser');
         _currentUser = {
             'token': null,
-            'userId': null,
+            'id': null,
             'userRole': USER_ROLES.GUEST
         };
     };

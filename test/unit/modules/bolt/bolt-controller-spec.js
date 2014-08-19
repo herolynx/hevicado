@@ -23,7 +23,7 @@ describe('bolt-controller-spec - Login controller:', function () {
         deferredAuthService = $q.defer();
         mockAuthService.login = function (credentials) {
             return deferredAuthService.promise;
-        }
+        };
         //mock others
         mockLog = jasmine.createSpyObj('$log', ['debug']);
         mockAuthEvents = jasmine.createSpyObj('AuthEvents', ['USER_LOGGED_IN', 'LOGIN_FAILED', 'USER_LOGGED_OUT']);
@@ -42,7 +42,7 @@ describe('bolt-controller-spec - Login controller:', function () {
             //given user session exists
             mockAuthService.isAuthenticated = function () {
                 return true;
-            }
+            };
             //when user is logging out
             ctrlScope.logout();
             //then session is destroyed
@@ -55,7 +55,7 @@ describe('bolt-controller-spec - Login controller:', function () {
             //given user is a guest (is not logged in)
             mockAuthService.isAuthenticated = function () {
                 return false;
-            }
+            };
             //when user is logging out
             ctrlScope.logout();
             //then session is not destroyed

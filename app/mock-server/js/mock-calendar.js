@@ -4,24 +4,28 @@ var mockCalendar = angular.module('mock-calendar', []);
 
 mockCalendar.run(function ($httpBackend, $log) {
 
-    $httpBackend.whenGET(/calendar\/events\/search/).respond(200,
-        [
-            {
-                title: "Meeting 8:00-8:15",
-                description: "Details go here about meeting....",
-                start: Date.today().set({hour: 8, minute: 0}),
-                end: Date.today().set({hour: 8, minute: 15}),
-                color: 'red',
-                duration: 15
-            },
-            {
-                title: "Meeting 9:00-10:00",
-                description: "Details go here about meeting....",
-                start: Date.today().set({hour: 9, minute: 0}),
-                end: Date.today().set({hour: 10, minute: 0}),
-                color: 'yellow',
-                duration: 60
-            }
-        ]
-    );
+    var id = 1;
+    var events = [];
+    var colors = ['red', 'yellow', 'blue'];
+
+    var minutes = 0;
+    for (var hour = 8; hour < 16; hour++) {
+        var duration = 15 + minutes % 45;
+        var event = {
+            id: id,
+            title: "Meeting " + id,
+            description: "Details go here about meeting....",
+            start: Date.today().set({hour: hour, minute: 0}),
+            end: Date.today().set({hour: hour, minute: duration}),
+            color: colors[hour % 3],
+            duration: duration
+        };
+        events.push(event);
+        minutes += 15;
+        id++;
+    }
+
+    $httpBackend.whenGET(/calendar\/events\/search/).respond(200, events);
+
+
 });

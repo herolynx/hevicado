@@ -23,11 +23,13 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, AuthService, A
      */
     $scope.login = function (credentials) {
         $log.debug('Logging in user: ' + credentials.username);
-        AuthService.login(credentials).then(function () {
-            $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);
-        }, function () {
-            $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILED);
-        });
+        AuthService.login(credentials).then(
+            function () {
+                $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);
+            },
+            function () {
+                $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILED);
+            });
     };
     /**
      * Logout current user

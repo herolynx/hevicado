@@ -4,7 +4,8 @@
  * Mock back-end communication for testing purposes
  */
 var mockServer = angular.module('mock-server', [
-    'mock-calendar'
+    'mock-calendar',
+    'mock-users'
 ]).
     config(function ($provide) {
         $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
