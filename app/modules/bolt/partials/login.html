@@ -1,17 +1,38 @@
-<section id="main-content" class="calendar">
-    <div class="content">
-        <div class="main">
-            <div ng-app="bolt" ng-controller="LoginCtrl">
-                <form name="loginForm" ng-submit="login(credentials)" novalidate>
-                    <label for="username" translate>login.username</label>
-                    <input type="text" id="username" ng-model="credentials.username">
-                    <label for="password" translate>login.password</label>
-                    <input type="password" id="password" ng-model="credentials.password">
-                    <button class="btn" type="submit" translate>login.login</button>
-                </form>
-                <ui-notify event="auth-login-failed" type="warning" message="{{'login.wrongCredentials' | translate}}"/>
-            </div>
+<section id="bg-window" class="login-widget">
+    <div class="window" ng-controller="LoginCtrl">
+        <a href="#" class="close-window">
+            <i class="icon-cancel-circled close-window"></i>
+        </a>
+
+        <div class="border">
+            <h2><i class="icon-pencil"></i>Login:</h2>
+
+            <form name="loginForm" ng-submit="login(credentials)" novalidate>
+                <ul>
+                    <li>
+                        <label class="full">Login:</label>
+                        <fieldset class="full">
+                            <input type="text" ng-model="credentials.username">
+                        </fieldset>
+                    </li>
+                    <li>
+                        <label class="full">Password:</label>
+                        <fieldset class="full">
+                            <input type="password" ng-model="credentials.password">
+                        </fieldset>
+                    </li>
+                    <li>
+                        <label class="full">You don't have an account on our website?<br/>
+                            <a href="#">Register now</a></label>
+                    </li>
+                    <li>
+                        <button class="btn blue rt">
+                            <i class="icon-login"></i> Login
+                        </button>
+                    </li>
+                </ul>
+            </form>
+            <ui-notify event="auth-login-failed" type="warning" message="{{'login.wrongCredentials' | translate}}"/>
         </div>
     </div>
-    <a href="#" class="back-to-top">Top</a>
-</section> <!
+</section>

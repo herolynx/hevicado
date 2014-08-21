@@ -53,7 +53,6 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             error(function (data, status) {
                 $log.error('Couldn\'t get data from back-end - data: ' + data + ', status: ' + status);
             });
-
     };
 
 
@@ -133,16 +132,16 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             return;
         }
         var modalInstance = $modal.open({
-            templateUrl: 'modules/chronos/partials/add-event.html',
+            windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+            templateUrl: 'modules/chronos/partials/edit-event.html',
+            backdrop: 'static',
+            scope: $scope,
             controller: addEventCtrl,
-
             resolve: {
                 newEventDate: function () {
                     return day;
                 }
-            },
-            backdrop: 'static',
-            windowClass: 'window'
+            }
         });
     };
 
@@ -234,6 +233,10 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
 var addEventCtrl = function ($scope, $modalInstance, newEventDate, $log) {
 
     $scope.newEventDate = newEventDate;
-    $log.debug('New event: ' + newEventDate)
+    $log.debug('New event: ' + newEventDate);
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 };
 

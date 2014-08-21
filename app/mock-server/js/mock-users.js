@@ -2,7 +2,7 @@
 
 var mockUsers = angular.module('mock-users', []);
 
-mockUsers.run(function ($httpBackend, $log) {
+mockUsers.run(function ($httpBackend, Session, $log) {
 
     var currentUser = {
         token: 'token-123',
@@ -11,6 +11,9 @@ mockUsers.run(function ($httpBackend, $log) {
         firstName: 'Michal',
         lastName: 'Wronski'
     };
+
+    //auto-login
+    Session.create(currentUser);
 
     $httpBackend.whenPOST(/users\/login/).respond(200, currentUser);
 
