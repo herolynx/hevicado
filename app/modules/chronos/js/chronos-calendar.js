@@ -131,15 +131,28 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             $log.debug('Events cannot be added on: ' + date);
             return;
         }
+        //TODO find location
         var modalInstance = $modal.open({
             windowTemplateUrl: 'modules/ui/partials/pop-up.html',
             templateUrl: 'modules/chronos/partials/edit-event.html',
             backdrop: 'static',
             scope: $scope,
-            controller: addEventCtrl,
+            controller: editEventCtrl,
             resolve: {
-                newEventDate: function () {
-                    return day;
+                newEvent: function () {
+                    return {
+                        title: 'Badanie odbytu',
+                        start: day,
+                        durations: [15, 30]
+                    };
+                },
+                location: function () {
+                    return  {
+                        address: 'Grabiszynska 256',
+                        city: 'Wroclaw',
+                        country: 'Poland',
+                        color: 'blue'
+                    };
                 }
             }
         });
@@ -230,13 +243,4 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
 
 });
 
-var addEventCtrl = function ($scope, $modalInstance, newEventDate, $log) {
-
-    $scope.newEventDate = newEventDate;
-    $log.debug('New event: ' + newEventDate);
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-};
 
