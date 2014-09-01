@@ -2,6 +2,11 @@
 
 var services = angular.module('chronos.services', []);
 
+/**
+ * Service manages events
+ * @param $http http communication service
+ * @param $log logger
+ */
 services.service('CalendarService', function ($http, $log) {
 
     return {
@@ -39,6 +44,25 @@ services.service('CalendarService', function ($http, $log) {
                 params: {
                     start: start,
                     end: end
+                }
+            });
+        },
+
+        /**
+         * Save event
+         * @param event event to be created/updated
+         * @returns {*} http promise
+         */
+        save: function (event) {
+            var method = 'POST';
+            if (event.id !== '') {
+                method = 'PUT';
+            }
+            return $http({
+                method: method,
+                url: '/calendar/events/add',
+                params: {
+                    event: event
                 }
             });
         }
