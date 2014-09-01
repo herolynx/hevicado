@@ -26,7 +26,8 @@ mockCalendar.run(function ($httpBackend, $log) {
     }
 
     $httpBackend.whenGET(/calendar\/events\/search/).respond(200, events);
-    $httpBackend.whenPOST(/calendar\/events\/add/).respond(200, { id: ++id });
-
+    $httpBackend.whenPOST(/calendar\/events\/save/).respond(200, { id: ++id });
+    $httpBackend.whenPUT(/calendar\/events\/save/).respond(200, { id: ++id });
+    $httpBackend.whenDELETE(/calendar\/events\/delete/).respond(200);
 
 });

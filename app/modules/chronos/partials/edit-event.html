@@ -1,12 +1,12 @@
 <div class="border">
     <h2><i class="icon-pencil"></i>Visit:</h2>
 
-    <form action="#" method="post">
+    <form>
         <ul>
             <li>
                 <label class="full"><b>Title:</b></label>
                 <fieldset class="full">
-                    <input type="text" ng-model="editedEvent.title">
+                    <input type="text" ng-model="editedEvent.title" ng-required="true" ng-minlength="3" ng-maxlength="255">
                 </fieldset>
             </li>
             <li>

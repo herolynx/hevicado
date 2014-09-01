@@ -55,6 +55,15 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             });
     };
 
+    $scope.register = function () {
+        $scope.$on('EVENT_CHANGED', function (event, calendarEvent) {
+            $log.debug('Event changed from event bus, adding new event to calendar - id: ' + calendarEvent.id);
+            $scope.normalize(calendarEvent);
+            EventsMap.remove(calendarEvent);
+            EventsMap.add(calendarEvent);
+        });
+    };
+
 
     /**
      * Refresh calendar's data
@@ -241,6 +250,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         EventsMap.add(calendarEvent);
     };
 
+    $scope.register();
 });
 
 

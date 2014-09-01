@@ -35,26 +35,42 @@ var editEventCtrl = function ($scope, $modalInstance, newEvent, location, Calend
         }
     };
 
+    /**
+     * Cancel edition of an event
+     */
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
+    /**
+     * Save currently edited event
+     */
     $scope.save = function () {
-        $log.debug('Saving event - start: ' + $scope.editedEvent.start + ', title: ' + $scope.editedEvent.title);
+        $log.debug('Saving event - id: ' + $scope.editedEvent.id + ', start: ' + $scope.editedEvent.start + ', title: ' + $scope.editedEvent.title);
+        $scope.editedEvent.start = new Date($scope.editedEvent.start);
+        $scope.editedEvent.end = $scope.editedEvent.start.clone().add($scope.editedEvent.duration).minute();
         CalendarService.save($scope.editedEvent).then(
             function (resp) {
                 $log.info('Event saved successfully: event id: ' + resp.data.id);
-                $modalInstance.close(resp.data);
+                //TODO return data from resp when BE is there
+                $scope.editedEvent.id = resp.data.id;
+                $scope.$emit('EVENT_CHANGED', $scope.editedEvent);
+                $modalInstance.close($scope.editedEvent);
             },
             function (errResp, errStatus) {
-
+                $log.info('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
+                //TODO show notification
             }
         );
     };
 
+    /**
+     * Delete currently edited event
+     */
     $scope.delete = function () {
-
+        //TODO implement this
     };
 
+    //initialize controller
     $scope.init();
 };

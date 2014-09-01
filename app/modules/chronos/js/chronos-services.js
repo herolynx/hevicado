@@ -60,7 +60,7 @@ services.service('CalendarService', function ($http, $log) {
             }
             return $http({
                 method: method,
-                url: '/calendar/events/add',
+                url: '/calendar/events/save',
                 params: {
                     event: event
                 }
