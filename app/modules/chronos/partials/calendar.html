@@ -82,6 +82,7 @@
                                              drag-channel="dndDayChannel"
                                              drop-channel="dndDayChannel"
                                              ui-on-drop="dndDrop($event, $data, day, hour, 0)"
+                                             ng-click="editEvent(event)"
                                                 >
                                             {{event.title}}
                                         </div>

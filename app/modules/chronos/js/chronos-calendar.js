@@ -55,12 +55,20 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             });
     };
 
+    /**
+     * Register controller to event-bus
+     */
     $scope.register = function () {
         $scope.$on('EVENT_CHANGED', function (event, calendarEvent) {
-            $log.debug('Event changed from event bus, adding new event to calendar - id: ' + calendarEvent.id);
+            $log.debug('Event changed from event bus, updating new event in calendar - id: ' + calendarEvent.id);
             $scope.normalize(calendarEvent);
             EventsMap.remove(calendarEvent);
             EventsMap.add(calendarEvent);
+        });
+        $scope.$on('EVENT_DELETED', function (event, calendarEvent) {
+            $log.debug('Event deleted from event bus, deleting event from calendar - id: ' + calendarEvent.id);
+            $scope.normalize(calendarEvent);
+            EventsMap.remove(calendarEvent);
         });
     };
 
@@ -148,19 +156,46 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             scope: $scope,
             controller: editEventCtrl,
             resolve: {
-                newEvent: function () {
+                eventToEdit: function () {
                     return {
                         title: 'Badanie odbytu',
-                        start: day,
-                        durations: [15, 30]
+                        start: day
                     };
                 },
-                location: function () {
+                options: function () {
                     return  {
-                        address: 'Grabiszynska 256',
-                        city: 'Wroclaw',
-                        country: 'Poland',
-                        color: 'blue'
+                        location: {
+                            address: 'Grabiszynska 256',
+                            city: 'Wroclaw',
+                            country: 'Poland',
+                            color: 'blue'
+                        },
+                        durations: [15, 30, 45, 60]
+                    };
+                }
+            }
+        });
+    };
+
+    /**
+     * Edit event
+     * @param event event to be edited
+     */
+    $scope.editEvent = function (event) {
+        //TODO find location
+        var modalInstance = $modal.open({
+            windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+            templateUrl: 'modules/chronos/partials/edit-event.html',
+            backdrop: 'static',
+            scope: $scope,
+            controller: editEventCtrl,
+            resolve: {
+                eventToEdit: function () {
+                    return event;
+                },
+                options: function () {
+                    return  {
+                        durations: [15, 30, 45, 60]
                     };
                 }
             }

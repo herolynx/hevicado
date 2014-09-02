@@ -65,6 +65,21 @@ services.service('CalendarService', function ($http, $log) {
                     event: event
                 }
             });
+        },
+
+        /**
+         * Delete event
+         * @param eventId
+         * @returns {*} http promise
+         */
+        delete: function (eventId) {
+            return $http({
+                method: 'DELETE',
+                url: '/calendar/events/delete',
+                params: {
+                    id: eventId
+                }
+            });
         }
 
 
