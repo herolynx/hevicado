@@ -30,4 +30,50 @@ mockCalendar.run(function ($httpBackend, $log) {
     $httpBackend.whenPUT(/calendar\/events\/save/).respond(200, { id: ++id });
     $httpBackend.whenDELETE(/calendar\/events\/delete/).respond(200);
 
+    var locations = [];
+    locations.push({
+        id: "loc-123",
+        name: "Pulsantis",
+        address: {
+            street: "Grabiszynska 8/4",
+            city: "Wroclaw"
+        },
+        country: "Poland",
+        color: "red",
+        working_hours: [
+            {
+                day: "Monday",
+                start: "08:00",
+                end: "10:00"
+            },
+            {
+                day: "Monday",
+                start: "12:00",
+                end: "14:00"
+            },
+            {
+                day: "Tuesday",
+                start: "08:00",
+                end: "16:00"
+            },
+            {
+                day: "Wednesday",
+                start: "08:00",
+                end: "16:00"
+            },
+            {
+                day: "Thursday",
+                start: "08:00",
+                end: "16:00"
+            },
+            {
+                day: "Friday",
+                start: "08:00",
+                end: "16:00"
+            }
+        ]
+    });
+
+    $httpBackend.whenGET(/calendar\/locations/).respond(200, locations);
+
 });

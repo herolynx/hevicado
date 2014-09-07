@@ -3,7 +3,7 @@
 var controllers = angular.module('chronos.controllers', ['ui-notifications']);
 
 
-controllers.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, $modal, $log) {
+controllers.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, Locations, $modal, $log) {
 
     /**
      * Include underscore
@@ -29,6 +29,42 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             $scope.days.push(EventsMap.dayKey(currentDate));
             currentDate = currentDate.add(1).days();
         }
+        $scope.loadCalendarData($scope.days);
+    };
+
+    /**
+     * Load calendar data for given days
+     * @param days dates for which data should be loaded
+     */
+    $scope.loadCalendarData = function (days) {
+        var startDate = days[0];
+        var endDate = days[days.length - 1];
+        $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
+        CalendarService.events(startDate, endDate).
+            success(function (data) {
+                $log.debug('Events loaded - data size: ' + data.length);
+                EventsMap.clear();
+                EventsMap.addAll(data);
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+            });
+    };
+
+    /**
+     * Load data related with owner of calendar
+     * @param ownerId
+     */
+    $scope.loadUserData = function (ownerId) {
+        $log.debug('Loading calendar owner data - user owner id: ' + ownerId);
+        CalendarService.locations(ownerId).
+            success(function (data) {
+                $log.debug('Loading user\'s locations - user owner id: ' + ownerId + ', data size: ' + data.length);
+                Locations.addAll(data);
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t get user locations - user owner id: ' + ownerId + ', data: ' + data + ', status: ' + status);
+            });
     };
 
     /**
@@ -44,15 +80,8 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             $scope.beginDate.clearTime();
         }
         $scope.setTimePeriod($scope.beginDate, daysAmount);
-        CalendarService.events($scope.days[0], $scope.days[$scope.days.length - 1]).
-            success(function (data) {
-                $log.debug('Events received from back-end - data:' + data);
-                EventsMap.clear();
-                EventsMap.addAll(data);
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t get data from back-end - data: ' + data + ', status: ' + status);
-            });
+        //TODO get user ID
+        $scope.loadUserData(1);
     };
 
     /**
@@ -140,15 +169,24 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      * @param optional statring hour of event
      */
     $scope.addEvent = function (day, hour) {
+        //prepare start date
         var date = day.clone();
         if (hour !== undefined) {
             date = date.set({hour: hour});
         }
-        if (!CalendarService.canAdd(date)) {
-            $log.debug('Events cannot be added on: ' + date);
+        $log.debug('Adding event - date: ' + date);
+        if (Date.compare(date, new Date()) == -1) {
+            $log.debug('Event start date(' + date + ') is in the past - nothing to do');
             return;
         }
-        //TODO find location
+        //prepare location
+        var location = Locations.search(date);
+        if (location == null) {
+            $log.debug('No available location found for date: ' + date);
+            return;
+        }
+        $log.debug('Location of new event - name: ' + location.name);
+        //edit new event
         var modalInstance = $modal.open({
             windowTemplateUrl: 'modules/ui/partials/pop-up.html',
             templateUrl: 'modules/chronos/partials/edit-event.html',
@@ -164,12 +202,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
                 },
                 options: function () {
                     return  {
-                        location: {
-                            address: 'Grabiszynska 256',
-                            city: 'Wroclaw',
-                            country: 'Poland',
-                            color: 'blue'
-                        },
+                        location: location,
                         durations: [15, 30, 45, 60]
                     };
                 }
@@ -182,7 +215,6 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      * @param event event to be edited
      */
     $scope.editEvent = function (event) {
-        //TODO find location
         var modalInstance = $modal.open({
             windowTemplateUrl: 'modules/ui/partials/pop-up.html',
             templateUrl: 'modules/chronos/partials/edit-event.html',

@@ -190,3 +190,57 @@ collections.service('EventsMap', function ($log) {
     };
 
 });
+
+/**
+ * Collection of locations
+ * @param $log logger
+ */
+collections.service('Locations', function ($log) {
+
+    var locations = [];
+
+    return {
+
+        /**
+         * Add all elements
+         * @param newLocations locations to be added
+         */
+        addAll: function (newLocations) {
+            for (var i = 0; i < newLocations.length; i++) {
+                locations.push(newLocations[i]);
+            }
+        },
+
+        /**
+         * Clear all locations
+         */
+        clear: function () {
+            locations = [];
+        },
+
+        /**
+         *  Find location available for given date
+         * @param date for which location should be found
+         * @returns {*} found location, null otherwise
+         */
+        search: function (date) {
+            var dateDay = date.toString("dddd");
+            var dateTime = date.toString("HH:mm");
+            $log.debug('Searching location - date: ' + dateDay + ', time: ' + dateTime);
+            for (var loc = 0; loc < locations.length; loc++) {
+                var location = locations[loc];
+                var workingHours = location.working_hours;
+                for (var h = 0; h < workingHours.length; h++) {
+                    var working = workingHours[h];
+                    if (working.day == dateDay &&
+                        (dateTime >= working.start && dateTime < working.end)) {
+                        return location;
+                    }
+                }
+            }
+            return null;
+        }
+
+    };
+
+});
