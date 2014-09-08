@@ -23,15 +23,15 @@ var editEventCtrl = function ($scope, $modalInstance, eventToEdit, options, Cale
      */
     $scope.init = function () {
         if (eventToEdit.id === undefined) {
-            $log.debug('Editing new event - start: ' + eventToEdit.start + ', location: ' + options.location);
+            $log.debug('Editing new event - start: ' + eventToEdit.start);
             $scope.editedEvent = {
-                title: eventToEdit.title,
-                description: '',
+                title: options.templates[0].name,
+                description: options.templates[0].description,
                 start: eventToEdit.start,
                 duration: options.durations[0],
                 location: options.location.address,
-                owner: 'wrona',
-                users: ['patient'],
+                owner: options.ownerId,
+                users: options.users,
                 color: options.location.color
             };
         } else {

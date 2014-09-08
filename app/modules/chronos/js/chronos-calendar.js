@@ -1,9 +1,17 @@
 'use strict';
 
-var controllers = angular.module('chronos.controllers', ['ui-notifications']);
+var controllers = angular.module('chronos.controllers', []);
 
-
-controllers.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, Locations, $modal, $log) {
+/**
+ * Controller responsible for displayed calendar that belongs to chosen user.
+ * @param $scope current scope of controller
+ * @param CalendarService service managing calendar data
+ * @param EventsMap collection for holding calendar events
+ * @param $modal component managing pop-up windows
+ * @param uiNotifications compononent managing notifications
+ * @param $log logger
+ */
+controllers.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, $modal, uiNotification, $log) {
 
     /**
      * Include underscore
@@ -29,6 +37,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
             $scope.days.push(EventsMap.dayKey(currentDate));
             currentDate = currentDate.add(1).days();
         }
+
         $scope.loadCalendarData($scope.days);
     };
 
@@ -52,22 +61,6 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
     };
 
     /**
-     * Load data related with owner of calendar
-     * @param ownerId
-     */
-    $scope.loadUserData = function (ownerId) {
-        $log.debug('Loading calendar owner data - user owner id: ' + ownerId);
-        CalendarService.locations(ownerId).
-            success(function (data) {
-                $log.debug('Loading user\'s locations - user owner id: ' + ownerId + ', data size: ' + data.length);
-                Locations.addAll(data);
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t get user locations - user owner id: ' + ownerId + ', data: ' + data + ', status: ' + status);
-            });
-    };
-
-    /**
      * Initialize calendar with chosen time period to be displayed
      *
      * @param daysAmount number of days to be displayed on calendar
@@ -81,7 +74,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         }
         $scope.setTimePeriod($scope.beginDate, daysAmount);
         //TODO get user ID
-        $scope.loadUserData(1);
+        CalendarService.init(1);
     };
 
     /**
@@ -166,7 +159,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
     /**
      * Add new event to calendar
      * @param day day of new event
-     * @param optional statring hour of event
+     * @param optional starting hour of event
      */
     $scope.addEvent = function (day, hour) {
         //prepare start date
@@ -174,40 +167,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         if (hour !== undefined) {
             date = date.set({hour: hour});
         }
-        $log.debug('Adding event - date: ' + date);
-        if (Date.compare(date, new Date()) == -1) {
-            $log.debug('Event start date(' + date + ') is in the past - nothing to do');
-            return;
-        }
-        //prepare location
-        var location = Locations.search(date);
-        if (location == null) {
-            $log.debug('No available location found for date: ' + date);
-            return;
-        }
-        $log.debug('Location of new event - name: ' + location.name);
-        //edit new event
-        var modalInstance = $modal.open({
-            windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-            templateUrl: 'modules/chronos/partials/edit-event.html',
-            backdrop: 'static',
-            scope: $scope,
-            controller: editEventCtrl,
-            resolve: {
-                eventToEdit: function () {
-                    return {
-                        title: 'Badanie odbytu',
-                        start: day
-                    };
-                },
-                options: function () {
-                    return  {
-                        location: location,
-                        durations: [15, 30, 45, 60]
-                    };
-                }
-            }
-        });
+        $scope.editEvent({ start: date});
     };
 
     /**
@@ -215,23 +175,30 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      * @param event event to be edited
      */
     $scope.editEvent = function (event) {
-        var modalInstance = $modal.open({
-            windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-            templateUrl: 'modules/chronos/partials/edit-event.html',
-            backdrop: 'static',
-            scope: $scope,
-            controller: editEventCtrl,
-            resolve: {
-                eventToEdit: function () {
-                    return event;
-                },
-                options: function () {
-                    return  {
-                        durations: [15, 30, 45, 60]
-                    };
-                }
-            }
-        });
+        $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
+        CalendarService.
+            options(event.start).
+            success(function (result) {
+                var modalInstance = $modal.open({
+                    windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+                    templateUrl: 'modules/chronos/partials/edit-event.html',
+                    backdrop: 'static',
+                    scope: $scope,
+                    controller: editEventCtrl,
+                    resolve: {
+                        eventToEdit: function () {
+                            return event;
+                        },
+                        options: function () {
+                            return  result;
+                        }
+                    }
+                });
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Cannot edit event').error();
+            });
     };
 
     /**

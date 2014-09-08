@@ -3,28 +3,32 @@
 var services = angular.module('chronos.services', []);
 
 /**
- * Service manages events
+ * Service manages user's calendar and related data.
  * @param $http http communication service
  * @param $log logger
  */
 services.service('CalendarService', function ($http, $log) {
 
+    var ownerId;
+
     return {
 
         /**
-         * Get locations defined by given user
-         * @param userId
-         * @return http promise
+         * Initialize calendar service
+         * @param userId owner of calendar
          */
-        locations: function (userId) {
-            $log.debug('Getting locations - userId: ' + userId);
-            return $http({
-                method: 'GET',
-                url: '/calendar/locations',
-                params: {
-                    user: userId
-                }
-            });
+        init: function (userId) {
+            $log.debug('Initializing calendar service - userId: ' + userId);
+            ownerId = userId;
+        },
+
+        /**
+         * Get options for event that will start at given date
+         * @param date where event should start
+         * @returns {*} http promise that will return options (location and templates)
+         */
+        options: function (date) {
+            return  $http.get('/calendar/options', {  userId: ownerId, date: date });
         },
 
         /**
@@ -34,13 +38,14 @@ services.service('CalendarService', function ($http, $log) {
          * @returns http promise
          */
         events: function (start, end) {
-            $log.debug('Getting events - start: ' + start + ', end: ' + end);
+            $log.debug('Getting events - userId: ' + ownerId + ' start: ' + start + ', end: ' + end);
             return $http({
                 method: 'GET',
                 url: '/calendar/events/search',
                 params: {
                     start: start,
-                    end: end
+                    end: end,
+                    userId: ownerId
                 }
             });
         },
