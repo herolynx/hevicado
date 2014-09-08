@@ -30,7 +30,7 @@ var editEventCtrl = function ($scope, $modalInstance, eventToEdit, options, Cale
                 start: eventToEdit.start,
                 duration: options.durations[0],
                 location: options.location.address,
-                owner: options.ownerId,
+                owner: options.owner,
                 users: options.users,
                 color: options.location.color
             };

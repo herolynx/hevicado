@@ -83,7 +83,7 @@ mockCalendar.run(function ($httpBackend, $log) {
             }
         ],
         durations: [15, 30, 45],
-        ownerId: 'wrona',
+        owner: 'wrona',
         users: ['cimek', 'indyk']
     };
 
