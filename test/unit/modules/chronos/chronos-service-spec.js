@@ -10,7 +10,7 @@ describe('chronos-service-spec:', function () {
         var mockHttp;
         var calendarService, userId;
 
-        //prepare session for testing
+        //prepare service for testing
         beforeEach(angular.mock.module(function ($provide) {
             //mock dependencies
             mockHttp = jasmine.createSpyObj('$http', ['get', 'post', 'put', 'delete']);
