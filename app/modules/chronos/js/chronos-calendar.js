@@ -72,9 +72,9 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         } else {
             $scope.beginDate.clearTime();
         }
-        $scope.setTimePeriod($scope.beginDate, daysAmount);
-        //TODO get user ID
+         //TODO get user ID
         CalendarService.init(1);
+        $scope.setTimePeriod($scope.beginDate, daysAmount);
     };
 
     /**

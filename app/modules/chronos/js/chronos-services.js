@@ -28,7 +28,10 @@ services.service('CalendarService', function ($http, $log) {
          * @returns {*} http promise that will return options (location and templates)
          */
         options: function (date) {
-            return  $http.get('/calendar/options', {  userId: ownerId, date: date });
+            return $http.get('/calendar/options', {
+                userId: ownerId,
+                date: date
+            });
         },
 
         /**
@@ -39,14 +42,10 @@ services.service('CalendarService', function ($http, $log) {
          */
         events: function (start, end) {
             $log.debug('Getting events - userId: ' + ownerId + ' start: ' + start + ', end: ' + end);
-            return $http({
-                method: 'GET',
-                url: '/calendar/events/search',
-                params: {
-                    start: start,
-                    end: end,
-                    userId: ownerId
-                }
+            return $http.get('/calendar/events/search', {
+                start: start,
+                end: end,
+                userId: ownerId
             });
         },
 
@@ -56,16 +55,8 @@ services.service('CalendarService', function ($http, $log) {
          * @returns {*} http promise
          */
         save: function (event) {
-            var method = 'POST';
-            if (event.id !== '') {
-                method = 'PUT';
-            }
-            return $http({
-                method: method,
-                url: '/calendar/events/save',
-                params: {
-                    event: event
-                }
+            return $http[event.id === undefined ? 'post' : 'put']('/calendar/events/save', {
+                event: event
             });
         },
 
@@ -75,12 +66,8 @@ services.service('CalendarService', function ($http, $log) {
          * @returns {*} http promise
          */
         delete: function (eventId) {
-            return $http({
-                method: 'DELETE',
-                url: '/calendar/events/delete',
-                params: {
-                    id: eventId
-                }
+            return $http.delete('/calendar/events/delete', {
+                id: eventId
             });
         }
 
