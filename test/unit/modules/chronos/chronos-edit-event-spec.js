@@ -14,7 +14,7 @@ describe('chronos-edit-event-spec:', function () {
         mockModalInstance = jasmine.createSpyObj('mockModalInstance', ['close', 'dismiss']);
         mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['save', 'delete']);
         mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info']);
-        mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text']);
+        mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
         //preapre controller
         controller = {};
     });
@@ -102,13 +102,22 @@ describe('chronos-edit-event-spec:', function () {
 
     describe('actions on editEventCtrl:', function () {
 
-        var mockEventBus = {};
+        var mockEventBus;
 
         //prepare controller for testing
         beforeEach(function () {
             //sample event to be edit
             mockEventToEdit = {
-                id: 'event-123'
+                id: 'event-123',
+                start: new Date().set({
+                    year: 2014,
+                    month: 7,
+                    day: 12,
+                    hour: 12,
+                    minute: 0,
+                    second: 0
+                }),
+                duration: 15
             };
             //sample options for edition
             mockOptions = {
@@ -117,6 +126,7 @@ describe('chronos-edit-event-spec:', function () {
             //initialize controller
             editEventCtrl(controller, mockModalInstance, mockEventToEdit, mockOptions, mockCalendarService, mockUiNotification, mockLog);
             //mock event bus
+            mockEventBus = {};
             controller.$emit = function (event, data) {
                 mockEventBus.event = event;
                 mockEventBus.data = data;
@@ -140,14 +150,120 @@ describe('chronos-edit-event-spec:', function () {
             };
             //when deleting event
             controller.delete();
+            //and event is deleted successfully on back-end side 
             promise.deffered();
-            //then event is deleted successfully
             expect(mockCalendarService.eventDeleted).toBe(true);
-            //and proper event is sent broadcasted via event-bus
+            //then proper event is broadcasted via event-bus
             expect(mockEventBus.event).toBe('EVENT_DELETED');
             expect(mockEventBus.data).toBe(mockEventToEdit);
             //and modal window is closed
             expect(mockModalInstance.close).toHaveBeenCalledWith('EVENT_DELETED');
+        });
+
+        it('should notify user when event is not deleted', function () {
+            //given controller is initialized
+            expect(editEventCtrl).toBeDefined();
+            expect(controller).toBeDefined();
+            expect(controller.editedEvent).toBe(mockEventToEdit);
+            //and delete option is available
+            var promise = {
+                then: function (f, e) {
+                    promise.success = f;
+                    promise.fail = e;
+                }
+            };
+            mockCalendarService.delete = function (event) {
+                return promise;
+            };
+            //when deleting event
+            controller.delete();
+            //and event is not deleted on back-end side
+            mockUiNotification.text = function (title, msg) {
+                mockUiNotification.title = title;
+                mockUiNotification.msg = msg;
+                return mockUiNotification;
+            };
+            promise.fail('Error code', {
+                data: 'Error message'
+            });
+            //then no event is broadcasted via event-bus
+            expect(mockEventBus.event).not.toBe('EVENT_DELETED');
+            expect(mockEventBus.data).not.toBe(mockEventToEdit);
+            //and user is informed about failure
+            expect(mockUiNotification.error).toHaveBeenCalled();
+            expect(mockUiNotification.title).toBe('Error');
+            expect(mockUiNotification.msg).toBe('Event hasn\'t been deleted');
+            //and modal window is not closed
+            expect(mockModalInstance.close).not.toHaveBeenCalled();
+        });
+
+        it('should save event', function () {
+            //given controller is initialized
+            expect(editEventCtrl).toBeDefined();
+            expect(controller).toBeDefined();
+            expect(controller.editedEvent).toBe(mockEventToEdit);
+            //and save option is available
+            var promise = {
+                then: function (f) {
+                    promise.deffered = f;
+                }
+            };
+            mockCalendarService.save = function (event) {
+                mockCalendarService.eventSaved = true;
+                return promise;
+            };
+            //when saving event
+            controller.save();
+            //and event is saved successfully on back-end side
+            promise.deffered({
+                data: {
+                    id: mockEventToEdit.id
+                }
+            });
+            expect(mockCalendarService.eventSaved).toBe(true);
+            expect(mockEventToEdit.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-08-12 12:15:00');
+            //then proper event is broadcasted via event-bus
+            expect(mockEventBus.event).toBe('EVENT_CHANGED');
+            expect(mockEventBus.data).toBe(mockEventToEdit);
+            //and modal window is closed
+            expect(mockModalInstance.close).toHaveBeenCalledWith(mockEventToEdit);
+        });
+
+        it('should notify user when event is not saved', function () {
+            //given controller is initialized
+            expect(editEventCtrl).toBeDefined();
+            expect(controller).toBeDefined();
+            expect(controller.editedEvent).toBe(mockEventToEdit);
+            //and save option is available
+            var promise = {
+                then: function (f, e) {
+                    promise.success = f;
+                    promise.fail = e;
+                }
+            };
+            mockCalendarService.save = function (event) {
+                return promise;
+            };
+            //when saving event
+            controller.save();
+            //and event is not saved on back-end side
+            mockUiNotification.text = function (title, msg) {
+                mockUiNotification.title = title;
+                mockUiNotification.msg = msg;
+                return mockUiNotification;
+            };
+            promise.fail('Error code', {
+                data: 'Error message'
+            });
+            //then no event is broadcasted via event-bus
+            expect(mockEventBus.event).not.toBe('EVENT_CHANGED');
+            expect(mockEventBus.data).not.toBe(mockEventToEdit);
+            //and user is informed about failure
+            expect(mockUiNotification.error).toHaveBeenCalled();
+            expect(mockUiNotification.title).toBe('Error');
+            expect(mockUiNotification.msg).toBe('Event hasn\'t been saved');
+            //and modal window is not closed
+            expect(mockModalInstance.close).not.toHaveBeenCalled();
         });
     });
 
