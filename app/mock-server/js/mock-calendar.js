@@ -36,9 +36,9 @@ mockCalendar.run(function ($httpBackend, $log) {
             name: "Pulsantis",
             address: {
                 street: "Grabiszynska 8/4",
-                city: "Wroclaw"
+                city: "Wroclaw",
+                country: "Poland"
             },
-            country: "Poland",
             color: "red",
             working_hours: [
                 {
