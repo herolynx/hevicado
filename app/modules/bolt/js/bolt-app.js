@@ -7,6 +7,7 @@ var module = angular.module('bolt',
     [
         'bolt.controllers',
         'bolt.services',
+        'bolt.directives',
         'ui.router'
     ]
 ).

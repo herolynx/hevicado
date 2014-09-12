@@ -38,98 +38,102 @@
 <![endif]-->
 
 <div id="page" class="blue">
-    <header>
-        <section id="navigation">
-            <div class="content">
-                <section id="login">
-                    <div class="content">
-                        <div class="member">
-                            <div class="pic-user">
-                                <img src="images/temp/user-1.jpg" alt="User profile">
-                            </div>
-                            <div class="name-user">
-                                Welcome<br/>
-                                Barack Obama
+    <permission roles="client,admin">
+        <header>
+            <section id="navigation">
+                <div class="content">
+                    <section id="login">
+                        <div class="content">
+                            <div class="member">
+                                <div class="pic-user">
+                                    <img src="images/temp/user-1.jpg" alt="User profile">
+                                </div>
+                                <div class="name-user">
+                                    Welcome<br/>
+                                    Barack Obama
+                                </div>
                             </div>
                         </div>
+                    </section>
+                    <nav>
+                        <ul class="nav">
+                            <li>
+                                <a href="#" ui-sref="dashboard">
+                                    <i class="icon-doc-landscape"></i>{{'menu.dashboard-page' | translate}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" ui-sref="calendar">
+                                    <i class="icon-calendar"></i> Calendar
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" ui-sref="calendar-events">
+                                    <i class="icon-calendar"></i> Events
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" ui-sref="login">
+                                    <i class="icon-users"></i> Login
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- Nav -->
+                    <section id="logout">
+                        <a href="#">
+                            <i class="icon-logout"></i> Logout
+                        </a>
+                        <a href="#">
+                            <i class="icon-cog"></i>Preferences
+                        </a>
+                    </section>
+                </div>
+            </section>
+            <!-- Navigation -->
+        </header>
+    </permission>
+    <!-- Header -->
+    <permission roles="client,admin">
+        <section id="breadcrumbs">
+            <div class="content">
+                <div class="describe">
+                    <div class="title">
+                        <h2><span>Homepage / </span>Calendar </h2>
                     </div>
-                </section>
-                <nav>
-                    <ul class="nav">
-                        <li>
-                            <a href="#" ui-sref="dashboard">
-                                <i class="icon-doc-landscape"></i>{{'menu.dashboard-page' | translate}}
+                </div>
+                <!-- Breadcrumbs -->
+                <div class="optional">
+                    <div class="row">
+                        <a href="#" class="open-search"><i class="icon-search"></i>Search</a>
+
+                        <div class="search">
+                            <a href="#" class="close">
+                                <i class="icon-cancel"></i>
                             </a>
-                        </li>
-                        <li>
-                            <a href="#" ui-sref="calendar">
-                                <i class="icon-calendar"></i> Calendar
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" ui-sref="calendar-events">
-                                <i class="icon-calendar"></i> Events
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" ui-sref="login">
-                                <i class="icon-users"></i> Login
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- Nav -->
-                <section id="logout">
-                    <a href="#">
-                        <i class="icon-logout"></i> Logout
-                    </a>
-                    <a href="#">
-                        <i class="icon-cog"></i>Preferences
-                    </a>
-                </section>
+
+                            <form action="#" method="post">
+                                <label>Search all word</label>
+                                <fieldset>
+                                    <input type="text">
+                                    <button><i class="icon-search"></i></button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a href="#"><i class="icon-comment"></i>Messages
+                            <span>6</span>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <a href="#"><i class="icon-help-circled"></i>Help</a>
+                    </div>
+                </div>
+                <!-- Right Submenu -->
             </div>
         </section>
-        <!-- Navigation -->
-    </header>
-    <!-- Header -->
-    <section id="breadcrumbs">
-        <div class="content">
-            <div class="describe">
-                <div class="title">
-                    <h2><span>Homepage / </span>Calendar </h2>
-                </div>
-            </div>
-            <!-- Breadcrumbs -->
-            <div class="optional">
-                <div class="row">
-                    <a href="#" class="open-search"><i class="icon-search"></i>Search</a>
-
-                    <div class="search">
-                        <a href="#" class="close">
-                            <i class="icon-cancel"></i>
-                        </a>
-
-                        <form action="#" method="post">
-                            <label>Search all word</label>
-                            <fieldset>
-                                <input type="text">
-                                <button><i class="icon-search"></i></button>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
-                    <a href="#"><i class="icon-comment"></i>Messages
-                        <span>6</span>
-                    </a>
-                </div>
-                <div class="row">
-                    <a href="#"><i class="icon-help-circled"></i>Help</a>
-                </div>
-            </div>
-            <!-- Right Submenu -->
-        </div>
-    </section>
+    </permission>
     <!-- Section Breadcrumbs -->
     <div>
         <!-- page context -->
@@ -168,6 +172,7 @@
 <script src="modules/bolt/js/bolt-app.js"></script>
 <script src="modules/bolt/js/bolt-controller.js"></script>
 <script src="modules/bolt/js/bolt-service.js"></script>
+<script src="modules/bolt/js/bolt-directives.js"></script>
 <!-- dashborad -->
 <script src="modules/dashboard/js/dashboard-app.js"></script>
 <script src="modules/dashboard/js/dashboard-controller.js"></script>
