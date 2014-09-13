@@ -5,17 +5,12 @@ var directives = angular.module('bolt.directives', []);
 /**
  * Definition of authorized element which visibility is controlled based on user's access rights.
  *
- * @param parent parent of managed element
  * @param element element which visibility should be controlled
+ * @param children children of element
  * @param reqRoles user roles required to show element
  * @param AuthService service for authorizing user
  */
-function AuthorizedElement(parent, element, reqRoles, AuthService) {
-
-    this.parent = parent;
-    this.element = element;
-    this.reqRoles = reqRoles;
-    this.AuthService = AuthService;
+function AuthorizedElement(element, children, reqRoles, AuthService) {
 
     /**
      * Verify user's current access rights and
@@ -23,9 +18,17 @@ function AuthorizedElement(parent, element, reqRoles, AuthService) {
      */
     AuthorizedElement.prototype.checkAccessRights = function () {
         if (!AuthService.isAuthorized(reqRoles)) {
-            element.remove();
+            //hide element first
+            element.hide();
+            //remove all its children
+            element.empty();
         } else {
-            parent.append(element);
+            //add element's children
+            for (var i = 0; i < children.length; i++) {
+                element.append(children[i]);
+            }
+            //show element
+            element.show('slow');
         }
     }
 
@@ -51,8 +54,9 @@ function AuthorizedElement(parent, element, reqRoles, AuthService) {
 }
 
 /**
- * Directive to wrap chosen element into authorized element that visibility
- * will be controlled based on user's access rights
+ * Directive to wrap chosen element into authorized element that contet visibility
+ * will be controlled based on user's access rights.
+ * Children of authorized element will be added/removed based on authorization results.
  * @param AuthService service for authorizing user
  * @param AUTH_EVENTS events that will be listened in order to change element's visibility
  */
@@ -66,7 +70,7 @@ directives.directive('permission', function (AuthService, AUTH_EVENTS) {
         },
         link: function ($scope, elm, attrs) {
             var reqRoles = $scope.roles.split(',');
-            var authElement = new AuthorizedElement(elm.parent(), elm, reqRoles, AuthService);
+            var authElement = new AuthorizedElement(elm, elm.children(), reqRoles, AuthService);
             authElement.attachToEventBus($scope, AUTH_EVENTS);
             authElement.checkAccessRights();
         }
