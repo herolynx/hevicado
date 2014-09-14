@@ -22,6 +22,20 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
                 access: ACCESS_LEVELS.PUBLIC
             }
         }).
+        state('registration', {
+            url: "/registration",
+            templateUrl: "modules/users/partials/registration.html",
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
+        }).
+        state('default', {
+            url: "/public",
+            templateUrl: "partials/public.html",
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
+        }).
         state('public', {
             url: "/public",
             templateUrl: "partials/public.html",
@@ -32,6 +46,13 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     //
     // access level: USER (logged in users)
     $stateProvider.
+        state('default-user', {
+            url: "/private",
+            templateUrl: "partials/private.html",
+            data: {
+                access: ACCESS_LEVELS.USER
+            }
+        }).
         state('private', {
             url: "/private",
             templateUrl: "partials/private.html",

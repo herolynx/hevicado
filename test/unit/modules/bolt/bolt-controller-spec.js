@@ -4,7 +4,7 @@ describe('bolt-controller-spec - Login controller:', function () {
 
     var ctrlScope;
     var spyRootScope;
-    var mockAuthService, mockLog, mockAuthEvents;
+    var mockAuthService, mockLog, mockAuthEvents, mockState;
     /* Deferred response of authentication service */
     var deferredAuthService;
 
@@ -27,10 +27,12 @@ describe('bolt-controller-spec - Login controller:', function () {
         //mock others
         mockLog = jasmine.createSpyObj('$log', ['debug']);
         mockAuthEvents = jasmine.createSpyObj('AuthEvents', ['USER_LOGGED_IN', 'LOGIN_FAILED', 'USER_LOGGED_OUT']);
+        mockState = jasmine.createSpyObj('$state', ['go']);
         //inject mocks
         $controller('LoginCtrl', {
             $rootScope: spyRootScope,
             $scope: ctrlScope,
+            $state: mockState,
             AuthService: mockAuthService,
             AUTH_EVENTS: mockAuthEvents,
             $log: mockLog
@@ -49,6 +51,8 @@ describe('bolt-controller-spec - Login controller:', function () {
             expect(mockAuthService.logout).toHaveBeenCalled();
             //and broadcast event is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_LOGGED_OUT);
+            //and user is redirected to dault page for guests
+            expect(mockState.go).toHaveBeenCalledWith('default');
         });
 
         it('should not log-out guest user', function () {
@@ -82,6 +86,8 @@ describe('bolt-controller-spec - Login controller:', function () {
             expect(mockLog.debug).toHaveBeenCalledWith('Logging in user: johny@bravo.com');
             //and proper broadcast event is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_LOGGED_IN);
+            //and user is redirected to dault page for users
+            expect(mockState.go).toHaveBeenCalledWith('default-user');
         });
 
         it('should not log in user with incorrect credentials', function () {
@@ -100,6 +106,8 @@ describe('bolt-controller-spec - Login controller:', function () {
             expect(mockLog.debug).toHaveBeenCalledWith('Logging in user: johny@bravo.com');
             //and proper broadcast event is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.LOGIN_FAILED);
+            //and user is not redirected to dault page for users
+            expect(mockState.go).not.toHaveBeenCalledWith('default-user');
         });
     });
 

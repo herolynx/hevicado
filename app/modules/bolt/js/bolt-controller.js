@@ -6,11 +6,12 @@ var controllers = angular.module('bolt.controllers', ['ui-notifications']);
  * Controller manages user's login/logout process
  * @param $rootScope Angie's root scope
  * @param $scope Angie's current scope
+ * @param $state app state manager
  * @param AuthService service for managing user's session
  * @param AUTH_EVENTS list of authentication events
  * @param $log Angie's logger component
  */
-controllers.controller('LoginCtrl', function ($rootScope, $scope, AuthService, AUTH_EVENTS, $log) {
+controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS, $log) {
     $scope.credentials = {
         username: '',
         password: ''
@@ -26,6 +27,7 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, AuthService, A
         AuthService.login(credentials).then(
             function () {
                 $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);
+                $state.go('default-user');
             },
             function () {
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILED);
@@ -38,6 +40,7 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, AuthService, A
         if (AuthService.isAuthenticated()) {
             AuthService.logout();
             $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_OUT);
+            $state.go('default');
         }
     }
 });

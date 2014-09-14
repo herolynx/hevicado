@@ -1,0 +1,86 @@
+<section id="main-content" class="preferences">
+    <div class="content">
+        <div class="main">
+            <div class="row-bg-white">
+                <div class="row-content">
+                    <form name="userForm" ng-submit="save(user)"  ng-controller="RegistrationCtrl" novalidate>
+                        <div class="row">
+                            <div class="wrapper">
+                                <ul>
+                                    <li>
+                                        <label>
+                                            * E-mail:
+                                        </label>
+                                        <fieldset>
+                                            <input name="mail" type="email" placeholder="E-mail" ng-model="user.mail"
+                                            ng-minlength="5" required>
+                                            <small class="error" ng-show="userForm.mail.$error.minlength">
+                                            Your e-mail is required to be at least 5 characters
+                                            </small>
+                                            <small class="error" ng-show="userForm.mail.$error.email">
+                                            That is not a valid email. Please input a valid email.
+                                            </small>
+                                        </fieldset>
+                                    </li>
+                                    <li>
+                                        <label>
+
+                                        </label>
+                                        <fieldset>
+                                            <input name="mail2" type="email" placeholder="Confirm your e-mail" ng-model="userConf.mail"
+                                            ng-minlength="5" match="user.mail" required>
+                                            <small class="error" ng-show="userForm.mail2.$error.minlength">
+                                            Your e-mail is required to be at least 5 characters
+                                            </small>
+                                            <small class="error" ng-show="userForm.mail2.$error.email">
+                                            That is not a valid email. Please input a valid email.
+                                            </small>
+                                            <small class="error" ng-show="userForm.mail2.$error.match">
+                                            Given e-mails are not the same
+                                            </small>
+                                        </fieldset>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            * Password:
+                                        </label>
+                                        <fieldset>
+                                            <input name="password" type="password" placeholder="Password" ng-model="user.password"
+                                            ng-minlength="5" required>
+                                            <small class="error" ng-show="userForm.password.$error.minlength">
+                                            Your password is required to be at least 5 characters
+                                            </small>
+                                        </fieldset>
+                                    </li>
+                                    <li>
+                                        <label>
+
+                                        </label>
+                                        <fieldset>
+                                            <input name="password2" type="password" placeholder="Confirm your password"
+                                            ng-model="userConf.password" match="user.password"
+                                            ng-minlength="5" required>
+                                            <small class="error" ng-show="userForm.password2.$error.minlength">
+                                            Your password is required to be at least 5 characters
+                                            </small>
+                                            <small class="error" ng-show="userForm.password2.$error.match">
+                                            Given passwords are not the same
+                                            </small>
+                                        </fieldset>
+                                    </li>
+                                </ul>
+                                <button class="btn blue rt" ng-disabled="userForm.$invalid">
+                                <i class="icon-upload-cloud"></i>Register
+                                </button>
+                                <div>
+                                    Got account already?
+                                    <a href="#" ui-sref="login">Login now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section> <!-- Main Content -->
