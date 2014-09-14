@@ -18,9 +18,7 @@ services.service('UsersService', function ($http, $log) {
          */
         save: function (user) {
             $log.debug('Saving user: ' + user.id)
-            return $http[user.id === undefined ? 'post' : 'put']('/user', {
-                user: user
-            });
+            return $http[user.id === undefined ? 'post' : 'put']('/user', user);
         }
     }
 
