@@ -41,14 +41,20 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
         $log.debug('Registering user: ' + user.mail);
         UsersService.save(user).then(
             function (resp) {
-                $log.debug('User registered successfully: event id: ' + resp.data.id + ' - logging in new user');
-                AuthService.login(resp.data).then(
+                $log.debug('User registered successfully: user id: ' + resp.data.id + ' - logging in new user');
+                var credentials = {
+                    login: $scope.user.mail,
+                    password: $scope.user.password
+                };
+                AuthService.login(credentials).then(
                     function () {
                         $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);
                         $state.go('default-user');
                     },
                     function () {
+                        $log.error('User has been registered but logging in is not possible at the moment');
                         $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILED);
+                        uiNotification.text('Error', 'User has been registered but logging in is not possible at the moment').error();
                     });
             },
             function (errResp, errStatus) {
