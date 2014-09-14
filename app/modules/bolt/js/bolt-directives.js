@@ -9,8 +9,9 @@ var directives = angular.module('bolt.directives', []);
  * @param children children of element
  * @param reqRoles user roles required to show element
  * @param AuthService service for authorizing user
+ * @param attachStrategy strategy for showing/hiding elements
  */
-function AuthorizedElement(element, children, reqRoles, AuthService) {
+function AuthorizedElement(element, children, reqRoles, AuthService, attachStrategy) {
 
     /**
      * Verify user's current access rights and
@@ -21,11 +22,13 @@ function AuthorizedElement(element, children, reqRoles, AuthService) {
             //hide element first
             element.hide();
             //remove all its children
-            element.empty();
+            for (var i = 0; i < children.length; i++) {
+                attachStrategy.hide(element, children[i]);
+            }
         } else {
             //add element's children
             for (var i = 0; i < children.length; i++) {
-                element.append(children[i]);
+                attachStrategy.show(element, children[i]);
             }
             //show element
             element.show('slow');
@@ -54,13 +57,31 @@ function AuthorizedElement(element, children, reqRoles, AuthService) {
 }
 
 /**
+ * Function defines strategy for showing/hiding elements
+ */
+directives.value('attachStrategy', {
+    hide: function (parent, element) {
+        if (element.detach !== undefined) {
+            element.detach();
+        } else {
+            element.remove();
+        }
+    },
+
+    show: function (parent, element) {
+        parent.append(element);
+    }
+});
+
+/**
  * Directive to wrap chosen element into authorized element that contet visibility
  * will be controlled based on user's access rights.
  * Children of authorized element will be added/removed based on authorization results.
  * @param AuthService service for authorizing user
  * @param AUTH_EVENTS events that will be listened in order to change element's visibility
+ * @param attachStrategy strategy for showing/hiding elements
  */
-directives.directive('permission', function (AuthService, AUTH_EVENTS) {
+directives.directive('permission', function (AuthService, AUTH_EVENTS, attachStrategy) {
 
     return {
         restrict: 'E',
@@ -70,7 +91,7 @@ directives.directive('permission', function (AuthService, AUTH_EVENTS) {
         },
         link: function ($scope, elm, attrs) {
             var reqRoles = $scope.roles.split(',');
-            var authElement = new AuthorizedElement(elm, elm.children(), reqRoles, AuthService);
+            var authElement = new AuthorizedElement(elm, elm.contents(), reqRoles, AuthService, attachStrategy);
             authElement.attachToEventBus($scope, AUTH_EVENTS);
             authElement.checkAccessRights();
         }

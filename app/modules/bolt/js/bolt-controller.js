@@ -37,6 +37,7 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
      * Logout current user
      */
     $scope.logout = function () {
+        $log.debug('Logging out current user')
         if (AuthService.isAuthenticated()) {
             AuthService.logout();
             $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_OUT);

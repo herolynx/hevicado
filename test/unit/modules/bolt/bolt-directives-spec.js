@@ -6,13 +6,14 @@ describe('bolt-directives-spec:', function () {
 
     describe('authorized-element-spec:', function () {
 
-        var mockElement, mockChildren, mockReqRoles, mockAuthService;
+        var mockElement, mockChildren, mockReqRoles, mockAuthService, mockAttachStrategy;
         var mockEventBus, mockAuthEvents;
 
         beforeEach(function () {
             //mock dependencies
             mockElement = jasmine.createSpyObj('element', ['show', 'hide', 'empty', 'append']);
-            mockChildren = ["1", "2"];
+            mockAttachStrategy = jasmine.createSpyObj('attachStrategy', ['show', 'hide']);
+            mockChildren = ['1', '2'];
             mockAuthEvents = jasmine.createSpyObj('AUTH_EVENTS', ['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'SESSION_TIMEOUT']);
             mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthorized']);
             //prepapre event-bus
@@ -32,12 +33,13 @@ describe('bolt-directives-spec:', function () {
                 return false;
             };
             //and authorized element
-            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService);
+            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService, mockAttachStrategy);
             //when user access rights are checked
             authElement.checkAccessRights();
             //then element is hidden
-            expect(mockElement.empty).toHaveBeenCalled();
             expect(mockElement.hide).toHaveBeenCalled();
+            expect(mockAttachStrategy.hide).toHaveBeenCalledWith(mockElement, mockChildren[0]);
+            expect(mockAttachStrategy.hide).toHaveBeenCalledWith(mockElement, mockChildren[1]);
         });
 
         it('should show element to authorized user', function () {
@@ -46,18 +48,18 @@ describe('bolt-directives-spec:', function () {
                 return true;
             };
             //and authorized element
-            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService);
+            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService, mockAttachStrategy);
             //when user access rights are checked
             authElement.checkAccessRights();
             //then element is shown
-            expect(mockElement.append).toHaveBeenCalledWith('1');
-            expect(mockElement.append).toHaveBeenCalledWith('2');
+            expect(mockAttachStrategy.show).toHaveBeenCalledWith(mockElement, mockChildren[0]);
+            expect(mockAttachStrategy.show).toHaveBeenCalledWith(mockElement, mockChildren[1]);
             expect(mockElement.show).toHaveBeenCalledWith('slow');
         });
 
         it('should attach to event bus and listen to proper events', function () {
             //given authorized element
-            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService);
+            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService, mockAttachStrategy);
             //when auth is attached to event bus
             authElement.attachToEventBus(mockEventBus, mockAuthEvents);
             //then auth is waiting for proper events to occur on event bus to change element's visibility
@@ -68,7 +70,7 @@ describe('bolt-directives-spec:', function () {
 
         it('should authorize user when user is logged in', function () {
             //given authorized element
-            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService);
+            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService, mockAttachStrategy);
             //and  element is attached to event bus
             authElement.attachToEventBus(mockEventBus, mockAuthEvents);
             //when user is logged in
@@ -79,7 +81,7 @@ describe('bolt-directives-spec:', function () {
 
         it('should authorize user when user is logging out', function () {
             //given authorized element
-            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService);
+            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService, mockAttachStrategy);
             //and  element is attached to event bus
             authElement.attachToEventBus(mockEventBus, mockAuthEvents);
             //when user is logged in
@@ -90,7 +92,7 @@ describe('bolt-directives-spec:', function () {
 
         it('should authorize user when session has expired', function () {
             //given authorized element
-            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService);
+            var authElement = new AuthorizedElement(mockElement, mockChildren, ['userRole'], mockAuthService, mockAttachStrategy);
             //and  element is attached to event bus
             authElement.attachToEventBus(mockEventBus, mockAuthEvents);
             //when user is logged in
@@ -112,6 +114,16 @@ describe('bolt-directives-spec:', function () {
             $provide.value('AUTH_EVENTS', mockAuthEvents);
             mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthorized']);
             $provide.value('AuthService', mockAuthService);
+            //mock strategy as not all DOM operations are available during tests
+            $provide.value('attachStrategy', {
+                hide: function (parent, element) {
+                    parent.empty();
+                },
+
+                show: function (parent, element) {
+                    parent.append(element);
+                }
+            });
         }));
 
         beforeEach(inject(function ($injector, _$rootScope_, _$compile_) {
