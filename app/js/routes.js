@@ -53,6 +53,13 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
                 access: ACCESS_LEVELS.USER
             }
         }).
+        state('user-profile', {
+            url: "/user-profile",
+            templateUrl: "modules/users/partials/user-profile.html",
+            data: {
+                access: ACCESS_LEVELS.USER
+            }
+        }).
         state('private', {
             url: "/private",
             templateUrl: "partials/private.html",

@@ -7,7 +7,7 @@
                 <label class="full"><b>Title:</b></label>
                 <fieldset class="full">
                     <input type="text" ng-model="editedEvent.title" ng-required="true" ng-minlength="3"
-                           ng-maxlength="255">
+                    ng-maxlength="255">
                 </fieldset>
             </li>
             <li>
@@ -17,7 +17,7 @@
                     <fieldset class="full">
                         <input type="text" ng-model="editedEvent.start">
                         <a href="#" class="choose-date">
-                            <i class="icon-calendar"></i>
+                        <i class="icon-calendar"></i>
                         </a>
                     </fieldset>
                 </div>
@@ -25,7 +25,7 @@
                     <label class="full">Durations:</label>
                     <fieldset class="full">
                         <select name="term_visit" id="term_visit" ng-model="editedEvent.duration">
-                            <option ng-repeat="duration in durations">{{duration}}
+                            <option ng-repeat="duration in durations">{{duration}}</option>
                         </select>
                     </fieldset>
                 </div>
