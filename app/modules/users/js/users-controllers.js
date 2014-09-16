@@ -67,6 +67,15 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
 });
 
 
+/**
+ * Controller manages profile of user
+ *
+ * @param $scope controller scope
+ * @param Session session of current user
+ * @param UserService service managing user related data
+ * @param uiNotification notification manager
+ * @param $log logger
+ */
 controllers.controller('UserProfileCtrl', function ($scope, Session, UsersService, uiNotification, $log) {
 
     $scope.user = {
@@ -85,6 +94,9 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
         password: ''
     };
 
+    /**
+     * Load profile data of current user
+     */
     $scope.loadProfile = function () {
         $log.debug('Loading profile data for user: ' + Session.getUserId());
         UsersService.get(Session.getUserId()).then(
@@ -99,6 +111,10 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
         );
     };
 
+    /**
+     * Change credentials of given user
+     * @param user user which credentials will be changed
+     */
     $scope.changeCredentials = function (user) {
         $log.debug('Saving user profile: ' + user.mail);
         var credentials = {
@@ -116,6 +132,10 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
         );
     };
 
+    /**
+     * Change user's profile data
+     * @param user user to be updated
+     */
     $scope.save = function (user) {
         $log.debug('Saving user profile: ' + user.mail);
         UsersService.save(user).then(
