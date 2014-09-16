@@ -9,12 +9,14 @@ mockUsers.run(function ($httpBackend, Session, $log) {
         id: 1,
         userRole: 'admin',
         firstName: 'Michal',
-        lastName: 'Wronski'
+        lastName: 'Wronski',
+        mail: 'wrona@kunishu.com'
     };
 
     //auto-login
     Session.create(currentUser);
 
+    $httpBackend.whenGET(/user\/1/).respond(200, currentUser);
     $httpBackend.whenPOST(/users\/login/).respond(200, currentUser);
 
     $httpBackend.whenPOST('/user').respond(200, currentUser);

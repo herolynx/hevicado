@@ -1,10 +1,10 @@
-<section id="main-content" class="preferences">
+<section id="main-content" class="preferences" ng-controller="UserProfileCtrl" ng-init="loadProfile()">
     <section id="main-content" class="preferences">
         <div class="content">
             <div class="main">
                 <div class="row-bg-white">
                     <div class="row-content">
-                        <form name="credentials" ng-submit="save(user)"  ng-controller="RegistrationCtrl" novalidate>
+                        <form name="credentials" ng-submit="changeCredentials(user)" novalidate>
                             <div class="row">
                                 <div class="wrapper">
                                     <ul>
@@ -60,7 +60,7 @@
                         </form>
                     </div>
                     <div class="row-content">
-                        <form name="userProfile" ng-submit="save(user)"  ng-controller="RegistrationCtrl" novalidate>
+                        <form name="userProfile" ng-submit="save(user)" novalidate>
                             <div class="row">
                                 <div class="wrapper">
                                     <ul>
@@ -105,7 +105,7 @@
                                             </label>
                                             <fieldset>
                                                 <select name="lang" ng-model="user.profile.time_zone">
-                                                    <option value="en" selected>Warsaw</option>
+                                                    <option value="cet" selected>Warsaw</option>
                                                 </select>
                                             </fieldset>
                                         </li>
