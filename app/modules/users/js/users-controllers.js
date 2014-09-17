@@ -133,11 +133,14 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
     };
 
     /**
-     * Change user's profile data
+     * Change user's profile data.
+     * Note: function doesn't allow changing mail and password.
      * @param user user to be updated
      */
     $scope.save = function (user) {
         $log.debug('Saving user profile: ' + user.mail);
+        user.mail = null; //don't allow to change using this function
+        user.password = null; //don't allow to change using this function
         UsersService.save(user).then(
             function (resp) {
                 $log.debug('User profile saved successfully: user id: ' + resp.data.id);
