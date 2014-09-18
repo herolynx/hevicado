@@ -106,7 +106,7 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
             },
             function (errResp, errStatus) {
                 $log.error('Couldn\'t load profile data: status: ' + errStatus + ', resp: ' + errResp.data);
-                uiNotification.text('Error', 'User credentials hasn\'t been saved').error();
+                uiNotification.text('Error', 'User profile wasn\'t loaded').error();
             }
         );
     };
@@ -118,10 +118,10 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
     $scope.changeCredentials = function (user) {
         $log.debug('Saving user profile: ' + user.mail);
         var credentials = {
-            login: $scope.user.mail,
-            password: $scope.user.password
+            login: user.mail,
+            password: user.password
         };
-        UsersService.save(user).then(
+        UsersService.save(credentials).then(
             function (resp) {
                 $log.debug('User credentials saved successfully: user id: ' + resp.data.id);
             },
