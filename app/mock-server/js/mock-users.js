@@ -14,7 +14,7 @@ mockUsers.run(function ($httpBackend, Session, $log) {
     };
 
     //auto-login
-    // Session.create(currentUser);
+    Session.create(currentUser);
 
     $httpBackend.whenGET(/user\/1/).respond(200, currentUser);
     $httpBackend.whenPOST(/users\/login/).respond(200, currentUser);

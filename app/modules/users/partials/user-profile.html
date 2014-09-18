@@ -1,133 +1,124 @@
-<section id="main-content" class="preferences" ng-controller="UserProfileCtrl" ng-init="loadProfile()">
-    <section id="main-content" class="preferences">
-        <div class="content">
-            <div class="main">
-                <div class="row-bg-white">
-                    <div class="row-content">
-                        <form name="credentials" ng-submit="changeCredentials(user)" novalidate>
-                            <div class="row">
-                                <div class="wrapper">
-                                    <ul>
-                                        <li>
-                                            <label>
-                                                * E-mail:
-                                            </label>
-                                            <fieldset>
-                                                <input name="mail" type="email" placeholder="E-mail" ng-model="user.mail"
-                                                ng-minlength="5" required>
-                                                <small class="error" ng-show="credentials.mail.$error.minlength">
-                                                Your e-mail is required to be at least 5 characters
-                                                </small>
-                                                <small class="error" ng-show="credentials.mail.$error.email">
-                                                That is not a valid email. Please input a valid email.
-                                                </small>
-                                            </fieldset>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                * Password:
-                                            </label>
-                                            <fieldset>
-                                                <input name="password" type="password" placeholder="Password" ng-model="user.password"
-                                                ng-minlength="5" required>
-                                                <small class="error" ng-show="credentials.password.$error.minlength">
-                                                Your password is required to be at least 5 characters
-                                                </small>
-                                            </fieldset>
-                                        </li>
-                                        <li>
-                                            <label>
-
-                                            </label>
-                                            <fieldset>
-                                                <input name="password2" type="password" placeholder="Confirm your password"
-                                                ng-model="userConf.password" match="user.password"
-                                                ng-minlength="5" required>
-                                                <small class="error" ng-show="credentials.password2.$error.minlength">
-                                                Your password is required to be at least 5 characters
-                                                </small>
-                                                <small class="error" ng-show="credentials.password2.$error.match">
-                                                Given passwords are not the same
-                                                </small>
-                                            </fieldset>
-                                        </li>
-                                    </ul>
+<section id="main-content" ng-controller="UserProfileCtrl" ng-init="loadProfile()">
+    <div class="title-page">
+        <h1>User profile</h1>
+    </div>
+    <!-- Page Title -->
+    <div class="content">
+        <section class="registration">
+            <div class="box-row">
+                <form name="credentials" ng-submit="changeCredentials(user)" novalidate>
+                    <div class="box none">
+                        <h2><span>1</span>Credentials</h2>
+                        <ul>
+                            <li>
+                                <label>E-mail:</label>
+                                <fieldset>
+                                    <input name="mail" type="email" placeholder="E-mail" ng-model="user.mail"
+                                           ng-minlength="5" required>
+                                    <small class="error" ng-show="credentials.mail.$error.minlength">
+                                        Your e-mail is required to be at least 5 characters
+                                    </small>
+                                    <small class="error" ng-show="credentials.mail.$error.email">
+                                        That is not a valid email. Please input a valid email.
+                                    </small>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Password:</label>
+                                <fieldset>
+                                    <input name="password" type="password" placeholder="Password"
+                                           ng-model="user.password"
+                                           ng-minlength="5" required>
+                                    <small class="error" ng-show="credentials.password.$error.minlength">
+                                        Your password is required to be at least 5 characters
+                                    </small>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Confirm password:</label>
+                                <fieldset>
+                                    <input name="password2" type="password"
+                                           placeholder="Confirm your password"
+                                           ng-model="userConf.password" match="user.password"
+                                           ng-minlength="5" required>
+                                    <small class="error" ng-show="credentials.password2.$error.minlength">
+                                        Your password is required to be at least 5 characters
+                                    </small>
+                                    <small class="error" ng-show="credentials.password2.$error.match">
+                                        Given passwords are not the same
+                                    </small>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <fieldset>
                                     <button class="btn blue rt" ng-disabled="credentials.$invalid">
-                                    <i class="icon-upload-cloud"></i>Change credentials
+                                        <i class="icon-upload-cloud"></i>Change credentials
                                     </button>
-                                </div>
-                            </div>
-                        </form>
+                                </fieldset>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="row-content">
-                        <form name="userProfile" ng-submit="save(user)" novalidate>
-                            <div class="row">
-                                <div class="wrapper">
-                                    <ul>
-                                        <li>
-                                            <label>
-                                                First name:
-                                            </label>
-                                            <fieldset>
-                                                <input name="firstName" type="text" placeholder="First name" ng-model="user.firstName"
-                                                ng-minlength="2">
-                                                <small class="error" ng-show="userProfile.firstName.$error.minlength">
-                                                First name is required to be at least 2 characters
-                                                </small>
-                                            </fieldset>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                Last name:
-                                            </label>
-                                            <fieldset>
-                                                <input name="lastName" type="text" placeholder="Last name" ng-model="user.lastName"
-                                                ng-minlength="2">
-                                                <small class="error" ng-show="userProfile.lastName.$error.minlength">
-                                                Last name is required to be at least 2 characters
-                                                </small>
-                                            </fieldset>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                Language:
-                                            </label>
-                                            <fieldset>
-                                                <select name="lang" ng-model="user.profile.lang">
-                                                    <option value="en" selected>English</option>
-                                                    <option value="pl">Polish</option>
-                                                </select>
-                                            </fieldset>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                Time zone:
-                                            </label>
-                                            <fieldset>
-                                                <select name="lang" ng-model="user.profile.time_zone">
-                                                    <option value="cet" selected>Warsaw</option>
-                                                </select>
-                                            </fieldset>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                Theme:
-                                            </label>
-                                            <fieldset>
-                                                <select name="lang" ng-model="user.profile.theme">
-                                                    <option value="default" selected>Default</option>
-                                                </select>
-                                            </fieldset>
-                                        </li>
-                                    </ul>
-                                    <button class="btn blue rt" ng-disabled="userProfile.$invalid">
+                </form>
+                <form name="userProfile" ng-submit="save(user)" novalidate>
+                    <div class="box">
+                        <h2><span>2</span>Account settings</h2>
+                        <ul>
+                            <li>
+                                <label>First name:</label>
+                                <fieldset>
+                                    <input name="firstName" type="text" placeholder="First name"
+                                           ng-model="user.firstName"
+                                           ng-minlength="2">
+                                    <small class="error" ng-show="userProfile.firstName.$error.minlength">
+                                        First name is required to be at least 2 characters
+                                    </small>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Last name:</label>
+                                <fieldset>
+                                    <input name="lastName" type="text" placeholder="Last name"
+                                           ng-model="user.lastName"
+                                           ng-minlength="2">
+                                    <small class="error" ng-show="userProfile.lastName.$error.minlength">
+                                        Last name is required to be at least 2 characters
+                                    </small>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Language:</label>
+                                <fieldset>
+                                    <select name="lang" ng-model="user.profile.lang">
+                                        <option value="en" selected>English</option>
+                                        <option value="pl">Polish</option>
+                                    </select>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Time zone:</label>
+                                <fieldset>
+                                    <select name="lang" ng-model="user.profile.time_zone">
+                                        <option value="cet" selected>Warsaw</option>
+                                    </select>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Theme:</label>
+                                <fieldset>
+                                    <select name="lang" ng-model="user.profile.theme">
+                                        <option value="default" selected>Default</option>
+                                    </select>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <button class="btn blue rt" ng-disabled="userProfile.$invalid">
                                     <i class="icon-upload-cloud"></i>Save
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                </div>
+                </form>
             </div>
-        </div>
-        </section> <!-- Main Content -->
+        </section>
+    </div>
+</section>
