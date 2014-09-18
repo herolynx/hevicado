@@ -50,6 +50,30 @@ describe('users-services-spec:', function () {
             expect(mockHttp.put).toHaveBeenCalledWith('/user', user);
         });
 
+        it('should get details about user', function () {
+            //given users service is initialized
+            expect(usersService).toBeDefined();
+            //and user 
+            var userId = 'user-123';
+            //when getting details about user
+            usersService.get(userId);
+            //then user's profile is downloaded
+            expect(mockHttp.get).toHaveBeenCalledWith('/user/' + userId);
+        });
+
+        it('should search users', function () {
+            //given users service is initialized
+            expect(usersService).toBeDefined();
+            //and search criteria 
+            var criteria = {
+                login: '.*bravo.*'
+            };
+            //when searching users
+            usersService.search(criteria);
+            //then search results are returned
+            expect(mockHttp.get).toHaveBeenCalledWith('/user', criteria);
+        });
+
     });
 
 });
