@@ -1,157 +1,158 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="angular-base">
-<head>
-    <title>Kunishu</title>
-    <meta charset="UTF-8"/>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <head>
+        <title>Kunishu</title>
+        <meta charset="UTF-8"/>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <link rel="stylesheet" href="fonts/entypo.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="css/ezmark.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="css/jquery.selectbox.css" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="css/base.css" type="text/css">
+        <link rel="stylesheet" href="fonts/entypo.css" type="text/css" media="screen"/>
+        <link rel="stylesheet" href="css/ezmark.css" type="text/css" media="screen"/>
+        <link rel="stylesheet" href="css/jquery.selectbox.css" type="text/css" media="screen"/>
+        <link rel="stylesheet" href="css/base.css" type="text/css">
 
-</head>
-<body>
+    </head>
+    <body>
 
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
+        <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+            your browser</a> to improve your experience.</p>
+        <![endif]-->
 
-<div id="page" class="turquoise">
-    <!-- TOP MENU -->
-    <permission roles="client,admin">
-        <header>
-            <div class="content">
-                <div class="logo">
-                    <p>ClickSimple
-                    </p> <span>company</span>
-                </div>
-                <!-- Logo -->
-                <nav>
-                    <ul>
-                        <li>
-                            <a>
+        <div id="page" class="turquoise">
+            <!-- TOP MENU -->
+            <permission roles="client,admin">
+            <header>
+                <div class="content">
+                    <div class="logo">
+                        <p>ClickSimple
+                        </p> <span>company</span>
+                    </div>
+                    <!-- Logo -->
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="#" ui-sref="calendar-day">
                                 <i class="icon-newspaper"></i>
                                 Visit
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" ui-sref="calendar">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" ui-sref="calendar-week">
                                 <i class="icon-calendar"></i>
                                 Calendar
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" ui-sref="calendar-month">
                                 <i class="icon-monitor"></i>
                                 Cabinet
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
                                 <i class="icon-tools"></i>
                                 My account
-                            </a>
-                            <ul class="subpage">
-                                <li><a href="#" ui-sref="user-profile">Preferences</a></li>
-                                <li><a href="#">Payments</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">
+                                </a>
+                                <ul class="subpage">
+                                    <li><a href="#" ui-sref="user-profile">Preferences</a></li>
+                                    <li><a href="#">Payments</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
                                 <i class="icon-search"></i>
                                 Search
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- Nav -->
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- Nav -->
 
-                <div class="profile">
-                    <div class="pic-user">
-                        <img src="images/temp/user-1.jpg" alt="User profile">
+                    <div class="profile">
+                        <div class="pic-user">
+                            <img src="images/temp/user-1.jpg" alt="User profile">
 
-                        <div class="messages">
-                            33
+                            <div class="messages">
+                                33
+                            </div>
+                        </div>
+                        <div class="action">
+                            <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i></a>
                         </div>
                     </div>
-                    <div class="action">
-                        <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i></a>
-                    </div>
+                    <!-- Profile User -->
                 </div>
-                <!-- Profile User -->
-            </div>
-        </header>
-        <!-- Header -->
-    </permission>
+            </header>
+            <!-- Header -->
+            </permission>
 
-    <section id="main-content">
-        <!-- page context -->
-        <div>
-            <div ng-view></div>
-            <div ui-view></div>
+            <section id="main-content">
+                <!-- page context -->
+                <div>
+                    <div ng-view></div>
+                    <div ui-view></div>
+                    <div>Kunishu: v<span app-version></span></div>
+                </div>
+            </section>
+            <!-- app version -->
+
         </div>
-    </section>
-    <!-- app version -->
-    <div>Kunishu: v<span app-version></span></div>
-</div>
 
-<!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
--->
-<!-- generic utils -->
-<script src="bower_components/underscore/underscore.js"></script>
-<script src="bower_components/jquery/jquery.js"></script>
-<script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
-<script src="bower_components/toastr/toastr.js"></script>
-<script src="bower_components/datejs/build/date.js"></script>
-<!-- angular related stuff -->
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/angular-translate/angular-translate.js"></script>
-<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<script src="bower_components/angular-ui-sortable/sortable.js"></script>
-<script src="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js"></script>
-<!-- ui utils -->
-<script src="modules/ui/js/ui-notifications.js"></script>
-<script src="modules/ui/js/ui-dnd.js"></script>
-<script src="modules/ui/js/ui-elements.js"></script>
-<!-- security module -->
-<script src="modules/bolt/js/bolt-app.js"></script>
-<script src="modules/bolt/js/bolt-controller.js"></script>
-<script src="modules/bolt/js/bolt-service.js"></script>
-<script src="modules/bolt/js/bolt-directives.js"></script>
-<!-- dashborad -->
-<script src="modules/dashboard/js/dashboard-app.js"></script>
-<script src="modules/dashboard/js/dashboard-controller.js"></script>
-<script src="modules/dashboard/js/dashboard-widgets.js"></script>
-<!-- calendar -->
-<script src="modules/chronos/js/chronos-app.js"></script>
-<script src="modules/chronos/js/chronos-services.js"></script>
-<script src="modules/chronos/js/chronos-collections.js"></script>
-<script src="modules/chronos/js/chronos-calendar.js"></script>
-<script src="modules/chronos/js/chronos-edit-event.js"></script>
-<!-- users -->
-<script src="modules/users/js/users-app.js"></script>
-<script src="modules/users/js/users-controllers.js"></script>
-<script src="modules/users/js/users-services.js"></script>
-<!-- mock - disable in production !!! -->
-<script src="bower_components/angular-mocks/angular-mocks.js"></script>
-<script src="mock-server/js/mock-server.js"></script>
-<script src="mock-server/js/mock-calendar.js"></script>
-<script src="mock-server/js/mock-users.js"></script>
-<!-- main app scripts -->
-<script src="js/app.js"></script>
-<script src="js/services.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/filters.js"></script>
-<script src="js/directives.js"></script>
-<script src="js/routes.js"></script>
-</body>
+        <!-- In production use:
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+        -->
+        <!-- generic utils -->
+        <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/jquery/jquery.js"></script>
+        <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+        <script src="bower_components/toastr/toastr.js"></script>
+        <script src="bower_components/datejs/build/date.js"></script>
+        <!-- angular related stuff -->
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-translate/angular-translate.js"></script>
+        <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+        <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+        <script src="bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js"></script>
+        <!-- ui utils -->
+        <script src="modules/ui/js/ui-notifications.js"></script>
+        <script src="modules/ui/js/ui-dnd.js"></script>
+        <script src="modules/ui/js/ui-elements.js"></script>
+        <!-- security module -->
+        <script src="modules/bolt/js/bolt-app.js"></script>
+        <script src="modules/bolt/js/bolt-controller.js"></script>
+        <script src="modules/bolt/js/bolt-service.js"></script>
+        <script src="modules/bolt/js/bolt-directives.js"></script>
+        <!-- dashborad -->
+        <script src="modules/dashboard/js/dashboard-app.js"></script>
+        <script src="modules/dashboard/js/dashboard-controller.js"></script>
+        <script src="modules/dashboard/js/dashboard-widgets.js"></script>
+        <!-- calendar -->
+        <script src="modules/chronos/js/chronos-app.js"></script>
+        <script src="modules/chronos/js/chronos-services.js"></script>
+        <script src="modules/chronos/js/chronos-collections.js"></script>
+        <script src="modules/chronos/js/chronos-calendar.js"></script>
+        <script src="modules/chronos/js/chronos-edit-event.js"></script>
+        <!-- users -->
+        <script src="modules/users/js/users-app.js"></script>
+        <script src="modules/users/js/users-controllers.js"></script>
+        <script src="modules/users/js/users-services.js"></script>
+        <!-- mock - disable in production !!! -->
+        <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+        <script src="mock-server/js/mock-server.js"></script>
+        <script src="mock-server/js/mock-calendar.js"></script>
+        <script src="mock-server/js/mock-users.js"></script>
+        <!-- main app scripts -->
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/directives.js"></script>
+        <script src="js/routes.js"></script>
+    </body>
 </html>
