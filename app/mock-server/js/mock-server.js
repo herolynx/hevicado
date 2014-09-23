@@ -18,5 +18,6 @@ mockServer.run(function ($httpBackend, $log) {
 
     $httpBackend.whenGET(/lang\//).passThrough();
     $httpBackend.whenGET(/partials\//).passThrough();
+    $httpBackend.whenGET(/js\/generic\//).passThrough();
 
 });
