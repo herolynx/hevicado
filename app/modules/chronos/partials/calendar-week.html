@@ -1,4 +1,4 @@
-<section id="main-content">
+<section id="main-content" ng-app="chronos" ng-controller="CalendarCtrl">
 <div class="title-page">
     <h1>Calendar</h1>
     <span>Day details</span>
@@ -6,7 +6,7 @@
 <!-- Page Title -->
 <div class="content">
 <section class="calendar">
-<div class="top-info">
+<div class="top-info" ng-init="init(7)">
     <div class="widget-legend">
         <a href="#" class="open">
             <i class="icon-doc-text"></i>
@@ -119,14 +119,14 @@
 
     <div class="date">
         <div class="month">
-            <a href="#"><i class="icon-left-open"></i></a>
-            <span>October</span>
-            <a href="#"><i class="icon-right-open"></i></a>
+            <a ng-click="previousMonth()"><i class="icon-left-open"></i></a>
+            <span>{{beginDate | date: "MMMM"}}</span>
+            <a ng-click="nextMonth()"><i class="icon-right-open"></i></a>
         </div>
         <div class="year">
-            <a href="#"><i class="icon-left-open"></i></a>
-            <span>2014</span>
-            <a href="#"><i class="icon-right-open"></i></a>
+            <a ng-click="previousYear()"><i class="icon-left-open"></i></a>
+            <span>{{beginDate | date: "yyyy"}}</span>
+            <a ng-click="nextYear()"><i class="icon-right-open"></i></a>
         </div>
     </div>
     <!-- Date Calendar -->
@@ -142,17 +142,17 @@
 <div class="amount">
     <ul>
         <li>
-            <a href="#">
+            <a href="#" ui-sref="calendar-day">
                 Day
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="#" ui-sref="calendar-week">
                 7 Day
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="#" ui-sref="calendar-month">
                 Month
             </a>
         </li>
@@ -160,12 +160,12 @@
 </div>
 <!-- Amount Day Calendar-->
 <div class="week-prev">
-    <a href="#" class="prev">
+    <a class="prev" ng-click="previousWeek()">
         <i class="icon-left-open"></i>
     </a>
 </div>
 <div class="week-next">
-    <a href="#" class="next">
+    <a class="next" ng-click="nextWeek()">
         <i class="icon-right-open"></i>
     </a>
 </div>
@@ -177,46 +177,10 @@
     <table>
         <tr>
             <th></th>
-            <th>07/11/2014 (monday)
-                <a href="#">
-                    <i class="icon-comment"></i>
-                    22 notes
-                </a>
-            </th>
-            <th>08/11/2014 (monday)
-                <a href="#" class="add">
+            <th ng-repeat="day in days">{{day | date: "dd-MM-yyyy (EEEE)"}}
+                <a>
                     <i class="icon-plus-circled"></i>
-                    Add new note
-                </a>
-            </th>
-            <th>09/11/2014 (monday)
-                <a href="#" class="add">
                     <i class="icon-comment"></i>
-                    22 notes
-                </a>
-            </th>
-            <th>10/11/2014 (monday)
-                <a href="#" class="add">
-                    <i class="icon-plus-circled"></i>
-                    Add new note
-                </a>
-            </th>
-            <th>11/11/2014 (monday)
-                <a href="#" class="add">
-                    <i class="icon-plus-circled"></i>
-                    Add new note
-                </a>
-            </th>
-            <th>12/11/2014 (monday)
-                <a href="#">
-                    <i class="icon-comment"></i>
-                    22 notes
-                </a>
-            </th>
-            <th>13/11/2014 (monday)
-                <a href="#">
-                    <i class="icon-comment"></i>
-                    12 notes
                 </a>
             </th>
         </tr>

@@ -103,14 +103,6 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
     };
 
     /**
-     * Get current year of displayed dates on calendar
-     * @returns {number|*}
-     */
-    $scope.getYear = function () {
-        return $scope.beginDate.getFullYear();
-    };
-
-    /**
      * Go to next calendar week
      */
     $scope.nextWeek = function () {
@@ -139,6 +131,22 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      */
     $scope.previousYear = function () {
         $scope.beginDate.previous().year().next().monday();
+        $scope.refresh();
+    };
+
+    /**
+     * Go to next calendar month
+     */
+    $scope.nextMonth = function () {
+        $scope.beginDate.next().month().previous().monday();
+        $scope.refresh();
+    };
+
+    /**
+     * Go to previous calendar month
+     */
+    $scope.previousMonth = function () {
+        $scope.beginDate.previous().month().next().monday();
         $scope.refresh();
     };
 
