@@ -99,5 +99,5 @@ ui.directive('uiNotify', function (uiNotification) {
             });
         }
     }
-    
+
 });

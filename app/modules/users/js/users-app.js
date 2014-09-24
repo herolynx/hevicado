@@ -5,11 +5,11 @@
  */
 var module = angular.module('users', [
 
-   /*internal modules*/
-   'users.controllers',
-   'users.services',
-   /*external modules*/
-   'bolt',
-   'ui-elements',
-   'ui-notifications'
- ]);
+    /*internal modules*/
+    'users.controllers',
+    'users.services',
+    /*external modules*/
+    'bolt',
+    'ui-elements',
+    'ui-notifications'
+]);

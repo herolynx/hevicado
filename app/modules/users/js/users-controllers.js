@@ -14,8 +14,7 @@ var controllers = angular.module('users.controllers', []);
  * @param uiNotification component for managing user's notifications
  * @param $log logger component
  */
-controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state, UsersService, AuthService,
-    USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
+controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state, UsersService, AuthService, USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
 
     $scope.user = {
         mail: '',
@@ -25,7 +24,7 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
             lang: 'en',
             time_zone: '',
             theme: ''
-        },
+        }
     };
 
     $scope.userConf = {
@@ -87,7 +86,7 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
             lang: 'en',
             time_zone: '',
             theme: ''
-        },
+        }
     };
 
     $scope.userConf = {
