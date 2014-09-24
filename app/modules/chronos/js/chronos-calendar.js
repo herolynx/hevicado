@@ -67,7 +67,9 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      *
      */
     $scope.init = function (daysAmount) {
-        if (daysAmount == 7) {
+        if (daysAmount == 31) {
+            $scope.beginDate = Date.today().set({day: 1});
+        } else if (daysAmount == 7) {
             $scope.beginDate = Date.today().previous().monday();
         } else {
             $scope.beginDate.clearTime();
@@ -161,6 +163,22 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         }
         var direction = currentMonth >= month ? -1 : 1;
         $scope.beginDate.moveToMonth(month, direction).next().monday();
+        $scope.refresh();
+    };
+
+    /**
+     * Go to next calendar day
+     */
+    $scope.nextDay = function () {
+        $scope.beginDate.next().day();
+        $scope.refresh();
+    };
+
+    /**
+     * Go to previous calendar day
+     */
+    $scope.previousDay = function () {
+        $scope.beginDate.previous().day();
         $scope.refresh();
     };
 

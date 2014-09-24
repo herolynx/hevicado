@@ -8,6 +8,7 @@ var module = angular.module('chronos', [
     'chronos.controllers',
     'chronos.services',
     'chronos.collections',
+    'chronos.directives',
     /*external modules*/
     'ui-dnd',
     'ui-elements',

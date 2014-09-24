@@ -1,408 +1,57 @@
-<section id="main-content">
-<div class="title-page">
-    <h1>Calendar</h1>
-    <span>Day details</span>
-</div>
-<!-- Page Title -->
-<div class="content">
-<section class="calendar">
-<div class="top-info">
-    <div class="widget-legend">
-        <a href="#" class="open">
-            <i class="icon-doc-text"></i>
-            Legend
-        </a>
-
-        <div class="place-list">
-            <a href="#" class="close">
-                <i class="icon-cancel-circled"></i>
-            </a>
-
-            <div class="place blue">
-                <div class="color"></div>
-                <p>Uniwersytecki Szpital Kliniczny we Wrocławiu</p>
+<section id="main-content" ng-app="chronos" ng-controller="CalendarCtrl">
+    <div class="title-page">
+        <h1>Calendar</h1>
+        <span>Day details</span>
+    </div>
+    <!-- Page Title -->
+    <div class="content">
+        <section class="calendar" ng-init="init(31)">
+            <calendar-menu></calendar-menu>
+            <!-- Amount Day Calendar-->
+            <div class="week-prev">
+                <a class="prev" ng-click="previousMonth()">
+                    <i class="icon-left-open"></i>
+                </a>
             </div>
-            <div class="place orange">
-                <div class="color"></div>
-                <p>4 Szpital Wojskowy z Polikliniką we Wrocławiu</p>
+            <div class="week-next">
+                <a class="next" ng-click="previousMonth()">
+                    <i class="icon-right-open"></i>
+                </a>
             </div>
-            <div class="place turquoise">
-                <div class="color"></div>
-                <p>Wojewódzki Szpital Specjalistyczny we Wrocławiu</p>
-            </div>
-        </div>
-    </div>
-    <!-- Widget Legend -->
-    <div class="widget-min-calendar">
-        <a href="#" class="open">
-            <i class="icon-calendar"></i>
-            miniCalendar
-        </a>
+            <!-- Pagination Calendar Next, Prev -->
+            <div class="grid">
+                <div ng-repeat="day in days" class="event turquoise">
+                    <a href="#" class="link"></a>
 
-        <div class="calendar">
-            <a href="#" class="close">
-                <i class="icon-cancel-circled"></i>
-            </a>
-            <select>
-                <option>Jan</option>
-                <option>Feb</option>
-                <option>Mar</option>
-                <option>Apr</option>
-                <option>May</option>
-                <option>Jun</option>
-                <option>Jul</option>
-                <option>Aug</option>
-                <option>Sep</option>
-                <option>Oct</option>
-                <option>Nov</option>
-                <option>Dec</option>
-            </select>
-            <table>
-                <tr>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
-                </tr>
-                <tr>
-                    <td class="select"><a href="#">1</a></td>
-                    <td><a href="#">2</a></td>
-                    <td><a href="#">3</a></td>
-                    <td><a href="#">4</a></td>
-                    <td><a href="#">5</a></td>
-                    <td><a href="#">6</a></td>
-                    <td><a href="#">7</a></td>
-                </tr>
-                <tr>
-                    <td><a href="#">8</a></td>
-                    <td><a href="#">9</a></td>
-                    <td><a href="#">10</a></td>
-                    <td><a href="#">11</a></td>
-                    <td><a href="#">12</a></td>
-                    <td><a href="#">13</a></td>
-                    <td><a href="#">14</a></td>
-                </tr>
-                <tr>
-                    <td><a href="#">15</a></td>
-                    <td><a href="#">16</a></td>
-                    <td><a href="#">17</a></td>
-                    <td><a href="#">18</a></td>
-                    <td><a href="#">19</a></td>
-                    <td><a href="#">20</a></td>
-                    <td><a href="#">21</a></td>
-                </tr>
-                <tr>
-                    <td><a href="#">22</a></td>
-                    <td><a href="#">23</a></td>
-                    <td><a href="#">24</a></td>
-                    <td><a href="#">25</a></td>
-                    <td><a href="#">26</a></td>
-                    <td class="select"><a href="#">27</a></td>
-                    <td><a href="#">28</a></td>
-                </tr>
-                <tr>
-                    <td><a href="#">29</a></td>
-                    <td><a href="#">30</a></td>
-                    <td><a href="#">31</a></td>
-                    <td><a href="#"></a></td>
-                    <td><a href="#"></a></td>
-                    <td><a href="#"></a></td>
-                    <td><a href="#"></a></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <!-- Widget MiniCalendar -->
-
-    <div class="date">
-        <div class="month">
-            <a href="#"><i class="icon-left-open"></i></a>
-            <span>October</span>
-            <a href="#"><i class="icon-right-open"></i></a>
-        </div>
-        <div class="year">
-            <a href="#"><i class="icon-left-open"></i></a>
-            <span>2014</span>
-            <a href="#"><i class="icon-right-open"></i></a>
-        </div>
-    </div>
-    <!-- Date Calendar -->
-
-    <div class="view">
-        View:
-        <a href="#"><i class="icon-layout"></i>Grid</a>
-        <a href="#"><i class="icon-calendar"></i></i>Full</a>
-    </div>
-    <!-- View Calendar -->
-</div>
-<!-- Top Info -->
-<div class="amount">
-    <ul>
-        <li>
-            <a href="#">
-                Day
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                7 Day
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                Month
-            </a>
-        </li>
-    </ul>
-</div>
-<!-- Amount Day Calendar-->
-<div class="week-prev">
-    <a href="#" class="prev">
-        <i class="icon-left-open"></i>
-    </a>
-</div>
-<div class="week-next">
-    <a href="#" class="next">
-        <i class="icon-right-open"></i>
-    </a>
-</div>
-<!-- Pagination Calendar Next, Prev -->
-
-<div class="grid"> <!-- GRID VIEW -->
-
-<div class="event turquoise">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        01/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event">
-                <p>Visit</p>
+                    <div class="date">
+                        {{day | date: "dd-MM-yyyy (EEEE)"}}
+                    </div>
+                    <div class="box-event">
+                        <div class="box">
+                            <div class="count-event">
+                                <p>Visit</p>
 									<span>
 									34
 									</span>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
+                    </div>
+                    <div class="notes">
+                        <i class="icon-comment">33</i>
 							<span>
 								note
 							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-<div class="event blue">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        02/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event">
-                <p>Visit</p>
-									<span>
-									12
-									</span>
+                    </div>
+                    <div class="action">
+                        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
+                        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+        <!-- Section Page (calendar, members, ...) -->
     </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
-							<span>
-								note
-							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-<div class="event orange">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        03/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event-small orange">
-                <p>Visit</p>
-									<span>
-									4
-									</span>
-            </div>
-            <div class="count-event-small blue">
-                <p>Visit</p>
-									<span>
-									23
-									</span>
-            </div>
-            <div class="count-event-small turquoise">
-                <p>Visit</p>
-									<span>
-									1
-									</span>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
-							<span>
-								note
-							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-<div class="event blue">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        04/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event">
-                <p>Visit</p>
-									<span>
-									12
-									</span>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
-							<span>
-								note
-							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-<div class="event orange">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        05/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event">
-                <p>Visit</p>
-									<span>
-									12
-									</span>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
-							<span>
-								note
-							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-<div class="event blue">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        06/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event">
-                <p>Visit</p>
-									<span>
-									12
-									</span>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
-							<span>
-								note
-							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-<div class="event orange">
-    <a href="#" class="link"></a>
-
-    <div class="date">
-        07/11/2014 (monday)
-    </div>
-    <div class="box-event">
-        <div class="box">
-            <div class="count-event-small orange">
-                <p>Visit</p>
-									<span>
-									4
-									</span>
-            </div>
-            <div class="count-event-small turquoise">
-                <p>Visit</p>
-									<span>
-									1
-									</span>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-    </div>
-    <div class="notes">
-        <i class="icon-comment">33</i>
-							<span>
-								note
-							</span>
-    </div>
-    <div class="action">
-        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
-    </div>
-</div>
-</div>
-</section>
-<!-- Section Page (calendar, members, ...) -->
-</div>
 </section> <!--Main section -->
