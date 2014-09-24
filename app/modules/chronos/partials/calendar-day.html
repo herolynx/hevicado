@@ -22,40 +22,7 @@
 
             <div class="details"> <!-- DETAILS VIEW -->
                 <div class="box">
-                    <div class="time-line"></div>
-                    <table>
-                        <tr>
-                            <th></th>
-                            <th ng-repeat="day in days">{{day | date: "dd-MM-yyyy (EEEE)"}}
-                                <div>
-                                    <i class="icon-plus-circled"></i>
-                                    <i class="icon-comment"></i>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr ng-repeat="hour in _.range(0,24)">
-                            <td>{{hour}}:00</td>
-                            <td ng-repeat="day in days">
-                                <div class="event blue" style="height:100px">
-                                    <div class="time">
-                                        <div class="action">
-                                            <a href="#" class="delete">
-                                                <i class="icon-trash"></i>
-                                            </a>
-                                        </div>
-                                        {{day | date: "EEEE (dd)"}} {{hour}}:00-{{hour+1}}:00
-                                    </div>
-                                    <div class="describe">
-                                        <strong>Marta Marciszek</strong><br/>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu nulla
-                                        dignissim,
-                                        dictum metus
-                                        ac, elementum dui.
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                    <calendar-table></calendar-table>
                 </div>
                 <div class="box">
 

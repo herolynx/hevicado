@@ -15,3 +15,15 @@ directives.directive('calendarMenu', function () {
         scope: false
     }
 });
+
+/**
+ * Directive displays chosen days of calendar in table form.
+ * Directive uses the parent scope of the controller.
+ */
+directives.directive('calendarTable', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'modules/chronos/partials/calendar-table.html',
+        scope: false
+    }
+});
