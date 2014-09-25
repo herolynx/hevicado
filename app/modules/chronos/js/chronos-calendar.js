@@ -18,11 +18,14 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      */
     $scope._ = _;
 
-    $scope.months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+    $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    $scope.beginDate = Date.today().set({ hour: 8, minute: 0 });
+    $scope.beginDate = Date.today().set({
+        hour: 8,
+        minute: 0
+    });
 
-    $scope.days = [ ];
+    $scope.days = [];
 
     /**
      * Set time period displayed on calendar
@@ -50,14 +53,14 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         var endDate = days[days.length - 1];
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
         CalendarService.events(startDate, endDate).
-            success(function (data) {
-                $log.debug('Events loaded - data size: ' + data.length);
-                EventsMap.clear();
-                EventsMap.addAll(data);
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
-            });
+        success(function (data) {
+            $log.debug('Events loaded - data size: ' + data.length);
+            EventsMap.clear();
+            EventsMap.addAll(data);
+        }).
+        error(function (data, status) {
+            $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+        });
     };
 
     /**
@@ -68,7 +71,9 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
      */
     $scope.init = function (daysAmount) {
         if (daysAmount == 31) {
-            $scope.beginDate = Date.today().set({day: 1});
+            $scope.beginDate = Date.today().set({
+                day: 1
+            });
         } else if (daysAmount == 7) {
             $scope.beginDate = Date.today().previous().monday();
         } else {
@@ -191,9 +196,29 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         //prepare start date
         var date = day.clone();
         if (hour !== undefined) {
-            date = date.set({hour: hour});
+            date = date.set({
+                hour: hour
+            });
         }
-        $scope.editEvent({ start: date});
+        $scope.editEvent({
+            start: date
+        });
+    };
+
+    /**
+     * Delete event
+     * @param event event to be deleted
+     */
+    $scope.deleteEvent = function (event) {
+        $log.debug('Deleting event - id: ' + event.id + ', start: ' + event.start);
+        CalendarService.delete(event.id).
+        success(function (result) {
+            EventsMap.remove(event);
+        }).
+        error(function (error) {
+            $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+            uiNotification.text('Error', 'Cannot delete event').error();
+        });
     };
 
     /**
@@ -203,28 +228,28 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.
-            options(event.start).
-            success(function (result) {
-                var modalInstance = $modal.open({
-                    windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-                    templateUrl: 'modules/chronos/partials/edit-event.html',
-                    backdrop: 'static',
-                    scope: $scope,
-                    controller: editEventCtrl,
-                    resolve: {
-                        eventToEdit: function () {
-                            return event;
-                        },
-                        options: function () {
-                            return  result;
-                        }
+        options(event.start).
+        success(function (result) {
+            var modalInstance = $modal.open({
+                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+                templateUrl: 'modules/chronos/partials/edit-event.html',
+                backdrop: 'static',
+                scope: $scope,
+                controller: editEventCtrl,
+                resolve: {
+                    eventToEdit: function () {
+                        return event;
+                    },
+                    options: function () {
+                        return result;
                     }
-                });
-            }).
-            error(function (error) {
-                $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                uiNotification.text('Error', 'Cannot edit event').error();
+                }
             });
+        }).
+        error(function (error) {
+            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+            uiNotification.text('Error', 'Cannot edit event').error();
+        });
     };
 
     /**
@@ -237,10 +262,12 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
     $scope.getEvents = function (day, dayHour, minutes) {
         //TODO filter on view
         var startFrom = day.clone();
-        startFrom.set({hour: dayHour, minute: minutes});
+        startFrom.set({
+            hour: dayHour,
+            minute: minutes
+        });
         var filtered = EventsMap.filter(function (event) {
-            return (startFrom.equals(event.start) || startFrom.isAfter(event.start))
-                && (startFrom.isBefore(event.end));
+            return (startFrom.equals(event.start) || startFrom.isAfter(event.start)) && (startFrom.isBefore(event.end));
         });
         var keys = Object.keys(filtered);
         return keys.length == 1 ? filtered[keys[0]] : [];
@@ -271,7 +298,10 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
         $log.debug('DnD event moved - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
         $scope.normalize(calendarEvent);
         EventsMap.remove(calendarEvent);
-        calendarEvent.start = day.clone().set({hour: hour, minute: minute});
+        calendarEvent.start = day.clone().set({
+            hour: hour,
+            minute: minute
+        });
         calendarEvent.end = calendarEvent.start.clone().add(calendarEvent.duration).minute();
         $log.debug('DnD adding updated event - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
         EventsMap.add(calendarEvent);
@@ -312,5 +342,3 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
 
     $scope.register();
 });
-
-

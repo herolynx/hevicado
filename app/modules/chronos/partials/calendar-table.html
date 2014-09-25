@@ -21,17 +21,16 @@
                 drag-channel="dndDayChannel"
                 drop-channel="dndDayChannel"
                 ui-on-drop="dndDrop($event, $data, day, hour, 0)"
-                ng-click="editEvent(event)"
                 >
                 <div class="time">
                     <div class="action">
-                        <a href="#" class="delete">
+                        <a class="delete" ng-click="deleteEvent(event)">
                         <i class="icon-trash"></i>
                         </a>
                     </div>
                     {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                 </div>
-                <div class="describe">
+                <div class="describe" ng-click="editEvent(event)">
                     <strong>{{event.title}}</strong><br/>
                     {{event.description}}
                 </div>
