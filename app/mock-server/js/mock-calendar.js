@@ -6,7 +6,7 @@ mockCalendar.run(function ($httpBackend, $log) {
 
     var id = 1;
     var events = [];
-    var colors = ['red', 'yellow', 'blue'];
+    var colors = ['orange', 'blue'];
 
     var minutes = 0;
     for (var hour = 8; hour < 16; hour++) {
@@ -17,7 +17,7 @@ mockCalendar.run(function ($httpBackend, $log) {
             description: "Details go here about meeting....",
             start: Date.today().set({hour: hour, minute: 0}),
             end: Date.today().set({hour: hour, minute: duration}),
-            color: colors[hour % 3],
+            color: colors[hour % 2],
             duration: duration
         };
         events.push(event);
