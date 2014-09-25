@@ -45,6 +45,9 @@
 					</li>
 					<li>
 						<a href="#">
+							<div class="messages">
+								33
+							</div>
 							<i class="icon-comment"></i>
 							Messages
 						</a>		
@@ -99,13 +102,9 @@
 			
 			<div class="profile">					
 				<div class="pic-user">
-					<img src="images/temp/user-1.jpg" alt="User profile">
-					<div class="messages">
-						33
-					</div>
+					<img src="images/temp/user-1.jpg" alt="User profile">					
 				</div>
 				<div class="action">
-					<a href="#"><i class="icon-mail"></i></a>
 					<a href="#"><i class="icon-cog"></i></a>
 					<a href="#"><i class="icon-logout"></i></a>				
 				</div>		
@@ -138,8 +137,36 @@
 									<input type="text">
 								</fieldset>
 							</li>
+						</ul>
+					</div>
+					<div class="box">
+						<h2><span>2</span>Termin</h2>
+						<ul>
 							<li>
-								<label>Specjalization</label>
+								<label>Termin od</label>
+								<fieldset>
+									<input type="text">
+								</fieldset>
+							</li>
+							<li>
+								<label>Termin do</label>
+								<fieldset>
+									<input type="text">
+								</fieldset>
+							</li>
+							<li>
+								<label></label>
+								<fieldset>
+									<button>Search user</button>	
+								</fieldset>
+							</li>
+						</ul>
+					</div>		
+					<div class="box">
+						<h2><span>3</span>Wybierz specjalizację:</h2>
+						<ul>
+							<li>
+								<label>Specjalization (wybierz spośród wielu)</label>
 								<fieldset>
 									<select>
 										<option> - Wybierz - </option>																																									
@@ -193,57 +220,14 @@
 									</select>
 								</fieldset>
 							</li>
-						</ul>
-					</div>
-					<div class="box">
-						<h2><span>2</span>Termin</h2>
-						<ul>
 							<li>
-								<label>Termin od</label>
-								<fieldset>
-									<input type="text">
-								</fieldset>
+								<div class="tag">
+									<a href="#">Urologia dziecięca <div class="delete"><i class="icon-minus-circled"></i></div></a>,
+									<a href="#">Reumatologia<div class="delete"><i class="icon-minus-circled"></i></div></a>,
+									<a href="#">Psychologia<div class="delete"><i class="icon-minus-circled"></i></div></a>
+								</div>
 							</li>
-							<li>
-								<label>Termin do</label>
-								<fieldset>
-									<input type="text">
-								</fieldset>
-							</li>
-							<li>
-								<label></label>
-								<fieldset>
-									<button>Search user</button>	
-								</fieldset>
-							</li>
-						</ul>
-					</div>		
-					<div class="box">
-						<h2><span>3</span>Wybierz literę:</h2>
-						<div class="letter">
-							<a href="#">A</a>
-							<a href="#" class="select">B</a>
-							<a href="#">C</a>
-							<a href="#">D</a>
-							<a href="#">E</a>
-							<a href="#">F</a>
-							<a href="#">G</a>
-							<a href="#">H</a>
-							<a href="#">I</a>
-							<a href="#">J</a>
-							<a href="#">K</a>
-							<a href="#">L</a>
-							<a href="#">M</a>
-							<a href="#">N</a>
-							<a href="#">O</a>
-							<a href="#">P</a>
-							<a href="#">R</a>
-							<a href="#">S</a>
-							<a href="#">T</a>
-							<a href="#">U</a>
-							<a href="#">W</a>
-							<a href="#">Z</a>
-						</div>					
+						</ul>	
 					</div>		
 				</div> <!-- Form -->
 				<div class="top-info">
@@ -251,44 +235,251 @@
 				</div>
 				<div class="box-row">
 					<div class="results">
-						<div class="box">
+						<div class="box blue"> <!-- Color -->
 							<div class="person">
-								Mieczysław Bączek<br/>
-								specjalizacja: dupologia,
+								<div class="name">
+									<h2>
+										<p>prof. dr. hab</p>
+										Mieczysław<br/> Kościuszko-Madej
+									</h2>
+									<span>
+										specjalizacja: urologia, chirurgia ogólna
+									</span>
+								</div>
+								<div class="images">
+									<div class="user">
+										<div class="img">
+											<img src="images/temp/user-1.jpg" alt="User profile">	
+										</div>
+									</div>
+								</div>								
 							</div>
 							<div class="address">
-								<h2>Przyjmuje</h2>
-								Wojewódzki Szpital Badań nad Dupą<br/>
-								ul. Mariana Paździocha-Kiepskiego 43/2<br/>
-								53-312 Wrocław
+								<h2><i class="icon-home"></i> Adres</h2>
+								<p>
+									<span class="color"></span>
+									Wojewódzki Szpital Badań nad Dupą<br/>
+									ul. Mariana Paździocha-Kiepskiego 43/2<br/>
+									53-312 Wrocław
+								</p>
+								<p>
+									<i class="icon-phone"></i> 503 112 331<br/>
+									<a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a><br/>
+									<a href="#"><i class="icon-map"></i> Jak dojechać</a>
+								</p>	
 							</div>
 							<div class="time-work">
-								Poniedziałek: 7:30 - 12:00<br/>
-								Wtorek: 7:30 - 12:00<br/>
-								Środa: 7:30 - 12:00<br/>
-								Czwartek: 7:30 - 12:00<br/>
-								Piątek: 7:30 - 12:00<br/>
-								Sobota: 7:30 - 12:00<br/>
-								Niedziela: 
+								<h2><i class="icon-clock"></i> Godziny dyżurów</h2>
+								<p>
+									Poniedziałek: 7:30 - 12:00<br/>
+									Wtorek: 7:30 - 12:00<br/>
+									Środa: 7:30 - 12:00<br/>
+									Czwartek: 7:30 - 12:00<br/>
+									Piątek: 7:30 - 12:00<br/>
+									Sobota: 7:30 - 12:00<br/>
+									Niedziela: 
+								</p>
 							</div>
-							<div class="free-term">
-								<h2>7 pierwszych terminów</h2>
-								1 październik 2014, godz. 10<br/>
-								2 październik 2014, godz. 10<br/>
-								13 październik 2014, godz. 10<br/>
-								15 październik 2014, godz. 10<br/>
-								18 październik 2014, godz. 10<br/>
-								22 październik 2014, godz. 10<br/>
-								30 październik 2014, godz. 10<br/>		
-							</div>
-							<div class="images">
-								<div class="user">
-									<div class="img">
-										<img src="images/temp/user-1.jpg" alt="User profile">	
+							<div class="calendar">
+								<h2><a href="#"><i class="icon-calendar"></i> Kalendarz</a></h2>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>11.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											1
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>12.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											19
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>13.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											34
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>14.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											12
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>15.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											2
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>16.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											16
+											</span>	
+										</div>
 									</div>
 								</div>
 							</div>
+							
 						</div><!-- Person box -->
+						
+						<div class="box orange second"> <!-- Color -->
+							<div class="person">
+								<div class="name">
+									<h2>
+										<p>prof. dr. hab</p>
+										Mieczysław<br/> Kościuszko-Madej
+									</h2>
+									<span>
+										specjalizacja: urologia, chirurgia ogólna
+									</span>
+								</div>
+								<div class="images">
+									<div class="user">
+										<div class="img">
+											<img src="images/temp/user-1.jpg" alt="User profile">	
+										</div>
+									</div>
+								</div>								
+							</div>
+							<div class="address">
+								<h2>Adres</h2>
+								<p>
+									<span class="color c-1"></span>
+									Wojewódzki Szpital Badań nad Dupą<br/>
+									ul. Mariana Paździocha-Kiepskiego 43/2<br/>
+									53-312 Wrocław
+								</p>
+								<p>
+									<i class="icon-phone"></i> 503 112 331<br/>
+									<a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a><br/>
+									<a href="#"><i class="icon-map"></i> Jak dojechać</a>
+								</p>	
+							</div>
+							<div class="time-work">
+								<h2>Godziny dyżurów</h2>
+								<p>
+									Poniedziałek: 7:30 - 12:00<br/>
+									Wtorek: 7:30 - 12:00<br/>
+									Środa: 7:30 - 12:00<br/>
+									Czwartek: 7:30 - 12:00<br/>
+									Piątek: 7:30 - 12:00<br/>
+									Sobota: 7:30 - 12:00<br/>
+									Niedziela: 
+								</p>
+							</div>
+							<div class="calendar">
+								<h2><a href="#"><i class="icon-calendar"></i> Kalendarz</a></h2>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>11.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											1
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>12.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											19
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>13.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											34
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>14.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											12
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>15.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											2
+											</span>	
+										</div>
+									</div>
+								</div>
+								<div class="box-event">
+									<div class="box-count">
+										<a href="#"></a> <!-- Link Day -->
+										<p>16.10.2013</p>
+										<div class="count-event">								
+											<p>Visit</p>
+											<span>
+											16
+											</span>	
+										</div>
+									</div>
+								</div>
+							</div>							
+						</div><!-- Person box -->
+						
 					</div><!-- Result -->
 				
 				</div>
