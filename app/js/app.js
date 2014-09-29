@@ -16,6 +16,7 @@ var module = angular.module('angular-base',
         'ui.bootstrap',
         'chronos',
         'users',
+        'visits',
         'mock-server',
         /*
          * Internal modules
