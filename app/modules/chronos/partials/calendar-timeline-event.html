@@ -1,0 +1,31 @@
+<div ng-controller="TimelineEventCtrl" class="visit-box">
+    <div class="action">
+        <a ng-click="cancel(event)"><i class="icon-trash"></i></a>
+    </div>
+    <div class="address">
+		<span class="date">
+			{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}} <br/>
+			{{event.title}}
+		</span>
+
+        <p>
+            <a href="#" class="address">{{event.location.name}}</a>
+            {{event.location.address.street}}, {{event.location.address.city}}, {{event.location.address.country}}
+        </p>
+
+        <p>
+            <i class="icon-phone"></i>{{event.owner.phone}}<br/>
+            <a href="mailto:mail@gmail.com"><i class="icon-mail"></i>{{event.owner.mail}}</a><br/>
+        </p>
+    </div>
+    <div class="user">
+        <div class="img">
+            <img src="images/temp/user-1.jpg" alt="User profile">
+        </div>
+        <div class="name">
+            <a href="#">
+                {{event.owner.last_name}}, {{event.owner.first_name}}
+            </a>
+        </div>
+    </div>
+</div>

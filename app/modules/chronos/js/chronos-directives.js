@@ -27,3 +27,16 @@ directives.directive('calendarTable', function () {
         scope: false
     }
 });
+
+/**
+ * Directive displays single event on time-line
+ */
+directives.directive('calendarTimelineEvent', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'modules/chronos/partials/calendar-timeline-event.html',
+        scope: {
+            event: '=event'
+        }
+    }
+});

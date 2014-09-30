@@ -74,3 +74,17 @@ services.service('CalendarService', function ($http, $log) {
     };
 
 });
+
+/**
+ * Service manages single event
+ */
+services.service('EventsService', function ($http, $log) {
+
+    return {
+        cancel: function (eventId) {
+            return $http.delete('/calendar/events/delete', {
+                id: eventId
+            });
+        }
+    };
+});

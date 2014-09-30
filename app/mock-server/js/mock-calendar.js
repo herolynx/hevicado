@@ -15,10 +15,47 @@ mockCalendar.run(function ($httpBackend, $log) {
             id: id,
             title: "Meeting " + id,
             description: "Details go here about meeting....",
-            start: Date.today().set({hour: hour, minute: 0}),
-            end: Date.today().set({hour: hour, minute: duration}),
+            start: Date.today().set({
+                hour: hour,
+                minute: 0
+            }),
+            end: Date.today().set({
+                hour: hour,
+                minute: duration
+            }),
             color: colors[hour % 2],
-            duration: duration
+            duration: duration,
+            cancelled: hour % 4 == 0 ? Date.today() : null,
+            location: {
+                id: "loc-123",
+                name: "Pulsantis",
+                address: {
+                    street: "Grabiszynska 8/4",
+                    city: "Wroclaw",
+                    country: "Poland"
+                },
+                color: colors[hour % 2]
+            },
+            owner: {
+                id: '1',
+                first_name: 'Michal',
+                last_name: 'Wronski',
+                mail: 'michal@wronski.com'
+            },
+            users: [
+                {
+                    id: '2',
+                    first_name: 'Tomasz',
+                    last_name: 'Cimicki',
+                    mail: 'tomasz@cimicki.com'
+                },
+                {
+                    id: '3',
+                    first_name: 'Lukasz',
+                    last_name: 'Indykiewicz',
+                    mail: 'lukasz@indykiewicz.com'
+                }
+            ]
         };
         events.push(event);
         minutes += 15;
@@ -26,8 +63,12 @@ mockCalendar.run(function ($httpBackend, $log) {
     }
 
     $httpBackend.whenGET(/calendar\/events\/search/).respond(200, events);
-    $httpBackend.whenPOST(/calendar\/events\/save/).respond(200, { id: ++id });
-    $httpBackend.whenPUT(/calendar\/events\/save/).respond(200, { id: ++id });
+    $httpBackend.whenPOST(/calendar\/events\/save/).respond(200, {
+        id: ++id
+    });
+    $httpBackend.whenPUT(/calendar\/events\/save/).respond(200, {
+        id: ++id
+    });
     $httpBackend.whenDELETE(/calendar\/events\/delete/).respond(200);
 
     var options = {
