@@ -7,6 +7,7 @@ var module = angular.module('chronos', [
     /*internal modules*/
     'chronos.controllers',
     'chronos.services',
+    'chronos.timeline',
     'chronos.collections',
     'chronos.directives',
     /*external modules*/

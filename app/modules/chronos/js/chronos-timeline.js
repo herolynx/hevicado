@@ -1,11 +1,11 @@
 'use strict';
 
-var controllers = angular.module('visits.controllers', [
+var controllers = angular.module('chronos.timeline', [
  'chronos.services',
  'infinite-scroll'
 ]);
 
-controllers.controller('UserVisitsCtrl', function ($scope, $log, CalendarService) {
+controllers.controller('TimelineCtrl', function ($scope, $log, CalendarService) {
 
     $scope.visits = [];
     $scope.startDate = Date.today();

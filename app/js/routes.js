@@ -65,14 +65,14 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     }).
     state('user-visits', {
         url: "/user-visits",
-        templateUrl: "modules/visits/partials/user-visits.html",
+        templateUrl: "modules/chronos/partials/calendar-timeline.html",
         data: {
             access: ACCESS_LEVELS.USER
         }
     }).
     state('search-doctor', {
         url: "/search-doctor",
-        templateUrl: "modules/visits/partials/search-doctor.html",
+        templateUrl: "modules/users/partials/search-doctor.html",
         data: {
             access: ACCESS_LEVELS.USER
         }
