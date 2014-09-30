@@ -70,9 +70,9 @@ controllers.controller('TimelineCtrl', function ($scope, $log, CalendarService) 
  * Controller manages single event on time-line
  * @param $scope current scope of controller
  * @param $log logger
- * @param EventService service managing events
+ * @param CalendarService service managing events
  */
-controllers.controller('TimelineEventCtrl', function ($scope, $log, EventsService) {
+controllers.controller('TimelineEventCtrl', function ($scope, $log, CalendarService) {
 
     /**
      * Cancel given event
@@ -80,7 +80,12 @@ controllers.controller('TimelineEventCtrl', function ($scope, $log, EventsServic
      */
     $scope.cancel = function (event) {
         $log.debug('Cancelling event - id: ' + event.id);
-        EventsService.cancel(event.id).
+        event.cancelled = Date.today();
+        //TODO get current user
+        event.cancelledBy = {
+            id: 1
+        };
+        CalendarService.save(event.id).
             success(function (data) {
                 $log.debug('Event cancelled');
 
@@ -88,7 +93,6 @@ controllers.controller('TimelineEventCtrl', function ($scope, $log, EventsServic
             error(function (data, status) {
                 $log.error('Couldn\'t cancel event - data: ' + data + ', status: ' + status);
             });
-
     };
 
 });
