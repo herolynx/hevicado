@@ -733,7 +733,7 @@ section.calendar {
 				.dib;
 				left:0;
 				.w;
-				.h(90%);
+				.h(87%);
 				.radius(10px 10px 0 0);
 				z-index:100;
 				
@@ -745,8 +745,8 @@ section.calendar {
 			.box-event {
 				display:table;
 				.w;
-				.mt(10px);
-				.h(130px);
+				.mt(7px);
+				.h(126px);
 				
 				.box {
 					display:table-cell;
@@ -965,6 +965,7 @@ section.calendar {
 					.bb(1px solid #e6e6e6);
 					.pb(5px);
 					.w(13.71428%);
+					.normal;
 					
 					&:first-child {
 						.bl(0);
@@ -980,7 +981,6 @@ section.calendar {
 				
 				td {
 					background:url(../images/table-bg-10.png) repeat;
-					.h(100px);
 					.m(0 10px);
 					.bt(1px solid #e6e6e6);
 					.relative;
@@ -990,6 +990,11 @@ section.calendar {
 						vertical-align:top;
 						.bg(none)!important;
 					}	
+					
+					div {
+						.h(25px);
+						.db;						
+					}
 				}
 				
 				td:nth-child(2n+1) {
@@ -1036,10 +1041,15 @@ section.calendar {
 					td {
 						background:url(../images/table-bg-10.png) repeat;
 						.w(85%);
-						.h(150px);
+						.h(auto);
 						.bt(1px solid #e6e6e6);
 						.m(0 10px);
 						.relative;
+						
+						div {							
+							.db;
+							.h(37px);
+						}						
 						
 						&:first-child {
 							.bg(none);
@@ -1570,6 +1580,70 @@ section.search {
 	.w;
 	.relative;
 	.center;
+		
+	.week-prev, .week-next {
+		position:fixed;
+		top:0;			
+		.w(40px);
+		.h(100%);
+		z-index:888;
+		
+		a.prev, a.next {
+			.dn;
+		}	
+
+		&:hover {
+			.db;
+			
+			a.prev, a.next {
+				.absolute;
+				top:55%;				
+				.bg(rgba(0,0,0,0.2));
+				.radius(100%);
+				.w(100px);
+				.h(100px);
+				.right;
+				.c(#FFF);
+				.db;
+				
+				&:hover {
+					.bg(rgba(0,0,0,0.5));
+				}
+				
+				i {
+					.size(4em);
+					.relative;
+					top:9px;					
+				}
+			}
+		}
+	}
+	
+	.week-prev {
+		left:0;
+		
+		a.prev {
+			left:-60px;
+			.right;
+			
+			i {
+				left:15px;
+			}
+		}	
+	}
+	
+	.week-next {
+		right:0;
+		
+		a.next {
+			right:-60px;
+			.left;
+			
+			i {
+				right:35px;
+			}
+		}
+	}
 	
 	.box-row {
 		.w;
@@ -1718,7 +1792,7 @@ section.search {
 					content:none;
 				}
 				
-				.person, .address, .time-work, .calendar {
+				.person, .address, .calendar {
 					display:table-cell;
 					.w(24%);
 					vertical-align:top;
@@ -1779,8 +1853,8 @@ section.search {
 					}
 				}
 				
-				.address, .time-work, .calendar {
-					.pl(30px);
+				.address, .calendar {
+					.pl(25px);
 					.box-sizing;
 					
 					&:before {
@@ -1788,13 +1862,13 @@ section.search {
 						.w(10px);
 						top:10px;
 						left:0px;
-						.h(94.5%);
+						.h(96.5%);
 						.absolute;
 						background:url(../images/table-bg-20.png);
 					}
 
 					h2 {
-						.mb(20px);
+						.mb(10px);
 					}
 					
 					p {
@@ -1829,14 +1903,14 @@ section.search {
 				}
 				
 				.calendar {
-					.w(27%);
+					.w(50%);
 					
 					.box-event {
 						.dib;
 						.w(auto);
 						.m(0);
 						.h(100px);
-						.pp(0 12px);
+						.pp(0 9px);
 						.box-sizing;
 						.relative; 
 						
