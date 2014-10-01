@@ -1,6 +1,6 @@
 'use strict';
 
-var controllers = angular.module('chronos.timeline', [
+var timeline = angular.module('chronos.timeline', [
     'chronos.services',
     'infinite-scroll'
 ]);
@@ -10,9 +10,11 @@ var controllers = angular.module('chronos.timeline', [
  * @param $scope current scope of controller
  * @param $log logger
  * @param CalendarService service managing calendar events
+ * @param uiNotification notification manager
  */
-controllers.controller('TimelineCtrl', function ($scope, $log, CalendarService) {
+timeline.controller('TimelineCtrl', function ($scope, $log, CalendarService, uiNotification) {
 
+    $scope.daysCount = 7;
     $scope.events = [];
     $scope.startDate = Date.today();
     $scope.endDate = Date.today();
@@ -28,40 +30,45 @@ controllers.controller('TimelineCtrl', function ($scope, $log, CalendarService) 
     };
 
     /**
-     * Get visits of current time window
+     * Get events for given time window
+     * @param startDate beginning of time window
+     * @param endDate end of time window
      */
-    $scope.getVisits = function () {
+    $scope.getEvents = function (startDate, endDate) {
         $scope.loading = true;
-        CalendarService.events($scope.startDate, $scope.endDate).
-            success(function (data) {
-                $log.debug('Visits loaded - data size: ' + data.length);
-                $scope.loading = false;
-                for (var i = 0; i < data.length; i++) {
-                    $scope.events.push(data[i]);
-                }
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t load visits - data: ' + data + ', status: ' + status);
-                $scope.loading = false;
-            });
+        CalendarService.events(startDate, endDate).
+        success(function (data) {
+            $log.debug('Events loaded - data size: ' + data.length);
+            $scope.loading = false;
+            for (var i = 0; i < data.length; i++) {
+                $scope.events.push(data[i]);
+            }
+        }).
+        error(function (data, status) {
+            $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+            uiNotification.text('Error', 'Couldn\'t load events').error();
+            $scope.loading = false;
+        });
     };
 
     /**
      * Init time-line window
      * @param start start date of window
+     * @param daysCount length of time window in days
      */
-    $scope.initTimeWindow = function (start) {
-        $scope.startDate = start;
-        $scope.endDate = start.clone().add(7).days();
-        $log.debug('User visits time window - start ' + $scope.startDate + ', end: ' + $scope.endDate);
+    $scope.initTimeWindow = function (start, daysCount) {
+        $log.debug('Setting new time window - current window start date: ' + $scope.startDate + ', new window start date: ' + start + ', days count: ' + daysCount);
+        $scope.startDate = start.clone();
+        $scope.endDate = start.clone().add(daysCount).days();
     };
 
     /**
-     * Load next page
+     * Load next portion of data.
+     * Function shifts current time-window properly and loads all events for new time period.
      */
     $scope.next = function () {
-        $scope.initTimeWindow($scope.endDate);
-        $scope.getVisits();
+        $scope.initTimeWindow($scope.endDate, $scope.daysCount);
+        $scope.getEvents($scope.startDate, $scope.endDate);
     };
 
 });
@@ -71,8 +78,28 @@ controllers.controller('TimelineCtrl', function ($scope, $log, CalendarService) 
  * @param $scope current scope of controller
  * @param $log logger
  * @param CalendarService service managing events
+ * @param EventActionManager event action manager
+ * @param EventUtils generic event related functionality
+ * @param uiNotification user notification manager
  */
-controllers.controller('TimelineEventCtrl', function ($scope, $log, CalendarService) {
+timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService, EventActionManager, EventUtils, uiNotification) {
+
+    /**
+     * Get controller's action manager
+     * @return non-nullable instance
+     */
+    $scope.actions = function () {
+        return EventActionManager;
+    }
+
+    /**
+     * Get state of given event
+     * @param event event for which state should be checked
+     * @return non-nullable event state
+     */
+    $scope.state = function (event) {
+        return EventUtils.state(event);
+    }
 
     /**
      * Cancel given event
@@ -80,19 +107,24 @@ controllers.controller('TimelineEventCtrl', function ($scope, $log, CalendarServ
      */
     $scope.cancel = function (event) {
         $log.debug('Cancelling event - id: ' + event.id);
+        if (!EventActionManager.canCancel(event)) {
+            $log.error('Event cannot be cancelled');
+            uiNotification.text('Error', 'Event cannot be cancelled').error();
+            return;
+        }
         event.cancelled = Date.today();
         //TODO get current user
         event.cancelledBy = {
             id: 1
         };
         CalendarService.save(event.id).
-            success(function (data) {
-                $log.debug('Event cancelled');
+        success(function (data) {
+            $log.debug('Event cancelled');
 
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t cancel event - data: ' + data + ', status: ' + status);
-            });
+        }).
+        error(function (data, status) {
+            $log.error('Couldn\'t cancel event - data: ' + data + ', status: ' + status);
+        });
     };
 
 });
