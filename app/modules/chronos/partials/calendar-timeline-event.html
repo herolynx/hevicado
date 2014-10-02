@@ -1,4 +1,6 @@
-<div ng-controller="TimelineEventCtrl" class="visit-box">
+<div ng-controller="TimelineEventCtrl" class="visit-box" 
+        ng-class="{archiv: state(event)=='event-state-closed', 
+                   cancel: state(event)=='event-state-cancelled'}">
     <div class="action">
         <a ng-click="cancel(event)"><i class="icon-trash"></i></a>
     </div>

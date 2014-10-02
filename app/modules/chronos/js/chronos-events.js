@@ -21,7 +21,7 @@ events.service('EventActionManager', function (EventUtils, EVENT_STATE) {
         canCancel: function (event) {
             var eventState = EventUtils.state(event);
             return eventState.key >= EVENT_STATE.CLOSED.key;
-        };
+        }
 
     };
 });
@@ -42,13 +42,13 @@ events.service('EventUtils', function (EVENT_STATE) {
          * @return non-nullable state from EVENT_STATE
          */
         state: function (event) {
-            if (event.cancelled !== null) {
+            if (event.cancelled !== undefined && event.cancelled !== null) {
                 return EVENT_STATE.CANCELLED;
-            } else if (event.start.isAfter(Date.now())) {
+            } else if (new Date().isAfter(event.start)) {
                 return EVENT_STATE.CLOSED;
             }
             return EVENT_STATE.OPEN;
-        };
+        }
 
     };
 });

@@ -10,7 +10,7 @@ var module = angular.module('chronos', [
     'chronos.timeline',
     'chronos.collections',
     'chronos.directives',
-    'chronos.events'
+    'chronos.events',
     /*external modules*/
     'ui-dnd',
     'ui-elements',
