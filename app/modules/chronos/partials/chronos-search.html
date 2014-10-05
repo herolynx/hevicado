@@ -1,0 +1,331 @@
+<section id="main-content" ng-controller="SearchDoctorCtrl">
+        <div class="title-page">
+            <h1>Search</h1>
+        </div> <!-- Page Title -->
+        <div class="content">
+            <section class="search">
+                <div class="week-prev">
+                    <a href="#" class="prev">
+                        <i class="icon-left-open"></i>
+                    </a>
+                </div>  
+                <div class="week-next">
+                    <a href="#" class="next">
+                        <i class="icon-right-open"></i>
+                    </a>
+                </div>  <!-- Pagination Calendar Next, Prev -->     
+            
+                <div class="top-info">
+                    Wypełnij jedno z pól aby odnaleźć tego Jedynego :P 
+                </div>
+                <div class="box-row">
+                    <div class="box">
+                        <h2><span>1</span>Person data</h2>
+                        <ul>
+                            <li>
+                                <label>Name / Address e-mail</label>
+                                <fieldset>
+                                    <input type="text" ng-model="criteria.name">
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Location</label>
+                                <fieldset>
+                                    <input type="text" ng-model="criteria.localization">
+                                </fieldset>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <h2><span>2</span>Termin</h2>
+                        <ul>
+                            <li>
+                                <label>Termin od</label>
+                                <fieldset>
+                                    <input type="text" ng-model="criteria.startDate">
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>Termin do</label>
+                                <fieldset>
+                                    <input type="text" ng-model="criteria.endDate">
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label></label>
+                                <fieldset>
+                                    <button ng-click="search(criteria)">Search user</button>    
+                                </fieldset>
+                            </li>
+                        </ul>
+                    </div>      
+                    <div class="box">
+                        <h2><span>3</span>Wybierz specjalizację:</h2>
+                        <ul>
+                            <li>
+                                <label>Specjalization (wybierz spośród wielu)</label>
+                                <fieldset>
+                                   <input type="text" 
+                                        ng-model="newSpecialization" 
+                                    >
+                                    <i ng-show="loadingSpecializations" class="glyphicon glyphicon-refresh"></i>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <div class="tag" >
+                                    <a ng-repeat="specialization in criteria.specializations"
+                                       ng-click="deleteSpacialization(specialization)"
+                                    >
+                                        {{specialization}}
+                                        <div class="delete"><i class="icon-minus-circled"></i></div>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>   
+                    </div>      
+                </div> <!-- Form -->
+                <div class="top-info">
+                    Wyniki wyszukiwania
+                </div>
+                <div class="box-row">
+                    <div class="results">
+                        <div class="box blue"> <!-- Color -->
+                            <div class="person">
+                                <div class="name">
+                                    <h2>
+                                        <p>prof. dr. hab</p>
+                                        Mieczysław<br/> Kościuszko-Madej
+                                    </h2>
+                                    <span>
+                                        specjalizacja: urologia, chirurgia ogólna
+                                    </span>
+                                </div>
+                                <div class="images">
+                                    <div class="user">
+                                        <div class="img">
+                                            <img src="images/temp/user-1.jpg" alt="User profile">   
+                                        </div>
+                                    </div>
+                                </div>                              
+                            </div>
+                            <div class="address">
+                                <h2><i class="icon-home"></i> Adres</h2>
+                                <p>
+                                    <span class="color"></span>
+                                    Wojewódzki Szpital Badań nad Dupą<br/>
+                                    ul. Mariana Paździocha-Kiepskiego 43/2<br/>
+                                    53-312 Wrocław
+                                </p>                                
+                            </div>                          
+                            <div class="calendar">
+                                <h2><a href="#"><i class="icon-calendar"></i> Kalendarz</a></h2>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>11.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            1
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>12.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            19
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>13.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            34
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>14.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            12
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>15.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            2
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>16.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            16
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>16.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            16
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </div><!-- Person box -->
+                        
+                        <div class="box orange second"> <!-- Color -->
+                            <div class="person">
+                                <div class="name">
+                                    <h2>
+                                        <p>prof. dr. hab</p>
+                                        Mieczysław<br/> Kościuszko-Madej
+                                    </h2>
+                                    <span>
+                                        specjalizacja: urologia, chirurgia ogólna
+                                    </span>
+                                </div>
+                                <div class="images">
+                                    <div class="user">
+                                        <div class="img">
+                                            <img src="images/temp/user-1.jpg" alt="User profile">   
+                                        </div>
+                                    </div>
+                                </div>                              
+                            </div>
+                            <div class="address">
+                                <h2>Adres</h2>
+                                <p>
+                                    <span class="color c-1"></span>
+                                    Wojewódzki Szpital Badań nad Dupą<br/>
+                                    ul. Mariana Paździocha-Kiepskiego 43/2<br/>
+                                    53-312 Wrocław
+                                </p>                                    
+                            </div>                          
+                            <div class="calendar">
+                                <h2><a href="#"><i class="icon-calendar"></i> Kalendarz</a></h2>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>11.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            1
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>12.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            19
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>13.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            34
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>14.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            12
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>15.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            2
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>16.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            16
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-event">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>16.10.2013</p>
+                                        <div class="count-event">                               
+                                            <p>Visit</p>
+                                            <span>
+                                            16
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </div><!-- Person box -->
+                        
+                    </div><!-- Result -->
+                
+                </div>
+            </section> <!-- Section Page (calendar, members, ...) -->
+        </div>
+    </section> <!--Main section -->

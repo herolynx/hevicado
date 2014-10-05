@@ -72,7 +72,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     }).
     state('search-doctor', {
         url: "/search-doctor",
-        templateUrl: "modules/users/partials/search-doctor.html",
+        templateUrl: "modules/chronos/partials/chronos-search.html",
         data: {
             access: ACCESS_LEVELS.USER
         }
@@ -82,7 +82,6 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     state('calendar-day', {
         url: "/calendar-day",
         templateUrl: "modules/chronos/partials/calendar-day.html",
-        controller: 'DashboardCtrl',
         data: {
             access: ACCESS_LEVELS.USER
         }
@@ -90,7 +89,6 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     state('calendar-week', {
         url: "/calendar-week",
         templateUrl: "modules/chronos/partials/calendar-week.html",
-        controller: 'DashboardCtrl',
         data: {
             access: ACCESS_LEVELS.USER
         }
@@ -98,7 +96,6 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     state('calendar-month', {
         url: "/calendar-month",
         templateUrl: "modules/chronos/partials/calendar-month.html",
-        controller: 'DashboardCtrl',
         data: {
             access: ACCESS_LEVELS.USER
         }

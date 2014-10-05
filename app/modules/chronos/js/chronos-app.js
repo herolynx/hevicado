@@ -11,6 +11,7 @@ var module = angular.module('chronos', [
     'chronos.collections',
     'chronos.directives',
     'chronos.events',
+    'chronos.search',
     /*external modules*/
     'ui-dnd',
     'ui-elements',

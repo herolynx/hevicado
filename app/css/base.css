@@ -654,7 +654,7 @@ section.calendar .grid .event a.link {
   display: inline-block;
   left: 0;
   width: 100%;
-  height: 90%;
+  height: 87%;
   border-radius: 10px 10px 0 0;
   -moz-border-radius: 10px 10px 0 0;
   -webkit-border-radius: 10px 10px 0 0;
@@ -667,8 +667,8 @@ section.calendar .grid .event a.link:hover {
 section.calendar .grid .event .box-event {
   display: table;
   width: 100%;
-  margin-top: 10px;
-  height: 130px;
+  margin-top: 7px;
+  height: 126px;
 }
 section.calendar .grid .event .box-event .box {
   display: table-cell;
@@ -874,6 +874,7 @@ section.calendar .full table tr th {
   border-bottom: 1px solid #e6e6e6;
   padding-bottom: 5px;
   width: 13.71428%;
+  font-weight: normal;
 }
 section.calendar .full table tr th:first-child {
   border-left: 0;
@@ -886,7 +887,6 @@ section.calendar .full table tr th a {
 }
 section.calendar .full table tr td {
   background: url(../images/table-bg-10.png) repeat;
-  height: 100px;
   margin: 0 10px;
   border-top: 1px solid #e6e6e6;
   position: relative;
@@ -895,6 +895,10 @@ section.calendar .full table tr td:first-child {
   border-left: 0;
   vertical-align: top;
   background: none !important;
+}
+section.calendar .full table tr td div {
+  height: 25px;
+  display: block;
 }
 section.calendar .full table tr td:nth-child(2n+1) {
   background: url(../images/table-bg-20.png) repeat;
@@ -931,10 +935,14 @@ section.calendar .details .box table tr th .add {
 section.calendar .details .box table tr td {
   background: url(../images/table-bg-10.png) repeat;
   width: 85%;
-  height: 150px;
+  height: auto;
   border-top: 1px solid #e6e6e6;
   margin: 0 10px;
   position: relative;
+}
+section.calendar .details .box table tr td div {
+  display: block;
+  height: 37px;
 }
 section.calendar .details .box table tr td:first-child {
   background: none;
@@ -1419,6 +1427,75 @@ section.search {
   position: relative;
   text-align: center;
 }
+section.search .week-prev,
+section.search .week-next {
+  position: fixed;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  z-index: 888;
+}
+section.search .week-prev a.prev,
+section.search .week-next a.prev,
+section.search .week-prev a.next,
+section.search .week-next a.next {
+  display: none;
+}
+section.search .week-prev:hover,
+section.search .week-next:hover {
+  display: block;
+}
+section.search .week-prev:hover a.prev,
+section.search .week-next:hover a.prev,
+section.search .week-prev:hover a.next,
+section.search .week-next:hover a.next {
+  position: absolute;
+  top: 55%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  text-align: right;
+  color: #ffffff;
+  display: block;
+}
+section.search .week-prev:hover a.prev:hover,
+section.search .week-next:hover a.prev:hover,
+section.search .week-prev:hover a.next:hover,
+section.search .week-next:hover a.next:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+section.search .week-prev:hover a.prev i,
+section.search .week-next:hover a.prev i,
+section.search .week-prev:hover a.next i,
+section.search .week-next:hover a.next i {
+  font-size: 4em;
+  position: relative;
+  top: 9px;
+}
+section.search .week-prev {
+  left: 0;
+}
+section.search .week-prev a.prev {
+  left: -60px;
+  text-align: right;
+}
+section.search .week-prev a.prev i {
+  left: 15px;
+}
+section.search .week-next {
+  right: 0;
+}
+section.search .week-next a.next {
+  right: -60px;
+  text-align: left;
+}
+section.search .week-next a.next i {
+  right: 35px;
+}
 section.search .box-row {
   width: 100%;
   background: #ffffff;
@@ -1565,7 +1642,6 @@ section.search .box-row .results .box:before {
 }
 section.search .box-row .results .box .person,
 section.search .box-row .results .box .address,
-section.search .box-row .results .box .time-work,
 section.search .box-row .results .box .calendar {
   display: table-cell;
   width: 24%;
@@ -1626,31 +1702,27 @@ section.search .box-row .results .box .person .images .user .img img {
   -o-border-radius: 100%;
 }
 section.search .box-row .results .box .address,
-section.search .box-row .results .box .time-work,
 section.search .box-row .results .box .calendar {
-  padding-left: 30px;
+  padding-left: 25px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 section.search .box-row .results .box .address:before,
-section.search .box-row .results .box .time-work:before,
 section.search .box-row .results .box .calendar:before {
   content: '';
   width: 10px;
   top: 10px;
   left: 0px;
-  height: 94.5%;
+  height: 96.5%;
   position: absolute;
   background: url(../images/table-bg-20.png);
 }
 section.search .box-row .results .box .address h2,
-section.search .box-row .results .box .time-work h2,
 section.search .box-row .results .box .calendar h2 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 section.search .box-row .results .box .address p,
-section.search .box-row .results .box .time-work p,
 section.search .box-row .results .box .calendar p {
   line-height: 24px;
 }
@@ -1679,14 +1751,14 @@ section.search .box-row .results .box .address p .color {
   left: 0px;
 }
 section.search .box-row .results .box .calendar {
-  width: 27%;
+  width: 50%;
 }
 section.search .box-row .results .box .calendar .box-event {
   display: inline-block;
   width: auto;
   margin: 0;
   height: 100px;
-  padding: 0 12px;
+  padding: 0 9px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
