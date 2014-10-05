@@ -248,6 +248,28 @@ describe('chronos-timeline-spec:', function () {
             expect(event.cancelledBy).toBe(null);
         });
 
+        it('should check state of event', function () {
+            //given ctrl is initialized
+            expect(ctrlScope).toBeDefined();
+            //and event
+            var event = {
+                id: 'event-1'
+            };
+            //when checking state of event
+            ctrlScope.state(event);
+            //then calendar utils are called
+            expect(mockEventUtils.state).toHaveBeenCalledWith(event);
+        });
+
+        it('should return event action manager', function () {
+            //given ctrl is initialized
+            expect(ctrlScope).toBeDefined();
+            //when getting action manager
+            var actionManager = ctrlScope.actions();
+            //then event action manager is returned
+            expect(actionManager).toBe(mockActionManager);
+        });
+
     });
 
 });
