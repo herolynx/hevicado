@@ -20,6 +20,7 @@ module.exports = function (config) {
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/bower_components/angular-ui-sortable/sortable.js',
             'app/bower_components/angular-ui-dashboard/dist/angular-ui-dashboard.js',
+            'app/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
             /* tested components */
