@@ -54,7 +54,7 @@ describe('bolt-directives-spec:', function () {
             //then element is shown
             expect(mockAttachStrategy.show).toHaveBeenCalledWith(mockElement, mockChildren[0]);
             expect(mockAttachStrategy.show).toHaveBeenCalledWith(mockElement, mockChildren[1]);
-            expect(mockElement.show).toHaveBeenCalledWith('slow');
+            expect(mockElement.show).toHaveBeenCalled();
         });
 
         it('should attach to event bus and listen to proper events', function () {

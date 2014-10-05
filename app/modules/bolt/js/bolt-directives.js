@@ -31,7 +31,7 @@ function AuthorizedElement(element, children, reqRoles, AuthService, attachStrat
                 attachStrategy.show(element, children[i]);
             }
             //show element
-            element.show('slow');
+            element.show();
         }
     }
 
