@@ -120,10 +120,11 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
         CalendarService.save(event.id).
         success(function (data) {
             $log.debug('Event cancelled');
-
         }).
         error(function (data, status) {
             $log.error('Couldn\'t cancel event - data: ' + data + ', status: ' + status);
+            event.cancelled = null;
+            event.cancelledBy = null;
         });
     };
 
