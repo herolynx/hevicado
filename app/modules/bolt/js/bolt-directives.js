@@ -90,6 +90,9 @@ directives.directive('permission', function (AuthService, AUTH_EVENTS, attachStr
             roles: '@'
         },
         link: function ($scope, elm, attrs) {
+            if ($scope.roles === undefined) {
+                return;
+            }
             var reqRoles = $scope.roles.split(',');
             var authElement = new AuthorizedElement(elm, elm.contents(), reqRoles, AuthService, attachStrategy);
             authElement.attachToEventBus($scope, AUTH_EVENTS);

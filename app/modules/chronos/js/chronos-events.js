@@ -20,7 +20,7 @@ events.service('EventActionManager', function (EventUtils, EVENT_STATE) {
          */
         canCancel: function (event) {
             var eventState = EventUtils.state(event);
-            return eventState.key >= EVENT_STATE.CLOSED.key;
+            return eventState.key < EVENT_STATE.CLOSED.key;
         }
 
     };

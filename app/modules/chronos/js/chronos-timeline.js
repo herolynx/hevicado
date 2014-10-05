@@ -40,7 +40,7 @@ timeline.controller('TimelineCtrl', function ($scope, $log, CalendarService, uiN
         success(function (data) {
             $log.debug('Events loaded - data size: ' + data.length);
             $scope.loading = false;
-            for (var i = 0; i < data.length; i++) {
+            for (var i = data.length - 1; i >= 0; i--) {
                 $scope.events.push(data[i]);
             }
         }).
@@ -90,7 +90,7 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
      */
     $scope.actions = function () {
         return EventActionManager;
-    }
+    };
 
     /**
      * Get state of given event
@@ -99,7 +99,7 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
      */
     $scope.state = function (event) {
         return EventUtils.state(event);
-    }
+    };
 
     /**
      * Cancel given event

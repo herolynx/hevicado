@@ -6,11 +6,12 @@
                   }"
 >
     <div class="action">
-        <a ng-click="cancel(event)"><i class="icon-trash"></i></a>
+        <a ng-click="cancel(event)" ng-show="actions().canCancel(event)"><i class="icon-trash"></i></a>
     </div>
     <div class="address">
 		<span class="date">
-			{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}} <br/>
+			{{event.start | date: "yyyy-MM-dd HH:mm"}} <br/> 
+            {{event.end | date: "yyyy-MM-dd HH:mm"}} <br/>
 			{{event.title}}
 		</span>
 
