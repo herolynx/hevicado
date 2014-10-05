@@ -13,7 +13,7 @@ describe('bolt-service-spec:', function () {
         //prepare session for testing
         beforeEach(angular.mock.module(function ($provide) {
             //mock dependencies
-            mockCookieStore = jasmine.createSpyObj('$cookieStore', ['put', 'remove']);
+            mockCookieStore = jasmine.createSpyObj('$cookieStore', ['put', 'remove', 'get']);
             $provide.value('$cookieStore', mockCookieStore);
             mockUserRoles = jasmine.createSpyObj('USER_ROLES', ['GUEST', 'USER']);
             $provide.value('USER_ROLES', mockUserRoles);
@@ -29,11 +29,23 @@ describe('bolt-service-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //when session hasn't been created
-
+            mockCookieStore.get.andReturn(null);
             //then session contains default settings for guest
             expect(session.getToken()).toBeNull();
             expect(session.getUserId()).toBeNull();
             expect(session.getUserRole()).toBe(mockUserRoles.GUEST);
+        });
+
+        it('should load data from cookie when accessing current user\' data', function () {
+            //given session service is initialized
+            expect(session).toBeDefined();
+            //and session has been created before
+            mockCookieStore.get.andReturn({ token: 'token-123', id: 'user-456', userRole: 'USER'});
+            //when data of current user is accessed
+            //then state from cookie is restored
+            expect(session.getToken()).toBe('token-123');
+            expect(session.getUserId()).toBe('user-456');
+            expect(session.getUserRole()).toBe('USER');
         });
 
         it('should create new session', function () {

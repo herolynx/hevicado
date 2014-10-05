@@ -19,9 +19,9 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
         login: function (credentials) {
             return $http
                 .post('/users/login', credentials).then(
-                function (res) {
-                    Session.create(res.data);
-                });
+                    function (res) {
+                        Session.create(res.data);
+                    });
         },
         /**
          * Logout current user
@@ -66,6 +66,8 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
  */
 services.service('Session', function ($cookieStore, USER_ROLES, $log) {
 
+    var self = this;
+
     var _currentUser = {
         'token': null,
         'id': null,
@@ -73,15 +75,26 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
     };
 
     this.getToken = function () {
-        return _currentUser.token;
+        return self.loadUser().token;
     };
 
     this.getUserId = function () {
-        return _currentUser.id;
+        return self.loadUser().id;
     };
 
     this.getUserRole = function () {
-        return _currentUser.userRole;
+        return self.loadUser().userRole;
+    };
+
+    /**
+     * Load data of current user from cookie
+     */
+    this.loadUser = function () {
+        var sessionUser = $cookieStore.get('currentUser');
+        if (sessionUser != null) {
+            _currentUser = sessionUser;
+        }
+        return _currentUser;
     };
 
     /**
@@ -143,4 +156,3 @@ services.factory('AuthInterceptor', function ($rootScope, $q, Session, AUTH_EVEN
         }
     };
 });
-
