@@ -19,4 +19,54 @@ mockUsers.run(function ($httpBackend, Session, $log) {
     $httpBackend.whenPOST('/user').respond(200, currentUser);
     $httpBackend.whenPUT(/user/).respond(200, currentUser);
 
+    var doctors = [];
+
+    for (var i = 0; i < 10; i++) {
+        var doctor = {
+            id: 1,
+            first_name: 'fistname-' + i,
+            last_name: 'lastname-' + i,
+            mail: 'user-' + i + '@kunishu.com',
+            phone: '+48 792 123 456'
+        };
+        var location = {
+            id: "loc-123",
+            name: "Pulsantis",
+            address: {
+                street: "Grabiszynska 8/4",
+                city: "Wroclaw",
+                country: "Poland"
+            },
+            color: "red",
+            working_hours: [
+                {
+                    day: "Monday",
+                    start: "08:00",
+                    end: "10:00"
+                },
+                {
+                    day: "Monday",
+                    start: "12:00",
+                    end: "14:00"
+                },
+                {
+                    day: "Tuesday",
+                    start: "08:00",
+                    end: "16:00"
+                }
+            ]
+        };
+        // location.calendar = [];
+        // var today = Date.today();
+        // for (int j = 0; j < 7; j++) {
+        //     doctor.calendar.push({
+        //         date: today.clone().add(j).days(),
+        //         free: j % 2 == 0
+        //     })
+        // }
+        doctor.locations = [location, location];
+        doctors.push(doctor);
+    }
+
+    $httpBackend.whenGET(/user$/).respond(200, doctors);
 });
