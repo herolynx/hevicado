@@ -65,11 +65,15 @@
                             <li>
                                 <label>Specjalization (wybierz spośród wielu)</label>
                                 <fieldset>
-                                   <input type="text" 
-                                        ng-model="newSpecialization" 
-                                    >
-                                    <i ng-show="loadingSpecializations" class="glyphicon glyphicon-refresh"></i>
+                                    <!--  typeahead="specialization for specialization in getSpecializations($viewValue)" 
+                                        typeahead-loading="loadingSpecializations" 
+                                        class="form-control" -->
+                                       <input type="text" 
+                                            ng-model="newSpecialization" 
+                                            placeholder="Find specialization" 
+                                        >
                                 </fieldset>
+                                <button ng-click="addSpecialization(newSpecialization)">Add</button> 
                             </li>
                             <li>
                                 <div class="tag" >

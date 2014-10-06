@@ -5,7 +5,6 @@
  */
 var ui = angular.module('ui-notifications',
     [
-        'ui.bootstrap',
         'pascalprecht.translate'
     ]
 );

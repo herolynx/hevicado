@@ -5,8 +5,8 @@ module.exports = function (config) {
 
         files: [
             /* dependencies */
-            'app/bower_components/jquery/jquery.js',
-            'app/bower_components/jquery-ui/ui/jquery-ui.js',
+            'app/bower_components/jquery/dist/jquery.js',
+            'app/bower_components/jquery-ui/jquery-ui.js',
             'app/bower_components/toastr/toastr.js',
             'app/bower_components/datejs/build/date.js',
 
@@ -17,6 +17,7 @@ module.exports = function (config) {
             'app/bower_components/angular-translate/angular-translate.js',
             'app/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'app/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+            'app/bower_components/angular-bootstrap/ui-bootstrap.js',
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/bower_components/angular-ui-sortable/sortable.js',
             'app/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
