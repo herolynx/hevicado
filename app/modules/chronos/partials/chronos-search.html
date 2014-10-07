@@ -5,12 +5,12 @@
         <div class="content">
             <section class="search">
                 <div class="week-prev">
-                    <a href="#" class="prev">
+                    <a class="prev" ng-click="moveDays(-daysCount)">>
                         <i class="icon-left-open"></i>
                     </a>
                 </div>  
                 <div class="week-next">
-                    <a href="#" class="next">
+                    <a class="next" ng-click="moveDays(daysCount)">
                         <i class="icon-right-open"></i>
                     </a>
                 </div>  <!-- Pagination Calendar Next, Prev -->     
@@ -42,19 +42,24 @@
                             <li>
                                 <label>Termin od</label>
                                 <fieldset>
-                                    <input type="text" ng-model="criteria.startDate">
-                                </fieldset>
-                            </li>
-                            <li>
-                                <label>Termin do</label>
-                                <fieldset>
-                                    <input type="text" ng-model="criteria.endDate">
+                                    <input type="text" class="form-control" 
+                                        datepicker-popup="yyyy-MM-dd" 
+                                        ng-model="startDate" 
+                                        is-open="opened" 
+                                        min-date="Date.today()" 
+                                        datepicker-options="dateOptions" 
+                                        date-disabled="disabled(date, mode)" 
+                                        ng-required="true" 
+                                        close-text="Close" />
+                                    <button ng-click="openDatePicker($event)">
+                                            Open<i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
                                 </fieldset>
                             </li>
                             <li>
                                 <label></label>
                                 <fieldset>
-                                    <button ng-click="search(criteria)">Search user</button>    
+                                    <button ng-click="search()">Search user</button>    
                                 </fieldset>
                             </li>
                         </ul>

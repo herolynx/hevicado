@@ -75,7 +75,7 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
                 day: 1
             });
         } else if (daysAmount == 7) {
-            $scope.beginDate = Date.today().previous().monday();
+            $scope.beginDate = Date.today().moveToDayOfWeek(1, -1);
         } else {
             $scope.beginDate.clearTime();
         }
