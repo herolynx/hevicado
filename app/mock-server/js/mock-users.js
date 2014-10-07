@@ -23,7 +23,7 @@ mockUsers.run(function ($httpBackend, Session, $log) {
 
     for (var i = 0; i < 10; i++) {
         var doctor = {
-            id: 1,
+            id: i,
             first_name: 'fistname-' + i,
             last_name: 'lastname-' + i,
             mail: 'user-' + i + '@kunishu.com',
@@ -56,15 +56,15 @@ mockUsers.run(function ($httpBackend, Session, $log) {
                 }
             ]
         };
-        // location.calendar = [];
-        // var today = Date.today();
-        // for (int j = 0; j < 7; j++) {
-        //     doctor.calendar.push({
-        //         date: today.clone().add(j).days(),
-        //         free: j % 2 == 0
-        //     })
-        // }
-        doctor.locations = [location, location];
+        location.calendar = [];
+        var today = Date.today().moveToDayOfWeek(1, -1);
+        for (var j = 0; j < 7; j++) {
+            location.calendar.push({
+                date: today.clone().add(j).days(),
+                free: j % 2 == 0
+            });
+        }
+        doctor.locations = [location];
         doctors.push(doctor);
     }
 

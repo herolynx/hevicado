@@ -106,12 +106,12 @@
                             <div class="person">
                                 <div class="name">
                                     <h2>
-                                        <p>prof. dr. hab</p>
-                                        Mieczysław<br/> Kościuszko-Madej
+                                        {{doctor.first_name}}<br/> 
+                                        {{doctor.last_name}}
                                     </h2>
-                                    <span>
+                                    <!-- <span>
                                         specjalizacja: urologia, chirurgia ogólna
-                                    </span>
+                                    </span> -->
                                 </div>
                                 <div class="images">
                                     <div class="user">
@@ -121,101 +121,29 @@
                                     </div>
                                 </div>                              
                             </div>
-                            <div class="address">
-                                <h2><i class="icon-home"></i> Adres</h2>
-                                <p>
-                                    <span class="color"></span>
-                                    Wojewódzki Szpital Badań nad Dupą<br/>
-                                    ul. Mariana Paździocha-Kiepskiego 43/2<br/>
-                                    53-312 Wrocław
-                                </p>                                
-                            </div>                          
-                            <div class="calendar">
-                                <h2><a href="#"><i class="icon-calendar"></i> Kalendarz</a></h2>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>11.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            1
-                                            </span> 
+                            <div ng-repeat="location in doctor.locations">
+                                <div class="address">
+                                    <p>
+                                        <span class="color"></span>
+                                        {{location.name}}<br/>
+                                        {{location.address.street}}<br/>
+                                        {{location.address.city}}, {{location.address.country}}
+                                    </p>                                
+                                </div>                          
+                                <div class="calendar">
+                                    <div class="box-event" ng-repeat="day in location.calendar">
+                                        <div class="box-count">
+                                            <a href="#"></a> <!-- Link Day -->
+                                            <p>{{day.date | date: "MM-dd (EEE)"}}</p>
+                                            <div class="count-event">                               
+                                                <p>Free</p>
+                                                <span>
+                                                {{date.free ? 'yes' : 'no'}}
+                                                </span> 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>12.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            19
-                                            </span> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>13.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            34
-                                            </span> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>14.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            12
-                                            </span> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>15.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            2
-                                            </span> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>16.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            16
-                                            </span> 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-event">
-                                    <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>16.10.2013</p>
-                                        <div class="count-event">                               
-                                            <p>Visit</p>
-                                            <span>
-                                            16
-                                            </span> 
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>    
                             </div>                          
                         </div><!-- Person box -->
                     </div><!-- Result -->
