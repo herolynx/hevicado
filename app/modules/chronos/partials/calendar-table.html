@@ -11,7 +11,7 @@
     </tr>
     <tr ng-repeat="hour in _.range(0,24)">
         <td>{{hour}}:00</td>
-        <td ng-repeat="day in days">
+        <td ng-repeat="day in days" id="{{day.toString('yyyy-MM-dd')}} {{hour}}:00">
             <div class="event {{event.color}}" style="height:100px"
                 ng-repeat="event in getEvents(day,hour, 0)"
                 ui-resizable
@@ -19,8 +19,6 @@
                 ui-draggable="true"
                 drag="event"
                 drag-channel="dndDayChannel"
-                drop-channel="dndDayChannel"
-                ui-on-drop="dndDrop($event, $data, day, hour, 0)"
                 >
                 <div class="time">
                     <div class="action">
@@ -35,9 +33,9 @@
                     {{event.description}}
                 </div>
             </div>
-            <div
+            <div ng-repeat="quarter in [0,15,30,45]"
                 drop-channel="dndDayChannel"
-                ui-on-drop="dndDrop($event, $data, day, hour, 0)"
+                ui-on-drop="dndDrop($event, $data, day, hour, quarter)"
                 ng-click="addEvent(day, hour)"
                 >&nbsp;
             </div>
