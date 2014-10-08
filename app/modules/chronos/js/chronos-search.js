@@ -6,7 +6,14 @@ var search = angular.module('chronos.search', [
     'infinite-scroll'
 ]);
 
-
+/**
+ * Contoller managing searching of doctors and free visits
+ *
+ * @param $scope current scope of controller
+ * @param $log logger
+ * @param UsersService service managing user related data
+ * @param uiNotification notification service
+ */
 search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNotification) {
 
     $scope.daysCount = 7;
@@ -17,10 +24,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNo
         localization: '',
         startDate: null,
         endDate: null,
-        specializations: [{
-            id: 1,
-            name: 'Alergologia'
-        }],
+        specializations: [],
         startIndex: 0,
         count: 10
     };
@@ -49,7 +53,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNo
      *@param specialization new specialization to be added to criteria
      */
     $scope.addSpecialization = function (specialization) {
-
+        $scope.criteria.specializations.push(specialization);
     };
 
     /**
@@ -58,7 +62,10 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNo
      *@param specialization specialization to be removed from criteria
      */
     $scope.deleteSpacialization = function (specialization) {
-
+        var index = $scope.criteria.specializations.indexOf(specialization);
+        if (index != -1) {
+            $scope.criteria.specializations.splice(index, 1);
+        }
     };
 
     /**
@@ -118,6 +125,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNo
     $scope.nextDoctors = function () {
         $log.debug('Searching next doctors');
         $scope.loading = true;
+        $scope.criteria.startIndex += $scope.criteria.count;
         UsersService.search($scope.criteria).
         success(function (data) {
             $log.debug('Doctors found - data size: ' + data.length);
