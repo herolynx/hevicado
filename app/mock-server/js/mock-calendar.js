@@ -9,7 +9,7 @@ mockCalendar.run(function ($httpBackend, $log) {
     var colors = ['orange', 'blue'];
 
     var minutes = 0;
-    for (var hour = 8; hour < 16; hour++) {
+    for (var hour = 0; hour < 24; hour += 3) {
         var duration = 15 + minutes % 45;
         var event = {
             id: id,
@@ -23,6 +23,9 @@ mockCalendar.run(function ($httpBackend, $log) {
                 hour: hour,
                 minute: duration
             }),
+            timeline: hour % 2,
+            overlap: 2,
+            quarter: duration / 15,
             color: colors[hour % 2],
             duration: duration,
             cancelled: hour % 4 == 0 ? Date.today() : null,

@@ -28,6 +28,31 @@ directives.directive('calendarTable', function () {
     }
 });
 
+directives.directive('calendarTableEvent', function ($log) {
+
+    return {
+        restrict: 'E',
+        template: '',
+        scope: {
+            event: '='
+        },
+        link: function ($scope, elm, attrs) {
+            var quarterHeight = 25;
+            var height = $scope.event.quarter * quarterHeight;
+            elm.height(height-1);
+            if ($scope.event.overlap > 1) {
+                var columnWidth = 200;
+                var eventWidth = columnWidth / $scope.event.overlap;
+                $log.debug(eventWidth);
+                elm.width(eventWidth-10);
+                var left = eventWidth * $scope.event.timeline;
+                elm.css('left', left);
+            }
+        }
+    }
+
+});
+
 /**
  * Directive displays single event on time-line
  */
