@@ -11,8 +11,16 @@
     </tr>
     <tr ng-repeat="hour in _.range(0,24)">
         <td>{{hour}}:00</td>
-        <td ng-repeat="day in days" id="{{day.toString('yyyy-MM-dd')}} {{hour}}:00">
-            <calendar-table-event ng-repeat="event in getEvents(day,hour, 0)"
+        <td ng-repeat="day in days" id="{{day.toString('yyyy-MM-dd')}}">
+             <div ng-repeat="quarter in [0,15,30,45]"
+                id="{{day.toString('yyyy-MM-dd')}} {{hour}}:{{quarter}}"
+                drop-channel="dndDayChannel"
+                ui-on-drop="dndDrop($event, $data, day, hour, quarter)"
+                ng-click="addEvent(day, hour)"
+                >&nbsp;
+            </div>
+            <calendar-table-event 
+                ng-repeat="event in getEvents(day,hour, 0)"
                 class="event {{event.color}}" style="height:100px"
                 event="event"
                 ui-resizable
@@ -34,12 +42,7 @@
                     {{event.description}}
                 </div>
             </calendar-table-event>
-            <div ng-repeat="quarter in [0,15,30,45]"
-                drop-channel="dndDayChannel"
-                ui-on-drop="dndDrop($event, $data, day, hour, quarter)"
-                ng-click="addEvent(day, hour)"
-                >&nbsp;
-            </div>
+
         </td>
     </tr>
 </table>

@@ -37,14 +37,23 @@ directives.directive('calendarTableEvent', function ($log) {
             event: '='
         },
         link: function ($scope, elm, attrs) {
+            // var startDate = $scope.event.start;
+            // var topId = startDate.toString('yyyy-MM-dd') + ' ' + startDate.getHours() + ':' + startDate.getMinutes();
+            // var topElement = $("#" + topId);
+            // if (topElement != null) {
+            //     $log.debug('attaching');
+            //     elm.detach();
+            //     topElement.parent().append(elm);
+            // }
+
             var quarterHeight = 25;
             var height = $scope.event.quarter * quarterHeight;
-            elm.height(height-1);
+            elm.height(height - 1);
+
             if ($scope.event.overlap > 1) {
                 var columnWidth = 200;
                 var eventWidth = columnWidth / $scope.event.overlap;
-                $log.debug(eventWidth);
-                elm.width(eventWidth-10);
+                elm.width(eventWidth - 10);
                 var left = eventWidth * $scope.event.timeline;
                 elm.css('left', left);
             }
