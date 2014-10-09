@@ -414,12 +414,13 @@ calendar.service('CalendarRenderer', function () {
         attachAll: function (events) {
             clear();
             //sort events
-            var order = _.sortBy(events, function (event) {
-                return [event.start, event.end];
-            });
+            var order = _.chain(events).
+                sortBy('end').
+                reverse().
+                sortBy('start').
+                value();
             //attach events
             for (var i = 0; i < order.length; i++) {
-                console.info(order[i].start + ' ' + order[i].end);
                 this.attach(order[i]);
             }
         }
