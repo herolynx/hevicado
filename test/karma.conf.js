@@ -9,6 +9,7 @@ module.exports = function (config) {
             'app/bower_components/jquery-ui/jquery-ui.js',
             'app/bower_components/toastr/toastr.js',
             'app/bower_components/datejs/build/date.js',
+            'app/bower_components/underscore/underscore-min.js',
 
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-cookies/angular-cookies.js',

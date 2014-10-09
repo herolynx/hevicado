@@ -25,7 +25,7 @@ describe('chronos-events-spec:', function () {
             //given event utils are initialized
             expect(eventUtils).toBeDefined();
             //and future event that hasn't been cancelled
-            event = {
+            var event = {
                 cancelled: null,
                 start: Date.today().add(1).days()
             };
@@ -40,7 +40,7 @@ describe('chronos-events-spec:', function () {
             //given event utils are initialized
             expect(eventUtils).toBeDefined();
             //and future event
-            event = {
+            var event = {
                 cancelled: null,
                 start: Date.today().add(1).days()
             };
@@ -57,7 +57,7 @@ describe('chronos-events-spec:', function () {
             //given event utils are initialized
             expect(eventUtils).toBeDefined();
             //and past event that hasn't been cancelled
-            event = {
+            var event = {
                 cancelled: null,
                 start: new Date().set({
                     day: 1,
@@ -76,7 +76,7 @@ describe('chronos-events-spec:', function () {
             //given event utils are initialized
             expect(eventUtils).toBeDefined();
             //and past event
-            event = {
+            var event = {
                 cancelled: null,
                 start: new Date().set({
                     day: 1,
@@ -118,7 +118,7 @@ describe('chronos-events-spec:', function () {
             //given action manager is initialized
             expect(eventActionManager).toBeDefined();
             //and event in open state
-            event = {
+            var event = {
                 cancelled: null,
                 start: Date.today().add(1).days()
             };
@@ -133,7 +133,7 @@ describe('chronos-events-spec:', function () {
             //given action manager is initialized
             expect(eventActionManager).toBeDefined();
             //and event in closed state
-            event = {
+            var event = {
                 cancelled: null,
                 start: new Date().set({
                     day: 1,
@@ -152,7 +152,7 @@ describe('chronos-events-spec:', function () {
             //given action manager is initialized
             expect(eventActionManager).toBeDefined();
             //and event is cancelled already
-            event = {
+            var event = {
                 cancelled: Date.today(),
                 start: Date.today()
             };
