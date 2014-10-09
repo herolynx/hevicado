@@ -53,14 +53,14 @@ calendar.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap
         var endDate = days[days.length - 1];
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
         CalendarService.events(startDate, endDate).
-        success(function (data) {
-            $log.debug('Events loaded - data size: ' + data.length);
-            EventsMap.clear();
-            EventsMap.addAll(data);
-        }).
-        error(function (data, status) {
-            $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
-        });
+            success(function (data) {
+                $log.debug('Events loaded - data size: ' + data.length);
+                EventsMap.clear();
+                EventsMap.addAll(data);
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+            });
     };
 
     /**
@@ -212,13 +212,13 @@ calendar.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap
     $scope.deleteEvent = function (event) {
         $log.debug('Deleting event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.delete(event.id).
-        success(function (result) {
-            EventsMap.remove(event);
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Cannot delete event').error();
-        });
+            success(function (result) {
+                EventsMap.remove(event);
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Cannot delete event').error();
+            });
     };
 
     /**
@@ -228,28 +228,28 @@ calendar.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.
-        options(event.start).
-        success(function (result) {
-            var modalInstance = $modal.open({
-                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-                templateUrl: 'modules/chronos/partials/edit-event.html',
-                backdrop: 'static',
-                scope: $scope,
-                controller: editEventCtrl,
-                resolve: {
-                    eventToEdit: function () {
-                        return event;
-                    },
-                    options: function () {
-                        return result;
+            options(event.start).
+            success(function (result) {
+                var modalInstance = $modal.open({
+                    windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+                    templateUrl: 'modules/chronos/partials/edit-event.html',
+                    backdrop: 'static',
+                    scope: $scope,
+                    controller: editEventCtrl,
+                    resolve: {
+                        eventToEdit: function () {
+                            return event;
+                        },
+                        options: function () {
+                            return result;
+                        }
                     }
-                }
+                });
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Cannot edit event').error();
             });
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Cannot edit event').error();
-        });
     };
 
     /**
@@ -352,16 +352,15 @@ calendar.service('CalendarRenderer', function () {
 
     var self = this;
     var t = [];
-    var overlap = 0;
+    var overlap = { value: 0 };
 
     /**
      * Check whether all timelines will be done at given point of time
-     * @param timelines current timelines
      * @param date point of time to be checked
      */
-    var areAfter = function (timelines, date) {
-        for (var i = 0; i < timelines.length; i++) {
-            if (date.isBefore(timelines[i].end)) {
+    var areAfter = function (date) {
+        for (var i = 0; i < t.length; i++) {
+            if (date.isBefore(t[i].end)) {
                 return false;
             }
         }
@@ -373,24 +372,24 @@ calendar.service('CalendarRenderer', function () {
      */
     var clear = function () {
         t = [];
-        overlap = new Object(0);
+        overlap = { value: 0 };
     };
 
     /**
      * Get timeline that is free at given point of time
-     * @param timelines current timelines
      * @param date point of time
      * @return index of existing or newly created timeline
      */
-    var timeline = function (timelines, date) {
-        for (var i = 0; i < timelines.length; i++) {
-            if (timelines[i].end.isAfter(date)) {
+    var timeline = function (date) {
+        overlap.value++;
+        for (var i = 0; i < t.length; i++) {
+            if (t[i].end.compareTo(date) <= 0) {
+                //ends before or at the same time
                 return i;
             }
         }
         //create new timeline
         t.push(new Object());
-        self.overlap++;
         return t.length - 1;
     };
 
@@ -400,13 +399,13 @@ calendar.service('CalendarRenderer', function () {
          * Attach event to next free timeline
          */
         attach: function (event) {
-            if (self.areAfter(timelines, event.start)) {
-                self.clear();
+            if (areAfter(event.start)) {
+                clear();
             }
-            var t = timeline(timelines, event.start);
-            timelines[t] = event;
-            event.timeline = t;
-            event.overlap = self.overlap;
+            var index = timeline(event.start);
+            t[index] = event;
+            event.timeline = index;
+            event.overlap = overlap;
         },
 
         /**
@@ -414,7 +413,7 @@ calendar.service('CalendarRenderer', function () {
          * @param events events that should be displayed in the same day
          */
         attachAll: function (events) {
-            self.clear();
+            clear();
             var order = _sortBy(events, function (event) {
                 return event.start;
             });
