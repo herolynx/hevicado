@@ -6,7 +6,7 @@
     <div class="content">
         <section class="registration">
             <div class="box-row">
-                <form name="credentials" ng-submit="changeCredentials(user)" novalidate>
+                <form name="credentials" novalidate>
                     <div class="box none">
                         <h2><span>1</span>Credentials</h2>
                         <ul>
@@ -51,15 +51,16 @@
                             </li>
                             <li>
                                 <fieldset>
-                                    <button class="btn blue rt" ng-disabled="credentials.$invalid">
-                                        <i class="icon-upload-cloud"></i>Change credentials
-                                    </button>
+                                    <a ng-disabled="credentials.$invalid" class="change"
+                                       ng-click="changeCredentials(user)">
+                                        Change credentials
+                                    </a>
                                 </fieldset>
                             </li>
                         </ul>
                     </div>
                 </form>
-                <form name="userProfile" ng-submit="save(user)" novalidate>
+                <form name="userProfile" novalidate>
                     <div class="box">
                         <h2><span>2</span>Account settings</h2>
                         <ul>
@@ -85,6 +86,11 @@
                                     </small>
                                 </fieldset>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <h2><span>3</span>More account settings</h2>
+                        <ul>
                             <li>
                                 <label>Language:</label>
                                 <fieldset>
@@ -110,14 +116,16 @@
                                     </select>
                                 </fieldset>
                             </li>
-                            <li>
-                                <button class="btn blue rt" ng-disabled="userProfile.$invalid">
-                                    <i class="icon-upload-cloud"></i>Save
-                                </button>
-                            </li>
                         </ul>
                     </div>
                 </form>
+                <div class="buttons">
+                    <button class="btn blue rt"
+                            ng-disabled="userProfile.$invalid"
+                            ng-click="save(user)">
+                        <i class="icon-upload-cloud"></i>Save
+                    </button>
+                </div>
             </div>
         </section>
     </div>

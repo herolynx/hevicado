@@ -18,23 +18,6 @@ $(function () {
         $('.widget-min-calendar .calendar').slideUp('fast');
     });
 
-    // NAV
-
-    $("nav li").hover(
-        function () {
-            $(this).find('ul.subpage').stop(true, true).animate({
-                left: '0px',
-                opacity: '1',
-                top: '0px'
-            }, 500);
-        }, function () {
-            $(this).find('ul.subpage').stop(true, true).animate({
-                left: '0px',
-                opacity: '0',
-                top: '0px'
-            }, 500);
-        }
-    );
 
     // CHECKBOX 
 

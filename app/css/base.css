@@ -74,22 +74,10 @@ nav,
 section {
   display: block;
 }
-/* BORDER */
-/* BORDER */
-/* BORDER */
-/* BORDER */
-/* PADDING */
-/* PADDING */
-/* PADDING */
-/* PADDING */
-/* MARGIN */
-/* MARGIN */
-/* MARGIN */
-/* MARGIN */
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
+/* BORDER *//* BORDER *//* BORDER *//* BORDER */
+/* PADDING *//* PADDING *//* PADDING *//* PADDING */
+/* MARGIN *//* MARGIN *//* MARGIN *//* MARGIN */
+/* FLOAT *//* FLOAT *//* FLOAT *//* FLOAT */
 .fl {
   float: left;
 }
@@ -99,10 +87,7 @@ section {
 .fn {
   float: none;
 }
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
+/* FLOAT *//* FLOAT *//* FLOAT *//* FLOAT */
 .clear {
   clear: both;
 }
@@ -118,10 +103,7 @@ section {
 .dn {
   display: none;
 }
-/* fonts */
-/* fonts */
-/* fonts */
-/* fonts */
+/* fonts *//* fonts *//* fonts *//* fonts */
 .bold {
   font-weight: bold;
 }
@@ -158,10 +140,7 @@ section {
 .lowercase {
   text-transform: lowercase;
 }
-/* OTHER */
-/* OTHER */
-/* OTHER */
-/* OTHER */
+/* OTHER *//* OTHER *//* OTHER *//* OTHER */
 .pointer {
   cursor: pointer;
 }
@@ -179,10 +158,7 @@ section {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* CONTENT */
-/* CONTENT */
-/* CONTENT */
-/* CONTENT */
+/* CONTENT *//* CONTENT *//* CONTENT *//* CONTENT */
 @font-face {
   font-family: 'Titillium Web';
   src: url('../fonts/titilliumweb-regular-webfont.eot');
@@ -489,6 +465,7 @@ section.calendar .top-info .date .month span {
 }
 section.calendar .top-info .date .month a {
   font-size: 3em;
+  cursor: pointer;
 }
 section.calendar .top-info .date .year {
   margin-top: -10px;
@@ -498,6 +475,7 @@ section.calendar .top-info .date .year span {
 }
 section.calendar .top-info .date .year a {
   font-size: 1em;
+  cursor: pointer;
 }
 section.calendar .top-info .view {
   position: absolute;
@@ -543,6 +521,7 @@ section.calendar .week-next {
   width: 40px;
   height: 100%;
   z-index: 888;
+  cursor: pointer;
 }
 section.calendar .week-prev a.prev,
 section.calendar .week-next a.prev,
@@ -1116,15 +1095,11 @@ section.registration .box-row .box {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
-  height: 244px;
-}
-section.registration .box-row .box:first-child:before {
-  content: none;
 }
 section.registration .box-row .box:before {
   content: '';
   width: 10px;
-  top: 5%;
+  top: 10%;
   left: -5px;
   height: 90%;
   position: absolute;
@@ -1191,9 +1166,16 @@ section.registration .box-row .box span.checkbox {
 section.registration .box-row .box span.checkbox input {
   margin-top: 2px;
 }
-section.registration .box-row .box button {
+section.registration .box-row .box .change {
+  text-decoration: underline;
+}
+section.registration .box-row .buttons {
+  float: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+section.registration .box-row .buttons button {
   margin: auto;
-  margin-top: 24px;
   display: inline-block;
   border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1205,6 +1187,112 @@ section.registration .box-row .box button {
   border: 0;
   color: #ffffff;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+}
+section.registration .box-row .box.none:before {
+  content: none;
+}
+section.login {
+  float: left;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+section.login .box-row {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-top: 1px solid #e6e6e6;
+  float: left;
+}
+section.login .box-row .box {
+  float: left;
+  width: 33.3333%;
+  text-align: left;
+  padding: 20px 30px 20px 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+}
+section.login .box-row .box:before {
+  content: '';
+  width: 10px;
+  top: 10%;
+  left: -5px;
+  height: 90%;
+  position: absolute;
+  background: url(../images/table-bg-20.png);
+}
+section.login .box-row .box h2 span {
+  width: 30px;
+  display: inline-block;
+  height: 30px;
+  background: #656565;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  text-shadow: none;
+  line-height: 30px;
+  margin-right: 10px;
+}
+section.login .box-row .box ul {
+  float: left;
+  width: 100%;
+  margin-top: 20px;
+}
+section.login .box-row .box ul li {
+  float: left;
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+section.login .box-row .box ul li label,
+section.login .box-row .box ul li fieldset {
+  float: left;
+  width: 100%;
+}
+section.login .box-row .box ul li label {
+  margin-bottom: 5px;
+  width: 100%;
+}
+section.login .box-row .box ul li fieldset input {
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  background: #f5f6f7;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  border: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 20px;
+  outline: none;
+  border: 1px solid #e6e6e6;
+}
+section.login .box-row .box ul li fieldset button {
+  margin: auto;
+  display: inline-block;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  padding: 10px 15px;
+  background: url(../images/title-bg.png) #00d6ab;
+  border: 0;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+}
+section.login .box-row .box.none:before {
+  content: none;
 }
 section.visit {
   float: left;
@@ -1650,6 +1738,8 @@ section.search .box-row .results .box .calendar {
 }
 section.search .box-row .results .box .person {
   position: relative;
+  width: 25%;
+  display: inline-block;
 }
 section.search .box-row .results .box .person .name {
   display: inline-block;
@@ -1701,15 +1791,19 @@ section.search .box-row .results .box .person .images .user .img img {
   -webkit-border-radius: 100%;
   -o-border-radius: 100%;
 }
-section.search .box-row .results .box .address,
-section.search .box-row .results .box .calendar {
+section.search .box-row .results .box .info {
+  display: inline-block;
+  width: 74.7%;
+}
+section.search .box-row .results .box .info .address,
+section.search .box-row .results .box .info .calendar {
   padding-left: 25px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-section.search .box-row .results .box .address:before,
-section.search .box-row .results .box .calendar:before {
+section.search .box-row .results .box .info .address:before,
+section.search .box-row .results .box .info .calendar:before {
   content: '';
   width: 10px;
   top: 10px;
@@ -1718,15 +1812,15 @@ section.search .box-row .results .box .calendar:before {
   position: absolute;
   background: url(../images/table-bg-20.png);
 }
-section.search .box-row .results .box .address h2,
-section.search .box-row .results .box .calendar h2 {
+section.search .box-row .results .box .info .address h2,
+section.search .box-row .results .box .info .calendar h2 {
   margin-bottom: 10px;
 }
-section.search .box-row .results .box .address p,
-section.search .box-row .results .box .calendar p {
+section.search .box-row .results .box .info .address p,
+section.search .box-row .results .box .info .calendar p {
   line-height: 24px;
 }
-section.search .box-row .results .box .address p {
+section.search .box-row .results .box .info .address p {
   padding-left: 20px;
   display: block;
   width: 100%;
@@ -1736,7 +1830,7 @@ section.search .box-row .results .box .address p {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-section.search .box-row .results .box .address p .color {
+section.search .box-row .results .box .info .address p .color {
   float: left;
   background: #51aafa;
   border: 1px solid #e6e6e6;
@@ -1750,10 +1844,10 @@ section.search .box-row .results .box .address p .color {
   top: 4px;
   left: 0px;
 }
-section.search .box-row .results .box .calendar {
+section.search .box-row .results .box .info .calendar {
   width: 50%;
 }
-section.search .box-row .results .box .calendar .box-event {
+section.search .box-row .results .box .info .calendar .box-event {
   display: inline-block;
   width: auto;
   margin: 0;
@@ -1764,19 +1858,19 @@ section.search .box-row .results .box .calendar .box-event {
   box-sizing: border-box;
   position: relative;
 }
-section.search .box-row .results .box .calendar .box-event p {
+section.search .box-row .results .box .info .calendar .box-event p {
   display: block;
   text-align: center;
   width: 100%;
   margin-bottom: 5px;
 }
-section.search .box-row .results .box .calendar .box-event .box-count {
+section.search .box-row .results .box .info .calendar .box-event .box-count {
   display: table-cell;
   vertical-align: middle;
   border-top: 0;
   padding: 0;
 }
-section.search .box-row .results .box .calendar .box-event a {
+section.search .box-row .results .box .info .calendar .box-event a {
   position: absolute;
   top: 0;
   left: 0;
@@ -1788,10 +1882,10 @@ section.search .box-row .results .box .calendar .box-event a {
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
 }
-section.search .box-row .results .box .calendar .box-event a:hover {
+section.search .box-row .results .box .info .calendar .box-event a:hover {
   background: rgba(0, 0, 0, 0.3);
 }
-section.search .box-row .results .box .calendar .count-event {
+section.search .box-row .results .box .info .calendar .count-event {
   margin: auto;
   display: inline-block;
   background: #ffffff;
@@ -1805,7 +1899,7 @@ section.search .box-row .results .box .calendar .count-event {
   position: relative;
   border: 3px solid #51aafa;
 }
-section.search .box-row .results .box .calendar .count-event:before {
+section.search .box-row .results .box .info .calendar .count-event:before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -1821,13 +1915,13 @@ section.search .box-row .results .box .calendar .count-event:before {
   -ms-transform: rotate(4deg);
   border-color: transparent transparent #51aafa transparent;
 }
-section.search .box-row .results .box .calendar .count-event p {
+section.search .box-row .results .box .info .calendar .count-event p {
   font-size: 14px;
   width: 100%;
   float: left;
   margin-top: 3px;
 }
-section.search .box-row .results .box .calendar .count-event span {
+section.search .box-row .results .box .info .calendar .count-event span {
   display: inline-block;
   width: 100%;
   margin-top: -22px;
@@ -1892,6 +1986,12 @@ section.search .box-row .results .second {
 .widget-legend .place-list .place p {
   float: left;
   width: 250px;
+}
+ul.dropdown-menu li div {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #000000;
+  z-index: 1;
 }
 .widget-min-calendar {
   width: auto;
