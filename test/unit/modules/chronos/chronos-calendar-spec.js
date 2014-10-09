@@ -214,6 +214,53 @@ describe('chronos-calendar-spec:', function () {
             expect(event3.timeline).toBe(1);
         });
 
+        it('should attach all events in proper order', function () {
+            //given first starts at 8 and end at 9
+            var event1 = { start: Date.today().set({
+                hour: 8,
+                minute: 0
+            }), end: Date.today().set({
+                hour: 9,
+                minute: 0
+            })};
+            //and next event that starts 8 but ends 8:30
+            var event2 = { start: Date.today().set({
+                hour: 8,
+                minute: 0
+            }), end: Date.today().set({
+                hour: 8,
+                minute: 30
+            })};
+            //and next event that starts at 8:45 and ends 9:15
+            var event3 = { start: Date.today().set({
+                hour: 8,
+                minute: 45
+            }), end: Date.today().set({
+                hour: 9,
+                minute: 15
+            })};
+            //and next event that starts after all attached events
+            var event4 = { start: Date.today().set({
+                hour: 9,
+                minute: 15
+            }), end: Date.today().set({
+                hour: 9,
+                minute: 30
+            })};
+            //when attaching all events in random order
+            renderer.attachAll([event4, event3, event2, event1]);
+            //then events are sorted and attached to proper time lines
+            expect(event1.timeline).toBe(0);
+            expect(event2.timeline).toBe(1);
+            expect(event3.timeline).toBe(1);
+            expect(event4.timeline).toBe(0);
+            //and proper overlapping indexes are set
+            expect(event4.overlap.value).toBe(1);
+            expect(event3.overlap.value).toBe(3);
+            expect(event2.overlap.value).toBe(3);
+            expect(event1.overlap.value).toBe(3);
+        });
+
 
     });
 

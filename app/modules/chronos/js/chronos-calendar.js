@@ -350,7 +350,6 @@ calendar.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap
  */
 calendar.service('CalendarRenderer', function () {
 
-    var self = this;
     var t = [];
     var overlap = { value: 0 };
 
@@ -414,11 +413,14 @@ calendar.service('CalendarRenderer', function () {
          */
         attachAll: function (events) {
             clear();
-            var order = _sortBy(events, function (event) {
-                return event.start;
+            //sort events
+            var order = _.sortBy(events, function (event) {
+                return [event.start, event.end];
             });
+            //attach events
             for (var i = 0; i < order.length; i++) {
-                attach(order[i]);
+                console.info(order[i].start + ' ' + order[i].end);
+                this.attach(order[i]);
             }
         }
 
