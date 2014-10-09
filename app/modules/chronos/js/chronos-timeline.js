@@ -129,3 +129,17 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
     };
 
 });
+
+
+/**
+ * Directive displays single event on time-line
+ */
+timeline.directive('calendarTimelineEvent', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'modules/chronos/partials/calendar-timeline-event.html',
+        scope: {
+            event: '=event'
+        }
+    }
+});

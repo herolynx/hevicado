@@ -5,12 +5,13 @@
  */
 var module = angular.module('chronos', [
     /*internal modules*/
-    'chronos.controllers',
-    'chronos.services',
-    'chronos.timeline',
     'chronos.collections',
+    'chronos.services',
     'chronos.directives',
     'chronos.events',
+    'chronos.calendar',
+    'chronos.calendar.directives',
+    'chronos.timeline',
     'chronos.search',
     /*external modules*/
     'ui-dnd',

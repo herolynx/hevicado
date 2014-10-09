@@ -1,6 +1,6 @@
 'use strict';
 
-var controllers = angular.module('chronos.controllers', []);
+var calendar = angular.module('chronos.calendar', []);
 
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
@@ -11,7 +11,7 @@ var controllers = angular.module('chronos.controllers', []);
  * @param uiNotifications compononent managing notifications
  * @param $log logger
  */
-controllers.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, $modal, uiNotification, $log) {
+calendar.controller('CalendarCtrl', function ($scope, CalendarService, EventsMap, $modal, uiNotification, $log) {
 
     /**
      * Include underscore
@@ -341,4 +341,87 @@ controllers.controller('CalendarCtrl', function ($scope, CalendarService, Events
     };
 
     $scope.register();
+});
+
+/**
+ * Renderer manages displaying of events in the chosen day.
+ * Renderer marks timeline where event should be displayed and number of overlaping events
+ * that will be displayed at the same time.
+ */
+calendar.service('CalendarRenderer', function () {
+
+    var self = this;
+    var t = [];
+    var overlap = 0;
+
+    /**
+     * Check whether all timelines will be done at given point of time
+     * @param timelines current timelines
+     * @param date point of time to be checked
+     */
+    var areAfter = function (timelines, date) {
+        for (var i = 0; i < timelines.length; i++) {
+            if (date.isBefore(timelines[i].end)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    /**
+     * Clear state of renderer
+     */
+    var clear = function () {
+        t = [];
+        overlap = new Object(0);
+    };
+
+    /**
+     * Get timeline that is free at given point of time
+     * @param timelines current timelines
+     * @param date point of time
+     * @return index of existing or newly created timeline
+     */
+    var timeline = function (timelines, date) {
+        for (var i = 0; i < timelines.length; i++) {
+            if (timelines[i].end.isAfter(date)) {
+                return i;
+            }
+        }
+        //create new timeline
+        t.push(new Object());
+        self.overlap++;
+        return t.length - 1;
+    };
+
+    return {
+
+        /**
+         * Attach event to next free timeline
+         */
+        attach: function (event) {
+            if (self.areAfter(timelines, event.start)) {
+                self.clear();
+            }
+            var t = timeline(timelines, event.start);
+            timelines[t] = event;
+            event.timeline = t;
+            event.overlap = self.overlap;
+        },
+
+        /**
+         * Attach events to timelines
+         * @param events events that should be displayed in the same day
+         */
+        attachAll: function (events) {
+            self.clear();
+            var order = _sortBy(events, function (event) {
+                return event.start;
+            });
+            for (var i = 0; i < order.length; i++) {
+                attach(order[i]);
+            }
+        }
+
+    };
 });
