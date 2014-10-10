@@ -8,7 +8,8 @@ describe('events-map-spec:', function () {
     beforeEach(angular.mock.module('chronos.collections'));
 
     beforeEach(inject(function ($injector) {
-        eventsMap = $injector.get('EventsMap');
+        var factory = $injector.get('CalendarCollectionFactory');
+        eventsMap = factory.eventsMap();
     }));
 
     describe('adding events', function () {

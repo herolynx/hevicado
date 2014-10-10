@@ -5,7 +5,7 @@ var collections = angular.module('chronos.collections', []);
 /**
  * Multi-map of events with day->[event1, event2,...] map entries.
  */
-collections.service('EventsMap', function ($log) {
+function EventsMap() {
 
     var dayEvents = {};
 
@@ -189,56 +189,27 @@ collections.service('EventsMap', function ($log) {
 
     };
 
-});
+};
 
 /**
- * Collection of locations
- * @param $log logger
+ * Factory responsible for creation of calendar related collections
  */
-collections.service('Locations', function ($log) {
-
-    var locations = [];
+collections.factory('CalendarCollectionFactory', function () {
 
     return {
 
         /**
-         * Add all elements
-         * @param newLocations locations to be added
+         * Create map with grouped events by day
+         *
+         * @param events optional events to be added to map
+         * @return new instance
          */
-        addAll: function (newLocations) {
-            for (var i = 0; i < newLocations.length; i++) {
-                locations.push(newLocations[i]);
+        eventsMap: function (events) {
+            var map = new EventsMap();
+            if (events !== undefined) {
+                map.addAll(events);
             }
-        },
-
-        /**
-         * Clear all locations
-         */
-        clear: function () {
-            locations = [];
-        },
-
-        /**
-         *  Find location available for given date
-         * @param date for which location should be found
-         * @returns {*} found location, null otherwise
-         */
-        search: function (date) {
-            var dateDay = date.toString("dddd");
-            var dateTime = date.toString("HH:mm");
-            $log.debug('Searching location - date: ' + dateDay + ', time: ' + dateTime);
-            for (var loc = 0; loc < locations.length; loc++) {
-                var location = locations[loc];
-                var workingHours = location.working_hours;
-                for (var h = 0; h < workingHours.length; h++) {
-                    var working = workingHours[h];
-                    if (working.day == dateDay &&
-                        (dateTime >= working.start && dateTime < working.end)) {
-                        return location;
-                    }
-                }
-            }
-            return null;
+            return map;
         }
 
     };
