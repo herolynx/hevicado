@@ -457,12 +457,65 @@ describe('chronos-calendar-spec:', function () {
             ctrlScope.init(daysCount, startDate);
             //then calendar is prepared for displaying data of current user
             expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
-            //and calendar time table is set for today only
+            //and calendar time table is set for one day only
             expect(ctrlScope.days.length).toBe(daysCount);
             expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
             //and events started to be loading
             expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
             expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+        });
+
+        it('should load data for view', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and one day dispalay period time
+            var daysCount = 1;
+            //and current date
+            var startDate = Date.today().set({
+                year: 2014,
+                month: 09,
+                day: 13
+            });
+            //when loading data for chosen view
+            ctrlScope.init(daysCount, startDate);
+            //and back-end respnsed successfully
+            var events = [{
+                tile: 'sample-event',
+                start: startDate.clone(),
+                end: startDate.clone().add(1).hour()
+            }];
+            calendarPromise.success(events);
+            //then calendar time table is set for one day only
+            expect(ctrlScope.days.length).toBe(daysCount);
+            expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
+            //and events are loaded
+            expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+            expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+            expect(ctrlScope.eventsMap.size()).toBe(1);
+            //and events are rendered properly
+            expect(events[0].timeline).toBe(0);
+            expect(events[0].overlap.value).toBe(1);
+        });
+
+        it('should inform user when data couldn\'t be loaded', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and one day dispalay period time
+            var daysCount = 1;
+            //and current date
+            var startDate = Date.today().set({
+                year: 2014,
+                month: 09,
+                day: 13
+            });
+            //when loading data for chosen view
+            ctrlScope.init(daysCount, startDate);
+            //and back-end respnsed with failure
+            calendarPromise.error('ERROR');
+            //then user is informed properly
+            expect(mockUiNotification.error).toHaveBeenCalled();
+            expect(mockUiNotification.title).toBe('Error');
+            expect(mockUiNotification.msg).toBe('Couldn\'t load events');
         });
 
     });

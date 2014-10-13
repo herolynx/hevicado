@@ -65,6 +65,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         }).
         error(function (data, status) {
             $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+            uiNotification.text('Error', 'Couldn\'t load events').error();
         });
     };
 
@@ -74,8 +75,9 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
      */
     $scope.buildTimelines = function (days) {
         for (var i = 0; i < days.length; i++) {
-            var dayEvents = $scope.eventsMap.events(day);
-            renderer.attachAll(dayEvents);
+            days[i].clearTime();
+            var dayEvents = $scope.eventsMap.events(days[i]);
+            CalendarRenderer.attachAll(dayEvents);
         }
     };
 
@@ -88,7 +90,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         var dayKeys = $scope.eventsMap.dayKeys(startDate, endDate);
         for (var i = 0; i < dayKeys.length; i++) {
             var dayEvents = $scope.eventsMap.events(dayKeys[i]);
-            renderer.attachAll(dayEvents);
+            CalendarRenderer.attachAll(dayEvents);
         }
     };
 
