@@ -48,6 +48,18 @@ events.service('EventUtils', function (EVENT_STATE) {
                 return EVENT_STATE.CLOSED;
             }
             return EVENT_STATE.OPEN;
+        },
+
+        /**
+         * Move date to Monday of current week
+         * @param date date based on which current Monday should be found
+         * @return new instance of Monday date
+         */
+        currentMonday: function (date) {
+            if (!date.is().monday()) {
+                return date.clone().moveToDayOfWeek(1, -1);
+            }
+            return date.clone();
         }
 
     };

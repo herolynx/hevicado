@@ -92,6 +92,36 @@ describe('chronos-events-spec:', function () {
             expect(state).not.toBeNull();
             expect(state).toBe(mockEventStates.CANCELLED);
         });
+
+        it('should shift date to Monday of current week', function () {
+            //given event utils are initialized
+            expect(eventUtils).toBeDefined();
+            //and date that is not Monday
+            var date = Date.today().set({
+                year: 2014,
+                month: 09,
+                day: 3
+            });
+            //when shifting date to Monday
+            var monday = eventUtils.currentMonday(date);
+            //then Monday of current week is returned
+            expect(monday.toString('yyyy-MM-dd')).toBe('2014-09-29');
+        });
+
+        it('should not shift date if it\'s Monday of current week', function () {
+            //given event utils are initialized
+            expect(eventUtils).toBeDefined();
+            //and date that is Monday of current week
+            var date = Date.today().set({
+                year: 2014,
+                month: 09,
+                day: 13
+            });
+            //when shifting date to Monday
+            var monday = eventUtils.currentMonday(date);
+            //then date is not shifted
+            expect(monday.toString('yyyy-MM-dd')).toBe('2014-10-13');
+        });
     });
 
     describe('EventActionManager-spec:', function () {

@@ -10,11 +10,12 @@ var calendar = angular.module('chronos.calendar', []);
  * @param CalendarService service managing calendar data
  * @param CalendarCollectionFactory factory for creating proper event related collections
  * @param CalendarRenderer renderer for attaching events to proper time lines
+ * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
 calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
     CalendarService, CalendarCollectionFactory, CalendarRenderer,
-    uiNotification) {
+    EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -95,18 +96,19 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
      * Initialize calendar with chosen time period to be displayed
      *
      * @param daysAmount number of days to be displayed on calendar
-     *
+     * @param day optional day that should be used in initialized of calendar
      */
-    $scope.init = function (daysAmount) {
+    $scope.init = function (daysAmount, day) {
+        var startDate = day || Date.today();
+        $scope.beginDate = startDate;
         if (daysAmount == 31) {
-            $scope.beginDate = Date.today().set({
+            $scope.beginDate = startDate.set({
                 day: 1
             });
         } else if (daysAmount == 7) {
-            $scope.beginDate = Date.today().moveToDayOfWeek(1, -1);
-        } else {
-            $scope.beginDate.clearTime();
+            $scope.beginDate = EventUtils.currentMonday(startDate);
         }
+        $scope.beginDate.clearTime();
         //TODO get user ID
         CalendarService.init(1);
         $scope.setTimePeriod($scope.beginDate, daysAmount);

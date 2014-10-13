@@ -6,12 +6,15 @@ describe('chronos-search-spec:', function () {
     beforeEach(angular.mock.module('chronos.search'));
 
     describe('SearchDoctorCtrl-spec:', function () {
+
+        beforeEach(angular.mock.module('chronos'));
+
         var mockUsersService, mockUiNotification;
         var searchPromise;
         var ctrlScope;
 
         //prepare controller for testing
-        beforeEach(inject(function ($controller, _$rootScope_) {
+        beforeEach(inject(function ($controller, $injector, _$rootScope_) {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
             //mock dependencies
@@ -39,6 +42,7 @@ describe('chronos-search-spec:', function () {
                 $scope: ctrlScope,
                 $log: mockLog,
                 UsersService: mockUsersService,
+                EventUtils: $injector.get('EventUtils'),
                 uiNotification: mockUiNotification
             });
         }));

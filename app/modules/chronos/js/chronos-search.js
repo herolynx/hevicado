@@ -12,9 +12,10 @@ var search = angular.module('chronos.search', [
  * @param $scope current scope of controller
  * @param $log logger
  * @param UsersService service managing user related data
+ * @param EventUtils generic functionality related with events
  * @param uiNotification notification service
  */
-search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNotification) {
+search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, EventUtils, uiNotification) {
 
     $scope.daysCount = 7;
     $scope.loading = false;
@@ -84,7 +85,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, uiNo
      *@date daysCount length in days of time window
      */
     $scope.initTimetable = function (date, daysCount) {
-        $scope.criteria.startDate = date.clone().moveToDayOfWeek(1, -1);
+        $scope.criteria.startDate = EventUtils.currentMonday(date);
         $scope.criteria.endDate = $scope.criteria.startDate.clone().add(daysCount).days();
         $log.debug('Timetable set - start: ' + $scope.criteria.startDate + ', end: ' + $scope.criteria.endDate);
     };
