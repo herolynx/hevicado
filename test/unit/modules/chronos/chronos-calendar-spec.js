@@ -39,11 +39,13 @@ describe('chronos-calendar-spec:', function () {
                 end: Date.today().set({
                     hour: 9,
                     minute: 0
-                })
+                }),
+                duration: 60
             };
             renderer.attach(event1);
             expect(event1.timeline).toBe(0);
             expect(event1.overlap.value).toBe(1);
+            expect(event1.quarter).toBe(4);
             //when attaching new event that's overlapping previous event
             var event2 = {
                 start: Date.today().set({
@@ -53,11 +55,13 @@ describe('chronos-calendar-spec:', function () {
                 end: Date.today().set({
                     hour: 8,
                     minute: 45
-                })
+                }),
+                duration: 30
             };
             renderer.attach(event2);
             //then event is attached to new time line
             expect(event2.timeline).toBe(1);
+            expect(event2.quarter).toBe(2);
             //and overlapping index is updated
             expect(event2.overlap.value).toBe(2);
             expect(event1.overlap.value).toBe(2);
@@ -109,9 +113,9 @@ describe('chronos-calendar-spec:', function () {
             //then event is attached to second time line
             expect(event3.timeline).toBe(1);
             //and overlapping index is updated
-            expect(event3.overlap.value).toBe(3);
-            expect(event2.overlap.value).toBe(3);
-            expect(event1.overlap.value).toBe(3);
+            expect(event3.overlap.value).toBe(2);
+            expect(event2.overlap.value).toBe(2);
+            expect(event1.overlap.value).toBe(2);
             //and time lines of previous events are not changed
             expect(event1.timeline).toBe(0);
             expect(event2.timeline).toBe(1);
@@ -159,7 +163,7 @@ describe('chronos-calendar-spec:', function () {
             };
             renderer.attach(event3);
             expect(event3.timeline).toBe(1);
-            expect(event3.overlap.value).toBe(3);
+            expect(event3.overlap.value).toBe(2);
             //when attaching new event that starts at 9 and ends 9:15
             var event4 = {
                 start: Date.today().set({
@@ -176,10 +180,10 @@ describe('chronos-calendar-spec:', function () {
             //in order to keep them even
             expect(event4.timeline).toBe(0);
             //and overlapping index is updated
-            expect(event4.overlap.value).toBe(4);
-            expect(event3.overlap.value).toBe(4);
-            expect(event2.overlap.value).toBe(4);
-            expect(event1.overlap.value).toBe(4);
+            expect(event4.overlap.value).toBe(2);
+            expect(event3.overlap.value).toBe(2);
+            expect(event2.overlap.value).toBe(2);
+            expect(event1.overlap.value).toBe(2);
             //and time lines of previous events are not changed
             expect(event1.timeline).toBe(0);
             expect(event2.timeline).toBe(1);
@@ -228,7 +232,7 @@ describe('chronos-calendar-spec:', function () {
             };
             renderer.attach(event3);
             expect(event3.timeline).toBe(1);
-            expect(event3.overlap.value).toBe(3);
+            expect(event3.overlap.value).toBe(2);
             //when attaching new event that starts after all attached events
             var event4 = {
                 start: Date.today().set({
@@ -246,9 +250,9 @@ describe('chronos-calendar-spec:', function () {
             //and overlapping index of new event is cleared
             expect(event4.overlap.value).toBe(1);
             //and old overlapping indexes remain untouched
-            expect(event3.overlap.value).toBe(3);
-            expect(event2.overlap.value).toBe(3);
-            expect(event1.overlap.value).toBe(3);
+            expect(event3.overlap.value).toBe(2);
+            expect(event2.overlap.value).toBe(2);
+            expect(event1.overlap.value).toBe(2);
             //and time lines of previous events are not changed
             expect(event1.timeline).toBe(0);
             expect(event2.timeline).toBe(1);
@@ -309,9 +313,9 @@ describe('chronos-calendar-spec:', function () {
             expect(event4.timeline).toBe(0);
             //and proper overlapping indexes are set
             expect(event4.overlap.value).toBe(1);
-            expect(event3.overlap.value).toBe(3);
-            expect(event2.overlap.value).toBe(3);
-            expect(event1.overlap.value).toBe(3);
+            expect(event3.overlap.value).toBe(2);
+            expect(event2.overlap.value).toBe(2);
+            expect(event1.overlap.value).toBe(2);
         });
 
 

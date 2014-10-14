@@ -296,15 +296,19 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
      * @returns {Array}
      */
     $scope.getEvents = function (day, dayHour, minutes) {
-        //TODO filter on view
-        var startFrom = day.clone();
-        startFrom.set({
+        if (!$scope.eventsMap.contains(day)) {
+            // nothing to do
+            return;
+        }
+        var startFrom = day.clone().set({
             hour: dayHour,
             minute: minutes,
             second: 0
         });
+        var endTo = startFrom.clone().add(15).minutes();
         var filtered = $scope.eventsMap.filter(function (event) {
-            return startFrom.equals(event.start);
+            return event.start.compareTo(startFrom) >= 0 &&
+                event.start.compareTo(endTo) < 0;
         });
         var keys = Object.keys(filtered);
         return keys.length == 1 ? filtered[keys[0]] : [];
@@ -425,7 +429,6 @@ calendar.service('CalendarRenderer', function () {
      * @return index of existing or newly created timeline
      */
     var timeline = function (date) {
-        overlap.value++;
         for (var i = 0; i < t.length; i++) {
             if (t[i].end.compareTo(date) <= 0) {
                 //ends before or at the same time
@@ -433,6 +436,7 @@ calendar.service('CalendarRenderer', function () {
             }
         }
         //create new timeline
+        overlap.value++;
         t.push(new Object());
         return t.length - 1;
     };

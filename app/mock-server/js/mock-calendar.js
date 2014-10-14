@@ -60,11 +60,20 @@ mockCalendar.run(function ($httpBackend, $log) {
     events.push(createEvent(Date.today().set({
         hour: 0,
         minute: 15
-    }), 60, 'orange'));
-    // events.push(createEvent(Date.today().set({
-    //     hour: 1,
-    //     minute: 0
-    // }), 15, 'orange'));
+    }), 60, 'blue'));
+    events.push(createEvent(Date.today().set({
+        hour: 0,
+        minute: 45
+    }), 30, 'orange'));
+    events.push(createEvent(Date.today().set({
+        hour: 1,
+        minute: 0
+    }), 15, 'blue'));
+
+    events.push(createEvent(Date.today().set({
+        hour: 1,
+        minute: 30
+    }), 45, 'blue'));
 
     $httpBackend.whenGET(/calendar\/events\/search/).respond(200, events);
     $httpBackend.whenPOST(/calendar\/events\/save/).respond(200, {

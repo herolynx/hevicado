@@ -47,7 +47,7 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
         var height = event.quarter * quarterHeight;
         elm.height(height - 1);
         //set width
-        if (event.overlap.value > 1) {
+        if (event.overlap !== undefined && event.overlap.value > 1) {
             //more then one events overlap at the same time
             var parent = elm.parent();
             var columnWidth = parent.width();
