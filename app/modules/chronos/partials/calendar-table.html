@@ -16,33 +16,32 @@
                 id="{{day.toString('yyyy-MM-dd')}} {{hour}}:{{quarter}}"
                 drop-channel="dndDayChannel"
                 ui-on-drop="dndDrop($event, $data, day, hour, quarter)"
-                ng-click="addEvent(day, hour)"
+                ng-click="addEvent(day, hour, quarter)"
                 >&nbsp;
-            </div>
-            <calendar-table-event 
-                ng-repeat="event in getEvents(day,hour, 0)"
-                class="event {{event.color}}" style="height:100px"
-                event="event"
-                ui-resizable
-                ui-on-resize="dndChangeTime($event, $ui, event)"
-                ui-draggable="true"
-                drag="event"
-                drag-channel="dndDayChannel"
-                >
-                <div class="time">
-                    <div class="action">
-                        <a class="delete" ng-click="deleteEvent(event)">
-                        <i class="icon-trash"></i>
-                        </a>
+                <calendar-table-event 
+                    ng-repeat="event in getEvents(day,hour, quarter)"
+                    class="event {{event.color}}" style="height:100px"
+                    event="event"
+                    ui-resizable
+                    ui-on-resize="dndChangeTime($event, $ui, event)"
+                    ui-draggable="true"
+                    drag="event"
+                    drag-channel="dndDayChannel"
+                    >
+                    <div class="time">
+                        <div class="action">
+                            <a class="delete" ng-click="deleteEvent(event)">
+                            <i class="icon-trash"></i>
+                            </a>
+                        </div>
+                        {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                     </div>
-                    {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
-                </div>
-                <div class="describe" ng-click="editEvent(event)">
-                    <strong>{{event.title}}</strong><br/>
-                    {{event.description}}
-                </div>
-            </calendar-table-event>
-
+                    <div class="describe" ng-click="editEvent(event)">
+                        <strong>{{event.title}}</strong><br/>
+                        {{event.description}}
+                    </div>
+                </calendar-table-event>
+            </div>
         </td>
     </tr>
 </table>

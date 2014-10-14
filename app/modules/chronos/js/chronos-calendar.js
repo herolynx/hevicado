@@ -224,13 +224,15 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
      * Add new event to calendar
      * @param day day of new event
      * @param optional starting hour of event
+     * @param optional minutes of starting time
      */
-    $scope.addEvent = function (day, hour) {
+    $scope.addEvent = function (day, hour, minute) {
         //prepare start date
         var date = day.clone();
         if (hour !== undefined) {
             date = date.set({
-                hour: hour
+                hour: hour,
+                minute: minute
             });
         }
         $scope.editEvent({
@@ -298,10 +300,11 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         var startFrom = day.clone();
         startFrom.set({
             hour: dayHour,
-            minute: minutes
+            minute: minutes,
+            second: 0
         });
         var filtered = $scope.eventsMap.filter(function (event) {
-            return (startFrom.equals(event.start) || startFrom.isAfter(event.start)) && (startFrom.isBefore(event.end));
+            return startFrom.equals(event.start);
         });
         var keys = Object.keys(filtered);
         return keys.length == 1 ? filtered[keys[0]] : [];
@@ -447,6 +450,7 @@ calendar.service('CalendarRenderer', function () {
             t[index] = event;
             event.timeline = index;
             event.overlap = overlap;
+            event.quarter = event.duration / 15;
         },
 
         /**

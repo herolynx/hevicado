@@ -30,8 +30,33 @@ calendar.directive('calendarTable', function () {
 
 /** 
  * Directive displayes single event on table based on its timeline settings
+ *
+ * @param $window browser window
+ * @param $log logger
  */
-calendar.directive('calendarTableEvent', function ($log) {
+calendar.directive('calendarTableEvent', function ($window, $log) {
+
+    /**
+     * Set size of the displayed event element
+     * @param elm DOM representation of event
+     * @param event event to be displayed
+     */
+    var setEventSize = function (elm, event) {
+        //set height
+        var quarterHeight = 25;
+        var height = event.quarter * quarterHeight;
+        elm.height(height - 1);
+        //set width
+        if (event.overlap.value > 1) {
+            //more then one events overlap at the same time
+            var parent = elm.parent();
+            var columnWidth = parent.width();
+            var eventWidth = columnWidth / event.overlap.value;
+            elm.width(eventWidth - 10);
+            var left = eventWidth * event.timeline;
+            elm.css('left', left);
+        }
+    };
 
     return {
         restrict: 'E',
@@ -40,26 +65,11 @@ calendar.directive('calendarTableEvent', function ($log) {
             event: '='
         },
         link: function ($scope, elm, attrs) {
-            // var startDate = $scope.event.start;
-            // var topId = startDate.toString('yyyy-MM-dd') + ' ' + startDate.getHours() + ':' + startDate.getMinutes();
-            // var topElement = $("#" + topId);
-            // if (topElement != null) {
-            //     $log.debug('attaching');
-            //     elm.detach();
-            //     topElement.parent().append(elm);
-            // }
-
-            var quarterHeight = 25;
-            var height = $scope.event.quarter * quarterHeight;
-            elm.height(height - 1);
-
-            if ($scope.event.overlap > 1) {
-                var columnWidth = 200;
-                var eventWidth = columnWidth / $scope.event.overlap;
-                elm.width(eventWidth - 10);
-                var left = eventWidth * $scope.event.timeline;
-                elm.css('left', left);
-            }
+            setEventSize(elm, $scope.event);
+            //change event size also when window size changes
+            angular.element($window).bind('resize', function () {
+                setEventSize(elm, $scope.event);
+            })
         }
     }
 

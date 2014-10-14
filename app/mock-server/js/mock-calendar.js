@@ -6,29 +6,16 @@ mockCalendar.run(function ($httpBackend, $log) {
 
     var id = 1;
     var events = [];
-    var colors = ['orange', 'blue'];
 
-    var minutes = 0;
-    for (var hour = 0; hour < 24; hour += 3) {
-        var duration = 15 + minutes % 45;
-        var event = {
-            id: id,
-            title: "Meeting " + id,
+    var createEvent = function (start, duration, color) {
+        return {
+            id: id++,
+            title: "Meeting " + (id - 1),
             description: "Details go here about meeting....",
-            start: Date.today().set({
-                hour: hour,
-                minute: 0
-            }),
-            end: Date.today().set({
-                hour: hour,
-                minute: duration
-            }),
-            timeline: hour % 2,
-            overlap: 2,
-            quarter: duration / 15,
-            color: colors[hour % 2],
+            start: start,
+            end: start.clone().add(duration).minutes(),
+            color: color,
             duration: duration,
-            cancelled: hour % 4 == 0 ? Date.today() : null,
             location: {
                 id: "loc-123",
                 name: "Pulsantis",
@@ -37,7 +24,7 @@ mockCalendar.run(function ($httpBackend, $log) {
                     city: "Wroclaw",
                     country: "Poland"
                 },
-                color: colors[hour % 2]
+                color: color
             },
             owner: {
                 id: '1',
@@ -60,10 +47,24 @@ mockCalendar.run(function ($httpBackend, $log) {
                 }
             ]
         };
-        events.push(event);
-        minutes += 15;
-        id++;
     }
+
+    events.push(createEvent(Date.today().set({
+        hour: 0,
+        minute: 0
+    }), 60, 'orange'));
+    events.push(createEvent(Date.today().set({
+        hour: 0,
+        minute: 0
+    }), 30, 'blue'));
+    events.push(createEvent(Date.today().set({
+        hour: 0,
+        minute: 15
+    }), 60, 'orange'));
+    // events.push(createEvent(Date.today().set({
+    //     hour: 1,
+    //     minute: 0
+    // }), 15, 'orange'));
 
     $httpBackend.whenGET(/calendar\/events\/search/).respond(200, events);
     $httpBackend.whenPOST(/calendar\/events\/save/).respond(200, {

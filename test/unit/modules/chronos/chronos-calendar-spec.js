@@ -518,6 +518,52 @@ describe('chronos-calendar-spec:', function () {
             expect(mockUiNotification.msg).toBe('Couldn\'t load events');
         });
 
+        it('should refresh data of calendar view', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and one day dispalay period time
+            var daysCount = 1;
+            //and current date
+            var startDate = Date.today().set({
+                year: 2014,
+                month: 09,
+                day: 13
+            });
+            ctrlScope.beginDate = startDate;
+            ctrlScope.days = [startDate];
+            //when calendar is refreshed
+            ctrlScope.refresh();
+            //then calendar time table is set for one day only
+            expect(ctrlScope.days.length).toBe(daysCount);
+            expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
+            //and events are loaded again
+            expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+            expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+        });
+
+        it('should navigate to next week', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and one week view
+            var daysCount = 7;
+            //and current time table
+            var startDate = Date.today().set({
+                year: 2014,
+                month: 09,
+                day: 14
+            });
+            ctrlScope.init(daysCount, startDate);
+            //when moving to next week
+            ctrlScope.nextWeek();
+            //then new time table is set
+            expect(ctrlScope.days.length).toBe(daysCount);
+            expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-20');
+            expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2014-10-27');
+            //and events for new time table are loaded
+            expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-20');
+            expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-27');
+        });
+
     });
 
 });
