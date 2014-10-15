@@ -568,6 +568,29 @@ describe('chronos-calendar-spec:', function () {
             expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-26');
         });
 
+        it('should navigate to previous week', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and one week view
+            var daysCount = 7;
+            //and current time table
+            var startDate = Date.today().set({
+                year: 2014,
+                month: 9,
+                day: 14
+            });
+            ctrlScope.init(daysCount, startDate);
+            //when moving to previous week
+            ctrlScope.previousWeek();
+            //then new time table is set
+            expect(ctrlScope.days.length).toBe(daysCount);
+            expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-06');
+            expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2014-10-12');
+            //and events for new time table are loaded
+            expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-06');
+            expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-12');
+        });
+
     });
 
 });
