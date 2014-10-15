@@ -14,9 +14,7 @@ var calendar = angular.module('chronos.calendar', []);
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
-    CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS,
-    EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -58,16 +56,16 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         var endDate = days[days.length - 1];
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
         CalendarService.events(startDate, endDate).
-        success(function (data) {
-            $log.debug('Events loaded - data size: ' + data.length);
-            $scope.eventsMap.clear();
-            $scope.eventsMap.addAll(data);
-            $scope.buildTimelines(days);
-        }).
-        error(function (data, status) {
-            $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
-            uiNotification.text('Error', 'Couldn\'t load events').error();
-        });
+            success(function (data) {
+                $log.debug('Events loaded - data size: ' + data.length);
+                $scope.eventsMap.clear();
+                $scope.eventsMap.addAll(data);
+                $scope.buildTimelines(days);
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+                uiNotification.text('Error', 'Couldn\'t load events').error();
+            });
     };
 
     /**
@@ -248,14 +246,14 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
     $scope.deleteEvent = function (event) {
         $log.debug('Deleting event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.delete(event.id).
-        success(function (result) {
-            $scope.eventsMap.remove(event);
-            $scope.buildTimelineFor(event.start, event.end);
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Cannot delete event').error();
-        });
+            success(function (result) {
+                $scope.eventsMap.remove(event);
+                $scope.buildTimelineFor(event.start, event.end);
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Cannot delete event').error();
+            });
     };
 
     /**
@@ -265,28 +263,28 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.
-        options(event.start).
-        success(function (result) {
-            var modalInstance = $modal.open({
-                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-                templateUrl: 'modules/chronos/partials/edit-event.html',
-                backdrop: 'static',
-                scope: $scope,
-                controller: editEventCtrl,
-                resolve: {
-                    eventToEdit: function () {
-                        return event;
-                    },
-                    options: function () {
-                        return result;
+            options(event.start).
+            success(function (result) {
+                var modalInstance = $modal.open({
+                    windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+                    templateUrl: 'modules/chronos/partials/edit-event.html',
+                    backdrop: 'static',
+                    scope: $scope,
+                    controller: editEventCtrl,
+                    resolve: {
+                        eventToEdit: function () {
+                            return event;
+                        },
+                        options: function () {
+                            return result;
+                        }
                     }
-                }
+                });
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Cannot edit event').error();
             });
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Cannot edit event').error();
-        });
     };
 
     /**
@@ -299,7 +297,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
     $scope.getEvents = function (day, dayHour, minutes) {
         if (!$scope.eventsMap.contains(day)) {
             // nothing to do
-            return;
+            return [];
         }
         var startFrom = day.clone().set({
             hour: dayHour,
@@ -315,15 +313,26 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         return keys.length == 1 ? filtered[keys[0]] : [];
     };
 
-    $scope.getDayEvents = function (day) {
-        //TODO filter on view
-        var start = day.clone().clearTime();
-        var end = start.clone().add(1).days();
-        var filtered = $scope.eventsMap.filter(function (event) {
-            return (event.start.between(start, end));
-        });
-        var keys = Object.keys(filtered);
-        return keys.length == 1 ? filtered[keys[0]] : [];
+    $scope.locationStats = function (day, maxCount) {
+//        var dayEvents = $scope.eventsMap.events(day);
+//        if (dayEvents.length == 0) {
+            return [{name: '', value: '0'}];
+//        }
+//        var grouped = _.
+//            groupBy(dayEvents, function (event) {
+//                return event.location.name;
+//            });
+//        var stats = _.chain(Object.keys(grouped)).
+//            map(function(location) {
+//                return [location, grouped[location].length];
+//            }).
+//            sortBy(function (entry) {
+//                return entry[1];
+//            }).
+//            first(maxCount).
+//            value();
+//        console.info(stats);
+//        return stats;
     };
 
 
@@ -468,10 +477,10 @@ calendar.service('CalendarRenderer', function () {
             clear();
             //sort events
             var order = _.chain(events).
-            sortBy('end').
-            reverse().
-            sortBy('start').
-            value();
+                sortBy('end').
+                reverse().
+                sortBy('start').
+                value();
             //attach events
             for (var i = 0; i < order.length; i++) {
                 this.attach(order[i]);

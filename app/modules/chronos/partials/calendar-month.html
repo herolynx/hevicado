@@ -21,21 +21,21 @@
             <!-- Pagination Calendar Next, Prev -->
             <div class="grid">
                 <div ng-repeat="day in days" class="event turquoise">
-                    <a href="#" class="link"></a>
+                    <a class="link"></a>
 
                     <div class="date">
                         {{day | date: "dd-MM-yyyy (EEEE)"}}
                     </div>
-                    <div class="box-event">
-                        <div class="box">
-                            <div class="count-event">
-                                <p>Visit</p>
-									<span>
-									34
-									</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="box-event" ng-repeat="stat in locationStats(day, 4)">-->
+                        <!--<div class="box">-->
+                            <!--<div class="count-event" >-->
+                                <!--<p>{{stat.name}}</p>-->
+									<!--<span>-->
+									<!--{{stat.value}}-->
+									<!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="info">
                         <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
                     </div>
