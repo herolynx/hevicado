@@ -28,7 +28,7 @@ calendar.directive('calendarTable', function () {
     }
 });
 
-/** 
+/**
  * Directive displayes single event on table based on its timeline settings
  *
  * @param $window browser window
@@ -42,6 +42,7 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
      * @param event event to be displayed
      */
     var setEventSize = function (elm, event) {
+        clear(elm);
         //set height
         var quarterHeight = 25;
         var height = event.quarter * quarterHeight;
@@ -50,12 +51,22 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
         if (event.overlap !== undefined && event.overlap.value > 1) {
             //more then one events overlap at the same time
             var parent = elm.parent();
-            var columnWidth = parent.width();
+            var columnWidth = parent.width() * 0.85;
             var eventWidth = columnWidth / event.overlap.value;
             elm.width(eventWidth - 10);
             var left = eventWidth * event.timeline;
             elm.css('left', left);
         }
+    };
+
+    /**
+     * Clear attributes of displayed elements
+     * @param elm
+     */
+    var clear = function (elm) {
+        var parent = elm.parent();
+        elm.width(parent.width() * 0.85);
+        elm.css('left', 0);
     };
 
     return {
@@ -69,7 +80,11 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
             //change event size also when window size changes
             angular.element($window).bind('resize', function () {
                 setEventSize(elm, $scope.event);
-            })
+            });
+            //change when events on calendar changes
+            $scope.$on('CALENDAR_RENDER', function () {
+                setEventSize(elm, $scope.event);
+            });
         }
     }
 

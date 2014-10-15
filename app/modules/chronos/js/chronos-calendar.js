@@ -348,6 +348,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         $log.debug('DnD adding updated event - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
         $scope.eventsMap.add(calendarEvent);
         $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
+        $scope.$broadcast('CALENDAR_RENDER');
     };
 
     /**
@@ -383,6 +384,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         $log.debug('Event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
         $scope.eventsMap.add(calendarEvent);
         $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
+        $scope.$broadcast('CALENDAR_RENDER');
     };
 
     $scope.register();
