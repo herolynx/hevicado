@@ -45,13 +45,15 @@ calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CAL
     var setEventSize = function (elm, event) {
         clear(elm);
         //set height
-        var height = event.quarter * CALENDAR_SETTINGS.QUARTER_HEIGHT;
+        var hourRoot = elm.parent().parent();
+        var quarterHeight = hourRoot.height() / 4;
+        var height = event.quarter * quarterHeight;
         elm.height(height - 1);
         //set width
         if (event.overlap !== undefined && event.overlap.value > 1) {
             //more then one events overlap at the same time
-            var parent = elm.parent();
-            var columnWidth = parent.width() * CALENDAR_SETTINGS.EVENT_WIDTH_PERCENTAGE;
+            var quarterRoot = elm.parent();
+            var columnWidth = quarterRoot.width() * CALENDAR_SETTINGS.EVENT_WIDTH_PERCENTAGE;
             var eventWidth = columnWidth / event.overlap.value;
             elm.width(eventWidth - CALENDAR_SETTINGS.EVENT_WIDTH_MARGIN);
             var left = eventWidth * event.timeline;

@@ -376,7 +376,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 3
             });
             //when initializing calendar
@@ -402,7 +402,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date is Monday
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             //when initializing calendar
@@ -428,7 +428,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             //when initializing calendar
@@ -454,7 +454,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             //when initializing calendar
@@ -477,7 +477,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             //when loading data for chosen view
@@ -509,7 +509,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             //when loading data for chosen view
@@ -530,7 +530,7 @@ describe('chronos-calendar-spec:', function () {
             //and current date
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             ctrlScope.beginDate = startDate;
@@ -553,7 +553,7 @@ describe('chronos-calendar-spec:', function () {
             //and current time table
             var startDate = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 14
             });
             ctrlScope.init(daysCount, startDate);

@@ -53,7 +53,6 @@ module.constant('CALENDAR_EVENTS', {
  * Calendar settings
  */
 module.constant('CALENDAR_SETTINGS', {
-    QUARTER_HEIGHT: 25,
-    EVENT_WIDTH_PERCENTAGE: 0.85,
+    EVENT_WIDTH_PERCENTAGE: 0.87,
     EVENT_WIDTH_MARGIN: 10
 });
