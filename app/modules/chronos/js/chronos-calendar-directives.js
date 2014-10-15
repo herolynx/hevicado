@@ -61,7 +61,7 @@ calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CAL
 
     /**
      * Clear attributes of displayed elements
-     * @param elm
+     * @param elm DOM representation of event
      */
     var clear = function (elm) {
         var parent = elm.parent();
