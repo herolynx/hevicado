@@ -39,3 +39,21 @@ module.constant('EVENT_STATE', {
         value: 'event-state-cancelled'
     }
 });
+
+/**
+ * Calendar notification events
+ */
+module.constant('CALENDAR_EVENTS', {
+    CALENDAR_RENDER: 'calendar-render',
+    EVENT_CHANGED: 'event-changed',
+    EVENT_DELETED: 'event-deleted'
+});
+
+/**
+ * Calendar settings
+ */
+module.constant('CALENDAR_SETTINGS', {
+    QUARTER_HEIGHT: 25,
+    EVENT_WIDTH_PERCENTAGE: 0.85,
+    EVENT_WIDTH_MARGIN: 10
+});

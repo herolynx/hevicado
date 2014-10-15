@@ -32,9 +32,10 @@ calendar.directive('calendarTable', function () {
  * Directive displayes single event on table based on its timeline settings
  *
  * @param $window browser window
- * @param $log logger
+ * @param CALENDAR_EVENTS events used for calendar notifications
+ * @param CALENDAR_SETTINGS settings for calendar rendering
  */
-calendar.directive('calendarTableEvent', function ($window, $log) {
+calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CALENDAR_SETTINGS) {
 
     /**
      * Set size of the displayed event element
@@ -44,16 +45,15 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
     var setEventSize = function (elm, event) {
         clear(elm);
         //set height
-        var quarterHeight = 25;
-        var height = event.quarter * quarterHeight;
+        var height = event.quarter * CALENDAR_SETTINGS.QUARTER_HEIGHT;
         elm.height(height - 1);
         //set width
         if (event.overlap !== undefined && event.overlap.value > 1) {
             //more then one events overlap at the same time
             var parent = elm.parent();
-            var columnWidth = parent.width() * 0.85;
+            var columnWidth = parent.width() * CALENDAR_SETTINGS.EVENT_WIDTH_PERCENTAGE;
             var eventWidth = columnWidth / event.overlap.value;
-            elm.width(eventWidth - 10);
+            elm.width(eventWidth - CALENDAR_SETTINGS.EVENT_WIDTH_MARGIN);
             var left = eventWidth * event.timeline;
             elm.css('left', left);
         }
@@ -65,7 +65,7 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
      */
     var clear = function (elm) {
         var parent = elm.parent();
-        elm.width(parent.width() * 0.85);
+        elm.width(parent.width() * CALENDAR_SETTINGS.EVENT_WIDTH_PERCENTAGE);
         elm.css('left', 0);
     };
 
@@ -82,7 +82,7 @@ calendar.directive('calendarTableEvent', function ($window, $log) {
                 setEventSize(elm, $scope.event);
             });
             //change when events on calendar changes
-            $scope.$on('CALENDAR_RENDER', function () {
+            $scope.$on(CALENDAR_EVENTS.CALENDAR_RENDER, function () {
                 setEventSize(elm, $scope.event);
             });
         }

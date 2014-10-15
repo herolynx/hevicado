@@ -10,11 +10,12 @@ var calendar = angular.module('chronos.calendar', []);
  * @param CalendarService service managing calendar data
  * @param CalendarCollectionFactory factory for creating proper event related collections
  * @param CalendarRenderer renderer for attaching events to proper time lines
+ * @param CALENDAR_EVENTS events used for calendar notifications
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
 calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
-    CalendarService, CalendarCollectionFactory, CalendarRenderer,
+    CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS,
     EventUtils, uiNotification) {
 
     /**
@@ -120,14 +121,14 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
      * Register controller to event-bus
      */
     $scope.register = function () {
-        $scope.$on('EVENT_CHANGED', function (event, calendarEvent) {
+        $scope.$on(CALENDAR_EVENTS.EVENT_CHANGED, function (event, calendarEvent) {
             $log.debug('Event changed from event bus, updating new event in calendar - id: ' + calendarEvent.id);
             $scope.normalize(calendarEvent);
             $scope.eventsMap.remove(calendarEvent);
             $scope.eventsMap.add(calendarEvent);
             $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
         });
-        $scope.$on('EVENT_DELETED', function (event, calendarEvent) {
+        $scope.$on(CALENDAR_EVENTS.EVENT_DELETED, function (event, calendarEvent) {
             $log.debug('Event deleted from event bus, deleting event from calendar - id: ' + calendarEvent.id);
             $scope.normalize(calendarEvent);
             $scope.eventsMap.remove(calendarEvent);
@@ -348,7 +349,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         $log.debug('DnD adding updated event - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
         $scope.eventsMap.add(calendarEvent);
         $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        $scope.$broadcast('CALENDAR_RENDER');
+        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
     };
 
     /**
@@ -384,7 +385,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log,
         $log.debug('Event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
         $scope.eventsMap.add(calendarEvent);
         $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        $scope.$broadcast('CALENDAR_RENDER');
+        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
     };
 
     $scope.register();
