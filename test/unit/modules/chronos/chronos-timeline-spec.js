@@ -18,11 +18,11 @@ describe('chronos-timeline-spec:', function () {
             mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events']);
             calendarPromise = {
                 success: function (f) {
-                    calendarPromise.success = f;
+                    calendarPromise.onSuccess = f;
                     return calendarPromise;
                 },
                 error: function (f) {
-                    calendarPromise.error = f;
+                    calendarPromise.onError = f;
                     return calendarPromise;
                 }
             };
@@ -85,7 +85,7 @@ describe('chronos-timeline-spec:', function () {
             expect(ctrlScope.loading).toBe(true);
             //then calendar service is called
             expect(mockCalendarService.events).toHaveBeenCalledWith(startDate, endDate);
-            calendarPromise.success(events);
+            calendarPromise.onSuccess(events);
             //and events are loaded properly
             expect(ctrlScope.loading).toBe(false);
             expect(ctrlScope.events).toEqual([{
@@ -105,9 +105,9 @@ describe('chronos-timeline-spec:', function () {
             //when getting events 
             ctrlScope.getEvents(startDate, endDate);
             expect(ctrlScope.loading).toBe(true);
-            //and back-end has responsed with failure
+            //and back-end has responded with failure
             expect(mockCalendarService.events).toHaveBeenCalledWith(startDate, endDate);
-            calendarPromise.error('ERROR');
+            calendarPromise.onError('ERROR');
             //then user is informed properly
             expect(ctrlScope.loading).toBe(false);
             expect(mockUiNotification.error).toHaveBeenCalled();

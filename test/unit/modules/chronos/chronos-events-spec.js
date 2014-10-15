@@ -99,7 +99,7 @@ describe('chronos-events-spec:', function () {
             //and date that is not Monday
             var date = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 3
             });
             //when shifting date to Monday
@@ -114,7 +114,7 @@ describe('chronos-events-spec:', function () {
             //and date that is Monday of current week
             var date = Date.today().set({
                 year: 2014,
-                month: 09,
+                month: 9,
                 day: 13
             });
             //when shifting date to Monday

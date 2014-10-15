@@ -337,11 +337,11 @@ describe('chronos-calendar-spec:', function () {
             mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init']);
             calendarPromise = {
                 success: function (f) {
-                    calendarPromise.success = f;
+                    calendarPromise.onSuccess = f;
                     return calendarPromise;
                 },
                 error: function (f) {
-                    calendarPromise.error = f;
+                    calendarPromise.onError = f;
                     return calendarPromise;
                 }
             };
@@ -369,7 +369,7 @@ describe('chronos-calendar-spec:', function () {
         it('should initialize weekly view by shifting time table to beginning of the week', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one week dispalay period time
+            //and one week display period time
             var daysCount = 7;
             //and current user
             var currentUserId = 1;
@@ -395,7 +395,7 @@ describe('chronos-calendar-spec:', function () {
         it('should initialize weekly view by leaving curent Monday', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one week dispalay period time
+            //and one week display period time
             var daysCount = 7;
             //and current user
             var currentUserId = 1;
@@ -421,7 +421,7 @@ describe('chronos-calendar-spec:', function () {
         it('should initialize monthly view by shifting time table to beginning of the month', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one month dispalay period time
+            //and one month display period time
             var daysCount = 31;
             //and current user
             var currentUserId = 1;
@@ -447,7 +447,7 @@ describe('chronos-calendar-spec:', function () {
         it('should initialize daily view', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one day dispalay period time
+            //and one day display period time
             var daysCount = 1;
             //and current user
             var currentUserId = 1;
@@ -472,7 +472,7 @@ describe('chronos-calendar-spec:', function () {
         it('should load data for view', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one day dispalay period time
+            //and one day display period time
             var daysCount = 1;
             //and current date
             var startDate = Date.today().set({
@@ -482,13 +482,13 @@ describe('chronos-calendar-spec:', function () {
             });
             //when loading data for chosen view
             ctrlScope.init(daysCount, startDate);
-            //and back-end respnsed successfully
+            //and back-end responded successfully
             var events = [{
                 tile: 'sample-event',
                 start: startDate.clone(),
                 end: startDate.clone().add(1).hour()
             }];
-            calendarPromise.success(events);
+            calendarPromise.onSuccess(events);
             //then calendar time table is set for one day only
             expect(ctrlScope.days.length).toBe(daysCount);
             expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
@@ -504,7 +504,7 @@ describe('chronos-calendar-spec:', function () {
         it('should inform user when data couldn\'t be loaded', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one day dispalay period time
+            //and one day display period time
             var daysCount = 1;
             //and current date
             var startDate = Date.today().set({
@@ -514,8 +514,8 @@ describe('chronos-calendar-spec:', function () {
             });
             //when loading data for chosen view
             ctrlScope.init(daysCount, startDate);
-            //and back-end respnsed with failure
-            calendarPromise.error('ERROR');
+            //and back-end responded with failure
+            calendarPromise.onError('ERROR');
             //then user is informed properly
             expect(mockUiNotification.error).toHaveBeenCalled();
             expect(mockUiNotification.title).toBe('Error');
@@ -525,7 +525,7 @@ describe('chronos-calendar-spec:', function () {
         it('should refresh data of calendar view', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
-            //and one day dispalay period time
+            //and one day display period time
             var daysCount = 1;
             //and current date
             var startDate = Date.today().set({
@@ -562,10 +562,10 @@ describe('chronos-calendar-spec:', function () {
             //then new time table is set
             expect(ctrlScope.days.length).toBe(daysCount);
             expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-20');
-            expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2014-10-27');
+            expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2014-10-26');
             //and events for new time table are loaded
             expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-20');
-            expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-27');
+            expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-26');
         });
 
     });

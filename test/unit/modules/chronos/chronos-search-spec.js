@@ -21,11 +21,11 @@ describe('chronos-search-spec:', function () {
             mockUsersService = jasmine.createSpyObj('mockUsersService', ['search']);
             searchPromise = {
                 success: function (f) {
-                    searchPromise.success = f;
+                    searchPromise.onSuccess = f;
                     return searchPromise;
                 },
                 error: function (f) {
-                    searchPromise.error = f;
+                    searchPromise.onError = f;
                     return searchPromise;
                 }
             };
@@ -189,7 +189,7 @@ describe('chronos-search-spec:', function () {
                 id: 1,
                 name: 'doctor'
             }];
-            searchPromise.success(doctors);
+            searchPromise.onSuccess(doctors);
             //then doctors data is loaded properly
             expect(ctrlScope.doctors).toEqual(doctors);
             //and load of data is finished
@@ -214,9 +214,9 @@ describe('chronos-search-spec:', function () {
             ctrlScope.loading = false;
             //when searching for new results
             ctrlScope.search();
-            //and back-end has responsed with failure
+            //and back-end has responded with failure
             expect(mockUsersService.search).toHaveBeenCalledWith(ctrlScope.criteria);
-            searchPromise.error('ERROR');
+            searchPromise.onError('ERROR');
             //then user is informed that search has failed
             expect(mockUiNotification.error).toHaveBeenCalled();
             expect(mockUiNotification.title).toBe('Error');
