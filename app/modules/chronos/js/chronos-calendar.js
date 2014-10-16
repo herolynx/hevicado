@@ -45,7 +45,6 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
             $scope.days.push($scope.eventsMap.dayKey(currentDate));
             currentDate = currentDate.add(1).days();
         } while (currentDate.isBefore(endDate));
-        $scope.loadCalendarData($scope.days);
     };
 
     /**
@@ -153,7 +152,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * Refresh calendar's data
      */
     $scope.refresh = function () {
-        $scope.setDays($scope.beginDate, $scope.endDate);
+        $scope.loadCalendarData($scope.days);
     };
 
     /**
@@ -166,6 +165,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         var date = newDate || $scope.currentDate;
         $scope.currentDate = date.add(7 * direction).days();
         $scope.initTimePeriod($scope.currentDate);
+        $scope.setDays($scope.beginDate, $scope.endDate);
         $scope.refresh();
     };
 
@@ -179,6 +179,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         var date = newDate || $scope.currentDate;
         $scope.currentDate = date.add(direction).years();
         $scope.initTimePeriod($scope.currentDate);
+        $scope.setDays($scope.beginDate, $scope.endDate);
         $scope.refresh();
     };
 
@@ -192,6 +193,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         var date = newDate || $scope.currentDate;
         $scope.currentDate = date.add(direction).month();
         $scope.initTimePeriod($scope.currentDate);
+        $scope.setDays($scope.beginDate, $scope.endDate);
         $scope.refresh();
     };
 
@@ -207,6 +209,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         });
         $scope.currentDate = date;
         $scope.initTimePeriod($scope.currentDate);
+        $scope.setDays($scope.beginDate, $scope.endDate);
         $scope.refresh();
     };
 
@@ -220,6 +223,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         var date = newDate || $scope.currentDate;
         $scope.currentDate = date.add(direction).days();
         $scope.initTimePeriod($scope.currentDate);
+        $scope.setDays($scope.beginDate, $scope.endDate);
         $scope.refresh();
     };
 
