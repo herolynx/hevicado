@@ -33,7 +33,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     $scope.eventsMap = CalendarCollectionFactory.eventsMap();
 
     /**
-     * Set days displayed in time period on calendar
+     * Set days displayed in chosen time period on calendar
      * @param startDate first day displayed on calendar
      * @param endDate last date displayed on calendar
      */
@@ -219,8 +219,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         $log.debug('Shift day - director: ' + direction + ', new date: ' + newDate);
         var date = newDate || $scope.currentDate;
         $scope.currentDate = date.add(direction).days();
-        $scope.beginDate = $scope.currentDate;
-        $scope.endDate = $scope.currentDate;
+        $scope.initTimePeriod($scope.currentDate);
         $scope.refresh();
     };
 
