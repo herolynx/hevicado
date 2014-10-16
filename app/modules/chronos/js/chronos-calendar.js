@@ -28,6 +28,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         minute: 0
     });
 
+    $scope.viewType=  7;
     $scope.days = [];
     $scope.eventsMap = CalendarCollectionFactory.eventsMap();
 
@@ -100,6 +101,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * @param day optional day that should be used in initialized of calendar
      */
     $scope.init = function (daysAmount, day) {
+        $scope.viewType= daysAmount;
         var startDate = day || Date.today();
         $scope.beginDate = startDate;
         if (daysAmount == 31) {
