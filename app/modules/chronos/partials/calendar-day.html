@@ -8,12 +8,12 @@
         <section class="calendar" ng-init="init(1)">
             <calendar-menu></calendar-menu>
             <div class="week-prev">
-                <a class="prev" ng-click="previousDay()">
+                <a class="prev" ng-click="day(-1)">
                     <i class="icon-left-open"></i>
                 </a>
             </div>
             <div class="week-next">
-                <a class="next" ng-click="nextDay()">
+                <a class="next" ng-click="day(1)">
                     <i class="icon-right-open"></i>
                 </a>
             </div>

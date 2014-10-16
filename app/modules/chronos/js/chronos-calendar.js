@@ -23,28 +23,28 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
 
     $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    $scope.beginDate = Date.today().set({
-        hour: 8,
-        minute: 0
-    });
+    $scope.beginDate = Date.today();
+    $scope.endDate = Date.today();
+    $scope.currentDate = Date.today();
 
-    $scope.viewType=  7;
+    $scope.viewType = 7;
     $scope.days = [];
+
     $scope.eventsMap = CalendarCollectionFactory.eventsMap();
 
     /**
-     * Set time period displayed on calendar
+     * Set days displayed in time period on calendar
      * @param startDate first day displayed on calendar
-     * @param daysCount number of days displayed
+     * @param endDate last date displayed on calendar
      */
-    $scope.setTimePeriod = function (startDate, daysCount) {
-        $log.debug('Setting time period - startDate: ' + startDate + ", daysCount: " + daysCount);
+    $scope.setDays = function (startDate, endDate) {
+        $log.debug('Setting time period - startDate: ' + startDate + ", endDate: " + endDate);
         var currentDate = startDate.clone();
         $scope.days = [];
-        for (var i = 0; i < daysCount; i++) {
+        do {
             $scope.days.push($scope.eventsMap.dayKey(currentDate));
             currentDate = currentDate.add(1).days();
-        }
+        } while (currentDate.isBefore(endDate));
         $scope.loadCalendarData($scope.days);
     };
 
@@ -57,16 +57,16 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         var endDate = days[days.length - 1];
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
         CalendarService.events(startDate, endDate).
-            success(function (data) {
-                $log.debug('Events loaded - data size: ' + data.length);
-                $scope.eventsMap.clear();
-                $scope.eventsMap.addAll(data);
-                $scope.buildTimelines(days);
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
-                uiNotification.text('Error', 'Couldn\'t load events').error();
-            });
+        success(function (data) {
+            $log.debug('Events loaded - data size: ' + data.length);
+            $scope.eventsMap.clear();
+            $scope.eventsMap.addAll(data);
+            $scope.buildTimelines(days);
+        }).
+        error(function (data, status) {
+            $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+            uiNotification.text('Error', 'Couldn\'t load events').error();
+        });
     };
 
     /**
@@ -101,20 +101,33 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * @param day optional day that should be used in initialized of calendar
      */
     $scope.init = function (daysAmount, day) {
-        $scope.viewType= daysAmount;
-        var startDate = day || Date.today();
-        $scope.beginDate = startDate;
-        if (daysAmount == 31) {
-            $scope.beginDate = startDate.set({
-                day: 1
-            });
-        } else if (daysAmount == 7) {
-            $scope.beginDate = EventUtils.currentMonday(startDate);
-        }
-        $scope.beginDate.clearTime();
+        $scope.viewType = daysAmount;
         //TODO get user ID
         CalendarService.init(1);
-        $scope.setTimePeriod($scope.beginDate, daysAmount);
+        if ($scope.viewType == 31) {
+            $scope.month(0, day);
+        } else if ($scope.viewType == 7) {
+            $scope.week(0, day);
+        } else {
+            $scope.day(0, day);
+        }
+    };
+
+    /**
+     * Init time period based on type of calendar view and current date
+     * @param currentDate current date displayed
+     */
+    $scope.initTimePeriod = function (currentDate) {
+        if ($scope.viewType == 31) {
+            $scope.beginDate = EventUtils.currentMonday(currentDate.clone().moveToFirstDayOfMonth());
+            $scope.endDate = currentDate.clone().moveToLastDayOfMonth().next().monday();
+        } else if ($scope.viewType == 7) {
+            $scope.beginDate = EventUtils.currentMonday(currentDate);
+            $scope.endDate = $scope.beginDate.clone().add(7).days();
+        } else {
+            $scope.beginDate = currentDate.clone();
+            $scope.endDate = currentDate.clone();
+        }
     };
 
     /**
@@ -140,54 +153,45 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * Refresh calendar's data
      */
     $scope.refresh = function () {
-        $scope.setTimePeriod($scope.beginDate, $scope.days.length);
+        $scope.setDays($scope.beginDate, $scope.endDate);
     };
 
     /**
-     * Go to next calendar week
+     * Shift week
+     * @param direction shift direction (1 next, -1 prev, 0 current)
+     * @param newDate optional date that setts current week
      */
-    $scope.nextWeek = function () {
-        $scope.beginDate = $scope.beginDate.next().monday();
+    $scope.week = function (direction, newDate) {
+        $log.debug('Shift week - director: ' + direction + ', new date: ' + newDate);
+        var date = newDate || $scope.currentDate;
+        $scope.currentDate = date.add(7 * direction).days();
+        $scope.initTimePeriod($scope.currentDate);
         $scope.refresh();
     };
 
     /**
-     * Go to previous calendar week
+     * Shift year
+     * @param direction shift direction (1 next, -1 prev, 0 current)
+     * @param newDate optional date that setts current week
      */
-    $scope.previousWeek = function () {
-        $scope.beginDate = $scope.beginDate.previous().monday();
+    $scope.year = function (direction, newDate) {
+        $log.debug('Shift year - director: ' + direction + ', new date: ' + newDate);
+        var date = newDate || $scope.currentDate;
+        $scope.currentDate = date.add(direction).years();
+        $scope.initTimePeriod($scope.currentDate);
         $scope.refresh();
     };
 
     /**
-     * Go to next calendar year
+     * Shift month
+     * @param direction shift direction (1 next, -1 prev, 0 current)
+     * @param newDate optional date that setts current week
      */
-    $scope.nextYear = function () {
-        $scope.beginDate.next().year().previous().monday();
-        $scope.refresh();
-    };
-
-    /**
-     * Go to previous calendar year
-     */
-    $scope.previousYear = function () {
-        $scope.beginDate.previous().year().next().monday();
-        $scope.refresh();
-    };
-
-    /**
-     * Go to next calendar month
-     */
-    $scope.nextMonth = function () {
-        $scope.beginDate.next().month().previous().monday();
-        $scope.refresh();
-    };
-
-    /**
-     * Go to previous calendar month
-     */
-    $scope.previousMonth = function () {
-        $scope.beginDate.previous().month().next().monday();
+    $scope.month = function (direction, newDate) {
+        $log.debug('Shift month - director: ' + direction + ', new date: ' + newDate);
+        var date = newDate || $scope.currentDate;
+        $scope.currentDate = date.add(direction).month();
+        $scope.initTimePeriod($scope.currentDate);
         $scope.refresh();
     };
 
@@ -196,28 +200,27 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * @param month number of month to be set
      */
     $scope.setMonth = function (month) {
-        var currentMonth = $scope.beginDate.getMonth();
-        if (month == currentMonth) {
-            return;
-        }
-        var direction = currentMonth >= month ? -1 : 1;
-        $scope.beginDate.moveToMonth(month, direction).next().monday();
+        $log.debug('Set month - month: ' + month);
+        var date = newDate || $scope.currentDate;
+        date.set({
+            month: month
+        });
+        $scope.currentDate = date;
+        $scope.initTimePeriod($scope.currentDate);
         $scope.refresh();
     };
 
     /**
-     * Go to next calendar day
+     * Shift day
+     * @param direction shift direction (1 next, -1 prev, 0 current)
+     * @param newDate optional date that setts current week
      */
-    $scope.nextDay = function () {
-        $scope.beginDate.next().day();
-        $scope.refresh();
-    };
-
-    /**
-     * Go to previous calendar day
-     */
-    $scope.previousDay = function () {
-        $scope.beginDate.previous().day();
+    $scope.day = function (direction, newDate) {
+        $log.debug('Shift day - director: ' + direction + ', new date: ' + newDate);
+        var date = newDate || $scope.currentDate;
+        $scope.currentDate = date.add(direction).days();
+        $scope.beginDate = $scope.currentDate;
+        $scope.endDate = $scope.currentDate;
         $scope.refresh();
     };
 
@@ -248,14 +251,14 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     $scope.deleteEvent = function (event) {
         $log.debug('Deleting event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.delete(event.id).
-            success(function (result) {
-                $scope.eventsMap.remove(event);
-                $scope.buildTimelineFor(event.start, event.end);
-            }).
-            error(function (error) {
-                $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                uiNotification.text('Error', 'Cannot delete event').error();
-            });
+        success(function (result) {
+            $scope.eventsMap.remove(event);
+            $scope.buildTimelineFor(event.start, event.end);
+        }).
+        error(function (error) {
+            $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+            uiNotification.text('Error', 'Cannot delete event').error();
+        });
     };
 
     /**
@@ -265,28 +268,28 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.
-            options(event.start).
-            success(function (result) {
-                var modalInstance = $modal.open({
-                    windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-                    templateUrl: 'modules/chronos/partials/edit-event.html',
-                    backdrop: 'static',
-                    scope: $scope,
-                    controller: editEventCtrl,
-                    resolve: {
-                        eventToEdit: function () {
-                            return event;
-                        },
-                        options: function () {
-                            return result;
-                        }
+        options(event.start).
+        success(function (result) {
+            var modalInstance = $modal.open({
+                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+                templateUrl: 'modules/chronos/partials/edit-event.html',
+                backdrop: 'static',
+                scope: $scope,
+                controller: editEventCtrl,
+                resolve: {
+                    eventToEdit: function () {
+                        return event;
+                    },
+                    options: function () {
+                        return result;
                     }
-                });
-            }).
-            error(function (error) {
-                $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                uiNotification.text('Error', 'Cannot edit event').error();
+                }
             });
+        }).
+        error(function (error) {
+            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+            uiNotification.text('Error', 'Cannot edit event').error();
+        });
     };
 
     /**
@@ -316,25 +319,28 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     };
 
     $scope.locationStats = function (day, maxCount) {
-//        var dayEvents = $scope.eventsMap.events(day);
-//        if (dayEvents.length == 0) {
-            return [{name: '', value: '0'}];
-//        }
-//        var grouped = _.
-//            groupBy(dayEvents, function (event) {
-//                return event.location.name;
-//            });
-//        var stats = _.chain(Object.keys(grouped)).
-//            map(function(location) {
-//                return [location, grouped[location].length];
-//            }).
-//            sortBy(function (entry) {
-//                return entry[1];
-//            }).
-//            first(maxCount).
-//            value();
-//        console.info(stats);
-//        return stats;
+        //        var dayEvents = $scope.eventsMap.events(day);
+        //        if (dayEvents.length == 0) {
+        return [{
+            name: '',
+            value: '0'
+        }];
+        //        }
+        //        var grouped = _.
+        //            groupBy(dayEvents, function (event) {
+        //                return event.location.name;
+        //            });
+        //        var stats = _.chain(Object.keys(grouped)).
+        //            map(function(location) {
+        //                return [location, grouped[location].length];
+        //            }).
+        //            sortBy(function (entry) {
+        //                return entry[1];
+        //            }).
+        //            first(maxCount).
+        //            value();
+        //        console.info(stats);
+        //        return stats;
     };
 
 
@@ -479,10 +485,10 @@ calendar.service('CalendarRenderer', function () {
             clear();
             //sort events
             var order = _.chain(events).
-                sortBy('end').
-                reverse().
-                sortBy('start').
-                value();
+            sortBy('end').
+            reverse().
+            sortBy('start').
+            value();
             //attach events
             for (var i = 0; i < order.length; i++) {
                 this.attach(order[i]);
