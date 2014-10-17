@@ -424,16 +424,11 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      */
     $scope.dndChangeTime = function (event, ui, calendarEvent) {
         $log.debug('Changing event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
-        $scope.eventsMap.remove(calendarEvent);
-        $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
         var deltaHeight = ui.size.height - ui.originalSize.height;
         var addMinutes = 15 * Math.round(deltaHeight / 15);
-        calendarEvent.end = calendarEvent.end.add(addMinutes).minute();
+        var newEndDate = calendarEvent.end.clone().add(addMinutes).minute();
         calendarEvent.duration += addMinutes;
-        $log.debug('Event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
-        $scope.eventsMap.add(calendarEvent);
-        $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+        $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
     };
 
     $scope.register();
