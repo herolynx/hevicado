@@ -603,50 +603,6 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-12');
             });
 
-            it('should navigate to next day in daily view', function () {
-                //given controller is initialized
-                expect(ctrlScope).toBeDefined();
-                //and one day view
-                var daysCount = 1;
-                //and current time table
-                var startDate = Date.today().set({
-                    year: 2014,
-                    month: 9,
-                    day: 14
-                });
-                ctrlScope.init(daysCount, startDate);
-                //when moving to next day
-                ctrlScope.day(1);
-                //then new time table is set
-                expect(ctrlScope.days.length).toBe(daysCount);
-                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-15');
-                //and events for new time table are loaded
-                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-15');
-                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-15');
-            });
-
-            it('should navigate to previous day in daily view', function () {
-                //given controller is initialized
-                expect(ctrlScope).toBeDefined();
-                //and one day view
-                var daysCount = 1;
-                //and current time table
-                var startDate = Date.today().set({
-                    year: 2014,
-                    month: 9,
-                    day: 14
-                });
-                ctrlScope.init(daysCount, startDate);
-                //when moving to previous day
-                ctrlScope.day(-1);
-                //then new time table is set
-                expect(ctrlScope.days.length).toBe(daysCount);
-                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
-                //and events for new time table are loaded
-                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
-                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
-            });
-
             it('should navigate to next month in weekly view', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
@@ -742,8 +698,6 @@ describe('chronos-calendar-spec:', function () {
         });
 
 
-
-
         describe('calendar navigation for monthly view-spec:', function () {
 
             it('should navigate to next month in monthly view', function () {
@@ -769,74 +723,122 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-11-30');
             });
 
-            // it('should navigate to previous month in weekly view', function () {
-            //     //given controller is initialized
-            //     expect(ctrlScope).toBeDefined();
-            //     //and one week view
-            //     var daysCount = 7;
-            //     //and current time table
-            //     var startDate = Date.today().set({
-            //         year: 2014,
-            //         month: 9,
-            //         day: 14
-            //     });
-            //     ctrlScope.init(daysCount, startDate);
-            //     //when moving to previous month
-            //     ctrlScope.previousMonth();
-            //     //then new time table is set
-            //     expect(ctrlScope.days.length).toBe(daysCount);
-            //     expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-09-15');
-            //     expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2014-09-21');
-            //     //and events for new time table are loaded
-            //     expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-09-15');
-            //     expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-09-21');
-            // });
+            it('should navigate to previous month in monthly view', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one month view
+                var daysCount = 31;
+                //and current time table
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 14
+                });
+                ctrlScope.init(daysCount, startDate);
+                //when moving to previous month
+                ctrlScope.month(-1);
+                //then new time table is set
+                expect(ctrlScope.days.length).toBe(35);
+                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-09-01');
+                expect(ctrlScope.days[34].toString('yyyy-MM-dd')).toBe('2014-10-05');
+                //and events for new time table are loaded
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-09-01');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-05');
+            });
 
-            // it('should navigate to next year in weekly view', function () {
-            //     //given controller is initialized
-            //     expect(ctrlScope).toBeDefined();
-            //     //and one week view
-            //     var daysCount = 7;
-            //     //and current time table
-            //     var startDate = Date.today().set({
-            //         year: 2014,
-            //         month: 9,
-            //         day: 14
-            //     });
-            //     ctrlScope.init(daysCount, startDate);
-            //     //when moving to next year
-            //     ctrlScope.nextYear();
-            //     //then new time table is set
-            //     expect(ctrlScope.days.length).toBe(daysCount);
-            //     expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2015-10-12');
-            //     expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2015-10-18');
-            //     //and events for new time table are loaded
-            //     expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2015-10-12');
-            //     expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2015-10-18');
-            // });
+            it('should navigate to previous year in monthly view', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one month view
+                var daysCount = 31;
+                //and current time table
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 14
+                });
+                ctrlScope.init(daysCount, startDate);
+                //when moving to previous year
+                ctrlScope.year(-1);
+                //then new time table is set
+                expect(ctrlScope.days.length).toBe(35);
+                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2013-09-30');
+                expect(ctrlScope.days[34].toString('yyyy-MM-dd')).toBe('2013-11-03');
+                //and events for new time table are loaded
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2013-09-30');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2013-11-03');
+            });
 
-            // it('should navigate to previous year in weekly view', function () {
-            //     //given controller is initialized
-            //     expect(ctrlScope).toBeDefined();
-            //     //and one week view
-            //     var daysCount = 7;
-            //     //and current time table
-            //     var startDate = Date.today().set({
-            //         year: 2014,
-            //         month: 9,
-            //         day: 14
-            //     });
-            //     ctrlScope.init(daysCount, startDate);
-            //     //when moving to next year
-            //     ctrlScope.previousYear();
-            //     //then new time table is set
-            //     expect(ctrlScope.days.length).toBe(daysCount);
-            //     expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2013-10-14');
-            //     expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2013-10-20');
-            //     //and events for new time table are loaded
-            //     expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2013-10-14');
-            //     expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2013-10-20');
-            // });
+            it('should navigate to next year in monthly view', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one month view
+                var daysCount = 31;
+                //and current time table
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 14
+                });
+                ctrlScope.init(daysCount, startDate);
+                //when moving to next year
+                ctrlScope.year(1);
+                //then new time table is set
+                expect(ctrlScope.days.length).toBe(35);
+                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2015-09-28');
+                expect(ctrlScope.days[34].toString('yyyy-MM-dd')).toBe('2015-11-01');
+                //and events for new time table are loaded
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2015-09-28');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2015-11-01');
+            });
+
+        });
+
+        describe('calendar navigation for daily view-spec:', function () {
+
+            it('should navigate to next day in daily view', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day view
+                var daysCount = 1;
+                //and current time table
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 14
+                });
+                ctrlScope.init(daysCount, startDate);
+                //when moving to next day
+                ctrlScope.day(1);
+                //then new time table is set
+                expect(ctrlScope.days.length).toBe(daysCount);
+                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-15');
+                //and events for new time table are loaded
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-15');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-15');
+            });
+
+            it('should navigate to previous day in daily view', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day view
+                var daysCount = 1;
+                //and current time table
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 14
+                });
+                ctrlScope.init(daysCount, startDate);
+                //when moving to previous day
+                ctrlScope.day(-1);
+                //then new time table is set
+                expect(ctrlScope.days.length).toBe(daysCount);
+                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
+                //and events for new time table are loaded
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+            });
 
         });
 
