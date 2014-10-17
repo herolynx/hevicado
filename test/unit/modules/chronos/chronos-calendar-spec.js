@@ -614,6 +614,190 @@ describe('chronos-calendar-spec:', function () {
                 expect(dayEvents.length).toBe(0);
             });
 
+            it('should get events for specific point of time', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                        tile: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                },
+                    {
+                        tile: 'sample-event2',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //when events are taken for chosen hour
+                var dayEvents = ctrlScope.getEvents(startDate);
+                //then only events from that hour are returned
+                expect(dayEvents.length).toBe(1);
+                expect(dayEvents[0].title).toBe(events[0].title);
+            });
+
+            it('should get summary info for chosen day and single location', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                        tile: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
+                },
+                    {
+                        tile: 'sample-event2',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
+                }];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //when summary info for chosen day is taken
+                var summayInfo = ctrlScope.dayInfo(startDate, 4);
+                //then info from that day is returned
+                expect(summayInfo.length).toBe(1);
+                expect(summayInfo[0]).toEqual({
+                    name: 'loc1',
+                    value: 2
+                });
+            });
+
+            it('should return empty summary info when no events planned for day', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    tile: 'sample-event1',
+                    start: startDate.clone(),
+                    end: startDate.clone().add(1).hour(),
+                    location: {
+                        name: 'loc1'
+                    }
+                }];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
+                //when summary info for chosen day is taken when no events are defined
+                var summayInfo = ctrlScope.dayInfo(startDate.add(1).days(), 4);
+                //then empty info is returned
+                expect(summayInfo.length).toBe(1);
+                expect(summayInfo[0]).toEqual({
+                    name: '',
+                    value: 0
+                });
+            });
+
+            it('should get summary info for chosen day and many locations', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                        tile: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
+                },
+                    {
+                        tile: 'sample-event2',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
+                    },
+                    {
+                        tile: 'sample-event3',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour(),
+                        location: {
+                            name: 'loc2'
+                        }
+                    },
+                    {
+                        tile: 'sample-event4',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour(),
+                        location: {
+                            name: 'loc3'
+                        }
+                    }
+
+                ];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(4);
+                //when summary info for chosen day is taken
+                var summayInfo = ctrlScope.dayInfo(startDate, 2);
+                //then info from that day is returned
+                expect(summayInfo.length).toBe(2);
+                expect(summayInfo[0]).toEqual({
+                    name: 'loc1',
+                    value: 2
+                }, {
+                    name: 'loc2',
+                    value: 1
+                });
+            });
+
         });
 
         describe('calendar navigation for weekly view-spec:', function () {
@@ -991,18 +1175,18 @@ describe('chronos-calendar-spec:', function () {
 
         });
 
-        describe('events modification-spec:', function() {
-            
-            it('should start adding new event', function() {
+        describe('events modification-spec:', function () {
+
+            it('should start adding new event', function () {
                 //TODO
             });
 
-            it('should start editing event', function() {
+            it('should start editing event', function () {
                 //TODO
             });
 
-            it('should delete event', function() {
-                 //given controller is initialized
+            it('should delete event', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1046,8 +1230,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[1].overlap.value).toBe(1);
             });
 
-            it('should inform user when event cannot be deleted', function() {
-                 //given controller is initialized
+            it('should inform user when event cannot be deleted', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1090,8 +1274,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockUiNotification.msg).toBe('Couldn\'t delete event');
             });
 
-            it('should change event time period on drag and drop', function() {
-                 //given controller is initialized
+            it('should change event time period on drag and drop', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1142,8 +1326,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[1].overlap.value).toBe(1);
             });
 
-            it('should fallback drag and drop changes when event cannot be saved', function() {
-                 //given controller is initialized
+            it('should fallback drag and drop changes when event cannot be saved', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1198,8 +1382,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockUiNotification.msg).toBe('Couldn\'t save event');
             });
 
-            it('should change event duration on resize', function() {
-                 //given controller is initialized
+            it('should change event duration on resize', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1236,7 +1420,14 @@ describe('chronos-calendar-spec:', function () {
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //when duration of event is changed using resizing
                 var dndEvent = {};
-                var ui = { size: {height: 150}, originalSize: {height: 120} };
+                var ui = {
+                    size: {
+                        height: 150
+                    },
+                    originalSize: {
+                        height: 120
+                    }
+                };
                 ctrlScope.dndChangeTime(dndEvent, ui, events[0]);
                 //and back-end responded successfully
                 calendarPromise.onSuccess('UPDATED');
@@ -1252,8 +1443,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[1].overlap.value).toBe(2);
             });
 
-            it('should fallback resize change on event', function() {
-                 //given controller is initialized
+            it('should fallback resize change on event', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1290,7 +1481,14 @@ describe('chronos-calendar-spec:', function () {
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //when duration of event is changed using resizing
                 var dndEvent = {};
-                var ui = { size: {height: 150}, originalSize: {height: 120} };
+                var ui = {
+                    size: {
+                        height: 150
+                    },
+                    originalSize: {
+                        height: 120
+                    }
+                };
                 ctrlScope.dndChangeTime(dndEvent, ui, events[0]);
                 //and back-end responded with failure
                 calendarPromise.onError('ERROR');
@@ -1311,8 +1509,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockUiNotification.msg).toBe('Couldn\'t save event');
             });
 
-            it('should change event duration on resize and order of events on time line', function() {
-                 //given controller is initialized
+            it('should change event duration on resize and order of events on time line', function () {
+                //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
                 var daysCount = 1;
@@ -1349,7 +1547,14 @@ describe('chronos-calendar-spec:', function () {
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //when duration of event is changed using resizing
                 var dndEvent = {};
-                var ui = { size: {height: 180}, originalSize: {height: 60} };
+                var ui = {
+                    size: {
+                        height: 180
+                    },
+                    originalSize: {
+                        height: 60
+                    }
+                };
                 ctrlScope.dndChangeTime(dndEvent, ui, events[1]);
                 //and back-end responded successfully
                 calendarPromise.onSuccess('UPDATED');

@@ -300,7 +300,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * @param day day without time period
      * @param dayHour optional hour
      * @param minutes optional minutes
-     * @returns {Array}
+     * @returns {Array} events
      */
     $scope.getEvents = function (day, dayHour, minutes) {
         if (!$scope.eventsMap.contains(day)) {
@@ -321,29 +321,38 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         return keys.length == 1 ? filtered[keys[0]] : [];
     };
 
-    $scope.locationStats = function (day, maxCount) {
-        //        var dayEvents = $scope.eventsMap.events(day);
-        //        if (dayEvents.length == 0) {
-        return [{
-            name: '',
-            value: '0'
-        }];
-        //        }
-        //        var grouped = _.
-        //            groupBy(dayEvents, function (event) {
-        //                return event.location.name;
-        //            });
-        //        var stats = _.chain(Object.keys(grouped)).
-        //            map(function(location) {
-        //                return [location, grouped[location].length];
-        //            }).
-        //            sortBy(function (entry) {
-        //                return entry[1];
-        //            }).
-        //            first(maxCount).
-        //            value();
-        //        console.info(stats);
-        //        return stats;
+    /**
+     * Get summary info about events for chosen day
+     * @param day day which summay info should be taken for
+     * @param maxCount max count if elements to be returned
+     * @return {Array} objects with number of events per location
+     */
+    $scope.dayInfo = function (day, maxCount) {
+        var dayEvents = $scope.eventsMap.events(day);
+        if (dayEvents.length == 0) {
+            return [{
+                name: '',
+                value: 0
+            }];
+        }
+        var grouped = _.
+        groupBy(dayEvents, function (event) {
+            return event.location.name;
+        });
+        var stats = _.chain(Object.keys(grouped)).
+        map(function (location) {
+            return {
+                name: location,
+                value: grouped[location].length
+            };
+        }).
+        sortBy(function (info) {
+            return info.value;
+        }).
+        reverse().
+        first(maxCount).
+        value();
+        return stats;
     };
 
 
