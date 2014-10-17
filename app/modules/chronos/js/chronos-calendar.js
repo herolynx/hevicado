@@ -335,15 +335,14 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
                 value: 0
             }];
         }
-        var grouped = _.
-        groupBy(dayEvents, function (event) {
+        return _.chain(dayEvents).
+        groupBy(function (event) {
             return event.location.name;
-        });
-        var stats = _.chain(Object.keys(grouped)).
-        map(function (location) {
+        }).
+        map(function (events, location) {
             return {
                 name: location,
-                value: grouped[location].length
+                value: events.length
             };
         }).
         sortBy(function (info) {
@@ -352,7 +351,6 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         reverse().
         first(maxCount).
         value();
-        return stats;
     };
 
 
