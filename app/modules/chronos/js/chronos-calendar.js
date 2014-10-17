@@ -58,6 +58,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         CalendarService.events(startDate, endDate).
         success(function (data) {
             $log.debug('Events loaded - data size: ' + data.length);
+            _.map(data, EventUtils.normalize);
             $scope.eventsMap.clear();
             $scope.eventsMap.addAll(data);
             $scope.buildTimelines(days);
@@ -135,14 +136,14 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     $scope.register = function () {
         $scope.$on(CALENDAR_EVENTS.EVENT_CHANGED, function (event, calendarEvent) {
             $log.debug('Event changed from event bus, updating new event in calendar - id: ' + calendarEvent.id);
-            $scope.normalize(calendarEvent);
+            EventUtils.normalize(calendarEvent);
             $scope.eventsMap.remove(calendarEvent);
             $scope.eventsMap.add(calendarEvent);
             $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
         });
         $scope.$on(CALENDAR_EVENTS.EVENT_DELETED, function (event, calendarEvent) {
             $log.debug('Event deleted from event bus, deleting event from calendar - id: ' + calendarEvent.id);
-            $scope.normalize(calendarEvent);
+            EventUtils.normalize(calendarEvent);
             $scope.eventsMap.remove(calendarEvent);
             $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
         });
@@ -365,7 +366,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     $scope.dndDrop = function (dndEvent, calendarEvent, day, hour, minute) {
         $log.debug('DnD stop on - day: ' + day + ', hour: ' + hour + ', minutes: ' + minute);
         $log.debug('DnD event moved - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
-        $scope.normalize(calendarEvent);
+        EventUtils.normalize(calendarEvent);
         var newStartDate = day.clone().set({
             hour: hour,
             minute: minute
@@ -387,7 +388,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         $scope.buildTimelineFor(oldStartDate, oldEndDate);
         event.start = newStartDate;
         event.end = newEndDate;
-        $scope.normalize(event);
+        EventUtils.normalize(event);
         CalendarService.save(event).
         success(function (response) {
             $scope.eventsMap.add(event);
@@ -400,27 +401,11 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
             //fallback
             event.start = oldStartDate;
             event.end = oldEndDate;
-            $scope.normalize(event);
+            EventUtils.normalize(event);
             $scope.eventsMap.add(event);
             $scope.buildTimelineFor(event.start, event.end);
             $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
         });
-    };
-
-    /**
-     * Normalize event so it can be displayed on calendar
-     * @param event event to be normalized
-     * @return the same instance of event
-     */
-    $scope.normalize = function (event) {
-        if (event.start.clone === undefined) {
-            event.start = new Date(event.start);
-        }
-        if (event.end.clone === undefined) {
-            event.end = new Date(event.end);
-        }
-        //TODO add duration
-        return event;
     };
 
     /**

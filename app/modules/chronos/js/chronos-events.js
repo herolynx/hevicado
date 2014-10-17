@@ -60,7 +60,30 @@ events.service('EventUtils', function (EVENT_STATE) {
                 return date.clone().moveToDayOfWeek(1, -1);
             }
             return date.clone();
+        },
+
+        /**
+         * Normalize fields in event
+         * @param event event to be normalized
+         * @return the same instance of event
+         */
+        normalize: function (event) {
+            var toDate = function (value) {
+                return typeof value == 'string' ? Date.parse(value) : new Date(value);
+            };
+            if (event.start.clone === undefined) {
+                event.start = toDate(event.start);
+            }
+            if (event.end.clone === undefined) {
+                event.end = toDate(event.end);
+            }
+            if (event.duration === undefined) {
+                var span = new TimeSpan(event.end - event.start);
+                event.duration = span.getTotalMilliseconds() / (1000 * 60);
+            }
+            return event;
         }
 
     };
+
 });
