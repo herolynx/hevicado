@@ -493,7 +493,7 @@ describe('chronos-calendar-spec:', function () {
                     tile: 'sample-event',
                     start: startDate.clone(),
                     end: startDate.clone().add(1).hour()
-            }];
+                }];
                 calendarPromise.onSuccess(events);
                 //then calendar time table is set for one day only
                 expect(ctrlScope.days.length).toBe(daysCount);
@@ -551,6 +551,65 @@ describe('chronos-calendar-spec:', function () {
                 //and events are loaded again
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+            });
+
+            it('should get existing events for chosen day', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    tile: 'sample-event',
+                    start: startDate.clone(),
+                    end: startDate.clone().add(1).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                //when events are taken for chosen day
+                var dayEvents = ctrlScope.getEvents(startDate);
+                //then all existing events are returned
+                expect(dayEvents.length).toBe(1);
+                expect(dayEvents[0].title).toBe(events[0].title);
+            });
+
+            it('should return empty results when events for chosen day not exist', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    tile: 'sample-event',
+                    start: startDate.clone(),
+                    end: startDate.clone().add(1).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                //when events are taken for different day
+                var dayEvents = ctrlScope.getEvents(startDate.clone().add(1).days());
+                //then empty result is returned
+                expect(dayEvents.length).toBe(0);
             });
 
         });
@@ -926,6 +985,22 @@ describe('chronos-calendar-spec:', function () {
                 //and events for new time table are loaded
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2013-10-14');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2013-10-14');
+            });
+
+        });
+
+        describe('events modification-spec:', function() {
+            
+            it('should star adding new event', function() {
+                //TODO
+            });
+
+            it('should star editing event', function() {
+                //TODO
+            });
+
+            it('should delete event', function() {
+                //TODO
             });
 
         });
