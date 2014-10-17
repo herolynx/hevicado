@@ -260,7 +260,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         }).
         error(function (error) {
             $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Cannot delete event').error();
+            uiNotification.text('Error', 'Couldn\'t delete event').error();
         });
     };
 
@@ -359,17 +359,45 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         $log.debug('DnD stop on - day: ' + day + ', hour: ' + hour + ', minutes: ' + minute);
         $log.debug('DnD event moved - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
         $scope.normalize(calendarEvent);
-        $scope.eventsMap.remove(calendarEvent);
-        $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        calendarEvent.start = day.clone().set({
+        var newStartDate = day.clone().set({
             hour: hour,
             minute: minute
         });
-        calendarEvent.end = calendarEvent.start.clone().add(calendarEvent.duration).minute();
-        $log.debug('DnD adding updated event - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', end: ' + calendarEvent.end);
-        $scope.eventsMap.add(calendarEvent);
-        $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+        var newEndDate = newStartDate.clone().add(calendarEvent.duration).minute();
+        $scope.saveEvent(calendarEvent, newStartDate, newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
+    };
+
+    /**
+     * Save new time period of an event
+     * @param event event to be saved/modified
+     * @param newStartDate new begin date to be saved
+     * @param newEndDate new end date to be saved
+     * @param oldStartDate old begin date for fallback
+     * @param oldEndDate old end date for fallback
+     */
+    $scope.saveEvent = function (event, newStartDate, newEndDate, oldStartDate, oldEndDate) {
+        $scope.eventsMap.remove(event);
+        $scope.buildTimelineFor(oldStartDate, oldEndDate);
+        event.start = newStartDate;
+        event.end = newEndDate;
+        $scope.normalize(event);
+        CalendarService.save(event).
+        success(function (response) {
+            $scope.eventsMap.add(event);
+            $scope.buildTimelineFor(event.start, event.end);
+            $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+        }).
+        error(function (error) {
+            $log.error('Couldn\'t save event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+            uiNotification.text('Error', 'Couldn\'t save event').error();
+            //fallback
+            event.start = oldStartDate;
+            event.end = oldEndDate;
+            $scope.normalize(event);
+            $scope.eventsMap.add(event);
+            $scope.buildTimelineFor(event.start, event.end);
+            $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+        });
     };
 
     /**

@@ -334,7 +334,7 @@ describe('chronos-calendar-spec:', function () {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
             //mock dependencies
-            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init']);
+            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init', 'delete', 'save']);
             calendarPromise = {
                 success: function (f) {
                     calendarPromise.onSuccess = f;
@@ -346,6 +346,8 @@ describe('chronos-calendar-spec:', function () {
                 }
             };
             mockCalendarService.events.andReturn(calendarPromise);
+            mockCalendarService.delete.andReturn(calendarPromise);
+            mockCalendarService.save.andReturn(calendarPromise);
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
                 mockUiNotification.title = title;
@@ -991,16 +993,209 @@ describe('chronos-calendar-spec:', function () {
 
         describe('events modification-spec:', function() {
             
-            it('should star adding new event', function() {
+            it('should start adding new event', function() {
                 //TODO
             });
 
-            it('should star editing event', function() {
+            it('should start editing event', function() {
                 //TODO
             });
 
             it('should delete event', function() {
-                //TODO
+                 //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(5).hour()
+                }, {
+                    id: 2,
+                    title: 'sample-event2',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(4).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(1);
+                expect(events[0].overlap.value).toBe(2);
+                expect(events[1].overlap.value).toBe(2);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //when one of events is deleted
+                ctrlScope.deleteEvent(events[0]);
+                //and back-end responded successfully
+                calendarPromise.onSuccess('REMOVED');
+                //then event is removed
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
+                //and time line is refreshed for proper period of time
+                expect(events[1].timeline).toBe(0);
+                expect(events[1].overlap.value).toBe(1);
+            });
+
+            it('should inform user when event cannot be deleted', function() {
+                 //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(5).hour()
+                }, {
+                    id: 2,
+                    title: 'sample-event2',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(4).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(1);
+                expect(events[0].overlap.value).toBe(2);
+                expect(events[1].overlap.value).toBe(2);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //when one of events is deleted
+                ctrlScope.deleteEvent(events[0]);
+                //and back-end responded with failure
+                calendarPromise.onError('FAILURE');
+                //then user is informed properly
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Couldn\'t delete event');
+            });
+
+            it('should change event time period on drag and drop', function() {
+                 //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(5).hour(),
+                    duration: 120
+                }, {
+                    id: 2,
+                    title: 'sample-event2',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(4).hour(),
+                    duration: 60
+                }];
+                calendarPromise.onSuccess(events);
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(1);
+                expect(events[0].overlap.value).toBe(2);
+                expect(events[1].overlap.value).toBe(2);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //when one of events is updated on DnD
+                var dndEvent = {};
+                ctrlScope.dndDrop(dndEvent, events[0], startDate, 8, 0, 0);
+                //and back-end responded successfully
+                calendarPromise.onSuccess('UPDATED');
+                //then event is updated
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 08:00:00');
+                expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 10:00:00');
+                //and time line is refreshed for proper period of time
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(0);
+                expect(events[0].overlap.value).toBe(1);
+                expect(events[1].overlap.value).toBe(1);
+            });
+
+            it('should fallback drag and drop changes when event cannot be saved', function() {
+                 //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(5).hour(),
+                    duration: 120
+                }, {
+                    id: 2,
+                    title: 'sample-event2',
+                    start: startDate.clone().add(3).hour(),
+                    end: startDate.clone().add(4).hour(),
+                    duration: 60
+                }];
+                calendarPromise.onSuccess(events);
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(1);
+                expect(events[0].overlap.value).toBe(2);
+                expect(events[1].overlap.value).toBe(2);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //when one of events is updated on DnD
+                var dndEvent = {};
+                ctrlScope.dndDrop(dndEvent, events[0], startDate, 8, 0, 0);
+                //and back-end responded with failure
+                calendarPromise.onError('FAILURE');
+                //then old state of event is restored
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
+                expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:00:00');
+                //and time lines are restored
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(1);
+                expect(events[0].overlap.value).toBe(2);
+                expect(events[1].overlap.value).toBe(2);
+                //and user is informed about error
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Couldn\'t save event');
             });
 
         });
