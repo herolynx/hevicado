@@ -6,6 +6,7 @@ var calendar = angular.module('chronos.calendar', []);
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $scope current scope of controller
  * @param $modal component managing pop-up windows
+ * @param $cacheFactory cache provider
  * @param $log logger
  * @param CalendarService service managing calendar data
  * @param CalendarCollectionFactory factory for creating proper event related collections
@@ -14,7 +15,7 @@ var calendar = angular.module('chronos.calendar', []);
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($scope, $modal, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -30,6 +31,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
     $scope.viewType = 7;
     $scope.days = [];
 
+    $scope.cache = $cacheFactory('cacheCalendar-'+ new Date());
     $scope.eventsMap = CalendarCollectionFactory.eventsMap();
 
     /**
@@ -58,6 +60,7 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
         CalendarService.events(startDate, endDate).
         success(function (data) {
             $log.debug('Events loaded - data size: ' + data.length);
+            $scope.cache.removeAll();
             _.map(data, EventUtils.normalize);
             $scope.eventsMap.clear();
             $scope.eventsMap.addAll(data);
@@ -304,6 +307,13 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * @returns {Array} events
      */
     $scope.getEvents = function (day, dayHour, minutes) {
+        //check cache
+        var cacheKey = day.toString('yyyy-MM-dd') + ' ' + dayHour + ':' + minutes;
+        var cached = $scope.cache.get(cacheKey);
+        if (cached !== undefined) {
+            return cached;
+        }
+        //get events
         if (!$scope.eventsMap.contains(day)) {
             // nothing to do
             return [];
@@ -319,7 +329,9 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
                 event.start.compareTo(endTo) < 0;
         });
         var keys = Object.keys(filtered);
-        return keys.length == 1 ? filtered[keys[0]] : [];
+        var dayEvents = keys.length == 1 ? filtered[keys[0]] : [];
+        $scope.cache.put(cacheKey, dayEvents);
+        return dayEvents;
     };
 
     /**
@@ -329,29 +341,41 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $log, CalendarServ
      * @return {Array} objects with number of events per location
      */
     $scope.dayInfo = function (day, maxCount) {
+        //check cache
+        var cacheKey = day.toString('yyyy-MM-dd') + ' ' + maxCount;
+        var cached = $scope.cache.get(cacheKey);
+        if (cached !== undefined) {
+            return cached;
+        }
+        //get info
         var dayEvents = $scope.eventsMap.events(day);
+        var info = {};
         if (dayEvents.length == 0) {
-            return [{
+            info = [{
                 name: '',
                 value: 0
             }];
+        } else {
+            info = _.chain(dayEvents).
+            groupBy(function (event) {
+                return event.location.name;
+            }).
+            map(function (events, location) {
+                return {
+                    name: location,
+                    value: events.length
+                };
+            }).
+            sortBy(function (info) {
+                return info.value;
+            }).
+            reverse().
+            first(maxCount).
+            value();
         }
-        return _.chain(dayEvents).
-        groupBy(function (event) {
-            return event.location.name;
-        }).
-        map(function (events, location) {
-            return {
-                name: location,
-                value: events.length
-            };
-        }).
-        sortBy(function (info) {
-            return info.value;
-        }).
-        reverse().
-        first(maxCount).
-        value();
+        info.id = cacheKey;
+        $scope.cache.put(cacheKey, info);
+        return info;
     };
 
 
