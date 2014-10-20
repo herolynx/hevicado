@@ -473,6 +473,29 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
             });
 
+            it('should create two calendars with different caches', inject(function ($controller, $injector, $rootScope) {
+                //given 1st instance of calendar is created
+                expect(ctrlScope).toBeDefined();
+                //when creating another instance of calendar
+                //and new controller is not created in exact the same moment
+                setTimeout(function () {
+                    var ctrlScope2 = $rootScope.$new();
+                    $controller('CalendarCtrl', {
+                        $scope: ctrlScope2,
+                        $log: {},
+                        $modal: mockModal,
+                        CalendarService: mockCalendarService,
+                        CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
+                        CalendarRenderer: $injector.get('CalendarRenderer'),
+                        EventUtils: $injector.get('EventUtils'),
+                        uiNotification: mockUiNotification
+                    });
+                    //then new instance is created with separate cache
+                    expect(ctrlScope2).toBeDefined();
+                    expect(ctrlScope2).not.toBe(ctrlScope);
+                }, 1000);
+            }));
+
         });
 
         describe('calendar data loading-spec:', function () {
@@ -892,7 +915,7 @@ describe('chronos-calendar-spec:', function () {
                 expect(cachedInfo).toEqual(summayInfo);
             });
 
-             it('should clear cache when new data is loaded', function () {
+            it('should clear cache when new data is loaded', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
@@ -933,10 +956,10 @@ describe('chronos-calendar-spec:', function () {
                 expect(cachedEvents).toEqual(dayEvents);
                 //when new data is read
                 ctrlScope.refresh();
-                calendarPromise.onSuccess([ {
-                        title: 'sample-event3',
-                        start: startDate.clone(),
-                        end: startDate.clone().add(1).hour()
+                calendarPromise.onSuccess([{
+                    title: 'sample-event3',
+                    start: startDate.clone(),
+                    end: startDate.clone().add(1).hour()
                 }]);
                 //and the same read is made as before
                 var newEvents = ctrlScope.getEvents(startDate);
