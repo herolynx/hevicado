@@ -1,0 +1,30 @@
+<section id="main-content" ng-app="chronos" ng-controller="CalendarCtrl">
+    <div class="title-page">
+        <h1>Calendar</h1>
+        <span>Day details</span>
+    </div>
+    <!-- Page Title -->
+    <div class="content">
+        <section class="calendar" ng-init="init(1)">
+            <calendar-menu></calendar-menu>
+            <div class="week-prev">
+                <a class="prev" ng-click="day(-1)">
+                    <i class="icon-left-open"></i>
+                </a>
+            </div>
+            <div class="week-next">
+                <a class="next" ng-click="day(1)">
+                    <i class="icon-right-open"></i>
+                </a>
+            </div>
+            <!-- Pagination Calendar Next, Prev -->
+
+            <div class="details" >
+                <div class="box">
+                    <calendar-table></calendar-table>
+                </div>
+                <div ui-view></div>
+            </div>
+        </section>
+    </div>
+</section>

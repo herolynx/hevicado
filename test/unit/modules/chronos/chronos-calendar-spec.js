@@ -359,7 +359,8 @@ describe('chronos-calendar-spec:', function () {
             $controller('CalendarCtrl', {
                 $scope: ctrlScope,
                 $log: mockLog,
-                $modal: mockModal,
+                //TODO change mock
+                $state: mockModal,
                 CalendarService: mockCalendarService,
                 CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
                 CalendarRenderer: $injector.get('CalendarRenderer'),

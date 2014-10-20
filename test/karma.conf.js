@@ -13,7 +13,6 @@ module.exports = function (config) {
 
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-cookies/angular-cookies.js',
-            'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-ui-router/release/angular-ui-router.js',
             'app/bower_components/angular-translate/angular-translate.js',
             'app/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',

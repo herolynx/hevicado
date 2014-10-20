@@ -6,13 +6,15 @@
 var module = angular.module('angular-base',
     [
         /*
-         * External modules
+         * External 3rd partiess modules
          */
-        'ngRoute',
         'ngCookies',
-        'bolt',
         'pascalprecht.translate',
         'ui.bootstrap',
+        /*
+         * External modules
+         */
+        'bolt',
         'chronos',
         'users',
         'mock-server',

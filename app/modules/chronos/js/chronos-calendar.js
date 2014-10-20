@@ -5,7 +5,7 @@ var calendar = angular.module('chronos.calendar', []);
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $scope current scope of controller
- * @param $modal component managing pop-up windows
+ * @param $state app state manager
  * @param $cacheFactory cache provider
  * @param $log logger
  * @param CalendarService service managing calendar data
@@ -15,7 +15,7 @@ var calendar = angular.module('chronos.calendar', []);
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $modal, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -234,8 +234,8 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $cacheFactory, $lo
     /**
      * Add new event to calendar
      * @param day day of new event
-     * @param optional starting hour of event
-     * @param optional minutes of starting time
+     * @param hour optional starting hour of event
+     * @param minute optional minutes of starting time
      */
     $scope.addEvent = function (day, hour, minute) {
         //prepare start date
@@ -274,29 +274,30 @@ calendar.controller('CalendarCtrl', function ($scope, $modal, $cacheFactory, $lo
      */
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
-        CalendarService.
-        options(event.start).
-        success(function (result) {
-            var modalInstance = $modal.open({
-                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-                templateUrl: 'modules/chronos/partials/edit-event.html',
-                backdrop: 'static',
-                scope: $scope,
-                controller: editEventCtrl,
-                resolve: {
-                    eventToEdit: function () {
-                        return event;
-                    },
-                    options: function () {
-                        return result;
-                    }
-                }
-            });
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Cannot edit event').error();
-        });
+        $state.go('calendar-day.edit-visit', {event: event.start});
+//        CalendarService.
+//        options(event.start).
+//        success(function (result) {
+//            var modalInstance = $modal.open({
+//                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
+//                templateUrl: 'modules/chronos/partials/edit-event.html',
+//                backdrop: 'static',
+//                scope: $scope,
+//                controller: editEventCtrl,
+//                resolve: {
+//                    eventToEdit: function () {
+//                        return event;
+//                    },
+//                    options: function () {
+//                        return result;
+//                    }
+//                }
+//            });
+//        }).
+//        error(function (error) {
+//            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+//            uiNotification.text('Error', 'Cannot edit event').error();
+//        });
     };
 
     /**

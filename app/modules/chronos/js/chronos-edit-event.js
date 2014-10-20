@@ -1,5 +1,7 @@
 'use strict';
 
+var calendar = angular.module('chronos.events.edit', []);
+
 /**
  * Controller responsible for adding/editing events
  * @param $scope current scope
@@ -10,42 +12,44 @@
  * @param uiNotification notification manager
  * @param $log logger
  */
-var editEventCtrl = function ($scope, $modalInstance, eventToEdit, options, CalendarService, uiNotification, $log) {
+calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, CalendarService, uiNotification, $log) {
 
     $scope.durations = [];
     //TODO load access rights
-    $scope.isButtonDeleteVisible = eventToEdit.id !== undefined;
+    $scope.isButtonDeleteVisible = false; //eventToEdit.id !== undefined;
     $scope.isButtonSaveVisible = true;
     $scope.editedEvent = {};
+
+    console.info($stateParams.event);
 
     /**
      * Initialize controller state
      */
     $scope.init = function () {
-        if (eventToEdit.id === undefined) {
-            $log.debug('Editing new event - start: ' + eventToEdit.start);
-            $scope.editedEvent = {
-                title: options.templates[0].name,
-                description: options.templates[0].description,
-                start: eventToEdit.start,
-                duration: options.durations[0],
-                location: options.location.address,
-                owner: options.owner,
-                users: options.users,
-                color: options.location.color
-            };
-        } else {
-            $log.debug('Editing event - id: ' + eventToEdit.id);
-            $scope.editedEvent = eventToEdit;
-        }
-        $scope.durations = options.durations;
+//        if (eventToEdit.id === undefined) {
+//            $log.debug('Editing new event - start: ' + eventToEdit.start);
+//            $scope.editedEvent = {
+//                title: options.templates[0].name,
+//                description: options.templates[0].description,
+//                start: eventToEdit.start,
+//                duration: options.durations[0],
+//                location: options.location.address,
+//                owner: options.owner,
+//                users: options.users,
+//                color: options.location.color
+//            };
+//        } else {
+//            $log.debug('Editing event - id: ' + eventToEdit.id);
+//            $scope.editedEvent = eventToEdit;
+//        }
+//        $scope.durations = options.durations;
     };
 
     /**
      * Cancel edition of an event
      */
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+//        $modalInstance.dismiss('cancel');
     };
 
     /**
@@ -80,7 +84,7 @@ var editEventCtrl = function ($scope, $modalInstance, eventToEdit, options, Cale
                 $log.info('Event deleted successfully: event id: ' + $scope.editedEvent.id);
                 //TODO return data from resp when BE is there
                 $scope.$emit('EVENT_DELETED', $scope.editedEvent);
-                $modalInstance.close('EVENT_DELETED');
+//                $modalInstance.close('EVENT_DELETED');
             },
             function (errResp, errStatus) {
                 $log.info('Event hasn\'t been deleted: status: ' + errStatus + ', resp: ' + errResp.data);
@@ -91,4 +95,4 @@ var editEventCtrl = function ($scope, $modalInstance, eventToEdit, options, Cale
 
     //initialize controller
     $scope.init();
-};
+});
