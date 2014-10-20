@@ -492,7 +492,7 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.init(daysCount, startDate);
                 //and back-end responded successfully
                 var events = [{
-                    tile: 'sample-event',
+                    title: 'sample-event',
                     start: startDate.clone(),
                     end: startDate.clone().add(1).hour()
                 }];
@@ -573,7 +573,7 @@ describe('chronos-calendar-spec:', function () {
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
                 var events = [{
-                    tile: 'sample-event',
+                    title: 'sample-event',
                     start: startDate.clone(),
                     end: startDate.clone().add(1).hour()
                 }];
@@ -603,7 +603,7 @@ describe('chronos-calendar-spec:', function () {
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
                 var events = [{
-                    tile: 'sample-event',
+                    title: 'sample-event',
                     start: startDate.clone(),
                     end: startDate.clone().add(1).hour()
                 }];
@@ -632,12 +632,12 @@ describe('chronos-calendar-spec:', function () {
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
                 var events = [{
-                        tile: 'sample-event1',
+                        title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour()
                 },
                     {
-                        tile: 'sample-event2',
+                        title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour()
                 }];
@@ -648,6 +648,49 @@ describe('chronos-calendar-spec:', function () {
                 //then only events from that hour are returned
                 expect(dayEvents.length).toBe(1);
                 expect(dayEvents[0].title).toBe(events[0].title);
+            });
+
+            it('should get events from cache', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                        title: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                },
+                    {
+                        title: 'sample-event2',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and events have been read once
+                var dayEvents = ctrlScope.getEvents(startDate);
+                expect(dayEvents.length).toBe(1);
+                expect(dayEvents[0].title).toBe(events[0].title);
+                //when making the same read once again
+                ctrlScope.eventsMap.clear();
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(0);
+                var cachedEvents = ctrlScope.getEvents(startDate);
+                //then results are returned from cache
+                expect(cachedEvents.length).toBe(1);
+                expect(cachedEvents[0].title).toBe(events[0].title);
+                expect(cachedEvents).toEqual(dayEvents);
             });
 
             it('should get summary info for chosen day and single location', function () {
@@ -668,7 +711,7 @@ describe('chronos-calendar-spec:', function () {
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
                 var events = [{
-                        tile: 'sample-event1',
+                        title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour(),
                         location: {
@@ -676,7 +719,7 @@ describe('chronos-calendar-spec:', function () {
                         }
                 },
                     {
-                        tile: 'sample-event2',
+                        title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour(),
                         location: {
@@ -713,7 +756,7 @@ describe('chronos-calendar-spec:', function () {
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
                 var events = [{
-                    tile: 'sample-event1',
+                    title: 'sample-event1',
                     start: startDate.clone(),
                     end: startDate.clone().add(1).hour(),
                     location: {
@@ -750,7 +793,7 @@ describe('chronos-calendar-spec:', function () {
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
                 var events = [{
-                        tile: 'sample-event1',
+                        title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour(),
                         location: {
@@ -758,7 +801,7 @@ describe('chronos-calendar-spec:', function () {
                         }
                 },
                     {
-                        tile: 'sample-event2',
+                        title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour(),
                         location: {
@@ -766,7 +809,7 @@ describe('chronos-calendar-spec:', function () {
                         }
                     },
                     {
-                        tile: 'sample-event3',
+                        title: 'sample-event3',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour(),
                         location: {
@@ -774,7 +817,7 @@ describe('chronos-calendar-spec:', function () {
                         }
                     },
                     {
-                        tile: 'sample-event4',
+                        title: 'sample-event4',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour(),
                         location: {
@@ -796,6 +839,110 @@ describe('chronos-calendar-spec:', function () {
                     name: 'loc2',
                     value: 1
                 });
+            });
+
+            it('should get summary info from cache', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                        title: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
+                },
+                    {
+                        title: 'sample-event2',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
+                }];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and summary info has been read once
+                var summayInfo = ctrlScope.dayInfo(startDate, 4);
+                expect(summayInfo.length).toBe(1);
+                expect(summayInfo[0]).toEqual({
+                    name: 'loc1',
+                    value: 2
+                });
+                //when the same read is made one more time
+                ctrlScope.eventsMap.clear();
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(0);
+                var cachedInfo = ctrlScope.dayInfo(startDate, 4);
+                //then results are returned from cache
+                expect(cachedInfo.length).toBe(1);
+                expect(cachedInfo).toEqual(summayInfo);
+            });
+
+             it('should clear cache when new data is loaded', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [{
+                        title: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                },
+                    {
+                        title: 'sample-event2',
+                        start: startDate.clone().add(1).hour(),
+                        end: startDate.clone().add(2).hour()
+                }];
+                calendarPromise.onSuccess(events);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and events have been read once
+                var dayEvents = ctrlScope.getEvents(startDate);
+                expect(dayEvents.length).toBe(1);
+                expect(dayEvents[0].title).toBe(events[0].title);
+                //and cache has been initialized
+                ctrlScope.eventsMap.clear();
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(0);
+                var cachedEvents = ctrlScope.getEvents(startDate);
+                expect(cachedEvents.length).toBe(1);
+                expect(cachedEvents).toEqual(dayEvents);
+                //when new data is read
+                ctrlScope.refresh();
+                calendarPromise.onSuccess([ {
+                        title: 'sample-event3',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                }]);
+                //and the same read is made as before
+                var newEvents = ctrlScope.getEvents(startDate);
+                //then new data is returned
+                expect(newEvents.length).toBe(1);
+                expect(newEvents[0].title).toBe('sample-event3');
             });
 
         });
