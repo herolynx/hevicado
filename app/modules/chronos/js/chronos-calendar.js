@@ -31,7 +31,7 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
     $scope.viewType = 7;
     $scope.days = [];
 
-    $scope.cache = $cacheFactory('cacheCalendar-'+ new Date());
+    $scope.cache = $cacheFactory('cacheCalendar-' + new Date());
     $scope.eventsMap = CalendarCollectionFactory.eventsMap();
 
     /**
@@ -240,14 +240,13 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
     $scope.addEvent = function (day, hour, minute) {
         //prepare start date
         var date = day.clone();
-        if (hour !== undefined) {
-            date = date.set({
-                hour: hour,
-                minute: minute
-            });
-        }
-        $scope.editEvent({
-            start: date
+        date = date.set({
+            hour: hour || 0,
+            minute: minute || 0
+        });
+        $log.debug('Add new event - start: ' + event.start);
+        $state.go('calendar-day.new-visit', {
+            start: start.getTime()
         });
     };
 
@@ -273,31 +272,10 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
      * @param event event to be edited
      */
     $scope.editEvent = function (event) {
-        $log.debug('Editing event - id: ' + event.id + ', start: ' + event.start);
-        $state.go('calendar-day.edit-visit', {event: event.start});
-//        CalendarService.
-//        options(event.start).
-//        success(function (result) {
-//            var modalInstance = $modal.open({
-//                windowTemplateUrl: 'modules/ui/partials/pop-up.html',
-//                templateUrl: 'modules/chronos/partials/edit-event.html',
-//                backdrop: 'static',
-//                scope: $scope,
-//                controller: editEventCtrl,
-//                resolve: {
-//                    eventToEdit: function () {
-//                        return event;
-//                    },
-//                    options: function () {
-//                        return result;
-//                    }
-//                }
-//            });
-//        }).
-//        error(function (error) {
-//            $log.error('Couldn\'t edit event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-//            uiNotification.text('Error', 'Cannot edit event').error();
-//        });
+        $log.debug('Editing event - id: ' + event.id);
+        $state.go('calendar-day.edit-visit', {
+            eventId: event.id
+        });
     };
 
     /**

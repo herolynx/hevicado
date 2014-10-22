@@ -26,30 +26,42 @@ calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, Cal
      * Initialize controller state
      */
     $scope.init = function () {
-//        if (eventToEdit.id === undefined) {
-//            $log.debug('Editing new event - start: ' + eventToEdit.start);
-//            $scope.editedEvent = {
-//                title: options.templates[0].name,
-//                description: options.templates[0].description,
-//                start: eventToEdit.start,
-//                duration: options.durations[0],
-//                location: options.location.address,
-//                owner: options.owner,
-//                users: options.users,
-//                color: options.location.color
-//            };
-//        } else {
-//            $log.debug('Editing event - id: ' + eventToEdit.id);
-//            $scope.editedEvent = eventToEdit;
-//        }
-//        $scope.durations = options.durations;
+        if ($stateParams.eventId !== null) {
+            $log.debug('Editing existing event - id: ' + $stateParams.eventId);
+
+            $scope.loadEvent($stateParams.eventId);
+        } else {
+            var startTime = $stateParams.start || Date.today();
+            $log.debug('Editing new event - id: ' + startTime);
+            $scope.editedEvent = {
+                start: startTime,
+            };
+        }
+        $scope.durations = options.durations;
+    };
+
+     $scope.loadOptions = function () {
+        // $scope.editedEvent = {
+        //         title: options.templates[0].name,
+        //         description: options.templates[0].description,
+        //         start: startTime,
+        //         duration: options.durations[0],
+        //         location: options.location.address,
+        //         owner: options.owner,
+        //         users: options.users,
+        //         color: options.location.color
+        //     };
+    };
+
+    $scope.loadEvent = function (eventId) {
+
     };
 
     /**
      * Cancel edition of an event
      */
     $scope.cancel = function () {
-//        $modalInstance.dismiss('cancel');
+        //        $modalInstance.dismiss('cancel');
     };
 
     /**
@@ -84,7 +96,7 @@ calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, Cal
                 $log.info('Event deleted successfully: event id: ' + $scope.editedEvent.id);
                 //TODO return data from resp when BE is there
                 $scope.$emit('EVENT_DELETED', $scope.editedEvent);
-//                $modalInstance.close('EVENT_DELETED');
+                //                $modalInstance.close('EVENT_DELETED');
             },
             function (errResp, errStatus) {
                 $log.info('Event hasn\'t been deleted: status: ' + errStatus + ', resp: ' + errResp.data);
