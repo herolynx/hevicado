@@ -96,14 +96,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('calendar-day.edit-visit', {
-            url: "/visits/{eventId}",
-            templateUrl: "modules/chronos/partials/edit-event.html",
-            data: {
-                access: ACCESS_LEVELS.USER
-            }
-        }).
-        state('calendar-day.new-visit', {
-            url: "/visits/new/{start}",
+            url: "/visits/editor",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.USER

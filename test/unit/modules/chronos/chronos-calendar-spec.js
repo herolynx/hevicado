@@ -326,7 +326,7 @@ describe('chronos-calendar-spec:', function () {
         beforeEach(angular.mock.module('chronos'));
 
         var ctrlScope;
-        var mockCalendarService, mockUiNotification, mock, mockModal;
+        var mockCalendarService, mockUiNotification, mockEventEditor, mockModal;
         var calendarPromise;
 
         //prepare controller for testing
@@ -354,13 +354,13 @@ describe('chronos-calendar-spec:', function () {
                 mockUiNotification.msg = msg;
                 return mockUiNotification;
             };
+            mockEventEditor = jasmine.createSpyObj('EventEditor', ['init', 'startEdition']);
             var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
             //inject mocks
             $controller('CalendarCtrl', {
                 $scope: ctrlScope,
                 $log: mockLog,
-                //TODO change mock
-                $state: mockModal,
+                EventEditor: mockEventEditor,
                 CalendarService: mockCalendarService,
                 CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
                 CalendarRenderer: $injector.get('CalendarRenderer'),
@@ -395,6 +395,8 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-09-29');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-05');
+                //and event editor is initialized
+                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should initialize weekly view by leaving curent Monday', function () {
@@ -421,6 +423,8 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-19');
+                //and event editor is initialized
+                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should initialize monthly view by shifting time table to beginning of the month', function () {
@@ -447,6 +451,8 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-09-29');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-11-02');
+                //and event editor is initialized
+                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should initialize daily view', function () {
@@ -472,6 +478,8 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+                //and event editor is initialized
+                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should create two calendars with different caches', inject(function ($controller, $injector, $rootScope) {
@@ -1349,11 +1357,39 @@ describe('chronos-calendar-spec:', function () {
         describe('events modification-spec:', function () {
 
             it('should start adding new event', function () {
-                //TODO
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //when starting adding event on chosen time
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 23
+                });
+                ctrlScope.addEvent(startDate, 13, 30);
+                //then event edition is started
+                var startTime = startDate.clone().set({hour: 13, minute:30, second: 0});
+                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(startTime);
             });
 
             it('should start editing event', function () {
-                //TODO
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and existing event to be edited
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 23
+                });
+                var event = {
+                    title: 'sample-event',
+                    start: startDate.clone(),
+                    end: startDate.clone().add(1).hour()
+                };
+                //when starting editing event
+                ctrlScope.editEvent(event);
+                //then event edition is started
+                expect(mockEventEditor.event).toBe(event);
+                expect(mockEventEditor.startEdition).toHaveBeenCalledWith();
             });
 
             it('should delete event', function () {

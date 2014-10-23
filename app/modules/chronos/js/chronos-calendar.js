@@ -1,21 +1,27 @@
 'use strict';
 
-var calendar = angular.module('chronos.calendar', []);
+var calendar = angular.module('chronos.calendar', [
+    'chronos.events.edit'
+]);
 
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $scope current scope of controller
- * @param $state app state manager
  * @param $cacheFactory cache provider
  * @param $log logger
  * @param CalendarService service managing calendar data
+ * @param EventEditor editor that holds information about edited event
  * @param CalendarCollectionFactory factory for creating proper event related collections
  * @param CalendarRenderer renderer for attaching events to proper time lines
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
+    CalendarService, EventEditor, CalendarCollectionFactory,
+    CalendarRenderer, CALENDAR_EVENTS,
+    EventUtils, uiNotification
+) {
 
     /**
      * Include underscore
@@ -134,25 +140,6 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
     };
 
     /**
-     * Register controller to event-bus
-     */
-    $scope.register = function () {
-        $scope.$on(CALENDAR_EVENTS.EVENT_CHANGED, function (event, calendarEvent) {
-            $log.debug('Event changed from event bus, updating new event in calendar - id: ' + calendarEvent.id);
-            EventUtils.normalize(calendarEvent);
-            $scope.eventsMap.remove(calendarEvent);
-            $scope.eventsMap.add(calendarEvent);
-            $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        });
-        $scope.$on(CALENDAR_EVENTS.EVENT_DELETED, function (event, calendarEvent) {
-            $log.debug('Event deleted from event bus, deleting event from calendar - id: ' + calendarEvent.id);
-            EventUtils.normalize(calendarEvent);
-            $scope.eventsMap.remove(calendarEvent);
-            $scope.buildTimelineFor(calendarEvent.start, calendarEvent.end);
-        });
-    };
-
-    /**
      * Refresh calendar's data
      */
     $scope.refresh = function () {
@@ -242,12 +229,11 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
         var date = day.clone();
         date = date.set({
             hour: hour || 0,
-            minute: minute || 0
+            minute: minute || 0,
+            second: 0
         });
-        $log.debug('Add new event - start: ' + event.start);
-        $state.go('calendar-day.new-visit', {
-            start: start.getTime()
-        });
+        $log.debug('Add new event - start: ' + date);
+        EventEditor.startEdition(date);
     };
 
     /**
@@ -273,9 +259,8 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
      */
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id);
-        $state.go('calendar-day.edit-visit', {
-            eventId: event.id
-        });
+        EventEditor.event = event;
+        EventEditor.startEdition();
     };
 
     /**
@@ -426,7 +411,8 @@ calendar.controller('CalendarCtrl', function ($scope, $state, $cacheFactory, $lo
         $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
     };
 
-    $scope.register();
+    EventEditor.init($scope.eventsMap);
+
 });
 
 /**

@@ -3,16 +3,111 @@
 var calendar = angular.module('chronos.events.edit', []);
 
 /**
+ * Editor responsible for holding information related with editing event
+ */
+calendar.service('EventEditor', function ($state, $log, CalendarService) {
+
+    return {
+
+        onGoing: false,
+
+        eventsMap: null,
+
+        event: {},
+
+        options: {},
+
+        /**
+         * Check whether edited event is new
+         * @return {boolean} true if editing new event, false for edition of existing one
+         */
+        isNew: function () {
+            return event.id == undefined;
+        },
+
+        /**
+         * Start edition of an event
+         * @param startTime optional start time of edited event
+         */
+        startEdition: function (startTime) {
+            if (startTime !== undefined) {
+                event.start = startTime.clone();
+            } else if (isNew()) {
+                event.start = Date.today();
+            }
+            loadOptions();
+            if (!onGoing) {
+                $state.go('calendar-day.edit-visit');
+                onGoing = true;
+            }
+        },
+
+        /**
+         * Load options available for edited event
+         */
+        loadOptions: function () {
+            CalendarService.options(event.start).
+            success(function (result) {
+                options = result;
+                if (isNew()) {
+                    event.title = event.title || options.templates[0].name;
+                    event.description = event.description || options.templates[0].description;
+                    event.owner = event.owner || options.owner;
+                    event.users = event.users || options.users;
+                    event.duration = event.duration || options.durations[0];
+                    event.location = options.location.address;
+                    event.color = options.location.color;
+                }
+            }).error(function (error) {
+                $log.error('Couldn\'t load options - date: ' + event.start + ', error: ' + error);
+            });
+        },
+
+        /**
+         * Finalize edition of an event
+         */
+        endEdition: function () {
+
+        },
+
+        /**
+         * Cancel edition of an event
+         */
+        cancel: function () {
+
+        },
+
+        /**
+         * Clear state of editor
+         */
+        clear: function () {
+            event = {};
+            options = {};
+            onGoing = false;
+        },
+
+        /**
+         * Initialize editor
+         * @param events all available events
+         */
+        init: function (eventsMap) {
+            clear();
+            this.eventsMap = eventsMap;
+        }
+
+    };
+
+});
+
+/**
  * Controller responsible for adding/editing events
  * @param $scope current scope
- * @param $modalInstance current instance of modal window
- * @param eventToEdit event to be added/edited
- * @param options options for editing events
+ * @param EventEditor editor that holds information about edited event
  * @param CalendarService service managing events
  * @param uiNotification notification manager
  * @param $log logger
  */
-calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, CalendarService, uiNotification, $log) {
+calendar.controller('EditEventCtrl', function ($scope, EventEditor, CalendarService, uiNotification, $log) {
 
     $scope.durations = [];
     //TODO load access rights
@@ -20,48 +115,19 @@ calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, Cal
     $scope.isButtonSaveVisible = true;
     $scope.editedEvent = {};
 
-    console.info($stateParams.event);
-
     /**
      * Initialize controller state
      */
     $scope.init = function () {
-        if ($stateParams.eventId !== null) {
-            $log.debug('Editing existing event - id: ' + $stateParams.eventId);
-
-            $scope.loadEvent($stateParams.eventId);
-        } else {
-            var startTime = $stateParams.start || Date.today();
-            $log.debug('Editing new event - id: ' + startTime);
-            $scope.editedEvent = {
-                start: startTime,
-            };
-        }
-        $scope.durations = options.durations;
-    };
-
-     $scope.loadOptions = function () {
-        // $scope.editedEvent = {
-        //         title: options.templates[0].name,
-        //         description: options.templates[0].description,
-        //         start: startTime,
-        //         duration: options.durations[0],
-        //         location: options.location.address,
-        //         owner: options.owner,
-        //         users: options.users,
-        //         color: options.location.color
-        //     };
-    };
-
-    $scope.loadEvent = function (eventId) {
-
+        $scope.editedEvent = EventEditor.event;
+        $scope.durations = EventEditor.options.durations;
     };
 
     /**
      * Cancel edition of an event
      */
     $scope.cancel = function () {
-        //        $modalInstance.dismiss('cancel');
+        EventEditor.cancel();
     };
 
     /**
@@ -74,10 +140,7 @@ calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, Cal
         CalendarService.save($scope.editedEvent).then(
             function (resp) {
                 $log.info('Event saved successfully: event id: ' + resp.data.id);
-                //TODO return data from resp when BE is there
-                $scope.editedEvent.id = resp.data.id;
-                $scope.$emit('EVENT_CHANGED', $scope.editedEvent);
-                $modalInstance.close($scope.editedEvent);
+                EventEditor.endEdition();
             },
             function (errResp, errStatus) {
                 $log.info('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
@@ -94,9 +157,7 @@ calendar.controller('EditEventCtrl', function ($scope, $state, $stateParams, Cal
         CalendarService.delete($scope.editedEvent.id).then(
             function (resp) {
                 $log.info('Event deleted successfully: event id: ' + $scope.editedEvent.id);
-                //TODO return data from resp when BE is there
-                $scope.$emit('EVENT_DELETED', $scope.editedEvent);
-                //                $modalInstance.close('EVENT_DELETED');
+                EventEditor.endEdition();
             },
             function (errResp, errStatus) {
                 $log.info('Event hasn\'t been deleted: status: ' + errStatus + ', resp: ' + errResp.data);
