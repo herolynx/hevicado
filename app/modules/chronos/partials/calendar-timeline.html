@@ -3,30 +3,16 @@
         <h1>Visit</h1>
     </div>
     <div class="content">
-        <section class="visit">
+        <section class="visit2">
             <div class="top-info">
                 Aby zrezygnować z wizyty możesz użyć przycisku kosza lub złapać i przeciągnąć na pole "Canceled Visit"
             </div>
             <div class="box-row">
-                <table infinite-scroll='next()'
+                <ul infinite-scroll='next()'
                        infinite-scroll-disabled='loading'
                        infinite-scroll-distance='2'>
-                    <tr>
-                        <td>Current/Planned visits</td>
-                        <td></td>
-                        <td>Cancelled visits</td>
-                    </tr>
-                    <tr ng-repeat="event in events">
-                        <td>
-                            <calendar-timeline-event ng-if="event.cancelled===null" event="event"/>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <calendar-timeline-event ng-if="event.cancelled!==null" event="event"/>
-                        </td>
-                    </tr>
-                </table>
+                    <calendar-timeline-event ng-repeat="event in events" event="event"/>
+                </ul>
             </div>
         </section>
     </div>

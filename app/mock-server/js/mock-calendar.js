@@ -14,6 +14,7 @@ mockCalendar.run(function ($httpBackend, $log) {
             description: "Details go here about meeting....",
             start: start,
             end: start.clone().add(duration).minutes(),
+            cancelled: id%2==0 ? null : Date.today(),
             color: color,
             duration: duration,
             location: {

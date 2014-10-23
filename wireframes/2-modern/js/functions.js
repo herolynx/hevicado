@@ -41,9 +41,9 @@ $(function() {
 	$('input').ezMark();
 	
 	// SELECT BOX
-		
-	var selectBox = $("select").selectBoxIt();
-	
+	if ($('select').length > 0) {	
+		var selectBox = $("select").selectBoxIt();
+	}
 	
 	// $('nav li').click(function(e){
 		// e.preventDefault();	

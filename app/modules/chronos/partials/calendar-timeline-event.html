@@ -1,38 +1,57 @@
-<div ng-controller="TimelineEventCtrl" class="visit-box" 
-        ng-class="{
-                    archiv: state(event)=='event-state-closed', 
-                    cancel: state(event)=='event-state-cancelled',
-                    active: state(event)=='event-state-open',
-                  }"
->
-    <div class="action">
-        <a ng-click="cancel(event)" ng-show="actions().canCancel(event)"><i class="icon-trash"></i></a>
-    </div>
-    <div class="address">
-		<span class="date">
-			{{event.start | date: "yyyy-MM-dd HH:mm"}} <br/> 
-            {{event.end | date: "yyyy-MM-dd HH:mm"}} <br/>
-			{{event.title}}
-		</span>
-
-        <p>
-            <a href="#" class="address">{{event.location.name}}</a>
-            {{event.location.address.street}}, {{event.location.address.city}}, {{event.location.address.country}}
-        </p>
-
-        <p>
-            <i class="icon-phone"></i>{{event.owner.phone}}<br/>
-            <a href="mailto:{{event.owner.mail}}"><i class="icon-mail"></i>{{event.owner.mail}}</a><br/>
-        </p>
-    </div>
-    <div class="user">
-        <div class="img">
-            <img src="images/temp/user-1.jpg" alt="User profile">
-        </div>
-        <div class="name">
+<li ng-controller="TimelineEventCtrl"
+    ng-class="{
+        disable: state(event)=='event-state-closed',
+        disable: state(event)=='event-state-cancelled',
+        active: state(event)=='event-state-open'
+    }">
+    <div class="box">
+        <div class="user">
+            <!--<span>prof. dr. mgr. inż</span>-->
             <a href="#">
                 {{event.owner.last_name}}, {{event.owner.first_name}}
             </a>
+
+            <div class="img">
+                <img src="images/temp/user-1.jpg" alt="User profile">
+            </div>
+        </div>
+        <div class="address">
+            <a href="#">{{event.location.name}}</a>
+
+            <p>
+                {{event.location.address.street}}, {{event.location.address.city}}, {{event.location.address.country}}
+            </p>
+        </div>
+        <div class="reason">
+            <strong>{{event.title}}</strong><br/>
+            {{event.description}}
+        </div>
+        <div class="date-address">
+            <span><i class="icon-phone"></i> 503 112 331</span>
+            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a></span>
+            <span><a href="#"><i class="icon-map"></i> Jak dojechać</a></span>
+        </div>
+        <div class="action">
+            <a class="delete" ng-click="cancel(event)" ng-show="actions().canCancel(event)">
+                <i class="icon-trash"></i>
+            </a>
         </div>
     </div>
-</div>
+    <div class="circle"></div>
+    <div class="date">
+        <div class="status"
+             ng-class="{
+                    disabled: state(event)=='event-state-closed',
+                    cancel: state(event)=='event-state-cancelled',
+                    active: state(event)=='event-state-open',
+                  }"
+                >
+            {{state(event).value}}
+        </div>
+        <div class="day">{{event.start | date: "dd"}}</div>
+        <div class="month">
+            <span>{{event.start | date: "EEEE"}}</span>
+            {{event.start | date: "MM-yyyy"}}
+        </div>
+    </div>
+</li>
