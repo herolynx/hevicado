@@ -259,8 +259,7 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
      */
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id);
-        EventEditor.event = event;
-        EventEditor.startEdition();
+        EventEditor.startEdition(event.start, event);
     };
 
     /**

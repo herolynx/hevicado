@@ -3,45 +3,78 @@
 describe('chronos-edit-event-spec:', function () {
 
     var mockModalInstance, mockEventToEdit, mockOptions, mockCalendarService, mockUiNotification, mockLog;
-    var controller;
+    var ctrlScope, calendarPromise;
 
     //prepare module for testing
     beforeEach(angular.mock.module('chronos'));
 
-    // //prepare controller for testing
-    // beforeEach(function () {
-    //     //mock dependencies
-    //     mockModalInstance = jasmine.createSpyObj('mockModalInstance', ['close', 'dismiss']);
-    //     mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['save', 'delete']);
-    //     mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info']);
-    //     mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
-    //     //preapre controller
-    //     controller = {};
-    // });
+    describe('EditEventCtrl-spec:', function () {
+
+         //prepare controller for testing
+        beforeEach(inject(function ($controller, $injector, _$rootScope_) {
+            //prepare controller for testing
+            ctrlScope = _$rootScope_.$new();
+            //mock dependencies
+            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['delete', 'save']);
+            calendarPromise = {
+                success: function (f) {
+                    calendarPromise.onSuccess = f;
+                    return calendarPromise;
+                },
+                error: function (f) {
+                    calendarPromise.onError = f;
+                    return calendarPromise;
+                }
+            };
+            mockCalendarService.delete.andReturn(calendarPromise);
+            mockCalendarService.save.andReturn(calendarPromise);
+            mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
+            mockUiNotification.text = function (title, msg) {
+                mockUiNotification.title = title;
+                mockUiNotification.msg = msg;
+                return mockUiNotification;
+            };
+            mockEventEditor = jasmine.createSpyObj('EventEditor', ['cancel', 'endEdition']);
+            var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
+            //inject mocks
+            $controller('EditEventCtrl', {
+                $scope: ctrlScope,
+                $log: mockLog,
+                EventEditor: mockEventEditor,
+                CalendarService: mockCalendarService,
+                uiNotification: mockUiNotification
+            });
+        }));
+
+        // it('should initialize controller', function () {
+        //     //
+
+        //     mockEventToEdit = {
+        //         id: 'event-123'
+        //     };
+        //     //and options available for edited event
+        //     mockOptions = {
+        //         durations: [15, 30]
+        //     };
+        //     //and edit event controller is defined
+        //     expect(editEventCtrl).toBeDefined();
+        //     //when initializing controller
+        //     editEventCtrl(controller, mockModalInstance, mockEventToEdit, mockOptions, mockCalendarService, mockUiNotification, mockLog);
+        //     //then controller is prepared for editing event
+        //     expect(controller.editedEvent).toBe(mockEventToEdit);
+        //     //and event options are set
+        //     expect(controller.durations).toBe(mockOptions.durations);
+        //     //and controller rights are set
+        //     expect(controller.isButtonDeleteVisible).toBe(true);
+        //     expect(controller.isButtonSaveVisible).toBe(true);
+        // });
+
+    });
+
 
     // describe('initialization of editEventCtrl:', function () {
 
-    //     it('should prepare event for editing', function () {
-    //         //given event to be edited
-    //         mockEventToEdit = {
-    //             id: 'event-123'
-    //         };
-    //         //and options available for edited event
-    //         mockOptions = {
-    //             durations: [15, 30]
-    //         };
-    //         //and edit event controller is defined
-    //         expect(editEventCtrl).toBeDefined();
-    //         //when initializing controller
-    //         editEventCtrl(controller, mockModalInstance, mockEventToEdit, mockOptions, mockCalendarService, mockUiNotification, mockLog);
-    //         //then controller is prepared for editing event
-    //         expect(controller.editedEvent).toBe(mockEventToEdit);
-    //         //and event options are set
-    //         expect(controller.durations).toBe(mockOptions.durations);
-    //         //and controller rights are set
-    //         expect(controller.isButtonDeleteVisible).toBe(true);
-    //         expect(controller.isButtonSaveVisible).toBe(true);
-    //     });
+  
 
     //     it('should prepare event for creation', function () {
     //         //given event to be edited

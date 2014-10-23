@@ -17,12 +17,18 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
 
         options: {},
 
+        prevState: {},
+
+        onChange: function () {
+
+        },
+
         /**
          * Check whether edited event is new
          * @return {boolean} true if editing new event, false for edition of existing one
          */
         isNew: function () {
-            return event.id == undefined;
+            return this.event.id == undefined;
         },
 
         /**
@@ -30,6 +36,7 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          * @return {boolean} true if user is owner, false otherwise
          */
         isOwner: function () {
+            //TODO add user identity
             return true;
         },
 
@@ -37,32 +44,44 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          * Start edition of an event
          * @param startTime optional start time of edited event
          */
-        startEdition: function (startTime) {
+        startEdition: function (startTime, event) {
             if (startTime !== undefined) {
-                event.start = startTime.clone();
-            } else if (isNew()) {
-                event.start = Date.today();
+                this.event.start = startTime.clone();
+            } else if (this.isNew()) {
+                this.event.start = Date.today();
             }
-            loadOptions();
-            if (!onGoing) {
+            if(event!==undefined) {
+                this.event=event;
+            }
+            if (!this.onGoing) {
                 $state.go('calendar-day.edit-visit');
-                onGoing = true;
+                this.onGoing = true;
             }
+            this.loadOptions();
+            this.onChange();
         },
 
         /**
          * Load options available for edited event
          */
         loadOptions: function () {
-            CalendarService.options(event.start)
+            var self = this;
+            CalendarService
+                .options(event.start)
                 .success(function (result) {
-                    options = result;
-                    if (isNew()) {
+                    self.options = result;
+                    if (self.isNew()) {
                         //TODO set user and add overwritting
                         //overwrite if current values are not allowed
-                        event.title = EventUtils.value(_.pluck(options.templates, 'title'), event.title, 0, isOwner());
-                        event.description = EventUtils.value(_.pluck(options.templates, 'description'), event.description, 0, isOwner());
-                        event.duration = EventUtils.value(options.durations, event.duration, 0, isOwner());
+                        var options = self.options;
+                        var event = self.event;
+                        var isOwner = self.isOwner;
+                        event.title = EventUtils.value(_.pluck(options.templates, 'title'),
+                            event.title, 0, isOwner());
+                        event.description = EventUtils.value(_.pluck(options.templates, 'description'),
+                            event.description, 0, isOwner());
+                        event.duration = EventUtils.value(options.durations,
+                            event.duration, 0, isOwner());
                         //overwrite if not set
                         event.owner = event.owner || options.owner;
                         event.users = event.users || options.users;
@@ -80,23 +99,25 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          * Finalize edition of an event
          */
         endEdition: function () {
-            //TODO go to previous state
+            $state.go(self.prevState);
         },
 
         /**
          * Cancel edition of an event
          */
         cancel: function () {
-            //TODO go to previous state
+            this.clear();
+            $state.go(self.prevState);
         },
 
         /**
          * Clear state of editor
          */
         clear: function () {
-            event = {};
-            options = {};
-            onGoing = false;
+            this.event = {};
+            this.options = {};
+            this.onGoing = false;
+            this.prevState = {};
         },
 
         /**
@@ -104,8 +125,9 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          * @param events all available events
          */
         init: function (eventsMap) {
-            clear();
+            this.clear();
             this.eventsMap = eventsMap;
+            this.prevState = $state.current;
         }
 
     };
@@ -115,12 +137,12 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
 /**
  * Controller responsible for adding/editing events
  * @param $scope current scope
+ * @param $log logger
  * @param EventEditor editor that holds information about edited event
  * @param CalendarService service managing events
  * @param uiNotification notification manager
- * @param $log logger
  */
-calendar.controller('EditEventCtrl', function ($scope, EventEditor, CalendarService, uiNotification, $log) {
+calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, uiNotification) {
 
     $scope.durations = [];
     //TODO load access rights
@@ -132,8 +154,11 @@ calendar.controller('EditEventCtrl', function ($scope, EventEditor, CalendarServ
      * Initialize controller state
      */
     $scope.init = function () {
-        $scope.editedEvent = EventEditor.event;
-        $scope.durations = EventEditor.options.durations;
+        EventEditor.onChange = function () {
+            $scope.editedEvent = EventEditor.event;
+            $scope.durations = EventEditor.options.durations;
+        };
+        EventEditor.onChange();
     };
 
     /**

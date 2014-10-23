@@ -1388,8 +1388,7 @@ describe('chronos-calendar-spec:', function () {
                 //when starting editing event
                 ctrlScope.editEvent(event);
                 //then event edition is started
-                expect(mockEventEditor.event).toBe(event);
-                expect(mockEventEditor.startEdition).toHaveBeenCalledWith();
+                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(event.start, event);
             });
 
             it('should delete event', function () {
