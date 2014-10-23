@@ -7,14 +7,14 @@ mockCalendar.run(function ($httpBackend, $log) {
     var id = 1;
     var events = [];
 
-    var createEvent = function (start, duration, color) {
+    var createEvent = function (start, duration, color, cancelled) {
         return {
             id: id++,
             title: "Meeting " + (id - 1),
             description: "Details go here about meeting....",
             start: start,
             end: start.clone().add(duration).minutes(),
-            cancelled: id%2==0 ? null : Date.today(),
+            cancelled: cancelled!==undefined ? cancelled : null,
             color: color,
             duration: duration,
             location: {
@@ -48,7 +48,7 @@ mockCalendar.run(function ($httpBackend, $log) {
                 }
             ]
         };
-    }
+    };
 
     events.push(createEvent(Date.today().set({
         hour: 0,
@@ -70,11 +70,15 @@ mockCalendar.run(function ($httpBackend, $log) {
         hour: 1,
         minute: 0
     }), 15, 'blue'));
-
     events.push(createEvent(Date.today().set({
         hour: 1,
         minute: 30
-    }), 45, 'blue'));
+    }), 45, 'blue', Date.today()));
+    events.push(createEvent(Date.today().set({
+        hour: 23,
+        minute: 0
+    }), 30, 'orange'));
+
 
     $httpBackend.whenGET(/calendar\/events\/search/).respond(200, events);
     $httpBackend.whenPOST(/calendar\/events\/save/).respond(200, {
