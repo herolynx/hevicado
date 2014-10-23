@@ -209,6 +209,51 @@ describe('chronos-events-spec:', function () {
 
         });
 
+        describe('value normalization-spec:', function () {
+
+            it('should normalize not allowed value', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and allowed values
+                var values = ['value1', 'value2', 'value3'];
+                //and not allowed current value
+                var currentValue = 'value4';
+                //when normalizing value
+                var normalized = eventUtils.value(values, currentValue, 0);
+                //then value is normalized
+                expect(normalized).toBe('value1');
+            });
+
+            it('should not normalize not allowed value of owner', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and allowed values
+                var values = ['value1', 'value2', 'value3'];
+                //and not allowed current value
+                var currentValue = 'value4';
+                //and master user
+                var isOwner = true;
+                //when normalizing value
+                var normalized = eventUtils.value(values, currentValue, 0, isOwner);
+                //then value is normalized
+                expect(normalized).toBe('value4');
+            });
+
+            it('should not normalize allowed value', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and allowed values
+                var values = ['value1', 'value2', 'value3'];
+                //and allowed current value
+                var currentValue = 'value2';
+                //when normalizing value
+                var normalized = eventUtils.value(values, currentValue, 0);
+                //then value is not changed
+                expect(normalized).toBe('value2');
+            });
+
+        });
+
     });
 
     describe('EventActionManager-spec:', function () {

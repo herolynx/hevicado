@@ -82,6 +82,21 @@ events.service('EventUtils', function (EVENT_STATE) {
                 event.duration = span.getTotalMilliseconds() / (1000 * 60);
             }
             return event;
+        },
+
+        /**
+         * Convert value
+         * @param values all possible values
+         * @param currentValue chosen value
+         * @param defaultIndex index of default value if conversion is needed
+         * @param isOwner optional flag indicates whether owner can set value outside of possible values
+         * @return normalized value
+         */
+        value: function (values, currentValue, defaultIndex, isOwner) {
+            if (!_.contains(values, currentValue)) {
+                return isOwner ? currentValue : values[defaultIndex];
+            }
+            return currentValue;
         }
 
     };

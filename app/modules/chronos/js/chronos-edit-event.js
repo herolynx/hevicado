@@ -5,7 +5,7 @@ var calendar = angular.module('chronos.events.edit', []);
 /**
  * Editor responsible for holding information related with editing event
  */
-calendar.service('EventEditor', function ($state, $log, CalendarService) {
+calendar.service('EventEditor', function ($state, $log, CalendarService, EventUtils) {
 
     return {
 
@@ -23,6 +23,14 @@ calendar.service('EventEditor', function ($state, $log, CalendarService) {
          */
         isNew: function () {
             return event.id == undefined;
+        },
+
+        /**
+         * Check whether current  user will be owner of an event
+         * @return {boolean} true if user is owner, false otherwise
+         */
+        isOwner: function () {
+            return true;
         },
 
         /**
@@ -46,35 +54,40 @@ calendar.service('EventEditor', function ($state, $log, CalendarService) {
          * Load options available for edited event
          */
         loadOptions: function () {
-            CalendarService.options(event.start).
-            success(function (result) {
-                options = result;
-                if (isNew()) {
-                    event.title = event.title || options.templates[0].name;
-                    event.description = event.description || options.templates[0].description;
-                    event.owner = event.owner || options.owner;
-                    event.users = event.users || options.users;
-                    event.duration = event.duration || options.durations[0];
-                    event.location = options.location.address;
-                    event.color = options.location.color;
-                }
-            }).error(function (error) {
-                $log.error('Couldn\'t load options - date: ' + event.start + ', error: ' + error);
-            });
+            CalendarService.options(event.start)
+                .success(function (result) {
+                    options = result;
+                    if (isNew()) {
+                        //TODO set user and add overwritting
+                        //overwrite if current values are not allowed
+                        event.title = EventUtils.value(_.pluck(options.templates, 'title'), event.title, 0, isOwner());
+                        event.description = EventUtils.value(_.pluck(options.templates, 'description'), event.description, 0, isOwner());
+                        event.duration = EventUtils.value(options.durations, event.duration, 0, isOwner());
+                        //overwrite if not set
+                        event.owner = event.owner || options.owner;
+                        event.users = event.users || options.users;
+                        //overwrite
+                        event.location = options.location.address;
+                        event.color = options.location.color;
+                    }
+                })
+                .error(function (error) {
+                    $log.error('Couldn\'t load options - date: ' + event.start + ', error: ' + error);
+                });
         },
 
         /**
          * Finalize edition of an event
          */
         endEdition: function () {
-
+            //TODO go to previous state
         },
 
         /**
          * Cancel edition of an event
          */
         cancel: function () {
-
+            //TODO go to previous state
         },
 
         /**
