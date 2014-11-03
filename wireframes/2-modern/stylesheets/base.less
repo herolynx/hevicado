@@ -1517,6 +1517,302 @@ section.login {
   }
 }
 
+section.cabinet {
+	.fl;
+	.w;
+	.relative;
+	.center;
+	
+	.add {
+		.fl;
+		.w;
+		.left;
+		.mb(20px);
+		
+		a {
+			.bg(#00d6ab);
+			.pp(5px 10px);
+			.bb(2px solid #009375);
+			.radius(5px);
+			.c(#FFF);
+			.size(1.2em);
+			text-shadow:none;
+			font-weight:500;
+			
+			i:before {
+				opacity:1;
+			}
+		}
+	}
+	
+	.box-row {
+		.w;
+		.bg(#FFF);
+		.radius(5px);
+		.bt(1px solid #e6e6e6);
+		.fl;
+		.relative;	
+		.mb(20px);
+		
+		
+		 .box {
+			.fl;			
+			.left;
+			.pp(20px 30px 0px 30px);
+			.box-sizing;
+			.relative;
+			.w;
+			
+			.row {
+				.fl;
+				.w;
+				.mb(25px);
+			}
+			
+			.box-left {
+				.fl;
+				.w(48%);
+			}
+			
+			.box-right {
+				.pl(60px);
+				.box-sizing;
+				.fl;
+				.w(48%);
+				.relative;
+				.left;
+				.ml(4%);
+				
+				&:before {
+					content:'';
+					.w(10px);
+					top:5%;
+					left:0px;
+					.h(96%);
+					.absolute;
+					background:url(../images/table-bg-20.png);
+				}
+			}
+			
+			.edit {
+				.bg(#00d6ab);
+				.pp(3px 10px 3px 5px);
+				.bb(2px solid #009375);
+				.radius(5px);
+				.c(#FFF);
+				text-shadow:none;
+				font-weight:500;
+				.dib;
+				.ml(10px);
+				vertical-align:middle;
+				
+				&:hover {
+					.bg(#00B28E);
+				}
+			}
+			
+			.title {
+				.fl;
+				.w;
+				.mb(10px);
+				
+				span {
+					.size(1.5em);
+					.w(auto)!important;
+					vertical-align:middle;
+					.dib;
+				}
+			}
+			
+			.color {
+				.fl;
+				.mt(4px);
+				.b(1px solid #f5f6f7);
+				.pp(3px);
+				
+				span {
+					.w(25px);
+					.h(25px);
+					.fl;
+					.bg(@blue);
+					.pp(5px);
+					.box-sizing;
+				}
+			}	
+			
+			.name-company {
+				.fl;
+				.ml(10px);
+				
+				span {
+					.size(2em);		
+					.dib;
+					vertical-align:middle;
+				}				
+			}
+			
+			.address {
+				.fl;
+				.w;
+				.pr(60px);
+				.box-sizing;
+				.pb(20px);
+				.bb(1px solid #f5f6f7);
+				
+				span {
+					.w;
+					.dib;
+				}
+			}
+			
+			.open-hour {
+				.fl;
+				.w;
+				.relative;
+				.box-sizing;
+				.pb(20px);
+				
+				ul {
+					.fl;
+					.w;					
+					
+					li {
+						.fl;
+						.w;
+						.dib;
+						.pp(5px 0);
+						
+						span.day {
+							.fl;
+							.w(100px);
+						}
+						
+						span.hour {
+							.fl;
+							.ml(15px);
+							font-weight:600;
+						}
+					}
+				}			
+			}
+			
+			.treatments {
+				.fl;
+				.w;
+				.relative;
+				.box-sizing;
+				
+				ul {
+					.fl;
+					.w;
+					.mt(20px);
+					
+					li {
+						.fl;
+						.w;
+						.pp(5px 0);
+						display:table;
+						vertical-align:middle;
+						.relative;
+						.bb(1px solid #e6e6e6);
+												
+						&:before {
+							content:'';
+							.w(5px);
+							.h(5px);
+							.radius(100%);
+							.bg(#656565);
+							.absolute;
+							top:49%;
+							left:0;
+						}	
+						
+						.intervention {							
+							.w(75%);
+							.pl(15px);
+							.box-sizing;
+							display:table-cell;
+							vertical-align:middle;
+							.h(100%);
+						}
+						
+						.time {
+							display:table-cell;
+							.ml(5%);
+							vertical-align:middle;
+							
+							span {
+								.c(#FFF);
+								.bg(#00d6ab);
+								.pp(5px);
+								.box-sizing;
+								.size(1em);
+								.radius(5px);
+								text-shadow:none;
+							}	
+						}
+						
+						.delete {
+							display:table-cell;
+							.pl(10px);
+							.w(20px);
+							vertical-align:middle;	
+							.center;
+							
+							a {
+								i:before {
+									.mr(0);
+								}
+							}
+						}
+					}	
+				}
+			}
+						
+			.info-doctor {
+				.fl;
+				.w;
+				.relative;
+				.box-sizing;
+				.mt(20px);
+								
+				.specialization, .short-info{
+					.fl;
+					.w;
+					.mt(20px);					
+				}
+				
+				.name {
+					.fl;
+					.w;					
+				}
+				
+				.images {
+					.absolute;
+					top:0;
+					right:0;
+					
+					.img {
+						.w(100px);
+						.h(100px);
+						.pp(5px);
+						.m(auto);
+						.dib;
+						.bg(#f5f6f7);
+						.box-sizing;
+						.radius(100%);
+						
+						img {
+							.w;
+							.fl;
+							.radius(100%);
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 section.visit {
 	.fl;
