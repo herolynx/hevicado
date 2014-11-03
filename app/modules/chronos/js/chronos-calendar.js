@@ -17,11 +17,7 @@ var calendar = angular.module('chronos.calendar', [
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
-    CalendarService, EventEditor, CalendarCollectionFactory,
-    CalendarRenderer, CALENDAR_EVENTS,
-    EventUtils, uiNotification
-) {
+calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log, CalendarService, EventEditor, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -64,18 +60,18 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
         var endDate = days[days.length - 1];
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
         CalendarService.events(startDate, endDate).
-        success(function (data) {
-            $log.debug('Events loaded - data size: ' + data.length);
-            $scope.cache.removeAll();
-            _.map(data, EventUtils.normalize);
-            $scope.eventsMap.clear();
-            $scope.eventsMap.addAll(data);
-            $scope.buildTimelines(days);
-        }).
-        error(function (data, status) {
-            $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
-            uiNotification.text('Error', 'Couldn\'t load events').error();
-        });
+            success(function (data) {
+                $log.debug('Events loaded - data size: ' + data.length);
+                $scope.cache.removeAll();
+                _.map(data, EventUtils.normalize);
+                $scope.eventsMap.clear();
+                $scope.eventsMap.addAll(data);
+                $scope.buildTimelines(days);
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
+                uiNotification.text('Error', 'Couldn\'t load events').error();
+            });
     };
 
     /**
@@ -243,14 +239,14 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
     $scope.deleteEvent = function (event) {
         $log.debug('Deleting event - id: ' + event.id + ', start: ' + event.start);
         CalendarService.delete(event.id).
-        success(function (result) {
-            $scope.eventsMap.remove(event);
-            $scope.buildTimelineFor(event.start, event.end);
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Couldn\'t delete event').error();
-        });
+            success(function (result) {
+                $scope.eventsMap.remove(event);
+                $scope.buildTimelineFor(event.start, event.end);
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Couldn\'t delete event').error();
+            });
     };
 
     /**
@@ -263,10 +259,10 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
     };
 
     /**
-     * Get events in given time period
+     * Get events in given time period that begins in chosen quarter of an hour.
      * @param day day without time period
-     * @param dayHour optional hour
-     * @param minutes optional minutes
+     * @param dayHour hour when events can begin
+     * @param minutes minutes minutes that set quarter when events can begin
      * @returns {Array} events
      */
     $scope.getEvents = function (day, dayHour, minutes) {
@@ -314,27 +310,29 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
         var dayEvents = $scope.eventsMap.events(day);
         var info = {};
         if (dayEvents.length == 0) {
-            info = [{
-                name: '',
-                value: 0
-            }];
+            info = [
+                {
+                    name: '',
+                    value: 0
+                }
+            ];
         } else {
             info = _.chain(dayEvents).
-            groupBy(function (event) {
-                return event.location.name;
-            }).
-            map(function (events, location) {
-                return {
-                    name: location,
-                    value: events.length
-                };
-            }).
-            sortBy(function (info) {
-                return info.value;
-            }).
-            reverse().
-            first(maxCount).
-            value();
+                groupBy(function (event) {
+                    return event.location.name;
+                }).
+                map(function (events, location) {
+                    return {
+                        name: location,
+                        value: events.length
+                    };
+                }).
+                sortBy(function (info) {
+                    return info.value;
+                }).
+                reverse().
+                first(maxCount).
+                value();
         }
         info.id = cacheKey;
         $scope.cache.put(cacheKey, info);
@@ -377,22 +375,23 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log,
         event.end = newEndDate;
         EventUtils.normalize(event);
         CalendarService.save(event).
-        success(function (response) {
-            $scope.eventsMap.add(event);
-            $scope.buildTimelineFor(event.start, event.end);
-            $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
-        }).
-        error(function (error) {
-            $log.error('Couldn\'t save event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-            uiNotification.text('Error', 'Couldn\'t save event').error();
-            //fallback
-            event.start = oldStartDate;
-            event.end = oldEndDate;
-            EventUtils.normalize(event);
-            $scope.eventsMap.add(event);
-            $scope.buildTimelineFor(event.start, event.end);
-            $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
-        });
+            success(function (response) {
+                $scope.eventsMap.add(event);
+                $scope.cache.removeAll();
+                $scope.buildTimelineFor(event.start, event.end);
+                $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t save event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Couldn\'t save event').error();
+                //fallback
+                event.start = oldStartDate;
+                event.end = oldEndDate;
+                EventUtils.normalize(event);
+                $scope.eventsMap.add(event);
+                $scope.buildTimelineFor(event.start, event.end);
+                $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+            });
     };
 
     /**
@@ -491,10 +490,10 @@ calendar.service('CalendarRenderer', function () {
             clear();
             //sort events
             var order = _.chain(events).
-            sortBy('end').
-            reverse().
-            sortBy('start').
-            value();
+                sortBy('end').
+                reverse().
+                sortBy('start').
+                value();
             //attach events
             for (var i = 0; i < order.length; i++) {
                 this.attach(order[i]);

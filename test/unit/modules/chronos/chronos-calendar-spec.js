@@ -523,11 +523,13 @@ describe('chronos-calendar-spec:', function () {
                 //when loading data for chosen view
                 ctrlScope.init(daysCount, startDate);
                 //and back-end responded successfully
-                var events = [{
-                    title: 'sample-event',
-                    start: startDate.clone(),
-                    end: startDate.clone().add(1).hour()
-                }];
+                var events = [
+                    {
+                        title: 'sample-event',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 //then calendar time table is set for one day only
                 expect(ctrlScope.days.length).toBe(daysCount);
@@ -604,11 +606,13 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    title: 'sample-event',
-                    start: startDate.clone(),
-                    end: startDate.clone().add(1).hour()
-                }];
+                var events = [
+                    {
+                        title: 'sample-event',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 //when events are taken for chosen day
                 var dayEvents = ctrlScope.getEvents(startDate);
@@ -634,11 +638,13 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    title: 'sample-event',
-                    start: startDate.clone(),
-                    end: startDate.clone().add(1).hour()
-                }];
+                var events = [
+                    {
+                        title: 'sample-event',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 //when events are taken for different day
                 var dayEvents = ctrlScope.getEvents(startDate.clone().add(1).days());
@@ -663,16 +669,18 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
+                var events = [
+                    {
                         title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour()
-                },
+                    },
                     {
                         title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour()
-                }];
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //when events are taken for chosen hour
@@ -699,16 +707,18 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
+                var events = [
+                    {
                         title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour()
-                },
+                    },
                     {
                         title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour()
-                }];
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and events have been read once
@@ -742,14 +752,15 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
+                var events = [
+                    {
                         title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour(),
                         location: {
                             name: 'loc1'
                         }
-                },
+                    },
                     {
                         title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
@@ -757,7 +768,8 @@ describe('chronos-calendar-spec:', function () {
                         location: {
                             name: 'loc1'
                         }
-                }];
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //when summary info for chosen day is taken
@@ -787,14 +799,16 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    title: 'sample-event1',
-                    start: startDate.clone(),
-                    end: startDate.clone().add(1).hour(),
-                    location: {
-                        name: 'loc1'
+                var events = [
+                    {
+                        title: 'sample-event1',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour(),
+                        location: {
+                            name: 'loc1'
+                        }
                     }
-                }];
+                ];
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
                 //when summary info for chosen day is taken when no events are defined
@@ -824,14 +838,15 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
+                var events = [
+                    {
                         title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour(),
                         location: {
                             name: 'loc1'
                         }
-                },
+                    },
                     {
                         title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
@@ -890,14 +905,15 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
+                var events = [
+                    {
                         title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour(),
                         location: {
                             name: 'loc1'
                         }
-                },
+                    },
                     {
                         title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
@@ -905,7 +921,8 @@ describe('chronos-calendar-spec:', function () {
                         location: {
                             name: 'loc1'
                         }
-                }];
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and summary info has been read once
@@ -941,16 +958,18 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
+                var events = [
+                    {
                         title: 'sample-event1',
                         start: startDate.clone(),
                         end: startDate.clone().add(1).hour()
-                },
+                    },
                     {
                         title: 'sample-event2',
                         start: startDate.clone().add(1).hour(),
                         end: startDate.clone().add(2).hour()
-                }];
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and events have been read once
@@ -965,11 +984,13 @@ describe('chronos-calendar-spec:', function () {
                 expect(cachedEvents).toEqual(dayEvents);
                 //when new data is read
                 ctrlScope.refresh();
-                calendarPromise.onSuccess([{
-                    title: 'sample-event3',
-                    start: startDate.clone(),
-                    end: startDate.clone().add(1).hour()
-                }]);
+                calendarPromise.onSuccess([
+                    {
+                        title: 'sample-event3',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour()
+                    }
+                ]);
                 //and the same read is made as before
                 var newEvents = ctrlScope.getEvents(startDate);
                 //then new data is returned
@@ -1367,7 +1388,7 @@ describe('chronos-calendar-spec:', function () {
                 });
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is started
-                var startTime = startDate.clone().set({hour: 13, minute:30, second: 0});
+                var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
                 expect(mockEventEditor.startEdition).toHaveBeenCalledWith(startTime);
             });
 
@@ -1408,17 +1429,20 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour()
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour()
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour()
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour()
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1453,17 +1477,20 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour()
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour()
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour()
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour()
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1497,19 +1524,22 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour(),
-                    duration: 120
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour(),
-                    duration: 60
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour(),
+                        duration: 120
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour(),
+                        duration: 60
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1549,19 +1579,22 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour(),
-                    duration: 120
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour(),
-                    duration: 60
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour(),
+                        duration: 120
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour(),
+                        duration: 60
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1605,19 +1638,22 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour(),
-                    duration: 120
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour(),
-                    duration: 60
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour(),
+                        duration: 120
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour(),
+                        duration: 60
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1666,19 +1702,22 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour(),
-                    duration: 120
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour(),
-                    duration: 60
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour(),
+                        duration: 120
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour(),
+                        duration: 60
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1702,8 +1741,7 @@ describe('chronos-calendar-spec:', function () {
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
                 expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:00:00');
-                //TODO uncomment this when normalization is fixed
-                // expect(events[0].duration).toBe(120);
+                expect(events[0].duration).toBe(150);
                 //and time line is refreshed for proper period of time
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1732,19 +1770,22 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.days = [startDate];
                 //and loaded data
                 ctrlScope.init(daysCount, startDate);
-                var events = [{
-                    id: 1,
-                    title: 'sample-event1',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(5).hour(),
-                    duration: 120
-                }, {
-                    id: 2,
-                    title: 'sample-event2',
-                    start: startDate.clone().add(3).hour(),
-                    end: startDate.clone().add(4).hour(),
-                    duration: 60
-                }];
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour(),
+                        duration: 120
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour(),
+                        duration: 60
+                    }
+                ];
                 calendarPromise.onSuccess(events);
                 expect(events[0].timeline).toBe(0);
                 expect(events[1].timeline).toBe(1);
@@ -1774,6 +1815,54 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[1].timeline).toBe(0);
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
+            });
+
+            it('should clear cache after drag-and-drop or resizing', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(5).hour(),
+                        duration: 120
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hour(),
+                        end: startDate.clone().add(4).hour(),
+                        duration: 60
+                    }
+                ];
+                calendarPromise.onSuccess(events);
+                //and first read has been done
+                expect(ctrlScope.getEvents(startDate, 3, 0).length).toBe(2);
+                //when one of events is updated using DnD or resizing
+                var dndEvent = {};
+                var newDate = startDate.clone().add(1).days();
+                ctrlScope.dndDrop(dndEvent, events[0], newDate, 8, 0, 0);
+                //and back-end responded successfully
+                calendarPromise.onSuccess('UPDATED');
+                //then cache is cleared
+                //and new results are taken
+                expect(ctrlScope.getEvents(startDate, 3, 0).length).toBe(1);
+                expect(ctrlScope.getEvents(newDate, 8, 0).length).toBe(1);
             });
 
         });
