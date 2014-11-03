@@ -29,12 +29,15 @@
         <div class="date-address">
             <span><i class="icon-phone"></i> 503 112 331</span>
             <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a></span>
-            <span><a href="#"><i class="icon-map"></i> Jak dojechać</a></span>
+            <span><a><i class="icon-map"></i> Jak dojechać</a></span>
         </div>
         <div class="action">
+            <a class="edit" ui-sref="calendar-day.info-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
+            <a class="copy"><i class="icon-export"></i></a>
             <a class="delete" ng-click="cancel(event)" ng-show="actions().canCancel(event)">
                 <i class="icon-trash"></i>
             </a>
+            <a class="relancer"><i class="icon-arrows-ccw"></i></a>
         </div>
     </div>
     <div class="circle"></div>

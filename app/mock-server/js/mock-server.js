@@ -20,5 +20,6 @@ mockServer.run(function ($httpBackend, $log) {
     $httpBackend.whenGET(/partials\//).passThrough();
     $httpBackend.whenGET(/js\/generic\//).passThrough();
     $httpBackend.whenGET(/template/).passThrough();
+    $httpBackend.whenGET(/embed\//).passThrough();
 
 });
