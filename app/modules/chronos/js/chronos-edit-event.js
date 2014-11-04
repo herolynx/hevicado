@@ -45,18 +45,22 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          * @param startTime optional start time of edited event
          */
         startEdition: function (startTime, event) {
+            //set edited event
+            if (event !== undefined) {
+                this.event = event;
+            }
+            //set start time
             if (startTime !== undefined) {
                 this.event.start = startTime.clone();
             } else if (this.isNew()) {
                 this.event.start = Date.today();
             }
-            if(event!==undefined) {
-                this.event=event;
-            }
+            //change page
             if (!this.onGoing) {
                 $state.go('calendar-day.edit-visit');
                 this.onGoing = true;
             }
+            //load options
             this.loadOptions();
             this.onChange();
         },

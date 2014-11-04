@@ -13,7 +13,7 @@ var controllers = angular.module('bolt.controllers', ['ui-notifications']);
  */
 controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS, $log) {
     $scope.credentials = {
-        username: '',
+        login: '',
         password: ''
 
     };
@@ -23,7 +23,7 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
      * @param credentials user's login and password
      */
     $scope.login = function (credentials) {
-        $log.debug('Logging in user: ' + credentials.username);
+        $log.debug('Logging in user: ' + credentials.login);
         AuthService.login(credentials).then(
             function () {
                 $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);

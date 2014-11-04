@@ -18,7 +18,7 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
          */
         login: function (credentials) {
             return $http
-                .post('/users/login', credentials).then(
+                .post('/login', credentials).then(
                     function (res) {
                         Session.create(res.data);
                     });

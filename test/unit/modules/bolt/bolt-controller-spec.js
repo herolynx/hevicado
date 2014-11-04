@@ -73,7 +73,7 @@ describe('bolt-controller-spec - Login controller:', function () {
         it('should log in user with correct credentials', function () {
             //given user's credentials are correct
             var credentials = {
-                username: 'johny@bravo.com',
+                login: 'johny@bravo.com',
                 password: 'pass#123'
 
             };
@@ -82,18 +82,17 @@ describe('bolt-controller-spec - Login controller:', function () {
             //and successful response is received
             deferredAuthService.resolve();
             spyRootScope.$apply();
-            //then proper log appears
-            expect(mockLog.debug).toHaveBeenCalledWith('Logging in user: johny@bravo.com');
+            //then user is logged in
             //and proper broadcast event is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_LOGGED_IN);
-            //and user is redirected to dault page for users
+            //and user is redirected to default page for users
             expect(mockState.go).toHaveBeenCalledWith('default-user');
         });
 
         it('should not log in user with incorrect credentials', function () {
             //given user's credentials are incorrect
             var credentials = {
-                username: 'johny@bravo.com',
+                login: 'johny@bravo.com',
                 password: 'wrongPass'
 
             };
@@ -102,8 +101,7 @@ describe('bolt-controller-spec - Login controller:', function () {
             //and failed response is received
             deferredAuthService.reject();
             spyRootScope.$apply();
-            //then proper log appears
-            expect(mockLog.debug).toHaveBeenCalledWith('Logging in user: johny@bravo.com');
+            //then user is not logged in
             //and proper broadcast event is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.LOGIN_FAILED);
             //and user is not redirected to dault page for users

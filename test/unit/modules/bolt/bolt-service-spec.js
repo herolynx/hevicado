@@ -109,7 +109,7 @@ describe('bolt-service-spec:', function () {
                 userRole: 'USER'
             };
             //when trying to log in with user's credentials
-            authService.login({ user: 'user@bolt.com', password: 'pass#123' });
+            authService.login({ login: 'user@bolt.com', password: 'pass#123' });
             //and response for authentication is positive
             var response = { data: user };
             deferredHttp.resolve(response);
@@ -127,7 +127,7 @@ describe('bolt-service-spec:', function () {
                 userRole: 'USER'
             };
             //when trying to log in with wrong credentials
-            authService.login({ user: 'user@bolt.com', password: 'pass#123' });
+            authService.login({ login: 'user@bolt.com', password: 'pass#123' });
             //and response for authentication is not positive
             deferredHttp.reject();
             $rootScope.$apply();
