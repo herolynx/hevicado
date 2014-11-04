@@ -2,6 +2,7 @@
 
 var services = angular.module('angular-base.services', []);
 
+//TODO move to config
 services.constant('HTTP_CONFIG', {
     server: 'http://localhost:8080'
 });
