@@ -20,72 +20,8 @@
 <![endif]-->
 
 <div id="page" class="turquoise">
-    <!-- TOP MENU -->
     <permission roles="client,admin">
-        <header>
-            <div class="content">
-                <div class="logo">
-                    <p>ClickSimple
-                    </p> <span>company</span>
-                </div>
-                <!-- Logo -->
-                <nav>
-                    <ul>
-                        <li>
-                            <a ui-sref="user-visits">
-                                <i class="icon-newspaper"></i>
-                                Visit
-                            </a>
-                        </li>
-                        <li>
-                            <a ui-sref="calendar-week">
-                                <i class="icon-calendar"></i>
-                                Calendar
-                            </a>
-                            <ul class="subpage">
-                                <li><a href="#" ui-sref="calendar-day.visits">Daily</a></li>
-                                <li><a href="#" ui-sref="calendar-week">Weekly</a></li>
-                                <li><a href="#" ui-sref="calendar-month">Monthly</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a ui-sref="cabinet">
-                                <i class="icon-monitor"></i>
-                                Cabinet
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <i class="icon-tools"></i>
-                                My account
-                            </a>
-                            <ul class="subpage">
-                                <li><a href="#" ui-sref="user-profile">Preferences</a></li>
-                                <li><a>Payments</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" ui-sref="search-doctor">
-                                <i class="icon-search"></i>
-                                Search
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- Nav -->
-
-                <div class="profile">
-                    <div class="pic-user">
-                        <img src="images/temp/user-1.jpg" alt="User profile">
-                    </div>
-                    <div class="action">
-                        <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i></a>
-                    </div>
-                </div>
-                <!-- Profile User -->
-            </div>
-        </header>
-        <!-- Header -->
+        <top-menu/>
     </permission>
 
     <section id="main-content">
@@ -96,7 +32,6 @@
             <div>Kunishu: v<span app-version></span></div>
         </div>
     </section>
-    <!-- app version -->
     <a class="back-to-top">Top</a>
 
 </div>
@@ -110,6 +45,10 @@
 <script src="bower_components/jquery-ui/jquery-ui.js"></script>
 <script src="bower_components/toastr/toastr.js"></script>
 <script src="bower_components/datejs/build/date.js"></script>
+
+<script src="js/generic/jquery.ezmark.min.js"></script>
+<script src="js/generic/jquery.selectbox.js"></script>
+
 <!-- angular related stuff -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -124,17 +63,20 @@
 
 <script src="bower_components/angular-ui-sortable/sortable.js"></script>
 <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+
 <!-- ui utils -->
 <script src="modules/ui/js/ui-generic.js"></script>
 <script src="modules/ui/js/ui-notifications.js"></script>
 <script src="modules/ui/js/ui-dnd.js"></script>
 <script src="modules/ui/js/ui-elements.js"></script>
 <script src="modules/ui/js/ui-menu.js"></script>
+
 <!-- security module -->
 <script src="modules/bolt/js/bolt-app.js"></script>
 <script src="modules/bolt/js/bolt-controller.js"></script>
 <script src="modules/bolt/js/bolt-service.js"></script>
 <script src="modules/bolt/js/bolt-directives.js"></script>
+
 <!-- calendar -->
 <script src="modules/chronos/js/chronos-app.js"></script>
 <script src="modules/chronos/js/chronos-services.js"></script>
@@ -146,15 +88,18 @@
 <script src="modules/chronos/js/chronos-timeline.js"></script>
 <script src="modules/chronos/js/chronos-events.js"></script>
 <script src="modules/chronos/js/chronos-search.js"></script>
+
 <!-- users -->
 <script src="modules/users/js/users-app.js"></script>
 <script src="modules/users/js/users-controllers.js"></script>
 <script src="modules/users/js/users-services.js"></script>
+
 <!-- mock - disable in production !!! -->
 <script src="bower_components/angular-mocks/angular-mocks.js"></script>
 <script src="mock-server/js/mock-server.js"></script>
 <script src="mock-server/js/mock-calendar.js"></script>
 <script src="mock-server/js/mock-users.js"></script>
+
 <!-- main app scripts -->
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
@@ -162,8 +107,6 @@
 <script src="js/filters.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/routes.js"></script>
-<!-- generic scripts -->
-<script src="js/generic/jquery.ezmark.min.js"></script>
-<script src="js/generic/jquery.selectbox.js"></script>
+
 </body>
 </html>

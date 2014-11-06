@@ -25,8 +25,8 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('default-user', {
-            url: "/user-profile",
-            templateUrl: "modules/users/partials/user-profile.html",
+            url: "/user-visits",
+            templateUrl: "modules/chronos/partials/calendar-timeline.html",
             data: {
                 access: ACCESS_LEVELS.USER
             }
