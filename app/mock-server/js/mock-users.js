@@ -14,7 +14,7 @@ mockUsers.run(function ($httpBackend, Session, $log) {
     };
 
     $httpBackend.whenGET(/user\/1/).respond(200, currentUser);
-    $httpBackend.whenPOST(/users\/login/).respond(200, currentUser);
+    $httpBackend.whenPOST(/login/).respond(200, currentUser);
 
     $httpBackend.whenPOST('/user').respond(200, currentUser);
     $httpBackend.whenPUT(/user/).respond(200, currentUser);

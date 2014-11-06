@@ -17,7 +17,7 @@ var module = angular.module('angular-base',
         'bolt',
         'chronos',
         'users',
-//        'mock-server',
+        'mock-server',
         /*
          * Internal modules
          */
@@ -43,6 +43,6 @@ var module = angular.module('angular-base',
 // default actions related with incoming and outgoing communication
 module.config(function ($httpProvider) {
     $httpProvider.interceptors.push('HttpInterceptor');
-    $httpProvider.interceptors.push('AuthInterceptor');
+    //$httpProvider.interceptors.push('AuthInterceptor');
 });
 
