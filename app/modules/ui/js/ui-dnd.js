@@ -16,7 +16,7 @@
 
     var currentData;
 
-    var dnd = angular.module("ui-dnd", []);
+    var dnd = angular.module("ui.dnd", []);
     dnd.directive("uiDraggable", [
         '$parse',
         '$rootScope',

@@ -10,6 +10,6 @@ var module = angular.module('users', [
     'users.services',
     /*external modules*/
     'bolt',
-    'ui-elements',
-    'ui-notifications'
+    'ui.elements',
+    'ui.notifications'
 ]);

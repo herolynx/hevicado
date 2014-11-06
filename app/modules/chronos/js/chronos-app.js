@@ -15,9 +15,9 @@ var module = angular.module('chronos', [
     'chronos.timeline',
     'chronos.search',
     /*external modules*/
-    'ui-dnd',
-    'ui-elements',
-    'ui-notifications'
+    'ui.dnd',
+    'ui.elements',
+    'ui.notifications'
 ]);
 
 /**

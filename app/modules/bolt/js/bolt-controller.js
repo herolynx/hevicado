@@ -1,6 +1,6 @@
 'use strict';
 
-var controllers = angular.module('bolt.controllers', ['ui-notifications']);
+var controllers = angular.module('bolt.controllers', ['ui.notifications']);
 
 /**
  * Controller manages user's login/logout process

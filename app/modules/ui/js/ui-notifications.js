@@ -3,7 +3,7 @@
 /**
  * Configure module for ui utils
  */
-var ui = angular.module('ui-notifications',
+var ui = angular.module('ui.notifications',
     [
         'pascalprecht.translate'
     ]

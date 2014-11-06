@@ -1,6 +1,6 @@
 'use strict';
 
-var elements = angular.module("ui-elements", []);
+var elements = angular.module("ui.elements", []);
 
 /**
  * Directive for resizable element

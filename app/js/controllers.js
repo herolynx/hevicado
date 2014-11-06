@@ -1,6 +1,8 @@
 'use strict';
 
-var controllers = angular.module('angular-base.controllers', []);
+var controllers = angular.module('angular-base.controllers', [
+    'ui.menu'
+]);
 
 /**
  * Controller for language management
