@@ -123,4 +123,13 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
                 access: ACCESS_LEVELS.USER
             }
         });
+    /************************* DOCTOR ***************************************/
+    $stateProvider.
+        state('cabinet', {
+            url: "/doctor/cabinet",
+            templateUrl: "modules/doctor/partials/cabinet.html",
+            data: {
+                access: ACCESS_LEVELS.USER
+            }
+        });
 });
