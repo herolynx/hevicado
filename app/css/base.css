@@ -2442,6 +2442,9 @@ ul.dropdown-menu li div {
 .blue .title-page {
   background: url(../images/title-bg.png) #51aafa;
 }
+.blue .back-to-top {
+    background: #008df0;
+}
 .orange a:hover {
   color: #ff9000;
 }
@@ -2552,4 +2555,20 @@ section.calendar .details .event.orange {
 section.calendar .full .event.turquoise,
 section.calendar .details .event.turquoise {
   background: #00d6ab;
+}
+.back-to-top {
+    position: fixed;
+    bottom: 0;
+    right: 0.8%;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 8px 10px;
+    display: none;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    -o-border-radius: 5px 5px 0 0;
+}
+.back-to-top:hover {
+    background: #656565;
 }

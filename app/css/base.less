@@ -2674,6 +2674,10 @@ ul.dropdown-menu {
 		}
 	}
 
+    .back-to-top {
+      .bg(@blue);
+    }
+
 	.title-page {
 		background:url(../images/title-bg.png) @blue;
 	}
@@ -2875,4 +2879,19 @@ section.calendar {
 			.bg(@turquoise);
 		}
 	}
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0.8%;
+  text-decoration: none;
+  .c(#FFF);
+  .pp(8px 10px);
+  display: none;
+  .radius(5px 5px 0 0);
+
+  &:hover {
+    .bg(#656565);
+  }
 }
