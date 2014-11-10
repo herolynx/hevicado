@@ -22,12 +22,14 @@ var module = angular.module('bolt',
     constant('USER_ROLES', {
         ADMIN: 'admin',
         CLIENT: 'client',
+        DOCTOR: 'doctor',
+        USER: 'user',
         GUEST: 'guest'
     }).
     constant('ACCESS_LEVELS', {
-        PUBLIC: ['guest', 'client', 'admin'],
-        USER: ['client', 'admin'],
-        ADMIN: ['admin']
+        PUBLIC: ['guest', 'client', 'admin', 'user', 'doctor'],
+        USER: ['client', 'admin' , 'user', 'doctor'],
+        ADMIN: ['admin', 'doctor']
     });
 
 /**

@@ -17,11 +17,11 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
          * @returns {*} promise
          */
         login: function (credentials) {
-            return $http
-                .post('/login', credentials).then(
-                    function (res) {
-                        Session.create(res.data);
-                    });
+            return $http.
+                post('/login', $.param(credentials), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).
+                then(function (res) {
+                    Session.create(res.data);
+                });
         },
         /**
          * Logout current user

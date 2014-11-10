@@ -42,7 +42,7 @@ var module = angular.module('angular-base',
 //register authentication interceptor in order to perform
 // default actions related with incoming and outgoing communication
 module.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('HttpInterceptor');
-    //$httpProvider.interceptors.push('AuthInterceptor');
+//    $httpProvider.interceptors.push('HttpInterceptor');
+    $httpProvider.interceptors.push('AuthInterceptor');
 });
 
