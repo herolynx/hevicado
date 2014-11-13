@@ -50,6 +50,16 @@ services.service('CalendarService', function ($http, $log) {
         },
 
         /**
+         * Get details about events
+         * @param id event ID
+         * @returns http promise
+         */
+        event: function (id) {
+            $log.debug('Getting event - id: ' + id);
+            return $http.get('/calendar/visit/' + id);
+        },
+
+        /**
          * Save event
          * @param event event to be created/updated
          * @returns {*} http promise

@@ -1,22 +1,23 @@
-<div class="box">
+<div class="box" ng-controller="DisplayEventCtrl">
 
-    <h2>Info doctor</h2>
+    <h2>Wizyta</h2>
 
     <div class="data-doctor">
         <div class="name">
 		<span>
-			prof. dr. hab
+			{{event.doctor.title}}
 		</span>
-            Mieczysław Bączek
+            {{event.doctor.firstName}} {{event.doctor.lastName}}
         </div>
         <div class="row">
-            <a href="#"> Prywatny Gabinet Stomatologiczny</a>
+            <a href="#"> {{event.location.name}}</a>
 
-            <p>ul. Woronicza 15/3, 44-323 Wraszawa</p>
+            <p>{{event.location.address.street}}, {{event.location.address.city}},
+                {{event.location.address.country}}</p>
         </div>
         <div class="row phone">
-            <span><i class="icon-phone"></i> 503 112 331</span>
-            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a></span>
+            <span><i class="icon-phone"></i> {{event.doctor.phone}}</span>
+            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> {{event.doctor.email}}</a></span>
         </div>
         <div class="row hour">
             <p class="title">Godziny otwarcia gabinetu:</p>
@@ -32,14 +33,17 @@
             </p>
         </div>
         <div class="row">
-            <p class="title">Informacje dodatkowe:</p>
-
+            Pacjent:
+            <p class="name"> {{event.patient.firstName}} {{event.patient.lastName}}</p>
+        </div>
+        <div class="row phone">
+            <span><i class="icon-phone"></i> {{event.patient.phone}}</span>
+            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> {{event.patient.email}}</a></span>
+        </div>
+        <div class="row">
+            <p class="title">Badanie: {{event.title}}</p>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam condimentum nisi a tellus auctor, a
-                sodales urna viverra. Vivamus facilisis varius tincidunt. Maecenas euismod quis odio a tempor. Nunc nec
-                ultrices urna. Sed in nunc ac augue consectetur vehicula id et ligula. In hac habitasse platea dictumst.
-                Donec suscipit erat quis leo cursus sagittis. Quisque tempus id lectus ac tristique. Fusce vitae pretium
-                metus.
+                {{event.description}}
 
             <p>
         </div>

@@ -211,3 +211,27 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
     //initialize controller
     $scope.init();
 });
+
+calendar.controller('DisplayEventCtrl', function ($scope, $log, $stateParams, CalendarService, uiNotification) {
+
+    /**
+     * Load data about event
+     * @param id event ID
+     */
+    $scope.load = function (id) {
+        $log.debug('Loading details about event - id: ' + id);
+        CalendarService.
+            event(id).
+            success(function (data) {
+                $log.debug('Event details loaded - id: ' + id);
+                $scope.event = data;
+            }).
+            error(function (errResp, errStatus) {
+                $log.info('Couldn\'t load event details: status: ' + errStatus + ', resp: ' + errResp.data);
+                uiNotification.text('Error', 'Couldn\'t load event details').error();
+            });
+    };
+
+    $scope.load($stateParams.eventId);
+
+});
