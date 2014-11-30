@@ -1,5 +1,7 @@
 'use strict';
 
+var uiGeneric = angular.module('ui.generic', []);
+
 /**
  * Back to top option
  */
@@ -16,15 +18,22 @@ $(document).ready(function () {
         event.preventDefault();
         $('html, body').animate({scrollTop: 0}, 500);
         return false;
-    })
+    });
 });
 
-// CHECKBOX
-if ($('input').length > 0) {
-    $('input').ezMark();
-}
+/**
+ * Decorate proper UI elements
+ */
+uiGeneric.run(function ($rootScope) {
+    $rootScope.$watch(function () {
+        // CHECKBOX
+        if ($('input').length > 0) {
+            $('input').ezMark();
+        }
 
-// SELECT BOX
-if ($('select').length > 0) {
-    var selectBox = $("select").selectBoxIt();
-}
+        // SELECT BOX
+        if ($('select').length > 0) {
+            var selectBox = $("select").selectBoxIt();
+        }
+    });
+});
