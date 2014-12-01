@@ -40,7 +40,7 @@ describe('bolt-service-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //and session has been created before
-            mockCookieStore.get.andReturn({ token: 'token-123', id: 'user-456', userRole: 'USER'});
+            mockCookieStore.get.andReturn({ token: 'token-123', id: 'user-456', role: 'USER'});
             //when data of current user is accessed
             //then state from cookie is restored
             expect(session.getToken()).toBe('token-123');
@@ -52,11 +52,11 @@ describe('bolt-service-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //when creating new session
-            session.create({ token: 'token-123', id: 'user-456', userRole: 'USER'});
+            session.create({ token: 'token-123', id: 'user-456', role: 'USER'});
             //then cookie is created for current user
-            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', { token: 'token-123', id: 'user-456', userRole: 'USER' });
+            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', { token: 'token-123', id: 'user-456', role: 'USER' });
             //and proper log message appears
-            expect(mockLog.debug).toHaveBeenCalledWith('Creating session - user id: user-456, userRole: USER, token: token-123');
+            expect(mockLog.debug).toHaveBeenCalledWith('Creating session - user id: user-456, role: USER, token: token-123');
         });
 
         it('should destroy current session', function () {
@@ -106,7 +106,7 @@ describe('bolt-service-spec:', function () {
             var user = {
                 token: 'token-123',
                 id: 'user-345',
-                userRole: 'USER'
+                role: 'USER'
             };
             //when trying to log in with user's credentials
             authService.login({ login: 'user@bolt.com', password: 'pass#123' });
@@ -124,7 +124,7 @@ describe('bolt-service-spec:', function () {
             var user = {
                 token: 'token-123',
                 id: 'user-345',
-                userRole: 'USER'
+                role: 'USER'
             };
             //when trying to log in with wrong credentials
             authService.login({ login: 'user@bolt.com', password: 'pass#123' });
@@ -235,7 +235,7 @@ describe('bolt-service-spec:', function () {
             config.headers = { Authorization: null };
             authInterceptor.request(config);
             //then current user's token is added to HTTP header
-            expect(config.headers.Authorization).toBe('Bearer token-123');
+            expect(config.headers.Authorization).toBe('token-123');
         });
 
         it('should not add invalid token to out-going HTTP request', function () {

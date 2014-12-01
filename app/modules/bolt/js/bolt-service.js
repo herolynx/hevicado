@@ -71,7 +71,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
     var _currentUser = {
         'token': null,
         'id': null,
-        'userRole': USER_ROLES.GUEST
+        'role': USER_ROLES.GUEST
     };
 
     this.getToken = function () {
@@ -83,7 +83,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
     };
 
     this.getUserRole = function () {
-        return self.loadUser().userRole;
+        return self.loadUser().role;
     };
 
     /**
@@ -102,7 +102,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
      * @param user user data
      */
     this.create = function (user) {
-        $log.debug('Creating session - user id: ' + user.id + ', userRole: ' + user.userRole + ', token: ' + user.token);
+        $log.debug('Creating session - user id: ' + user.id + ', role: ' + user.role + ', token: ' + user.token);
         _currentUser = user;
         $cookieStore.put('currentUser', _currentUser);
     };
@@ -137,7 +137,7 @@ services.factory('AuthInterceptor', function ($rootScope, $q, Session, AUTH_EVEN
         request: function (config) {
             config.headers = config.headers || {};
             if (Session.getToken()) {
-                config.headers.Authorization = 'Bearer ' + Session.getToken();
+                config.headers.Authorization = Session.getToken();
             }
             return config;
         },
