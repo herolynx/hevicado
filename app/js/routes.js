@@ -28,7 +28,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             url: "/user-visits",
             templateUrl: "modules/chronos/partials/calendar-timeline.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         });
     /************************* LOGIN & REGISTRATION ***************************************/
@@ -62,28 +62,28 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             url: "/user-profile",
             templateUrl: "modules/users/partials/user-profile.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('user-visits', {
             url: "/user-visits",
             templateUrl: "modules/chronos/partials/calendar-timeline.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-day.info-visit', {
             url: "/info/{eventId:[0-9a-z]+}",
             templateUrl: "modules/chronos/partials/info-event.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('search-doctor', {
             url: "/search-doctor",
             templateUrl: "modules/chronos/partials/chronos-search.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         });
     /************************* CALENDAR ***************************************/
@@ -92,35 +92,35 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             url: "/calendar-day",
             templateUrl: "modules/chronos/partials/calendar-day-frame.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-day.visits', {
             url: "/visits",
             templateUrl: "modules/chronos/partials/calendar-day.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-day.edit-visit', {
             url: "/visits/editor",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-week', {
             url: "/calendar-week",
             templateUrl: "modules/chronos/partials/calendar-week.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-month', {
             url: "/calendar-month",
             templateUrl: "modules/chronos/partials/calendar-month.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         });
     /************************* DOCTOR ***************************************/
@@ -129,7 +129,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             url: "/doctor/cabinet",
             templateUrl: "modules/doctor/partials/cabinet.html",
             data: {
-                access: ACCESS_LEVELS.USER
+                access: ACCESS_LEVELS.USERS
             }
         });
 });

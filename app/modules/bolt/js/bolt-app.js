@@ -20,16 +20,14 @@ var module = angular.module('bolt',
         USER_NOT_AUTHORIZED: 'auth-not-authorized'
     }).
     constant('USER_ROLES', {
-        ADMIN: 'admin',
-        CLIENT: 'client',
         GUEST: 'guest',
         USER: 'user',
         DOCTOR: 'doctor'
     }).
     constant('ACCESS_LEVELS', {
-        PUBLIC: ['guest', 'client', 'admin', 'user', 'doctor'],
-        USER: ['client', 'admin' , 'user', 'doctor'],
-        ADMIN: ['admin', 'doctor']
+        PUBLIC: ['guest', 'user', 'doctor'],
+        USERS: ['user', 'doctor'],
+        DOCTORS: ['doctor']
     });
 
 /**
