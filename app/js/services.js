@@ -22,7 +22,7 @@ services.factory('HttpInterceptor', function (HTTP_CONFIG) {
     var shouldRedirect = function (type, url) {
         if (type == 'GET') {
             //check type of requested resource
-            var blackList = ['.html', '.css', '.js'];
+            var blackList = ['.html', '.css', '.js', '.json'];
             for (var i = 0; i < blackList.length; i++) {
                 if (url.indexOf(blackList[i]) == (url.length - blackList[i].length)) {
                     return false;

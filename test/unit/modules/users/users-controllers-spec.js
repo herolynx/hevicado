@@ -63,7 +63,7 @@ describe('users-controllers-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and sample user who wants to register
             expect(ctrlScope.user).toBeDefined();
-            ctrlScope.user.mail = 'new@kunishu.com';
+            ctrlScope.user.email = 'new@kunishu.com';
             ctrlScope.user.password = 'pass-123';
             //when registering user
             ctrlScope.save(ctrlScope.user);
@@ -76,7 +76,7 @@ describe('users-controllers-spec:', function () {
             //then user is registered
             //and auto-login procedure has been started
             expect(mockAuthService.loginStartedFor).toEqual({
-                login: ctrlScope.user.mail,
+                login: ctrlScope.user.email,
                 password: ctrlScope.user.password
             });
         });
@@ -86,7 +86,7 @@ describe('users-controllers-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and sample user who wants to register
             expect(ctrlScope.user).toBeDefined();
-            ctrlScope.user.mail = 'new@kunishu.com';
+            ctrlScope.user.email = 'new@kunishu.com';
             ctrlScope.user.password = 'pass-123';
             //when registering user
             ctrlScope.save(ctrlScope.user);
@@ -109,7 +109,7 @@ describe('users-controllers-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and sample user who wants to register
             expect(ctrlScope.user).toBeDefined();
-            ctrlScope.user.mail = 'new@kunishu.com';
+            ctrlScope.user.email = 'new@kunishu.com';
             ctrlScope.user.password = 'pass-123';
             //and registration of user has started
             ctrlScope.save(ctrlScope.user);
@@ -121,7 +121,7 @@ describe('users-controllers-spec:', function () {
             });
             //when auto-login procedure has been started
             expect(mockAuthService.loginStartedFor).toEqual({
-                login: ctrlScope.user.mail,
+                login: ctrlScope.user.email,
                 password: ctrlScope.user.password
             });
             //and user auth has completed successfully
@@ -138,7 +138,7 @@ describe('users-controllers-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and sample user who wants to register
             expect(ctrlScope.user).toBeDefined();
-            ctrlScope.user.mail = 'new@kunishu.com';
+            ctrlScope.user.email = 'new@kunishu.com';
             ctrlScope.user.password = 'pass-123';
             //and registration of user has started
             ctrlScope.save(ctrlScope.user);
@@ -150,7 +150,7 @@ describe('users-controllers-spec:', function () {
             });
             //when auto-login procedure has been started
             expect(mockAuthService.loginStartedFor).toEqual({
-                login: ctrlScope.user.mail,
+                login: ctrlScope.user.email,
                 password: ctrlScope.user.password
             });
             //and user auth has failed

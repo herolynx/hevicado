@@ -17,18 +17,17 @@ var controllers = angular.module('users.controllers', []);
 controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state, UsersService, AuthService, USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
 
     $scope.user = {
-        mail: '',
+        email: '',
         password: '',
-        roles: [USER_ROLES.CLIENT],
         profile: {
-            lang: 'en',
-            time_zone: '',
-            theme: ''
+            lang: 'pl',
+            time_zone: 'CET',
+            theme: 'turquoise'
         }
     };
 
     $scope.userConf = {
-        mail: '',
+        email: '',
         password: ''
     };
 
@@ -40,9 +39,9 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
         $log.debug('Registering user: ' + user.mail);
         UsersService.save(user).then(
             function (resp) {
-                $log.debug('User registered successfully: user id: ' + resp.data.id + ' - logging in new user');
+                $log.debug('User registered successfully: user id: ' + resp.data + ' - logging in new user');
                 var credentials = {
-                    login: $scope.user.mail,
+                    login: $scope.user.email,
                     password: $scope.user.password
                 };
                 AuthService.login(credentials).then(
