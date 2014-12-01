@@ -140,6 +140,9 @@ describe('bolt-service-spec:', function () {
             expect(authService).toBeDefined();
             //when user is logging out
             authService.logout();
+            //and back-end has responded
+            deferredHttp.resolve();
+            $rootScope.$apply();
             //then session of current user is destroyed
             expect(mockSession.destroy).toHaveBeenCalled();
         });

@@ -24,6 +24,10 @@ describe('bolt-controller-spec - Login controller:', function () {
         mockAuthService.login = function (credentials) {
             return deferredAuthService.promise;
         };
+        mockAuthService.logout = function (credentials) {
+            mockAuthService.sessionDestroyed = true;
+            return deferredAuthService.promise;
+        };
         //mock others
         mockLog = jasmine.createSpyObj('$log', ['debug']);
         mockAuthEvents = jasmine.createSpyObj('AuthEvents', ['USER_LOGGED_IN', 'LOGIN_FAILED', 'USER_LOGGED_OUT']);
@@ -47,11 +51,14 @@ describe('bolt-controller-spec - Login controller:', function () {
             };
             //when user is logging out
             ctrlScope.logout();
+            //and back-end has responded
+            deferredAuthService.resolve();
+            spyRootScope.$apply();
             //then session is destroyed
-            expect(mockAuthService.logout).toHaveBeenCalled();
+            expect(mockAuthService.sessionDestroyed).toBe(true);
             //and broadcast event is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_LOGGED_OUT);
-            //and user is redirected to dault page for guests
+            //and user is redirected to default page for guests
             expect(mockState.go).toHaveBeenCalledWith('default');
         });
 
@@ -63,7 +70,7 @@ describe('bolt-controller-spec - Login controller:', function () {
             //when user is logging out
             ctrlScope.logout();
             //then session is not destroyed
-            expect(mockAuthService.logout).not.toHaveBeenCalled();
+            expect(mockAuthService.sessionDestroyed).not.toBeDefined();
             //and broadcast event is not sent
             expect(spyRootScope.$broadcast).not.toHaveBeenCalledWith(mockAuthEvents.USER_LOGGED_OUT);
         });

@@ -25,9 +25,14 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
         },
         /**
          * Logout current user
+         * @returns {*} promise
          */
         logout: function () {
-            Session.destroy();
+            return $http.
+                post('/logout/' + Session.getToken()).
+                then(function () {
+                    Session.destroy();
+                });
         },
         /**
          * Check whether current user is logged in

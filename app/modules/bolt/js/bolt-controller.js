@@ -24,12 +24,12 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
      */
     $scope.login = function (credentials) {
         $log.debug('Logging in user: ' + credentials.login);
-        AuthService.login(credentials).then(
-            function () {
+        AuthService.
+            login(credentials).
+            then(function () {
                 $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_IN);
                 $state.go('default-user');
-            },
-            function () {
+            }, function () {
                 $rootScope.$broadcast(AUTH_EVENTS.LOGIN_FAILED);
             });
     };
@@ -39,9 +39,12 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
     $scope.logout = function () {
         $log.debug('Logging out current user')
         if (AuthService.isAuthenticated()) {
-            AuthService.logout();
-            $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_OUT);
-            $state.go('default');
+            AuthService.
+                logout().
+                then(function () {
+                    $rootScope.$broadcast(AUTH_EVENTS.USER_LOGGED_OUT);
+                    $state.go('default');
+                });
         }
     }
 });
