@@ -24,16 +24,16 @@ $(document).ready(function () {
 /**
  * Decorate proper UI elements
  */
-uiGeneric.run(function ($rootScope) {
-    $rootScope.$watch(function () {
-        // CHECKBOX
-        if ($('input').length > 0) {
-            $('input').ezMark();
-        }
-
-        // SELECT BOX
-        if ($('select').length > 0) {
-            var selectBox = $("select").selectBoxIt();
-        }
-    });
-});
+//uiGeneric.run(function ($rootScope) {
+//    $rootScope.$watch(function () {
+//        // CHECKBOX
+//        if ($('input').length > 0) {
+//            $('input').ezMark();
+//        }
+//
+//        // SELECT BOX
+//        if ($('select').length > 0) {
+//            var selectBox = $("select").selectBoxIt();
+//        }
+//    });
+//});

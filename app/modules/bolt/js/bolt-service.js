@@ -28,11 +28,15 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
          * @returns {*} promise
          */
         logout: function () {
+            var destroySession = function () {
+                Session.destroy();
+            };
             return $http.
                 post('/logout/' + Session.getToken()).
-                then(function () {
-                    Session.destroy();
-                });
+                then(
+                destroySession, //destroy session for OK response
+                destroySession //destroy session when error occurred too
+            );
         },
         /**
          * Check whether current user is logged in

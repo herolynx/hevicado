@@ -12,4 +12,7 @@ var module = angular.module('users', [
     'bolt',
     'ui.elements',
     'ui.notifications'
-]);
+]).
+    constant('THEMES', ['turquoise', 'orange', 'blue']).
+    constant('LANGS', ['pl']).
+    constant('TIME_ZONES', ['CET']);

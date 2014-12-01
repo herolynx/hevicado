@@ -212,13 +212,19 @@ describe('users-controllers-spec:', function () {
                 return mockUiNotification;
             };
             var mockLog = jasmine.createSpyObj('$log', ['debug', 'error']);
+            var mockLangs = ['en'];
+            var mockThemes = ['blue'];
+            var mockTimeZones = ['CET'];
             //inject mocks
             $controller('UserProfileCtrl', {
                 $scope: ctrlScope,
                 UsersService: mockUsersService,
                 Session: mockSession,
                 uiNotification: mockUiNotification,
-                $log: mockLog
+                $log: mockLog,
+                LANGS: mockLangs,
+                TIME_ZONES: mockTimeZones,
+                THEMES: mockThemes
             });
         }));
 
@@ -228,7 +234,7 @@ describe('users-controllers-spec:', function () {
             //and user that is logged in
             var user = {
                 id: 'user-123',
-                mail: 'user@kunishu.com'
+                email: 'user@kunishu.com'
             };
             mockSession.getUserId = function () {
                 return user.id;
@@ -250,7 +256,7 @@ describe('users-controllers-spec:', function () {
             //and user that is logged in
             var user = {
                 id: 'user-123',
-                mail: 'user@kunishu.com'
+                email: 'user@kunishu.com'
             };
             mockSession.getUserId = function () {
                 return user.id;
@@ -272,14 +278,15 @@ describe('users-controllers-spec:', function () {
             //and new user credentials
             var user = {
                 id: 'user-123',
-                mail: 'user@kunishu.com',
+                email: 'user@kunishu.com',
                 password: 'pass#123'
             };
             //when changing credentials
             ctrlScope.changeCredentials(user);
             //and back-end responded successfully
             expect(mockUsersService.saveUser).toEqual({
-                login: 'user@kunishu.com',
+                id: 'user-123',
+                email: 'user@kunishu.com',
                 password: 'pass#123'
             });
             userServicePromise.deffered({
@@ -294,14 +301,15 @@ describe('users-controllers-spec:', function () {
             //and new user credentials
             var user = {
                 id: 'user-123',
-                mail: 'user@kunishu.com',
+                email: 'user@kunishu.com',
                 password: 'pass#123'
             };
             //when changing credentials
             ctrlScope.changeCredentials(user);
             //and back-end responded with failure
             expect(mockUsersService.saveUser).toEqual({
-                login: 'user@kunishu.com',
+                id: 'user-123',
+                email: 'user@kunishu.com',
                 password: 'pass#123'
             });
             userServicePromise.error('Error');
@@ -317,7 +325,7 @@ describe('users-controllers-spec:', function () {
             //and new user settings
             var user = {
                 id: 'user-123',
-                mail: 'user@kunishu.com',
+                email: 'user@kunishu.com',
                 password: 'pass#123',
                 first_name: 'John',
                 last_name: 'Bravo'
@@ -327,8 +335,6 @@ describe('users-controllers-spec:', function () {
             //and back-end responded successfully
             expect(mockUsersService.saveUser).toEqual({
                 id: 'user-123',
-                mail: null,
-                password: null,
                 first_name: 'John',
                 last_name: 'Bravo'
             });
@@ -344,7 +350,7 @@ describe('users-controllers-spec:', function () {
             //and new user settings
             var user = {
                 id: 'user-123',
-                mail: 'user@kunishu.com',
+                email: 'user@kunishu.com',
                 password: 'pass#123',
                 first_name: 'John',
                 last_name: 'Bravo'
@@ -354,8 +360,6 @@ describe('users-controllers-spec:', function () {
             //and back-end responded with failure
             expect(mockUsersService.saveUser).toEqual({
                 id: 'user-123',
-                mail: null,
-                password: null,
                 first_name: 'John',
                 last_name: 'Bravo'
             });

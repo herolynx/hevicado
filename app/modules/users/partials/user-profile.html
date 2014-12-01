@@ -13,12 +13,12 @@
                             <li>
                                 <label>E-mail:</label>
                                 <fieldset>
-                                    <input name="mail" type="email" placeholder="E-mail" ng-model="user.mail"
+                                    <input name="email" type="email" placeholder="E-mail" ng-model="user.email"
                                            ng-minlength="5" required>
-                                    <small class="error" ng-show="credentials.mail.$error.minlength">
+                                    <small class="error" ng-show="credentials.email.$error.minlength">
                                         Your e-mail is required to be at least 5 characters
                                     </small>
-                                    <small class="error" ng-show="credentials.mail.$error.email">
+                                    <small class="error" ng-show="credentials.email.$error.email">
                                         That is not a valid email. Please input a valid email.
                                     </small>
                                 </fieldset>
@@ -94,25 +94,36 @@
                             <li>
                                 <label>Language:</label>
                                 <fieldset>
-                                    <select name="lang" ng-model="user.profile.lang">
-                                        <option value="en" selected>English</option>
-                                        <option value="pl">Polish</option>
+                                    <select name="lang" ng-model="user.profile.lang" required>
+                                        <option ng-repeat="lang in langs"
+                                                ng-selected="{{user.profile.lang==lang}}"
+                                                value="{{lang}}">
+                                            {{lang}}
+                                        </option>
                                     </select>
                                 </fieldset>
                             </li>
                             <li>
                                 <label>Time zone:</label>
                                 <fieldset>
-                                    <select name="lang" ng-model="user.profile.time_zone">
-                                        <option value="cet" selected>Warsaw</option>
+                                    <select name="timezone" ng-model="user.profile.time_zone">
+                                        <option ng-repeat="tz in timeZones"
+                                                ng-selected="{{user.profile.time_zone==tz}}"
+                                                value="{{tz}}">
+                                            {{tz}}
+                                        </option>
                                     </select>
                                 </fieldset>
                             </li>
                             <li>
                                 <label>Theme:</label>
                                 <fieldset>
-                                    <select name="lang" ng-model="user.profile.theme">
-                                        <option value="default" selected>Default</option>
+                                    <select name="theme" ng-model="user.profile.theme" required>
+                                        <option ng-repeat="theme in themes"
+                                                ng-selected="{{user.profile.theme==theme}}"
+                                                value="{{theme}}">
+                                            {{theme}}
+                                        </option>
                                     </select>
                                 </fieldset>
                             </li>

@@ -73,18 +73,21 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
  * @param UserService service managing user related data
  * @param uiNotification notification manager
  * @param $log logger
+ * @param LANG all available languages in the app
+ * @param THEMES apps themes
+ * @param TIME_ZONES all available time zones
  */
-controllers.controller('UserProfileCtrl', function ($scope, Session, UsersService, uiNotification, $log) {
+controllers.controller('UserProfileCtrl', function ($scope, Session, UsersService, uiNotification, $log, LANGS, THEMES, TIME_ZONES) {
 
     $scope.user = {
         first_name: '',
         last_name: '',
-        mail: '',
+        email: '',
         password: '',
         profile: {
-            lang: 'en',
-            time_zone: '',
-            theme: ''
+            lang: LANGS[0],
+            time_zone: TIME_ZONES[0],
+            theme: THEMES[0]
         }
     };
 
@@ -92,17 +95,20 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
         password: ''
     };
 
+    $scope.themes = THEMES;
+    $scope.langs = LANGS;
+    $scope.timeZones = TIME_ZONES;
+
     /**
      * Load profile data of current user
      */
     $scope.loadProfile = function () {
         $log.debug('Loading profile data for user: ' + Session.getUserId());
-        UsersService.get(Session.getUserId()).then(
-            function (resp) {
+        UsersService.
+            get(Session.getUserId()).then(function (resp) {
                 $log.debug('Profile data loaded successfully: user id: ' + resp.data.id);
                 $scope.user = resp.data;
-            },
-            function (errResp, errStatus) {
+            }, function (errResp, errStatus) {
                 $log.error('Couldn\'t load profile data: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'User profile wasn\'t loaded').error();
             }
@@ -114,16 +120,17 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
      * @param user user which credentials will be changed
      */
     $scope.changeCredentials = function (user) {
-        $log.debug('Saving user profile: ' + user.mail);
+        $log.debug('Changing credentials: ' + user.email);
         var credentials = {
-            login: user.mail,
+            id: user.id,
+            email: user.email,
             password: user.password
         };
-        UsersService.save(credentials).then(
-            function (resp) {
-                $log.debug('User credentials saved successfully: user id: ' + resp.data.id);
-            },
-            function (errResp, errStatus) {
+        UsersService.
+            save(credentials).
+            then(function () {
+                $log.debug('User credentials saved successfully');
+            }, function (errResp, errStatus) {
                 $log.error('User credentials hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'User credentials hasn\'t been saved').error();
             }
@@ -136,14 +143,15 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
      * @param user user to be updated
      */
     $scope.save = function (user) {
-        $log.debug('Saving user profile: ' + user.mail);
-        user.mail = null; //don't allow to change using this function
-        user.password = null; //don't allow to change using this function
-        UsersService.save(user).then(
-            function (resp) {
-                $log.debug('User profile saved successfully: user id: ' + resp.data.id);
-            },
-            function (errResp, errStatus) {
+        $log.debug('Saving user profile: ' + user.email);
+        var userToUpdate = angular.copy(user);
+        delete userToUpdate.email; //don't allow to change using this function
+        delete userToUpdate.password; //don't allow to change using this function
+        UsersService.
+            save(userToUpdate).
+            then(function () {
+                $log.debug('User profile saved successfully');
+            }, function (errResp, errStatus) {
                 $log.error('User profile hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'User profile hasn\'t been saved').error();
             }
