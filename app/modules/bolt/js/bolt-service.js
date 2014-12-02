@@ -96,6 +96,18 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
     };
 
     /**
+     * Get generic info about user
+     * @returns {*} non-nullable object
+     */
+    this.getInfo = function () {
+        var info = {
+            first_name: self.loadUser().first_name,
+            last_name: self.loadUser().last_name
+        };
+        return info;
+    };
+
+    /**
      * Load data of current user from cookie
      */
     this.loadUser = function () {

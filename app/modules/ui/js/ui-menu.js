@@ -1,6 +1,8 @@
 'use strict';
 
-var uiMenu = angular.module('ui.menu', []);
+var uiMenu = angular.module('ui.menu', [
+    'users.controllers'
+]);
 
 /**
  * Directive responsible for displaying top-menu

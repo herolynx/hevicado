@@ -175,8 +175,8 @@ describe('users-controllers-spec:', function () {
 
     describe('UserProfileCtrl-spec', function () {
 
-        var ctrlScope;
-        var mockUsersService, mockSession, mockUiNotification;
+        var ctrlScope, spyRootScope;
+        var mockUsersService, mockSession, mockUiNotification, mockUserEvents;
         /* Deferred response of users service */
         var userServicePromise;
 
@@ -187,6 +187,8 @@ describe('users-controllers-spec:', function () {
         beforeEach(inject(function ($controller, _$rootScope_, $q) {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
+            spyRootScope = _$rootScope_;
+            spyOn(spyRootScope, '$broadcast');
             //mock services
             mockSession = jasmine.createSpyObj('Session', ['getUserId']);
             mockUsersService = jasmine.createSpyObj('UsersService', ['save', 'get']);
@@ -215,8 +217,12 @@ describe('users-controllers-spec:', function () {
             var mockLangs = ['en'];
             var mockThemes = ['blue'];
             var mockTimeZones = ['CET'];
+            mockUserEvents = {
+                USER_INFO_CHANGED: 'mock-user-info-changed'
+            };
             //inject mocks
             $controller('UserProfileCtrl', {
+                $rootScope: spyRootScope,
                 $scope: ctrlScope,
                 UsersService: mockUsersService,
                 Session: mockSession,
@@ -224,7 +230,8 @@ describe('users-controllers-spec:', function () {
                 $log: mockLog,
                 LANGS: mockLangs,
                 TIME_ZONES: mockTimeZones,
-                THEMES: mockThemes
+                THEMES: mockThemes,
+                USER_EVENTS: mockUserEvents
             });
         }));
 
@@ -342,6 +349,8 @@ describe('users-controllers-spec:', function () {
                 data: 'OK'
             });
             //then profile is changed
+            //and broadcast event is sent
+            expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockUserEvents.USER_INFO_CHANGED, user);
         });
 
         it('should inform user that profile hasn\t been changed', function () {
@@ -368,6 +377,8 @@ describe('users-controllers-spec:', function () {
             expect(mockUiNotification.error).toHaveBeenCalled();
             expect(mockUiNotification.title).toBe('Error');
             expect(mockUiNotification.msg).toBe('User profile hasn\'t been saved');
+            //and broadcast event is not sent
+            expect(spyRootScope.$broadcast).not.toHaveBeenCalledWith(mockUserEvents.USER_INFO_CHANGED, user);
         });
 
     });

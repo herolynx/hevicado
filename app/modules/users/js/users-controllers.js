@@ -68,6 +68,7 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
 /**
  * Controller manages profile of user
  *
+ * @param $rootScope main scope for broadcasting user related events
  * @param $scope controller scope
  * @param Session session of current user
  * @param UserService service managing user related data
@@ -76,8 +77,9 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
  * @param LANG all available languages in the app
  * @param THEMES apps themes
  * @param TIME_ZONES all available time zones
+ * @param USER_EVENTS user's related events
  */
-controllers.controller('UserProfileCtrl', function ($scope, Session, UsersService, uiNotification, $log, LANGS, THEMES, TIME_ZONES) {
+controllers.controller('UserProfileCtrl', function ($rootScope, $scope, Session, UsersService, USER_EVENTS, uiNotification, $log, LANGS, THEMES, TIME_ZONES) {
 
     $scope.user = {
         first_name: '',
@@ -152,10 +154,53 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
             save(userToUpdate).
             then(function () {
                 $log.debug('User profile saved successfully');
+                $rootScope.$broadcast(USER_EVENTS.USER_INFO_CHANGED, user);
             }, function (errResp, errStatus) {
                 $log.error('User profile hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'User profile hasn\'t been saved').error();
             }
         );
     };
+});
+
+/**
+ * Controller responsible for displaying generic info about currently logged in user
+ * @param $scope ctrl's scope
+ * @param Session current user's session
+ * @param AUTH_EVENTS events related with user's current session
+ * @param USER_EVENTS user related events
+ * @param $log logger
+ */
+controllers.controller('UserInfoCtrl', function ($scope, Session, AUTH_EVENTS, USER_EVENTS, $log) {
+
+    //TODO add tests
+
+    $scope.info = {};
+
+    /**
+     * Initialize controller
+     */
+    $scope.init = function () {
+        $log.debug("Getting info about current user from session");
+        $scope.info = Session.getInfo();
+    };
+
+    /**
+     * Register in event bus in order to
+     */
+    $scope.register = function () {
+        $scope.$on(AUTH_EVENTS.USER_LOGGED_IN, function () {
+            $scope.init();
+        });
+        $scope.$on(USER_EVENTS.USER_INFO_CHANGED, function (event, user) {
+            $log.debug("User info changed - refreshing");
+            for (var key in $scope.info) {
+                $scope.info[key] = user[key];
+            }
+        });
+    };
+
+    $scope.init();
+    $scope.register();
+
 });
