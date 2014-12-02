@@ -84,6 +84,7 @@ controllers.controller('UserProfileCtrl', function ($scope, Session, UsersServic
         last_name: '',
         email: '',
         password: '',
+        phone: '',
         profile: {
             lang: LANGS[0],
             time_zone: TIME_ZONES[0],

@@ -51,10 +51,11 @@
                             </li>
                             <li>
                                 <fieldset>
-                                    <a ng-disabled="credentials.$invalid" class="change"
-                                       ng-click="changeCredentials(user)">
+                                    <button class="btn blue rt"
+                                            ng-disabled="credentials.$invalid"
+                                            ng-click="changeCredentials(user)">
                                         Change credentials
-                                    </a>
+                                    </button>
                                 </fieldset>
                             </li>
                         </ul>
@@ -62,13 +63,13 @@
                 </form>
                 <form name="userProfile" novalidate>
                     <div class="box">
-                        <h2><span>2</span>Account settings</h2>
+                        <h2><span>2</span>User info</h2>
                         <ul>
                             <li>
                                 <label>First name:</label>
                                 <fieldset>
                                     <input name="firstName" type="text" placeholder="First name"
-                                           ng-model="user.firstName"
+                                           ng-model="user.first_name"
                                            ng-minlength="2">
                                     <small class="error" ng-show="userProfile.firstName.$error.minlength">
                                         First name is required to be at least 2 characters
@@ -79,17 +80,33 @@
                                 <label>Last name:</label>
                                 <fieldset>
                                     <input name="lastName" type="text" placeholder="Last name"
-                                           ng-model="user.lastName"
+                                           ng-model="user.last_name"
                                            ng-minlength="2">
                                     <small class="error" ng-show="userProfile.lastName.$error.minlength">
                                         Last name is required to be at least 2 characters
                                     </small>
                                 </fieldset>
                             </li>
+                            <li>
+                                <label>Phone number:</label>
+                                <fieldset>
+                                    <input name="phoneNumber" type="text" placeholder="Phone number"
+                                           ng-model="user.phone"
+                                           ng-minlength="6"
+                                           ng-pattern="/^\+?(\s?-?[0-9]+)+$/">
+                                    <small class="error" ng-show="userProfile.phoneNumber.$error.minlength">
+                                        Phone number is required to be at least 6 characters
+                                    </small>
+                                    <small class="error" ng-show="userProfile.phoneNumber.$error.pattern">
+                                        Wrong phone number. Samples: <br/>
+                                        +48 792 123 456, +48 792-123-456, 792 123 456, 792-123-456
+                                    </small>
+                                </fieldset>
+                            </li>
                         </ul>
                     </div>
                     <div class="box">
-                        <h2><span>3</span>More account settings</h2>
+                        <h2><span>3</span>Account settings</h2>
                         <ul>
                             <li>
                                 <label>Language:</label>
