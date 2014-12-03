@@ -1,4 +1,4 @@
-<section id="main-content" ng-controller="TimelineCtrl" ng-init="init()">
+<section id="main-content" ng-controller="TimelineCtrl">
     <div class="title-page">
         <h1>Visit</h1>
     </div>
@@ -9,8 +9,9 @@
             </div>
             <div class="box-row">
                 <ul infinite-scroll='next()'
-                       infinite-scroll-disabled='loading'
-                       infinite-scroll-distance='2'>
+                    infinite-scroll-disabled='loading'
+                    infinite-scroll-distance='0'
+                    infinite-scroll-immediate-check='true'>
                     <calendar-timeline-event ng-repeat="event in events" event="event"/>
                 </ul>
             </div>

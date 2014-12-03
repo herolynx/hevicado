@@ -4,10 +4,11 @@ var services = angular.module('chronos.services', []);
 
 /**
  * Service manages user's calendar and related data.
+ * @param Session session of current user
  * @param $http http communication service
  * @param $log logger
  */
-services.service('CalendarService', function ($http, $log) {
+services.service('CalendarService', function (Session, $http, $log) {
 
     var ownerId;
 
@@ -15,11 +16,11 @@ services.service('CalendarService', function ($http, $log) {
 
         /**
          * Initialize calendar service
-         * @param userId owner of calendar
+         * @param userId optional owner of calendar. If not given user will be taken from session.
          */
         init: function (userId) {
             $log.debug('Initializing calendar service - userId: ' + userId);
-            ownerId = userId;
+            ownerId = userId != undefined ? userId : Session.getUserId();
         },
 
         /**
@@ -38,14 +39,17 @@ services.service('CalendarService', function ($http, $log) {
          * Get events in given time period
          * @param start start time date
          * @param end end time date
+         * @param asDoctor optional flag specifies whether events should be found for doctor or patient. By default true.
          * @returns http promise
          */
-        events: function (start, end) {
-            $log.debug('Getting events - userId: ' + ownerId + ' start: ' + start + ', end: ' + end);
-            return $http.get('/calendar/events/search', {
-                start: start,
-                end: end,
-                userId: ownerId
+        events: function (start, end, asDoctor) {
+            $log.debug('Getting events - userId: ' + ownerId + ' start: ' + start + ', end: ' + end + ', as doctor: ' + asDoctor);
+            return $http.get('/calendar/' + ownerId + '/visit', {
+                params: {
+                    start: start.toString('yyyy-MM-dd HH:mm:ss'),
+                    end: end.toString('yyyy-MM-dd HH:mm:ss'),
+                    asDoctor: asDoctor == undefined ? true : asDoctor
+                }
             });
         },
 

@@ -7,7 +7,7 @@ describe('chronos-service-spec:', function () {
 
     describe('CalendarService-spec:', function () {
 
-        var mockHttp;
+        var mockHttp, mockSession;
         var calendarService, userId;
 
         //prepare service for testing
@@ -15,6 +15,9 @@ describe('chronos-service-spec:', function () {
             //mock dependencies
             mockHttp = jasmine.createSpyObj('$http', ['get', 'post', 'put', 'delete']);
             $provide.value('$http', mockHttp);
+            mockSession = jasmine.createSpyObj('Session', ['getUserId']);
+            $provide.value('Session', mockSession);
+
         }));
 
         beforeEach(inject(function ($injector, $q) {
@@ -24,7 +27,7 @@ describe('chronos-service-spec:', function () {
             calendarService.init(userId);
         }));
 
-        it('should get user\'s events', function () {
+        it('should get user\'s events for doctors', function () {
             //given calendar service is initialized
             expect(calendarService).toBeDefined();
             //and time period
@@ -33,23 +36,60 @@ describe('chronos-service-spec:', function () {
                 month: 7,
                 day: 12,
                 hour: 0,
-                minute: 0
+                minute: 0,
+                second: 0
             });
             var end = new Date().set({
                 year: 2014,
                 month: 7,
                 day: 12,
                 hour: 23,
-                minute: 59
+                minute: 59,
+                second: 0
             });
             //when getting events from chosen time period
             var promise = calendarService.events(start, end);
             //then proper communication has place
             expect(promise).not.toBeNull();
-            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/events/search', {
-                start: start,
-                end: end,
-                userId: userId
+            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/' + userId + '/visit', {
+                params: {
+                    start: '2014-08-12 00:00:00',
+                    end: '2014-08-12 23:59:00',
+                    asDoctor: true
+                }
+            });
+        });
+
+        it('should get user\'s events for patients', function () {
+            //given calendar service is initialized
+            expect(calendarService).toBeDefined();
+            //and time period
+            var start = new Date().set({
+                year: 2014,
+                month: 7,
+                day: 12,
+                hour: 0,
+                minute: 0,
+                second: 0
+            });
+            var end = new Date().set({
+                year: 2014,
+                month: 7,
+                day: 12,
+                hour: 23,
+                minute: 59,
+                second: 0
+            });
+            //when getting events from chosen time period
+            var promise = calendarService.events(start, end, false);
+            //then proper communication has place
+            expect(promise).not.toBeNull();
+            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/' + userId + '/visit', {
+                params: {
+                    start: '2014-08-12 00:00:00',
+                    end: '2014-08-12 23:59:00',
+                    asDoctor: false
+                }
             });
         });
 

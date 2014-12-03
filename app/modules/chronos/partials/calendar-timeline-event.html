@@ -6,9 +6,10 @@
     }">
     <div class="box">
         <div class="user">
-            <!--<span>prof. dr. mgr. inż</span>-->
+            <strong>{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}</strong><br/>
+            <span> {{event.doctor.degree}}</span>
             <a href="#">
-                {{event.owner.last_name}}, {{event.owner.first_name}}
+                {{event.doctor.last_name}}, {{event.doctor.first_name}}
             </a>
 
             <div class="img">
@@ -27,9 +28,9 @@
             {{event.description}}
         </div>
         <div class="date-address">
-            <span><i class="icon-phone"></i> 503 112 331</span>
-            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a></span>
-            <span><a><i class="icon-map"></i> Jak dojechać</a></span>
+            <span><i class="icon-phone"></i>{{event.doctor.phone}}</span>
+            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i>{{event.doctor.email}}</a></span>
+            <!--<span><a><i class="icon-map"></i> Jak dojechać</a></span>-->
         </div>
         <div class="action">
             <a class="edit" ui-sref="calendar-day.info-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
@@ -54,7 +55,7 @@
         <div class="day">{{event.start | date: "dd"}}</div>
         <div class="month">
             <span>{{event.start | date: "EEEE"}}</span>
-            {{event.start | date: "MM-yyyy"}}
+            {{event.start | date: "MM-yyyy"}} <br/>
         </div>
     </div>
 </li>
