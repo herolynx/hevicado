@@ -213,7 +213,8 @@ describe('chronos-timeline-spec:', function () {
     });
 
     describe('TimelineEventCtrl-spec:', function () {
-        var mockCalendarService, mockUiNotification, mockActionManager, mockEventUtils;
+
+        var mockCalendarService, mockUiNotification, mockActionManager, mockEventUtils, mockStates;
         var calendarPromise;
         var ctrlScope;
 
@@ -243,6 +244,7 @@ describe('chronos-timeline-spec:', function () {
             mockActionManager = jasmine.createSpyObj('mockActionManager', ['canCancel']);
             mockEventUtils = jasmine.createSpyObj('mockEventUtils', ['state']);
             var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
+            mockStates = {OPEN: "open", CLOSED: "closed", CANCELLED: "cancelled"};
             //inject mocks
             $controller('TimelineEventCtrl', {
                 $scope: ctrlScope,
@@ -250,7 +252,8 @@ describe('chronos-timeline-spec:', function () {
                 CalendarService: mockCalendarService,
                 uiNotification: mockUiNotification,
                 EventActionManager: mockActionManager,
-                EventUtils: mockEventUtils
+                EventUtils: mockEventUtils,
+                EVENT_STATE: mockStates
             });
         }));
 
@@ -261,7 +264,7 @@ describe('chronos-timeline-spec:', function () {
             var event = {
                 id: 'event-1'
             };
-            //and event can be cannelled
+            //and event can be cancelled
             mockActionManager.canCancel.andReturn(true);
             //when cancelling event
             ctrlScope.cancel(event);
@@ -281,7 +284,7 @@ describe('chronos-timeline-spec:', function () {
             var event = {
                 id: 'event-1'
             };
-            //and event cannot be cannelled
+            //and event cannot be cancelled
             mockActionManager.canCancel.andReturn(false);
             //when cancelling event
             ctrlScope.cancel(event);
@@ -301,28 +304,15 @@ describe('chronos-timeline-spec:', function () {
             var event = {
                 id: 'event-1'
             };
-            //and event can be cannelled
+            //and event can be cancelled
             mockActionManager.canCancel.andReturn(true);
             //when cancelling event
             ctrlScope.cancel(event);
-            //and back-end has responsed with failure
+            //and back-end has responded with failure
             calendarPromise.error('ERROR');
             //then event is cancelled successfully
             expect(event.cancelled).toBe(null);
             expect(event.cancelledBy).toBe(null);
-        });
-
-        it('should check state of event', function () {
-            //given ctrl is initialized
-            expect(ctrlScope).toBeDefined();
-            //and event
-            var event = {
-                id: 'event-1'
-            };
-            //when checking state of event
-            ctrlScope.state(event);
-            //then calendar utils are called
-            expect(mockEventUtils.state).toHaveBeenCalledWith(event);
         });
 
         it('should return event action manager', function () {
@@ -333,6 +323,58 @@ describe('chronos-timeline-spec:', function () {
             //then event action manager is returned
             expect(actionManager).toBe(mockActionManager);
         });
+
+        it('should read state of open event', function () {
+            //given ctrl is initialized
+            expect(ctrlScope).toBeDefined();
+            //and event
+            var event = {
+                id: 'event-1'
+            };
+            //and event is opened
+            mockEventUtils.state.andReturn(mockStates.OPEN);
+            //when checking state of event
+            ctrlScope.readState(event);
+            //then event is active
+            expect(ctrlScope.isActive).toBe(true);
+            expect(ctrlScope.isDisabled).toBe(false);
+            expect(ctrlScope.state).toBe(mockStates.OPEN);
+        });
+
+        it('should read state of closed event', function () {
+            //given ctrl is initialized
+            expect(ctrlScope).toBeDefined();
+            //and event
+            var event = {
+                id: 'event-1'
+            };
+            //and event is closed
+            mockEventUtils.state.andReturn(mockStates.CLOSED);
+            //when checking state of event
+            ctrlScope.readState(event);
+            //then event is disabled
+            expect(ctrlScope.isActive).toBe(false);
+            expect(ctrlScope.isDisabled).toBe(true);
+            expect(ctrlScope.state).toBe(mockStates.CLOSED);
+        });
+
+        it('should read state of cancelled event', function () {
+            //given ctrl is initialized
+            expect(ctrlScope).toBeDefined();
+            //and event
+            var event = {
+                id: 'event-1'
+            };
+            //and event is cancelled
+            mockEventUtils.state.andReturn(mockStates.CANCELLED);
+            //when checking state of event
+            ctrlScope.readState(event);
+            //then event is disabled
+            expect(ctrlScope.isActive).toBe(false);
+            expect(ctrlScope.isDisabled).toBe(true);
+            expect(ctrlScope.state).toBe(mockStates.CANCELLED);
+        });
+
 
     });
 

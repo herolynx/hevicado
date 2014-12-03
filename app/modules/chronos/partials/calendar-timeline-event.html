@@ -1,9 +1,10 @@
 <li ng-controller="TimelineEventCtrl"
+    ng-init="readState(event)"
     ng-class="{
-        disable: state(event)=='event-state-closed',
-        disable: state(event)=='event-state-cancelled',
-        active: state(event)=='event-state-open'
-    }">
+        disable: isDisabled,
+        active: isActive
+    }"
+        >
     <div class="box">
         <div class="user">
             <strong>{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}</strong><br/>
@@ -43,14 +44,8 @@
     </div>
     <div class="circle"></div>
     <div class="date">
-        <div class="status"
-             ng-class="{
-                    disabled: state(event)=='event-state-closed',
-                    cancel: state(event)=='event-state-cancelled',
-                    active: state(event)=='event-state-open',
-                  }"
-                >
-            {{state(event).value}}
+        <div class="status">
+            {{state.value}}
         </div>
         <div class="day">{{event.start | date: "dd"}}</div>
         <div class="month">

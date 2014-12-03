@@ -91,9 +91,10 @@ timeline.controller('TimelineCtrl', function ($scope, $log, CalendarService, Eve
  * @param CalendarService service managing events
  * @param EventActionManager event action manager
  * @param EventUtils generic event related functionality
+ * @param EVENT_STATE all possible states of events
  * @param uiNotification user notification manager
  */
-timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService, EventActionManager, EventUtils, uiNotification) {
+timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService, EventActionManager, EventUtils, EVENT_STATE, uiNotification) {
 
     /**
      * Get controller's action manager
@@ -103,13 +104,19 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
         return EventActionManager;
     };
 
+    $scope.isDisabled = false;
+    $scope.isActive = false;
+    $scope.state = {value: ""};
+
     /**
-     * Get state of given event
+     * Read state of given event
      * @param event event for which state should be checked
-     * @return non-nullable event state
      */
-    $scope.state = function (event) {
-        return EventUtils.state(event);
+    $scope.readState = function (event) {
+        var eventState = EventUtils.state(event);
+        $scope.isDisabled = eventState == EVENT_STATE.CLOSED || eventState == EVENT_STATE.CANCELLED;
+        $scope.isActive = eventState == EVENT_STATE.OPEN;
+        $scope.state = eventState;
     };
 
     /**
