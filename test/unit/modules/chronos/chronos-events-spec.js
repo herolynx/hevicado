@@ -147,7 +147,7 @@ describe('chronos-events-spec:', function () {
                 var event = {
                     start: date.clone(),
                     end: date.clone().add(1).hour()
-                }
+                };
                 expect(event.duration).not.toBeDefined();
                 //when normalizing an event
                 eventUtils.normalize(event);
@@ -163,7 +163,7 @@ describe('chronos-events-spec:', function () {
                 var event = {
                     start: '2014-10-14 08:30:00',
                     end: '2014-10-14 09:00:00'
-                }
+                };
                 expect(typeof event.start).toBe('string');
                 expect(typeof event.end).toBe('string');
                 //when normalizing an event
@@ -171,11 +171,38 @@ describe('chronos-events-spec:', function () {
                 //then dates are converted
                 expect(typeof event.start).toBe('object');
                 expect(event.start.clone).toBeDefined();
-                expect(event.start.toString('yyyy-MM-dd hh:mm:ss')).toBe('2014-10-14 08:30:00');
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-14 08:30:00');
                 expect(typeof event.end).toBe('object');
                 expect(event.end.clone).toBeDefined();
-                expect(event.end.toString('yyyy-MM-dd hh:mm:ss')).toBe('2014-10-14 09:00:00');
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-14 09:00:00');
                 expect(event.duration).toBe(30);
+            });
+
+            it('should parse string type of optional dates in an event', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and event with string dates
+                var event = {
+                    start: '2014-10-14 08:30:00',
+                    end: '2014-10-14 09:00:00',
+                    cancelled: '2014-10-10 18:30:00'
+                };
+                expect(typeof event.start).toBe('string');
+                expect(typeof event.end).toBe('string');
+                //when normalizing an event
+                eventUtils.normalize(event);
+                //then dates are converted
+                expect(typeof event.start).toBe('object');
+                expect(event.start.clone).toBeDefined();
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-14 08:30:00');
+                expect(typeof event.end).toBe('object');
+                expect(event.end.clone).toBeDefined();
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-14 09:00:00');
+                expect(event.duration).toBe(30);
+                //and optional dates are converted too
+                expect(typeof event.cancelled).toBe('object');
+                expect(event.cancelled.clone).toBeDefined();
+                expect(event.cancelled.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-10 18:30:00');
             });
 
             it('should parse number types dates in an event', function () {
@@ -192,7 +219,7 @@ describe('chronos-events-spec:', function () {
                 var event = {
                     start: date.getTime(),
                     end: date.clone().add(1).hour().getTime()
-                }
+                };
                 expect(typeof event.start).toBe('number');
                 expect(typeof event.end).toBe('number');
                 //when normalizing an event
@@ -200,11 +227,40 @@ describe('chronos-events-spec:', function () {
                 //then dates are converted
                 expect(typeof event.start).toBe('object');
                 expect(event.start.clone).toBeDefined();
-                expect(event.start.toString('yyyy-MM-dd hh:mm:ss')).toBe('2014-10-14 08:00:00');
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-14 08:00:00');
                 expect(typeof event.end).toBe('object');
                 expect(event.end.clone).toBeDefined();
-                expect(event.end.toString('yyyy-MM-dd hh:mm:ss')).toBe('2014-10-14 09:00:00');
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-14 09:00:00');
                 expect(event.duration).toBe(60);
+            });
+
+        });
+
+        describe('to plain JSON normalization-spec:', function () {
+
+            it('should convert event dates into string', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and event with sample dates
+                var date = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13,
+                    hour: 8,
+                    minute: 0
+                });
+                var event = {
+                    start: date.clone(),
+                    end: date.clone().add(1).hour(),
+                    cancelled: date.clone().add(2).hour()
+                };
+                expect(event.duration).not.toBeDefined();
+                //when converting an event into plain JSON
+                eventUtils.toJson(event);
+                //then dates are converted into strings
+                expect(event.start).toBe('2014-10-13 08:00:00');
+                expect(event.end).toBe('2014-10-13 09:00:00');
+                expect(event.cancelled).toBe('2014-10-13 10:00:00');
             });
 
         });

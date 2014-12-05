@@ -81,6 +81,30 @@ events.service('EventUtils', function (EVENT_STATE) {
                 var span = new TimeSpan(event.end - event.start);
                 event.duration = span.getTotalMilliseconds() / (1000 * 60);
             }
+            if (event.cancelled != undefined && event.cancelled.clone === undefined) {
+                event.cancelled = toDate(event.cancelled);
+            }
+            return event;
+        },
+
+        /**
+         * Convert event attributes into plain JSON
+         * @param event event to be converted
+         * @returns {*} the same instance of event
+         */
+        toJson: function (event) {
+            var toString = function (value) {
+                return typeof value != 'string' ? value.toString('yyyy-MM-dd HH:mm:ss') : value;
+            };
+            if (event.start != undefined) {
+                event.start = toString(event.start);
+            }
+            if (event.end != undefined) {
+                event.end = toString(event.end);
+            }
+            if (event.cancelled != undefined) {
+                event.cancelled = toString(event.cancelled);
+            }
             return event;
         },
 

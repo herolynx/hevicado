@@ -6,9 +6,10 @@ var services = angular.module('chronos.services', []);
  * Service manages user's calendar and related data.
  * @param Session session of current user
  * @param $http http communication service
+ * @param EventUtils generic event related functions
  * @param $log logger
  */
-services.service('CalendarService', function (Session, $http, $log) {
+services.service('CalendarService', function (Session, $http, EventUtils, $log) {
 
     var ownerId;
 
@@ -45,11 +46,11 @@ services.service('CalendarService', function (Session, $http, $log) {
         events: function (start, end, asDoctor) {
             $log.debug('Getting events - userId: ' + ownerId + ' start: ' + start + ', end: ' + end + ', as doctor: ' + asDoctor);
             return $http.get('/calendar/' + ownerId + '/visit', {
-                params: {
-                    start: start.toString('yyyy-MM-dd HH:mm:ss'),
-                    end: end.toString('yyyy-MM-dd HH:mm:ss'),
+                params: EventUtils.toJson({
+                    start: start,
+                    end: end,
                     asDoctor: asDoctor == undefined ? true : asDoctor
-                }
+                })
             });
         },
 
@@ -69,9 +70,7 @@ services.service('CalendarService', function (Session, $http, $log) {
          * @returns {*} http promise
          */
         save: function (event) {
-            return $http[event.id === undefined ? 'post' : 'put']('/calendar/events/save', {
-                event: event
-            });
+            return $http[event.id === undefined ? 'post' : 'put']('/calendar/visit', EventUtils.toJson(angular.copy(event)));
         },
 
         /**
@@ -80,7 +79,7 @@ services.service('CalendarService', function (Session, $http, $log) {
          * @returns {*} http promise
          */
         delete: function (eventId) {
-            return $http.delete('/calendar/events/delete', {
+            return $http.delete('/calendar/visit', {
                 id: eventId
             });
         }

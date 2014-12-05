@@ -262,19 +262,22 @@ describe('chronos-timeline-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and event
             var event = {
-                id: 'event-1'
+                id: 'event-1',
+                start: Date.today(),
+                end: Date.today().add(1).hours()
             };
             //and event can be cancelled
             mockActionManager.canCancel.andReturn(true);
             //when cancelling event
             ctrlScope.cancel(event);
+            //and back-end has responded with success
+            calendarPromise.success('OK');
             //then event is cancelled successfully
             expect(event.cancelled).toBeDefined();
-            expect(event.cancelledBy).toEqual({
-                id: 1
-            });
             expect(mockActionManager.canCancel).toHaveBeenCalledWith(event);
             expect(mockCalendarService.save).toHaveBeenCalled();
+            //and state is refreshed
+            expect(mockEventUtils.state).toHaveBeenCalledWith(event);
         });
 
         it('should block cancelling event', function () {
@@ -291,13 +294,14 @@ describe('chronos-timeline-spec:', function () {
             //then event is not cancelled
             expect(event.cancelled).toBeUndefined();
             expect(mockActionManager.canCancel).toHaveBeenCalledWith(event);
+            expect(mockCalendarService.save).not.toHaveBeenCalled();
             //and user is informed properly
             expect(mockUiNotification.error).toHaveBeenCalled();
             expect(mockUiNotification.title).toBe('Error');
             expect(mockUiNotification.msg).toBe('Event cannot be cancelled');
         });
 
-        it('should clear state of event after failure cancelation', function () {
+        it('should inform user when event wasn\'t cancelled', function () {
             //given ctrl is initialized
             expect(ctrlScope).toBeDefined();
             //and event
@@ -309,10 +313,15 @@ describe('chronos-timeline-spec:', function () {
             //when cancelling event
             ctrlScope.cancel(event);
             //and back-end has responded with failure
-            calendarPromise.error('ERROR');
-            //then event is cancelled successfully
-            expect(event.cancelled).toBe(null);
-            expect(event.cancelledBy).toBe(null);
+            calendarPromise.error('Error');
+            //then event is not cancelled
+            expect(event.cancelled).not.toBeDefined();
+            //and user is informed properly
+            expect(mockUiNotification.error).toHaveBeenCalled();
+            expect(mockUiNotification.title).toBe('Error');
+            expect(mockUiNotification.msg).toBe('Couldn\'t cancel event');
+            //and state is not refreshed
+            expect(mockEventUtils.state).not.toHaveBeenCalledWith(event);
         });
 
         it('should return event action manager', function () {

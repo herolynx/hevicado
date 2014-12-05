@@ -130,20 +130,20 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
             uiNotification.text('Error', 'Event cannot be cancelled').error();
             return;
         }
-        event.cancelled = Date.today();
-        //TODO get current user
-        event.cancelledBy = {
-            id: 1
+        var eventCancellation = {
+            id: event.id,
+            cancelled: Date.today()
         };
         CalendarService.
-            save(event.id).
+            save(eventCancellation).
             success(function (data) {
                 $log.debug('Event cancelled');
+                event.cancelled = eventCancellation.cancelled;
+                $scope.readState(event);
             }).
             error(function (data, status) {
                 $log.error('Couldn\'t cancel event - data: ' + data + ', status: ' + status);
-                event.cancelled = null;
-                event.cancelledBy = null;
+                uiNotification.text('Error', 'Couldn\'t cancel event').error();
             });
     };
 

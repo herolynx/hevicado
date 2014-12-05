@@ -3,7 +3,7 @@
 describe('chronos-service-spec:', function () {
 
     //prepare module for testing
-    beforeEach(angular.mock.module('chronos.services'));
+    beforeEach(angular.mock.module('chronos'));
 
     describe('CalendarService-spec:', function () {
 
@@ -123,7 +123,7 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.delete(eventId);
             //then proper communication has place
             expect(promise).not.toBeNull();
-            expect(mockHttp.delete).toHaveBeenCalledWith('/calendar/events/delete', {
+            expect(mockHttp.delete).toHaveBeenCalledWith('/calendar/visit', {
                 id: eventId
             });
         });
@@ -139,9 +139,7 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.save(event);
             //then event is created
             expect(promise).not.toBeNull();
-            expect(mockHttp.post).toHaveBeenCalledWith('/calendar/events/save', {
-                event: event
-            });
+            expect(mockHttp.post).toHaveBeenCalledWith('/calendar/visit', event);
         });
 
         it('should update event', function () {
@@ -156,9 +154,50 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.save(event);
             //then event is edited
             expect(promise).not.toBeNull();
-            expect(mockHttp.put).toHaveBeenCalledWith('/calendar/events/save', {
-                event: event
-            });
+            expect(mockHttp.put).toHaveBeenCalledWith('/calendar/visit', event);
+        });
+
+        it('should convert event values to plain JSON during save and update', function () {
+            //given calendar service is initialized
+            expect(calendarService).toBeDefined();
+            //and sample event
+            var event = {
+                title: "sample event",
+                start: Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 5,
+                    hour: 13,
+                    minute: 30,
+                    second: 0
+                }),
+                end: Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 5,
+                    hour: 14,
+                    minute: 0,
+                    second: 0
+                }),
+                cancelled: Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 2,
+                    hour: 9,
+                    minute: 45,
+                    second: 23
+                })
+            };
+            //when saving or updating event
+            var promise = calendarService.save(event);
+            //then event fields are converted to plain JSON
+            expect(promise).not.toBeNull();
+            expect(mockHttp.post).toHaveBeenCalledWith('/calendar/visit', {
+                    title: 'sample event',
+                    start: '2014-12-05 13:30:00',
+                    end: '2014-12-05 14:00:00',
+                    cancelled: '2014-12-02 09:45:23' }
+            );
         });
 
     });
