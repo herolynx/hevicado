@@ -326,7 +326,7 @@ describe('chronos-calendar-spec:', function () {
         beforeEach(angular.mock.module('chronos'));
 
         var ctrlScope;
-        var mockCalendarService, mockUiNotification, mockEventEditor, mockModal;
+        var mockCalendarService, mockUiNotification, mockEventEditor, mockModal, mockStateParams;
         var calendarPromise;
 
         //prepare controller for testing
@@ -356,6 +356,7 @@ describe('chronos-calendar-spec:', function () {
             };
             mockEventEditor = jasmine.createSpyObj('EventEditor', ['init', 'startEdition']);
             var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
+            mockStateParams = { doctorId: "doctor-123"};
             //inject mocks
             $controller('CalendarCtrl', {
                 $scope: ctrlScope,
@@ -365,7 +366,8 @@ describe('chronos-calendar-spec:', function () {
                 CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
                 CalendarRenderer: $injector.get('CalendarRenderer'),
                 EventUtils: $injector.get('EventUtils'),
-                uiNotification: mockUiNotification
+                uiNotification: mockUiNotification,
+                $stateParams: mockStateParams
             });
         }));
 
@@ -377,7 +379,7 @@ describe('chronos-calendar-spec:', function () {
                 //and one week display period time
                 var daysCount = 7;
                 //and current user
-                var currentUserId = 1;
+                var currentUserId = "doctor-123";
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -386,7 +388,8 @@ describe('chronos-calendar-spec:', function () {
                 });
                 //when initializing calendar
                 ctrlScope.init(daysCount, startDate);
-                //then calendar is prepared for displaying data of current user
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
                 expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
                 //and calendar time table is set for current week
                 expect(ctrlScope.days.length).toBe(daysCount);
@@ -399,13 +402,13 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
-            it('should initialize weekly view by leaving curent Monday', function () {
+            it('should initialize weekly view by leaving current Monday', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one week display period time
                 var daysCount = 7;
                 //and current user
-                var currentUserId = 1;
+                var currentUserId = "doctor-123";
                 //and current date is Monday
                 var startDate = Date.today().set({
                     year: 2014,
@@ -414,7 +417,8 @@ describe('chronos-calendar-spec:', function () {
                 });
                 //when initializing calendar
                 ctrlScope.init(daysCount, startDate);
-                //then calendar is prepared for displaying data of current user
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
                 expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
                 //and calendar time table is set for current week
                 expect(ctrlScope.days.length).toBe(daysCount);
@@ -433,7 +437,7 @@ describe('chronos-calendar-spec:', function () {
                 //and one month display period time
                 var daysCount = 31;
                 //and current user
-                var currentUserId = 1;
+                var currentUserId = "doctor-123";
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -442,7 +446,8 @@ describe('chronos-calendar-spec:', function () {
                 });
                 //when initializing calendar
                 ctrlScope.init(daysCount, startDate);
-                //then calendar is prepared for displaying data of current user
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
                 expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
                 //and calendar time table is set for beginning of the current month
                 expect(ctrlScope.days.length).toBe(35);
@@ -461,7 +466,7 @@ describe('chronos-calendar-spec:', function () {
                 //and one day display period time
                 var daysCount = 1;
                 //and current user
-                var currentUserId = 1;
+                var currentUserId = "doctor-123";
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -470,7 +475,8 @@ describe('chronos-calendar-spec:', function () {
                 });
                 //when initializing calendar
                 ctrlScope.init(daysCount, startDate);
-                //then calendar is prepared for displaying data of current user
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
                 expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
                 //and calendar time table is set for one day only
                 expect(ctrlScope.days.length).toBe(daysCount);
@@ -535,8 +541,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(ctrlScope.days.length).toBe(daysCount);
                 expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
                 //and events are loaded
-                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
-                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd HH:mm:ss')).toEqual('2014-10-13 00:00:00');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd HH:mm:ss')).toEqual('2014-10-13 23:59:59');
                 expect(ctrlScope.eventsMap.size()).toBe(1);
                 //and events are rendered properly
                 expect(events[0].timeline).toBe(0);
@@ -585,8 +591,8 @@ describe('chronos-calendar-spec:', function () {
                 expect(ctrlScope.days.length).toBe(daysCount);
                 expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-13');
                 //and events are loaded again
-                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
-                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd HH:mm:ss')).toEqual('2014-10-13 00:00:00');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd HH:mm:ss')).toEqual('2014-10-13 23:59:59');
             });
 
             it('should get existing events for chosen day', function () {

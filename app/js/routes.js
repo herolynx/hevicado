@@ -25,7 +25,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('default-user', {
-            url: "/user-visits",
+            url: "/patient/visit",
             templateUrl: "modules/chronos/partials/calendar-timeline.html",
             data: {
                 access: ACCESS_LEVELS.USERS
@@ -59,14 +59,14 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     /************************* USER MAIN ***************************************/
     $stateProvider.
         state('user-profile', {
-            url: "/user-profile",
+            url: "/user/profile",
             templateUrl: "modules/users/partials/user-profile.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('user-visits', {
-            url: "/patient/visits",
+            url: "/patient/visit",
             templateUrl: "modules/chronos/partials/calendar-timeline.html",
             data: {
                 access: ACCESS_LEVELS.USERS
@@ -80,7 +80,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('search-doctor', {
-            url: "/search-doctor",
+            url: "/doctor",
             templateUrl: "modules/chronos/partials/chronos-search.html",
             data: {
                 access: ACCESS_LEVELS.USERS
@@ -89,35 +89,35 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     /************************* CALENDAR ***************************************/
     $stateProvider.
         state('calendar-day', {
-            url: "/calendar-day",
+            url: "/doctor/{doctorId:[0-9a-z]+}/calendar",
             templateUrl: "modules/chronos/partials/calendar-day-frame.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-day.visits', {
-            url: "/visits",
+            url: "/daily",
             templateUrl: "modules/chronos/partials/calendar-day.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-day.edit-visit', {
-            url: "/visits/editor",
+            url: "/visit",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-week', {
-            url: "/calendar-week",
+            url: "/doctor/{doctorId:[0-9a-z]+}/calendar/weekly",
             templateUrl: "modules/chronos/partials/calendar-week.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('calendar-month', {
-            url: "/calendar-month",
+            url: "/doctor/{doctorId:[0-9a-z]+}/calendar/monthly",
             templateUrl: "modules/chronos/partials/calendar-month.html",
             data: {
                 access: ACCESS_LEVELS.USERS

@@ -7,6 +7,7 @@ var calendar = angular.module('chronos.calendar', [
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $scope current scope of controller
+ * @param $stateParams state manager
  * @param $cacheFactory cache provider
  * @param $log logger
  * @param CalendarService service managing calendar data
@@ -17,7 +18,7 @@ var calendar = angular.module('chronos.calendar', [
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log, CalendarService, EventEditor, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactory, $log, CalendarService, EventEditor, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -57,7 +58,7 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log, Calen
      */
     $scope.loadCalendarData = function (days) {
         var startDate = days[0];
-        var endDate = days[days.length - 1];
+        var endDate = days[days.length - 1].clone().set({hour: 23, minute: 59, second: 59});
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
         CalendarService.events(startDate, endDate).
             success(function (data) {
@@ -106,9 +107,10 @@ calendar.controller('CalendarCtrl', function ($scope, $cacheFactory, $log, Calen
      * @param day optional day that should be used in initialized of calendar
      */
     $scope.init = function (daysAmount, day) {
+        $log.info('Initializing calendar for doctor: ' + $stateParams.doctorId);
+        $scope.doctorId = $stateParams.doctorId;
         $scope.viewType = daysAmount;
-        //TODO get user ID
-        CalendarService.init(1);
+        CalendarService.init($stateParams.doctorId);
         if ($scope.viewType == 31) {
             $scope.month(0, day);
         } else if ($scope.viewType == 7) {

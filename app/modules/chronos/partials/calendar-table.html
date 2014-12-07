@@ -19,7 +19,7 @@
                 >
                 <calendar-table-event 
                     ng-repeat="event in getEvents(day,hour, quarter)"
-                    class="event {{event.color}}" style="height:100px"
+                    class="event {{event.location.color}}" style="height:100px"
                     event="event"
                     ui-resizable
                     ui-on-resize="dndChangeTime($event, $ui, event)"

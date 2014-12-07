@@ -101,6 +101,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
      */
     this.getInfo = function () {
         var info = {
+            id: self.loadUser().id,
             first_name: self.loadUser().first_name,
             last_name: self.loadUser().last_name
         };
