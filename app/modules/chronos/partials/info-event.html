@@ -1,146 +1,147 @@
-<div class="box" ng-controller="DisplayEventCtrl">
-
-    <h2><i class="icon-calendar"></i> 20.10.2014 r.</h2>
-	
-	<div class="notes">			
-		<form>
-			<ul>
-				<li>
-					<label class="full"><b>Doctor:</b></label>
-					
-				</li>
-				<li>
-					<label class="full">Imię i nazwisko:</b></label>
-					<fieldset class="full">
-						{{event.doctor.title}} {{event.doctor.firstName}} {{event.doctor.lastName}}
-						prof. hab. med. Bączek Krzysztof
-					</fieldset>
-				</li>
-				<li>
-					<!-- TODO time in single row -->
-					<div class="half">
-						<label class="full">Address:  {{event.location.name}}:</label>
-						<fieldset class="full">
-							{{event.location.address.street}}, {{event.location.address.city}},
-							{{event.location.address.country}}
-							ul. Woronicza 17, 55-341 Warszawa
-						</fieldset>
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full">Telefon</label>
-						<fieldset class="full">
-							{{event.doctor.phone}}
-							507 344 234
-						</fieldset>
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full">Email:</label>
-						<fieldset class="full">
-							<a href="mailto:{{event.doctor.email}}">{{event.doctor.email}}</a>
-							buba@gmail.com
-						</fieldset>
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full"><b>Pacjent:</b></label>						
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full">Imię i nazwisko</label>		
-						<fieldset class="full">
-							{{event.patient.firstName}} {{event.patient.lastName}}
-						</fieldset>
-					</div>
-				</li>				
-				<li>
-					<div class="half">
-						<label class="full">Telefon</label>
-						<fieldset class="full">
-							{{event.patient.phone}}
-							507 344 234
-						</fieldset>
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full">Email:</label>
-						<fieldset class="full">
-							<a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a>
-							buba@gmail.com
-						</fieldset>
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full"><b>Badanie:</b></label>						
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full">Typ:</label>
-						<fieldset class="full">
-							Badanie dupska  {{event.title}}
-						</fieldset>
-					</div>
-				</li>
-				<li>
-					<div class="half">
-						<label class="full top">Opis:</label>
-						<fieldset class="full">
-							{{event.description}}
-							
-							Jest dostępnych wiele różnych wersji Lorem Ipsum, ale większość zmieniła się pod wpływem dodanego humoru czy przypadkowych słów, które nawet w najmniejszym stopniu nie przypominają istniejących. Jeśli masz zamiar użyć fragmentu Lorem Ipsum, lepiej mieć pewność, że nie ma niczego „dziwnego” w środku tekstu. Wszystkie Internetowe generatory Lorem Ipsum mają tendencje do kopiowania już istniejących 
-						</fieldset>
-					</div>
-				</li>
-				<li>	
-					<label class="full"></label>
-					<fieldset class="full">	
-						<button class="btn blue rt" ng-click="delete()" ng-show="isButtonDeleteVisible">Delete</button>
-						<button class="btn blue rt" ng-click="save()" ng-show="isButtonSaveVisible">Save</button>
-						<button class="btn blue rt" ng-click="cancel()">Cancel</button>							
-					</fieldset>						
-				</li>
-				<!--TODO add colors, -->
-			</ul>
-		</form>				
-	</div>
-</div>
-<div class="box maps-address">
-    <h2><i class="icon-map"></i> Location map</h2>
-    <div class="maps">
-        <div>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
-                width="100%" height="350" frameborder="0" style="border:0"></iframe>
-        </div>
+<div class="content">
+    <div class="title-page">
+        <h1>Wizyta</h1>
     </div>
-	<div class="address">
-		<h2>Pulsantis</h2>
-		Grabiszynska 8/4
-		Wroclaw, Poland
-		
-		 <div class="date-address">
-			<span><i class="icon-phone"></i> 503 112 331</span>
-			<span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a></span>
-		</div>
-		<div class="row hour">
-			<h2>Godziny otwarcia gabinetu:</h2>
-			<p>
-				<span>Poniedziałek:</span> 10:00 - 20:00<br/>
-				<span>Wtorek:</span> 10:00 - 20:00<br/>
-				<span>Środa:</span> 10:00 - 20:00<br/>
-				<span>Czwartek:</span> 10:00 - 20:00<br/>
-				<span>Piątek:</span> 10:00 - 20:00<br/>
-				<span>Sobota:</span> 10:00 - 20:00<br/>
-				<span>Niedziela:</span> 10:00 - 20:00<br/>
-			</p>
-		</div>
-		
-	</div>	 
+    <section class="calendar">
+        <div class="details" ng-controller="DisplayEventCtrl">
+            <div class="box">
+
+                <h2>
+                    <i class="icon-calendar"></i>
+                    {{event.start | date: "dd-MM-yyyy (EEEE)"}} <br/>
+                    {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
+                </h2>
+
+                <div class="notes">
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="full"><b>Doctor:</b></label>
+
+                            </li>
+                            <li>
+                                <label class="full">Imię i nazwisko:</b></label>
+                                <fieldset class="full">
+                                    {{event.doctor.degree}} {{event.doctor.first_name}} {{event.doctor.last_name}}
+                                </fieldset>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Address: {{event.location.name}}:</label>
+                                    <fieldset class="full">
+                                        {{event.location.address.street}}, {{event.location.address.city}},
+                                        {{event.location.address.country}}
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Telefon</label>
+                                    <fieldset class="full">
+                                        {{event.doctor.phone}}
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Email:</label>
+                                    <fieldset class="full">
+                                        <a href="mailto:{{event.doctor.email}}">{{event.doctor.email}}</a>
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full"><b>Badanie:</b></label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Typ:</label>
+                                    <fieldset class="full">
+                                        {{event.title}}
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full top">Opis:</label>
+                                    <fieldset class="full">
+                                        {{event.description}}
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full"><b>Pacjent:</b></label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Imię i nazwisko</label>
+                                    <fieldset class="full">
+                                        {{event.patient.first_name}} {{event.patient.last_name}}
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Telefon</label>
+                                    <fieldset class="full">
+                                        {{event.patient.phone}}
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="half">
+                                    <label class="full">Email:</label>
+                                    <fieldset class="full">
+                                        <a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a>
+                                    </fieldset>
+                                </div>
+                            </li>
+                            <li>
+                                <label class="full"></label>
+                                <fieldset class="full">
+                                    <button class="btn blue rt"
+                                            ng-show="options.actions().canCancel(event)"
+                                            ng-click="options.cancel(event)">
+                                        Cancel
+                                    </button>
+                                </fieldset>
+                            </li>
+                            <!--TODO add colors, -->
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <div class="box maps-address">
+                <h2><i class="icon-map"></i> Location map</h2>
+
+                <div class="maps">
+                    <div>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
+                                width="100%" height="350" frameborder="0" style="border:0"></iframe>
+                    </div>
+                </div>
+                <div class="address">
+                    <h2>{{event.location.name}}</h2>
+                    {{event.location.address.street}}, {{event.location.address.city}},
+                    {{event.location.address.country}}
+                    <div class="row hour">
+                        <h2>Godziny otwarcia gabinetu:</h2>
+
+                        <p>
+
+                        <div ng-repeat="working in event.location.working_hours">
+                            <span>{{working.day}}:</span>
+                            {{working.start}} - {{working.end}}<br/>
+                        </div>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

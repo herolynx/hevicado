@@ -212,7 +212,10 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
     $scope.init();
 });
 
-calendar.controller('DisplayEventCtrl', function ($scope, $log, $stateParams, CalendarService, uiNotification) {
+calendar.controller('DisplayEventCtrl', function ($scope, $log, $stateParams, $controller, CalendarService, EventUtils, uiNotification) {
+
+    $scope.options = $scope.$new();
+    $controller('TimelineEventCtrl', { $scope: $scope.options});
 
     /**
      * Load data about event
@@ -224,6 +227,7 @@ calendar.controller('DisplayEventCtrl', function ($scope, $log, $stateParams, Ca
             event(id).
             success(function (data) {
                 $log.debug('Event details loaded - id: ' + id);
+                EventUtils.normalize(data);
                 $scope.event = data;
             }).
             error(function (errResp, errStatus) {

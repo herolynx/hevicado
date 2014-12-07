@@ -66,14 +66,14 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('user-visits', {
-            url: "/user-visits",
+            url: "/patient/visits",
             templateUrl: "modules/chronos/partials/calendar-timeline.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
-        state('calendar-day.info-visit', {
-            url: "/info/{eventId:[0-9a-z]+}",
+        state('user-visit', {
+            url: "/patient/visit/{eventId:[0-9a-z]+}",
             templateUrl: "modules/chronos/partials/info-event.html",
             data: {
                 access: ACCESS_LEVELS.USERS

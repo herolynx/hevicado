@@ -9,23 +9,23 @@
         <div class="user">
             <strong>{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}</strong><br/>
             <span> {{event.doctor.degree}}</span>
-            <a href="#">
+            <a>
                 {{event.doctor.last_name}}, {{event.doctor.first_name}}
             </a>
 
-            <div class="img">
-                <img src="images/temp/user-1.jpg" alt="User profile">
-            </div>
+            <!--<div class="img">-->
+            <!--<img src="images/temp/user-1.jpg" alt="User profile">-->
+            <!--</div>-->
         </div>
         <div class="address">
-            <a href="#">{{event.location.name}}</a>
+            <a>{{event.location.name}}</a>
 
             <p>
                 {{event.location.address.street}}, {{event.location.address.city}}, {{event.location.address.country}}
             </p>
         </div>
         <div class="reason">
-            <strong>{{event.title}}</strong><br/>
+            <a ui-sref="user-visit({ eventId: event.id })"><strong>{{event.title}}</strong></a><br/>
             {{event.description}}
         </div>
         <div class="date-address">
@@ -33,7 +33,7 @@
             <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i>{{event.doctor.email}}</a></span>
         </div>
         <div class="action">
-            <a class="edit" ui-sref="calendar-day.info-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
+            <a class="edit" ui-sref="user-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
             <a class="copy"><i class="icon-export"></i></a>
             <a class="delete" ng-click="cancel(event)" ng-show="actions().canCancel(event)">
                 <i class="icon-trash"></i>
