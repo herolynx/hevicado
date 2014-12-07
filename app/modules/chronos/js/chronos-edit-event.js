@@ -212,8 +212,20 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
     $scope.init();
 });
 
-calendar.controller('DisplayEventCtrl', function ($scope, $log, $stateParams, $controller, CalendarService, EventUtils, uiNotification) {
+/**
+ * Controller responsible for displaying details about events.
+ * It also provides basic options on events (i.e. cancellation).
+ * @param $scope controller's scope
+ * @param $stateParams state manager
+ * @param $controller controller factory for injection event's options
+ * @param $log logger
+ * @param CalendarService service responsible for providing events
+ * @param EventUtils generic functions related with events
+ * @param uiNotification notification manager
+ */
+calendar.controller('DisplayEventCtrl', function ($scope, $stateParams, $controller, $log, CalendarService, EventUtils, uiNotification) {
 
+    //TODO add tests
     $scope.options = $scope.$new();
     $controller('TimelineEventCtrl', { $scope: $scope.options});
 
