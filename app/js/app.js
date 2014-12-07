@@ -17,7 +17,6 @@ var module = angular.module('angular-base',
         'bolt',
         'chronos',
         'users',
-//        'mock-server',
         /*
          * Internal modules
          */
