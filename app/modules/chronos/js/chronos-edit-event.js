@@ -1,11 +1,14 @@
 'use strict';
 
-var calendar = angular.module('chronos.events.edit', []);
+var calendar = angular.module('chronos.events.edit', [
+    'users.services',
+    'bolt.services'
+]);
 
 /**
  * Editor responsible for holding information related with editing event
  */
-calendar.service('EventEditor', function ($state, $log, CalendarService, EventUtils) {
+calendar.service('EventEditor', function ($state, $log, CalendarService, UsersService, Session, EventUtils) {
 
     return {
 
@@ -14,6 +17,10 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
         eventsMap: null,
 
         event: {},
+
+        doctor: {},
+
+        patient: {},
 
         options: {},
 
@@ -36,67 +43,105 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          * @return {boolean} true if user is owner, false otherwise
          */
         isOwner: function () {
-            //TODO add user identity
-            return true;
+            return  this.doctor.id == Session.getUserId();
         },
 
         /**
          * Start edition of an event
+         * @param doctorId doctor who will be the owner of the visit
          * @param startTime optional start time of edited event
+         * @param event optional event to be edited
          */
-        startEdition: function (startTime, event) {
+        startEdition: function (doctorId, startTime, event) {
             //set edited event
             if (event !== undefined) {
                 this.event = event;
             }
-            //set start time
+            //change page
+            if (!this.onGoing) {
+                $state.go('calendar-day.edit-visit', {doctorId: doctorId});
+                this.onGoing = true;
+            }
+            this.loadDoctor(doctorId);
+            this.refresh(startTime);
+        },
+
+        /**
+         * Load doctor and his settings
+         * @param doctorId doctor to be loaded
+         */
+        loadDoctor: function (doctorId) {
+            if (doctorId == this.doctor.id) {
+                return;
+            }
+            var self = this;
+            UsersService
+                .get(doctorId)
+                .success(function (result) {
+                    self.doctor = angular.copy(result);
+                    delete self.doctor.locations;
+                    self.options = result.locations;
+                    $log.debug('Event edition - doctor loaded: ' + self.doctor.id + ", locations: " + self.options.length);
+                    if (self.doctor.id != Session.getUserId()) {
+                        self.patient = Session.getInfo();
+                        $log.debug('Event edition - patient loaded: ' + self.patient.id);
+                    }
+                    self.refresh(self.event.start);
+                })
+                .error(function (error) {
+                    $log.error('Couldn\'t load options - date: ' + event.start + ', error: ' + error);
+                });
+        },
+
+        /**
+         * Find option for given time
+         * @param startTime start date of event
+         * @returns {*} found option, null otherwise
+         */
+        option: function (startTime) {
+            if (startTime != null) {
+                var day = startTime.toString('dddd');
+                var hour = startTime.toString('HH:mm');
+                for (var i = 0; i < this.options.length; i++) {
+                    var working_hours = this.options[i].working_hours;
+                    for (var h = 0; h < working_hours.length; h++) {
+                        if (working_hours[h].day == day
+                            && hour >= working_hours[h].start
+                            && hour <= working_hours[h].end) {
+                            return this.options[i];
+                        }
+                    }
+                }
+            }
+            return null;
+        },
+
+        location: {},
+
+        /**
+         * Refresh event data
+         * @param startTime new proposed event start time
+         */
+        refresh: function (startTime) {
             if (startTime !== undefined) {
                 this.event.start = startTime.clone();
             } else if (this.isNew()) {
                 this.event.start = Date.today();
             }
-            //change page
-            if (!this.onGoing) {
-                $state.go('calendar-day.edit-visit');
-                this.onGoing = true;
+            this.location = this.option(startTime);
+            this.event.location = {};
+            this.event.patient = this.patient;
+            this.event.doctor = this.doctor;
+            if (this.isNew() && this.location != null) {
+                var event = this.event;
+                event.title = EventUtils.value(_.pluck(this.location.templates, 'name'),
+                    event.title, 0, false);
+                event.duration = EventUtils.value(this.location.templates[0].durations,
+                    event.duration, 0, false);
+                event.location = angular.copy(this.location);
+                delete event.location.templates;
             }
-            //load options
-            this.loadOptions();
             this.onChange();
-        },
-
-        /**
-         * Load options available for edited event
-         */
-        loadOptions: function () {
-            var self = this;
-            CalendarService
-                .options(event.start)
-                .success(function (result) {
-                    self.options = result;
-                    if (self.isNew()) {
-                        //TODO set user and add overwritting
-                        //overwrite if current values are not allowed
-                        var options = self.options;
-                        var event = self.event;
-                        var isOwner = self.isOwner;
-                        event.title = EventUtils.value(_.pluck(options.templates, 'title'),
-                            event.title, 0, isOwner());
-                        event.description = EventUtils.value(_.pluck(options.templates, 'description'),
-                            event.description, 0, isOwner());
-                        event.duration = EventUtils.value(options.durations,
-                            event.duration, 0, isOwner());
-                        //overwrite if not set
-                        event.owner = event.owner || options.owner;
-                        event.users = event.users || options.users;
-                        //overwrite
-                        event.location = options.location.address;
-                        event.color = options.location.color;
-                    }
-                })
-                .error(function (error) {
-                    $log.error('Couldn\'t load options - date: ' + event.start + ', error: ' + error);
-                });
         },
 
         /**
@@ -111,7 +156,7 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
          */
         cancel: function () {
             this.clear();
-            $state.go(self.prevState);
+            $state.go(self.prevState, {doctorId: this.doctor.id});
         },
 
         /**
@@ -120,6 +165,8 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
         clear: function () {
             this.event = {};
             this.options = {};
+            this.patient = {};
+            this.doctor = {};
             this.onGoing = false;
             this.prevState = {};
         },
@@ -148,11 +195,12 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, EventUt
  */
 calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, uiNotification) {
 
+    $scope.editedEvent = {};
     $scope.durations = [];
+    $scope.templates = [];
     //TODO load access rights
     $scope.isButtonDeleteVisible = false; //eventToEdit.id !== undefined;
     $scope.isButtonSaveVisible = true;
-    $scope.editedEvent = {};
 
     /**
      * Initialize controller state
@@ -160,9 +208,23 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
     $scope.init = function () {
         EventEditor.onChange = function () {
             $scope.editedEvent = EventEditor.event;
-            $scope.durations = EventEditor.options.durations;
+            if (EventEditor.location != undefined && EventEditor.location.templates != undefined) {
+                $scope.location = EventEditor.location;
+                $scope.templates = EventEditor.location.templates;
+                $scope.onTemplateChange();
+            }
         };
         EventEditor.onChange();
+    };
+
+    /**
+     * Execute all needed changes related with change of examination template
+     */
+    $scope.onTemplateChange = function () {
+        var selectedTemplate = _.find($scope.templates, function (template) {
+            return template.name == $scope.editedEvent.title;
+        });
+        $scope.durations = selectedTemplate.durations || [];
     };
 
     /**

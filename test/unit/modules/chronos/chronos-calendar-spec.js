@@ -1386,6 +1386,11 @@ describe('chronos-calendar-spec:', function () {
             it('should start adding new event', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
+                //and current user
+                var currentUserId = "doctor-123";
+                //and ctrl is initialized
+                ctrlScope.init(1, Date.today());
+                expect(ctrlScope.doctorId).toBe(currentUserId);
                 //when starting adding event on chosen time
                 var startDate = Date.today().set({
                     year: 2014,
@@ -1395,12 +1400,16 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
-                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(startTime);
+                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(currentUserId, startTime);
             });
 
             it('should start editing event', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
+                //and current user
+                var currentUserId = "doctor-123";
+                //and ctrl is initialized
+                ctrlScope.init(1, Date.today());
                 //and existing event to be edited
                 var startDate = Date.today().set({
                     year: 2014,
@@ -1415,7 +1424,7 @@ describe('chronos-calendar-spec:', function () {
                 //when starting editing event
                 ctrlScope.editEvent(event);
                 //then event edition is started
-                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(event.start, event);
+                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(currentUserId, event.start, event);
             });
 
             it('should delete event', function () {

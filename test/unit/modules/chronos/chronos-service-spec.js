@@ -93,27 +93,6 @@ describe('chronos-service-spec:', function () {
             });
         });
 
-        it('should get options for editing events', function () {
-            //given calendar service is initialized
-            expect(calendarService).toBeDefined();
-            //and date when edited event will take place
-            var date = new Date().set({
-                year: 2014,
-                month: 7,
-                day: 12,
-                hour: 12,
-                minute: 30
-            });
-            //when getting available options for edited event
-            var promise = calendarService.options(date);
-            //then proper communication has place
-            expect(promise).not.toBeNull();
-            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/options', {
-                userId: userId,
-                date: date
-            });
-        });
-
         it('should delete event', function () {
             //given calendar service is initialized
             expect(calendarService).toBeDefined();

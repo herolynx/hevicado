@@ -25,18 +25,6 @@ services.service('CalendarService', function (Session, $http, EventUtils, $log) 
         },
 
         /**
-         * Get options for event that will start at given date
-         * @param date where event should start
-         * @returns {*} http promise that will return options (location and templates)
-         */
-        options: function (date) {
-            return $http.get('/calendar/options', {
-                userId: ownerId,
-                date: date
-            });
-        },
-
-        /**
          * Get events in given time period
          * @param start start time date
          * @param end end time date

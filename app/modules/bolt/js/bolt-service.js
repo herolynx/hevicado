@@ -100,11 +100,9 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
      * @returns {*} non-nullable object
      */
     this.getInfo = function () {
-        var info = {
-            id: self.loadUser().id,
-            first_name: self.loadUser().first_name,
-            last_name: self.loadUser().last_name
-        };
+        var info = angular.copy(self.loadUser());
+        delete info.token;
+        delete info.role;
         return info;
     };
 

@@ -1,114 +1,119 @@
 <div class="box-details-fixed">
-	<div class="box-fixed" ng-controller="EditEventCtrl">
-		<div class="box" >
-			<h2><i class="icon-pencil"></i>Visit:</h2>
-			
-			<div class="notes">			
-				<form>
-					<ul>
-						<li>
-							<label class="full">Title:</label>
-							<fieldset class="full">
-								<input type="text" ng-model="editedEvent.title" ng-required="true" ng-minlength="3"
-									   ng-maxlength="255">
-							</fieldset>
-						</li>
-						<li>
-							<!-- TODO time in single row -->
-							<div class="half">
-								<label class="full">Date of the visit:</label>
-								<fieldset class="full">
-									<input type="text" ng-model="editedEvent.start">
-									<a href="#" class="choose-date">
-										<i class="icon-calendar"></i>
-									</a>
-								</fieldset>
-							</div>
-						</li>
-						<li>	
-							<div class="half">
-								<label class="full">Durations:</label>
-								<fieldset class="full">
-									<select name="term_visit" id="term_visit" ng-model="editedEvent.duration">
-										<option ng-repeat="duration in durations">{{duration}}</option>
-									</select>
-								</fieldset>
-							</div>
-						</li>
-						<li>
-							<div class="half">
-								<label class="full">Owner:</label>
-								<fieldset class="full">
-									<input type="text" ng-model="editedEvent.owner">
-								</fieldset>
-							</div>
-						</li>
-						<li>
-							<div class="half">
-								<label class="full">Participants: </label>
-								<!--TODO multi field, add remove-->
-								<fieldset class="full" ng-repeat="user in editedEvent.users">
-									<input type="text" ng-model="user">
-								</fieldset>
-								<fieldset class="full">
-									<input type="text">
-								</fieldset>
-								<a href="#"><i class="icon-plus-circled"></i></a>
-							</div>
-						</li>
-						<li>
-							<!--TODO map + location as single field-->
-							<div class="half">
-								<label class="full">Street:</label>
-								<fieldset class="full">
-									<input type="text" ng-model="editedEvent.location.street">
-								</fieldset>
-							</div>
-						</li>
-						<li>
-							<div class="half">
-								<label class="full">City:</label>
-								<fieldset class="full">
-									<input type="text" ng-model="editedEvent.location.city">
-								</fieldset>
-							</div>
-						</li>
-						<li>
-							<label class="full top">Description:</label>
-							<fieldset class="full">
-								<textarea ng-model="editedEvent.description"></textarea>
-							</fieldset>
-						</li>
-						<li>	
-							<label class="full"></label>
-							<fieldset class="full">	
-								<button class="btn blue rt" ng-click="delete()" ng-show="isButtonDeleteVisible">Delete</button>
-								<button class="btn blue rt" ng-click="save()" ng-show="isButtonSaveVisible">Save</button>
-								<button class="btn blue rt" ng-click="cancel()">Cancel</button>							
-							</fieldset>						
-						</li>
-						<!--TODO add colors, -->
-					</ul>
-				</form>				
-			</div>
-		</div>
+    <div class="box-fixed" ng-controller="EditEventCtrl">
+        <div class="box">
+            <h2><i class="icon-pencil"></i>Visit:</h2>
 
-		<div class="box maps-address">
-			<h2><i class="icon-map"></i> Location map</h2>
-			<div class="maps">				
-				<iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
-					width="100%" height="350" frameborder="0" style="border:0"></iframe>	
-			</div>
-			<div class="address">
-				<h2>Pulsantis</h2>
-				Grabiszynska 8/4
-				Wroclaw, Poland
-				
-				 <div class="date-address">
-					<span><i class="icon-phone"></i> 503 112 331</span>
-					<span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i> barak@gmail.com</a></span>
-				</div>				
-			</div>
-		</div>
-	</div>
+            <div class="notes">
+                <form>
+                    <ul>
+                        <li>
+                            <label class="full">Title:</label>
+                            <fieldset class="full">
+                                <!--<input type="text" ng-model="editedEvent.title" ng-required="true" ng-minlength="3"-->
+                                <!--ng-maxlength="255">-->
+                                <select name="title" id="title" ng-model="editedEvent.title" ng-change="onTemplateChange()">
+                                    <option ng-repeat="template in templates">{{template.name}}</option>
+                                </select>
+                            </fieldset>
+                        </li>
+                        <li>
+                            <!-- TODO time in single row -->
+                            <div class="half">
+                                <label class="full">Date of the visit:</label>
+                                <fieldset class="full">
+                                    <div>{{editedEvent.start | date: "yyyy-MM-dd HH:mm"}}</div>
+                                </fieldset>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="half">
+                                <label class="full">Visit length:</label>
+                                <fieldset class="full">
+                                    <select name="term_visit" id="term_visit" ng-model="editedEvent.duration">
+                                        <option ng-repeat="duration in durations">{{duration}}</option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="half">
+                                <label class="full">Doctor:</label>
+                                <fieldset class="full">
+                                    <div>{{editedEvent.doctor.degree}} {{editedEvent.doctor.last_name}},
+                                        {{editedEvent.doctor.first_name}}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="date-address">
+                                <span><i class="icon-phone"></i> {{editedEvent.doctor.phone}}</span>
+                                <span>
+                                    <a href="mailto:mail@gmail.com">
+                                        <i class="icon-mail"></i>{{editedEvent.doctor.email}}
+                                    </a>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="half">
+                                <label class="full">Patient:</label>
+                                <fieldset class="full">
+                                    <input type="text" ng-model="editedEvent.patient">
+                                </fieldset>
+                            </div>
+                            <div class="date-address">
+                                <span><i class="icon-phone"></i>{{editedEvent.patient.phone}}</span>
+                                <span>
+                                    <a href="mailto:mail@gmail.com">
+                                        <i class="icon-mail"></i>{{editedEvent.patient.email}}
+                                    </a>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="full top">Description:</label>
+                            <fieldset class="full">
+                                <textarea ng-model="editedEvent.description"></textarea>
+                            </fieldset>
+                        </li>
+                        <li>
+                            <label class="full"></label>
+                            <fieldset class="full">
+                                <button class="btn blue rt" ng-click="delete()" ng-show="isButtonDeleteVisible">Delete
+                                </button>
+                                <button class="btn blue rt" ng-click="save()" ng-show="isButtonSaveVisible">Save
+                                </button>
+                                <button class="btn blue rt" ng-click="cancel()">Cancel</button>
+                            </fieldset>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+        <div class="box maps-address">
+            <h2><i class="icon-map"></i> Location map</h2>
+
+            <div class="maps">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
+                        width="100%" height="350" frameborder="0" style="border:0"></iframe>
+            </div>
+            <div class="address">
+                <h2>{{editedEvent.location.name}}</h2>
+                {{editedEvent.location.address.street}}, {{editedEvent.location.address.city}},
+                {{editedEvent.location.address.country}}
+                <div class="row hour">
+                    <h2>Godziny otwarcia gabinetu:</h2>
+
+                    <p>
+
+                    <div ng-repeat="working in editedEvent.location.working_hours">
+                        <span>{{working.day}}:</span>
+                        {{working.start}} - {{working.end}}<br/>
+                    </div>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

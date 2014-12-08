@@ -231,7 +231,7 @@ calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactor
             second: 0
         });
         $log.debug('Add new event - start: ' + date);
-        EventEditor.startEdition(date);
+        EventEditor.startEdition($scope.doctorId, date);
     };
 
     /**
@@ -257,7 +257,7 @@ calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactor
      */
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id);
-        EventEditor.startEdition(event.start, event);
+        EventEditor.startEdition($scope.doctorId, event.start, event);
     };
 
     /**
