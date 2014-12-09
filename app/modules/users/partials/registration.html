@@ -36,14 +36,14 @@
                                 <fieldset>
                                     <input name="email2" type="email" placeholder="Confirm your e-mail"
                                            ng-model="userConf.email"
-                                           ng-minlength="5" match="user.email" required>
+                                           ng-minlength="5" field-match="user.email" required>
                                     <small class="error" ng-show="userForm.email2.$error.minlength">
                                         Your e-mail is required to be at least 5 characters
                                     </small>
                                     <small class="error" ng-show="userForm.email2.$error.email">
                                         That is not a valid email. Please input a valid email.
                                     </small>
-                                    <small class="error" ng-show="userForm.email2.$error.match">
+                                    <small class="error" ng-show="userForm.email2.$error.fieldMatch">
                                         Given e-mails are not the same
                                     </small>
                                 </fieldset>
@@ -66,12 +66,12 @@
                             <li>
                                 <fieldset>
                                     <input name="password2" type="password" placeholder="Confirm your password"
-                                           ng-model="userConf.password" match="user.password"
+                                           ng-model="userConf.password" field-match="user.password"
                                            ng-minlength="5" required>
                                     <small class="error" ng-show="userForm.password2.$error.minlength">
                                         Your password is required to be at least 5 characters
                                     </small>
-                                    <small class="error" ng-show="userForm.password2.$error.match">
+                                    <small class="error" ng-show="userForm.password2.$error.fieldMatch">
                                         Given passwords are not the same
                                     </small>
                                 </fieldset>

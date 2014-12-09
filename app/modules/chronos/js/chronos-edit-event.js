@@ -59,6 +59,8 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
             }
             //change page
             if (!this.onGoing) {
+                console.info($state)
+                this.prevState = $state.currentState
                 $state.go('calendar-day.edit-visit', {doctorId: doctorId});
                 this.onGoing = true;
             }

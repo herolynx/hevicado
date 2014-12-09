@@ -39,12 +39,12 @@
                                 <fieldset>
                                     <input name="password2" type="password"
                                            placeholder="Confirm your password"
-                                           ng-model="userConf.password" match="user.password"
+                                           ng-model="userConf.password" field-match="user.password"
                                            ng-minlength="5" required>
                                     <small class="error" ng-show="credentials.password2.$error.minlength">
                                         Your password is required to be at least 5 characters
                                     </small>
-                                    <small class="error" ng-show="credentials.password2.$error.match">
+                                    <small class="error" ng-show="credentials.password2.$error.fieldMatch">
                                         Given passwords are not the same
                                     </small>
                                 </fieldset>
