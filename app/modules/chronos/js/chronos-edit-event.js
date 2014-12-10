@@ -201,7 +201,7 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
  * @param CalendarService service managing events
  * @param uiNotification notification manager
  */
-calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, UsersService, uiNotification) {
+calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, UsersService, UserFormatter, uiNotification) {
 
     $scope.editedEvent = {};
     $scope.durations = [];
@@ -235,11 +235,10 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
         return UsersService.
             search(text).
             then(function (resp) {
-                $log.info("Searching users by " + text + " - result: " + resp.data.length);
+                $log.debug("Searching users by " + text + " - result: " + resp.data.length);
                 _.map(resp.data, function (user) {
                     user.toString = function () {
-                        //TODO use function form users module
-                        return  this.last_name + ", " + this.first_name + " (" + this.email + ")";
+                        return  UserFormatter.info(user, undefined, 'withEmail');
                     }
                 });
                 return resp.data;
@@ -255,13 +254,11 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
      * @param $label label
      */
     $scope.onPatientSelected = function ($item, $model, $label) {
-        $log.info('Patient selected: ' + $model.email);
+        $log.debug('Patient selected: ' + $model.email);
         $scope.editedEvent.patient = $model;
         $scope.editedEvent.patient.toString = function () {
-            //TODO use function form users module
-            return  this.last_name + ", " + this.first_name;
+            return  UserFormatter.info($scope.editedEvent.patient);
         };
-        console.info(EventEditor.event.patient);
     };
 
     /**
