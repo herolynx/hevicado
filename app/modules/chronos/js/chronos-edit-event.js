@@ -58,12 +58,11 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
                 this.event = event;
             }
             //change page
-            if (!this.onGoing) {
-                console.info($state)
-                this.prevState = $state.currentState
+//            if (!this.onGoing) {
+                this.prevState = $state.current;
                 $state.go('calendar-day.edit-visit', {doctorId: doctorId});
                 this.onGoing = true;
-            }
+//            }
             this.loadDoctor(doctorId);
             this.refresh(startTime);
         },
@@ -88,6 +87,7 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
                         self.patient = Session.getInfo();
                         $log.debug('Event edition - patient loaded: ' + self.patient.id);
                     }
+//                    self.patient = Session.getInfo();
                     self.refresh(self.event.start);
                 })
                 .error(function (error) {
@@ -133,6 +133,10 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
             this.location = this.option(startTime);
             this.event.location = {};
             this.event.patient = this.patient;
+            this.event.patient.toString = function () {
+                //TODO use function form users module
+                return  this.last_name + ", " + this.first_name;
+            };
             this.event.doctor = this.doctor;
             if (this.isNew() && this.location != null) {
                 var event = this.event;
@@ -150,15 +154,18 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
          * Finalize edition of an event
          */
         endEdition: function () {
-            $state.go(self.prevState);
+            $log.debug("End edition - go back to: " + this.prevState.name);
+            $state.go(this.prevState.name, {doctorId: this.doctor.id});
+            this.clear();
         },
 
         /**
          * Cancel edition of an event
          */
         cancel: function () {
+            $log.debug("Cancelling edition - go back to: " + this.prevState.name);
+            $state.go(this.prevState.name, {doctorId: this.doctor.id});
             this.clear();
-            $state.go(self.prevState, {doctorId: this.doctor.id});
         },
 
         /**
@@ -178,9 +185,7 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
          * @param events all available events
          */
         init: function (eventsMap) {
-            this.clear();
             this.eventsMap = eventsMap;
-            this.prevState = $state.current;
         }
 
     };
@@ -195,7 +200,7 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
  * @param CalendarService service managing events
  * @param uiNotification notification manager
  */
-calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, uiNotification) {
+calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, UsersService, uiNotification) {
 
     $scope.editedEvent = {};
     $scope.durations = [];
@@ -217,6 +222,45 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
             }
         };
         EventEditor.onChange();
+    };
+
+    /**
+     * Find users by free text criteria
+     * @param text search criteria
+     * @returns {*} HTTP promise
+     */
+    $scope.findUsers = function (text) {
+        $log.info("Searching users: " + text);
+        return UsersService.
+            search(text).
+            then(function (resp) {
+                $log.info("Searching users by " + text + " - result: " + resp.data.length);
+                _.map(resp.data, function (user) {
+                    user.toString = function () {
+                        //TODO use function form users module
+                        return  this.last_name + ", " + this.first_name + " (" + this.email + ")";
+                    }
+                });
+                return resp.data;
+            }, function (code, msg) {
+                $log.error("Couldn't find users - code: " + code + ", msg: " + msg);
+            });
+    };
+
+    /**
+     * On patient selected action handler
+     * @param $item selected item
+     * @param $model model item
+     * @param $label label
+     */
+    $scope.onPatientSelected = function ($item, $model, $label) {
+        $log.info('Patient selected: ' + $model.email);
+        $scope.editedEvent.patient = $model;
+        $scope.editedEvent.patient.toString = function () {
+            //TODO use function form users module
+            return  this.last_name + ", " + this.first_name;
+        };
+        console.info(EventEditor.event.patient);
     };
 
     /**
@@ -243,16 +287,16 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
         $log.debug('Saving event - id: ' + $scope.editedEvent.id + ', start: ' + $scope.editedEvent.start + ', title: ' + $scope.editedEvent.title);
         $scope.editedEvent.start = new Date($scope.editedEvent.start);
         $scope.editedEvent.end = $scope.editedEvent.start.clone().add($scope.editedEvent.duration).minute();
-        CalendarService.save($scope.editedEvent).then(
-            function (resp) {
-                $log.info('Event saved successfully: event id: ' + resp.data.id);
+        CalendarService.
+            save($scope.editedEvent).
+            success(function (resp) {
+                $log.debug('Event saved successfully: event id: ' + resp.id);
                 EventEditor.endEdition();
-            },
-            function (errResp, errStatus) {
-                $log.info('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
+            }).
+            error(function (errResp, errStatus) {
+                $log.error('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp);
                 uiNotification.text('Error', 'Event hasn\'t been saved').error();
-            }
-        );
+            });
     };
 
     /**
@@ -260,7 +304,8 @@ calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, Calend
      */
     $scope.delete = function () {
         $log.debug('Deleting event - id: ' + $scope.editedEvent.id);
-        CalendarService.delete($scope.editedEvent.id).then(
+        CalendarService.
+            delete($scope.editedEvent.id).then(
             function (resp) {
                 $log.info('Event deleted successfully: event id: ' + $scope.editedEvent.id);
                 EventEditor.endEdition();

@@ -28,7 +28,9 @@ services.service('UsersService', function ($http, $log) {
          */
         search: function (criteria) {
             $log.debug('Searching users: ' + criteria)
-            return $http.get('/user', criteria);
+            return $http.get('/user', {
+                params: {text: criteria}
+            });
         },
 
 

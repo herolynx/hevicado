@@ -1,4 +1,4 @@
-<div class="box-details-fixed">
+<div class="box-details-fixed" xmlns="http://www.w3.org/1999/html">
     <div class="box-fixed" ng-controller="EditEventCtrl">
         <div class="box">
             <h2><i class="icon-pencil"></i>Visit:</h2>
@@ -58,7 +58,15 @@
                             <div class="half">
                                 <label class="full">Patient:</label>
                                 <fieldset class="full">
-                                    <input type="text" ng-model="editedEvent.patient">
+                                    <input type="text"
+                                           typeahead="user for user in findUsers($viewValue)"
+                                           typeahead-loading="loadingUsers"
+                                           typeahead-min-length="1"
+                                           typeahead-editable="false"
+                                           typeahead-on-select="onPatientSelected($item, $model, $label)"
+                                           ng-model="editedEvent.patient"
+                                            >
+                                    <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh">loading</i>
                                 </fieldset>
                             </div>
                             <div class="date-address">
