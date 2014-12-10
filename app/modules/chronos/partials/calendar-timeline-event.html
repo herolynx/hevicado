@@ -8,9 +8,8 @@
     <div class="box">
         <div class="user">
             <strong>{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}</strong><br/>
-            <span> {{event.doctor.degree}}</span>
             <a>
-                {{event.doctor.last_name}}, {{event.doctor.first_name}}
+                {{event.doctor | userInfo:'withDegree'}}
             </a>
 
             <!--<div class="img">-->
@@ -21,7 +20,7 @@
             <a>{{event.location.name}}</a>
 
             <p>
-                {{event.location.address.street}}, {{event.location.address.city}}, {{event.location.address.country}}
+                {{event.location.address | addressInfo}}
             </p>
         </div>
         <div class="reason">

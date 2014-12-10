@@ -2,6 +2,7 @@
 
 var timeline = angular.module('chronos.timeline', [
     'chronos.services',
+    'users.directives',
     'infinite-scroll'
 ]);
 

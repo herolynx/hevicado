@@ -2,6 +2,7 @@
 
 var calendar = angular.module('chronos.events.edit', [
     'users.services',
+    'users.directives',
     'bolt.services'
 ]);
 
@@ -59,9 +60,9 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
             }
             //change page
 //            if (!this.onGoing) {
-                this.prevState = $state.current;
-                $state.go('calendar-day.edit-visit', {doctorId: doctorId});
-                this.onGoing = true;
+            this.prevState = $state.current;
+            $state.go('calendar-day.edit-visit', {doctorId: doctorId});
+            this.onGoing = true;
 //            }
             this.loadDoctor(doctorId);
             this.refresh(startTime);
