@@ -9,9 +9,8 @@ var services = angular.module('bolt.services', [
  * @param $http Angie's HTTP communication component
  * @param Session component for session management
  * @param USER_ROLES list of available user roles
- * @param UserUtils generic user related functions
  */
-services.factory('AuthService', function ($http, Session, USER_ROLES, UserUtils) {
+services.factory('AuthService', function ($http, Session, USER_ROLES) {
     return {
         /**
          * Login user with given credentials
@@ -59,8 +58,7 @@ services.factory('AuthService', function ($http, Session, USER_ROLES, UserUtils)
             if (authorizedRoles.indexOf(USER_ROLES.GUEST) !== -1) {
                 return true;
             }
-            return (this.isAuthenticated() &&
-                authorizedRoles.indexOf(Session.getUserRole()) !== -1);
+            return (this.isAuthenticated() && authorizedRoles.indexOf(Session.getUserRole()) !== -1);
         },
         getCurrentSession: function () {
             return Session;
@@ -73,9 +71,10 @@ services.factory('AuthService', function ($http, Session, USER_ROLES, UserUtils)
  * Note: don't use it externally. Use AuthService instead.
  * @param $cookieStore Angie's component for cookies management
  * @param USER_ROLES list of available user roles
+ * @param UserUtils generic user related functions
  * @param $log Angie's logger
  */
-services.service('Session', function ($cookieStore, USER_ROLES, $log) {
+services.service('Session', function ($cookieStore, USER_ROLES, UserUtils, $log) {
 
     var self = this;
 

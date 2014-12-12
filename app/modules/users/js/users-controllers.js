@@ -1,7 +1,7 @@
 'use strict';
 
 var controllers = angular.module('users.controllers', [
-    'commons.users'
+    'commons.filters'
 ]);
 
 /**

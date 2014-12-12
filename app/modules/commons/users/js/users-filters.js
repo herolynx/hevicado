@@ -1,4 +1,8 @@
-var filters = angular.module('commons.users', []);
+'use strict';
+
+var filters = angular.module('commons.filters', [
+    'commons.users'
+]);
 
 /**
  * Filter for displaying info about user
