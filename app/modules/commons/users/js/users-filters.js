@@ -1,7 +1,7 @@
 'use strict';
 
-var filters = angular.module('commons.filters', [
-    'commons.users'
+var filters = angular.module('commons.users.filters', [
+    'commons.users.utils'
 ]);
 
 /**

@@ -1,7 +1,8 @@
 'use strict';
 
 var calendar = angular.module('chronos.events.edit', [
-    'commons.users',
+    'commons.users.utils',
+    'commons.users.filters',
     'users.services',
     'bolt.services'
 ]);
@@ -130,7 +131,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         //return dummy location
         return {
             templates: [
-                { durations: [] }
+                {durations: []}
             ]
         };
     };
@@ -148,7 +149,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 $log.debug("Searching users by " + text + " - result: " + resp.data.length);
                 _.map(resp.data, function (user) {
                     user.toString = function () {
-                        return  UserUtils.info(user, undefined, 'withEmail');
+                        return UserUtils.info(user, undefined, 'withEmail');
                     }
                 });
                 return resp.data;
@@ -174,7 +175,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      */
     $scope.formatPatient = function () {
         $scope.editedEvent.patient.toString = function () {
-            return  UserUtils.info($scope.editedEvent.patient);
+            return UserUtils.info($scope.editedEvent.patient);
         };
     };
 
@@ -251,7 +252,7 @@ calendar.controller('DisplayEventCtrl', function ($scope, $stateParams, $control
 
     //TODO add tests
     $scope.options = $scope.$new();
-    $controller('TimelineEventCtrl', { $scope: $scope.options});
+    $controller('TimelineEventCtrl', {$scope: $scope.options});
 
     /**
      * Load data about event

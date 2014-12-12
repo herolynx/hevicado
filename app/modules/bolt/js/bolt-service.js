@@ -1,7 +1,7 @@
 'use strict';
 
 var services = angular.module('bolt.services', [
-    'commons.users'
+    'commons.users.utils'
 ]);
 
 /**

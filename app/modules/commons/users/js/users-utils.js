@@ -1,6 +1,6 @@
 'use strict';
 
-var utils = angular.module('commons.users', []);
+var utils = angular.module('commons.users.utils', []);
 
 /**
  * User related functionality
