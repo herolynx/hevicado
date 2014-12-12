@@ -26,7 +26,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
     $scope.isOwner = false;
     $scope.editedEvent = {};
     $scope.templates = [];
-    $scope.durations = [];
+    $scope.durations = [15, 30, 45, 60, 90, 120];
 
     /**
      * Initialize controller state
@@ -45,24 +45,25 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
             });
 
         //load event
-        var loadEventPromise = $q.when($scope.editedEvent);
+        var loadEventPromise = null;
         if ($stateParams.eventId != undefined) {
             $log.debug("Editing existing event - id: " + $stateParams.eventId);
             loadEventPromise = CalendarService.
                 event($stateParams.eventId).
                 error(function (errResp, errStatus) {
-                    $log.info('Couldn\'t load event details: status: ' + errStatus + ', resp: ' + errResp.data);
+                    $log.error('Couldn\'t load event details: status: ' + errStatus + ', resp: ' + errResp.data);
                 });
         } else {
             $log.debug("Editing new event - start time: " + $stateParams.startTime);
-            $scope.editedEvent.start = $stateParams.startTime;
+            $scope.editedEvent.start = new Date($stateParams.startTime);
+            loadEventPromise = $q.when({data: $scope.editedEvent});
         }
 
         //initialize controller
-        $q.all(loadDoctorPromise, loadEventPromise).then(
-            function (values) {
-                $scope.doctor = values[0];
-                $scope.editedEvent = values[1];
+        $q.all([loadDoctorPromise, loadEventPromise]).
+            then(function (values) {
+                $scope.doctor = values[0].data;
+                $scope.editedEvent = values[1].data;
                 if ($scope.editedEvent.id == undefined) {
                     $scope.initNewEvent();
                 }
@@ -87,6 +88,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
     $scope.initNewEvent = function () {
         $scope.editedEvent.doctor = UserUtils.getContactInfo($scope.doctor);
         $scope.editedEvent.patient = $scope.isOwner ? {} : Session.getInfo();
+        $scope.editedEvent.location = $scope.doctor.locations[0];
         $scope.refreshTemplates($scope.editedEvent.start);
     };
 
@@ -131,7 +133,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         //return dummy location
         return {
             templates: [
-                {durations: []}
+                {name: '', durations: [30, 60, 90, 120]}
             ]
         };
     };
@@ -201,13 +203,12 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      */
     $scope.save = function () {
         $log.debug('Saving event - id: ' + $scope.editedEvent.id + ', start: ' + $scope.editedEvent.start + ', title: ' + $scope.editedEvent.title);
-        $scope.editedEvent.start = new Date($scope.editedEvent.start);
+        console.info($scope.editedEvent);
         $scope.editedEvent.end = $scope.editedEvent.start.clone().add($scope.editedEvent.duration).minute();
         CalendarService.
             save($scope.editedEvent).
             success(function (resp) {
                 $log.debug('Event saved successfully: event id: ' + resp.id);
-                EventEditor.endEdition();
             }).
             error(function (errResp, errStatus) {
                 $log.error('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp);
@@ -223,11 +224,10 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         CalendarService.
             delete($scope.editedEvent.id).then(
             function (resp) {
-                $log.info('Event deleted successfully: event id: ' + $scope.editedEvent.id);
-                EventEditor.endEdition();
+                $log.debug('Event deleted successfully: event id: ' + $scope.editedEvent.id);
             },
             function (errResp, errStatus) {
-                $log.info('Event hasn\'t been deleted: status: ' + errStatus + ', resp: ' + errResp.data);
+                $log.error('Event hasn\'t been deleted: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'Event hasn\'t been deleted').error();
             }
         );

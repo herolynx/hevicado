@@ -22,7 +22,9 @@ utils.value('UserUtils', {
         if (withDegree != undefined && user.degree != undefined) {
             info += user.degree + " ";
         }
-        info += user.last_name + ", " + user.first_name;
+        if (user.last_name != undefined && user.first_name != undefined) {
+            info += user.last_name + ", " + user.first_name;
+        }
         if (withEmail != undefined) {
             info += " (" + user.email + ")";
         }
@@ -52,6 +54,7 @@ utils.value('UserUtils', {
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
+            phone: user.phone,
             role: user.role
         };
     }
