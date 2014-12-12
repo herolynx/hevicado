@@ -19,7 +19,7 @@ events.service('EventActionManager', function (EventUtils, EVENT_STATE) {
          * @return {boolean} true is event can be cancelled, false otherwise
          */
         canCancel: function (event) {
-            if (event == undefined) {
+            if (event == undefined || event.id == undefined) {
                 return false;
             }
             var eventState = EventUtils.state(event);

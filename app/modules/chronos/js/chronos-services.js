@@ -62,13 +62,14 @@ services.service('CalendarService', function (Session, $http, EventUtils, $log) 
         },
 
         /**
-         * Delete event
-         * @param eventId
+         * Cancel event
+         * @param event event to be cancelled
          * @returns {*} http promise
          */
-        delete: function (eventId) {
-            return $http.delete('/calendar/visit', {
-                id: eventId
+        cancel: function (event) {
+            return $http.put('/calendar/visit', {
+                id: event.id,
+                cancelled: Date.today()
             });
         }
 

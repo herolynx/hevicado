@@ -131,12 +131,8 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
             uiNotification.text('Error', 'Event cannot be cancelled').error();
             return;
         }
-        var eventCancellation = {
-            id: event.id,
-            cancelled: Date.today()
-        };
         CalendarService.
-            save(eventCancellation).
+            cancel(event).
             success(function (data) {
                 $log.debug('Event cancelled');
                 event.cancelled = eventCancellation.cancelled;

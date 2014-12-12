@@ -12,9 +12,6 @@ routes.run(function ($rootScope, $log, $state, $location) {
     $log.debug('Initializing go-back listener');
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $log.info('State changed');
-        console.info(fromState);
-        console.info(fromParams);
         $state.previous = {
             state: fromState,
             params: fromParams

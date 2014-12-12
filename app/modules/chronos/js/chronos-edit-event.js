@@ -16,12 +16,14 @@ var calendar = angular.module('chronos.events.edit', [
  * @param $q promises
  * @param Session session of current user
  * @param CalendarService service managing events
+ * @param EventActionManager event action validator
+ * @param EventUtils generic event related functionality
  * @param CALENDAR_EVENTS calendar defined events
  * @param UsersService service responsible for users
  * @param UserUtils user utils
  * @param uiNotification notification manager
  */
-calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification) {
+calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, EventActionManager, EventUtils, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification) {
 
     $scope.isOwner = false;
     $scope.editedEvent = {};
@@ -56,6 +58,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         } else {
             $log.debug("Editing new event - start time: " + $stateParams.startTime);
             $scope.editedEvent.start = new Date($stateParams.startTime);
+            $scope.editedEvent.end = new Date($stateParams.startTime).add(30).minutes();
             loadEventPromise = $q.when({data: $scope.editedEvent});
         }
 
@@ -63,7 +66,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         $q.all([loadDoctorPromise, loadEventPromise]).
             then(function (values) {
                 $scope.doctor = values[0].data;
-                $scope.editedEvent = values[1].data;
+                $scope.editedEvent = EventUtils.normalize(values[1].data);
                 if ($scope.editedEvent.id == undefined) {
                     $scope.initNewEvent();
                 }
@@ -204,8 +207,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      */
     $scope.save = function () {
         $log.debug('Saving event - id: ' + $scope.editedEvent.id + ', start: ' + $scope.editedEvent.start + ', title: ' + $scope.editedEvent.title);
-        console.info($scope.editedEvent);
-        $scope.editedEvent.end = $scope.editedEvent.start.clone().add($scope.editedEvent.duration).minute();
+        $scope.editedEvent.end = $scope.editedEvent.start.clone().add(Number($scope.editedEvent.duration)).minutes();
         CalendarService.
             save($scope.editedEvent).
             success(function (resp) {
@@ -221,18 +223,31 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
     /**
      * Delete currently edited event
      */
-    $scope.delete = function () {
-        $log.debug('Deleting event - id: ' + $scope.editedEvent.id);
+    $scope.cancelVisit = function () {
+        $log.debug('Cancel event - id: ' + $scope.editedEvent.id);
+        if (!EventActionManager.canCancel($scope.editedEvent)) {
+            $log.error('Event cannot be cancelled');
+            uiNotification.text('Error', 'Event cannot be cancelled').error();
+            return;
+        }
         CalendarService.
-            delete($scope.editedEvent.id).then(
-            function (resp) {
-                $log.debug('Event deleted successfully: event id: ' + $scope.editedEvent.id);
-            },
-            function (errResp, errStatus) {
-                $log.error('Event hasn\'t been deleted: status: ' + errStatus + ', resp: ' + errResp.data);
-                uiNotification.text('Error', 'Event hasn\'t been deleted').error();
-            }
-        );
+            cancel($scope.editedEvent).
+            success(function (resp) {
+                $log.debug('Event cancelled successfully: event id: ' + $scope.editedEvent.id);
+                $state.go($state.previous.state.name, $state.previous.params);
+            }).
+            error(function (errResp, errStatus) {
+                $log.error('Event hasn\'t been cancelled: status: ' + errStatus + ', resp: ' + errResp.data);
+                uiNotification.text('Error', 'Event hasn\'t been cancelled').error();
+            });
+    };
+
+    /**
+     * Check whether currently editi visit can be cancelled
+     * @return true if visit can be cancelled, false otherwise
+     */
+    $scope.canCancel = function () {
+        return EventActionManager.canCancel($scope.editedEvent);
     };
 
     //initialize controller
