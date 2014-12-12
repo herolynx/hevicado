@@ -7,6 +7,9 @@
             <div class="top-info">
                 Aby zrezygnować z wizyty możesz użyć przycisku kosza lub złapać i przeciągnąć na pole "Canceled Visit"
             </div>
+            <div ng-show="events.length==0">
+                Nie masz zadnych wizyt
+            </div>
             <div class="box-row">
                 <ul infinite-scroll='next()'
                     infinite-scroll-disabled='loading'
