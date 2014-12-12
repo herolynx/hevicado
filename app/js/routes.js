@@ -5,6 +5,24 @@ var routes = angular.module('angular-base.routes', [
 ]);
 
 /**
+ * Listener for saving previous state
+ */
+routes.run(function ($rootScope, $log, $state, $location) {
+
+    $log.debug('Initializing go-back listener');
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $log.info('State changed');
+        console.info(fromState);
+        console.info(fromParams);
+        $state.previous = {
+            state: fromState,
+            params: fromParams
+        };
+    });
+});
+
+/**
  * Configure routing rules between application states
  * @param $stateProvider application state manager
  * @param $urlRouterProvider application URL manager
@@ -95,30 +113,37 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
                 access: ACCESS_LEVELS.USERS
             }
         }).
-        state('calendar-day.visits', {
+        state('calendar-day.daily', {
             url: "/daily",
             templateUrl: "modules/chronos/partials/calendar-day.html",
             data: {
-                access: ACCESS_LEVELS.USERS
-            }
-        }).
-        state('calendar-day.edit-visit', {
-            url: "/visit",
-            templateUrl: "modules/chronos/partials/edit-event.html",
-            data: {
-                access: ACCESS_LEVELS.USERS
+                access: ACCESS_LEVELS.DOCTORS
             }
         }).
         state('calendar-week', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/weekly",
             templateUrl: "modules/chronos/partials/calendar-week.html",
             data: {
-                access: ACCESS_LEVELS.USERS
+                access: ACCESS_LEVELS.DOCTORS
             }
         }).
         state('calendar-month', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/monthly",
             templateUrl: "modules/chronos/partials/calendar-month.html",
+            data: {
+                access: ACCESS_LEVELS.DOCTORS
+            }
+        }).
+        state('calendar-day.edit-visit', {
+            url: "/visit/{eventId:[0-9a-z]+}",
+            templateUrl: "modules/chronos/partials/edit-event.html",
+            data: {
+                access: ACCESS_LEVELS.DOCTORS
+            }
+        }).
+        state('calendar-day.new-visit', {
+            url: "/visit/{startTime:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}}",
+            templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }

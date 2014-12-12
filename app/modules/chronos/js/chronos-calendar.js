@@ -7,18 +7,18 @@ var calendar = angular.module('chronos.calendar', [
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $scope current scope of controller
- * @param $stateParams state manager
+ * @param @state state manager
+ * @param $stateParams current state parameters manager
  * @param $cacheFactory cache provider
  * @param $log logger
  * @param CalendarService service managing calendar data
- * @param EventEditor editor that holds information about edited event
  * @param CalendarCollectionFactory factory for creating proper event related collections
  * @param CalendarRenderer renderer for attaching events to proper time lines
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param EventUtils generic functionality related with events
  * @param uiNotifications compononent managing notifications
  */
-calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactory, $log, CalendarService, EventEditor, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
 
     /**
      * Include underscore
@@ -230,8 +230,14 @@ calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactor
             minute: minute || 0,
             second: 0
         });
-        $log.debug('Add new event - start: ' + date);
-        EventEditor.startEdition($scope.doctorId, date);
+        var addVisitState = 'calendar-day.new-visit';
+        var editVisitState = 'calendar-day.edit-visit';
+        if ($state.current.name != addVisitState && $state.current.name != editVisitState) {
+            $log.debug('Add new event - start: ' + date);
+            $state.go(addVisitState, {doctorId: $scope.doctorId, startTime: date.toString('yyyy-MM-dd HH:mm')});
+        } else {
+            $log.debug('Event date clicked - start: ' + date);
+        }
     };
 
     /**
@@ -257,7 +263,7 @@ calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactor
      */
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id);
-        EventEditor.startEdition($scope.doctorId, event.start, event);
+        $state.go('calendar-day.edit-visit', {doctorId: $scope.doctorId, eventId: event.id});
     };
 
     /**
@@ -295,6 +301,7 @@ calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactor
         return dayEvents;
     };
 
+    //TODO move to filter
     /**
      * Get summary info about events for chosen day
      * @param day day which summay info should be taken for
@@ -410,8 +417,6 @@ calendar.controller('CalendarCtrl', function ($scope, $stateParams, $cacheFactor
         calendarEvent.duration += addMinutes;
         $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
     };
-
-    EventEditor.init($scope.eventsMap);
 
 });
 

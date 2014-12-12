@@ -9,16 +9,22 @@
                         <li>
                             <label class="full">Title:</label>
                             <fieldset class="full">
-                                <!--<input type="text" ng-model="editedEvent.title" ng-required="true" ng-minlength="3"-->
-                                <!--ng-maxlength="255">-->
-                                <select name="title" id="title" ng-model="editedEvent.title"
+                                <input type="text" id="title-input"
+                                       ng-show="isOwner"
+                                       ng-model="editedEvent.title"
+                                       ng-required="true"
+                                       ng-minlength="3"
+                                       typeahead="template.name for template in templates"
+                                       ng-maxlength="255">
+                                <select name="title" id="title-select"
+                                        ng-hide="isOwner"
+                                        ng-model="editedEvent.title"
                                         ng-change="onTemplateChange()">
                                     <option ng-repeat="template in templates">{{template.name}}</option>
                                 </select>
                             </fieldset>
                         </li>
                         <li>
-                            <!-- TODO time in single row -->
                             <div class="half">
                                 <label class="full">Date of the visit:</label>
                                 <fieldset class="full">
@@ -30,7 +36,16 @@
                             <div class="half">
                                 <label class="full">Visit length:</label>
                                 <fieldset class="full">
-                                    <select name="term_visit" id="term_visit" ng-model="editedEvent.duration">
+                                    <input type="text" id="duration-input"
+                                           ng-show="isOwner"
+                                           ng-model="editedEvent.duration"
+                                           ng-required="true"
+                                           ng-minlength="3"
+                                           typeahead="duration for duration in durations"
+                                           ng-maxlength="3">
+                                    <select name="term_visit" id="duration-select"
+                                            ng-hide="isOwner"
+                                            ng-model="editedEvent.duration">
                                         <option ng-repeat="duration in durations">{{duration}}</option>
                                     </select>
                                 </fieldset>

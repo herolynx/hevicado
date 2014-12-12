@@ -201,14 +201,20 @@ calendar.service('EventEditor', function ($state, $log, CalendarService, UsersSe
  * @param CalendarService service managing events
  * @param uiNotification notification manager
  */
-calendar.controller('EditEventCtrl', function ($scope, $log, EventEditor, CalendarService, UsersService, UserFormatter, uiNotification) {
+calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParams, EventEditor, CalendarService, UsersService, UserFormatter, uiNotification) {
 
+    $scope.isOwner = true;
     $scope.editedEvent = {};
     $scope.durations = [];
     $scope.templates = [];
     //TODO load access rights
     $scope.isButtonDeleteVisible = false; //eventToEdit.id !== undefined;
     $scope.isButtonSaveVisible = true;
+
+    console.info("DoctorId: " + $stateParams.doctorId);
+    console.info("StartTime: " + $stateParams.startTime);
+    console.info("VisitId: " + $stateParams.eventId);
+    console.info($scope.prevState);
 
     /**
      * Initialize controller state
