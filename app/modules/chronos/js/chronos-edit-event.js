@@ -71,6 +71,8 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                     $scope.initNewEvent();
                 }
                 $scope.formatPatient();
+                $scope.canCancel = EventActionManager.canCancel($scope.editedEvent);
+                $scope.canEdit = EventActionManager.canEdit($scope.editedEvent);
             }, function () {
                 uiNotification.text('Error', 'Couldn\'t initialize editor').error();
             }
@@ -240,14 +242,6 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 $log.error('Event hasn\'t been cancelled: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'Event hasn\'t been cancelled').error();
             });
-    };
-
-    /**
-     * Check whether currently editi visit can be cancelled
-     * @return true if visit can be cancelled, false otherwise
-     */
-    $scope.canCancel = function () {
-        return EventActionManager.canCancel($scope.editedEvent);
     };
 
     //initialize controller

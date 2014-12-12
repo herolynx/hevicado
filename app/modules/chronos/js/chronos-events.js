@@ -6,9 +6,10 @@ var events = angular.module('chronos.events', []);
  * Manager checks whether chosen actions can be performed on event
  *
  * @param EventUtils generic event related functionality
+ * @param Session session of current user
  * @param EVENT_STATE possible states of event
  */
-events.service('EventActionManager', function (EventUtils, EVENT_STATE) {
+events.service('EventActionManager', function (EventUtils, Session, EVENT_STATE) {
 
     return {
 
@@ -20,6 +21,27 @@ events.service('EventActionManager', function (EventUtils, EVENT_STATE) {
          */
         canCancel: function (event) {
             if (event == undefined || event.id == undefined) {
+                return false;
+            }
+            var participantsIds = [event.doctor.id, event.patient.id];
+            if (!_.contains(participantsIds, Session.getUserId())) {
+                return false;
+            }
+            var eventState = EventUtils.state(event);
+            return eventState.key < EVENT_STATE.CLOSED.key;
+        },
+
+        /**
+         * Check whether event can be edited
+         *
+         * @param event event to be checked
+         * @return {boolean} true is event can be editer, false otherwise
+         */
+        canEdit: function (event) {
+            if (event == undefined || event.id == undefined) {
+                return true;
+            }
+            if (event.doctor.id != Session.getUserId()) {
                 return false;
             }
             var eventState = EventUtils.state(event);

@@ -135,7 +135,7 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
             cancel(event).
             success(function (data) {
                 $log.debug('Event cancelled');
-                event.cancelled = eventCancellation.cancelled;
+                event.cancelled = Date.today();
                 $scope.readState(event);
             }).
             error(function (data, status) {
