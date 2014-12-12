@@ -8,7 +8,6 @@ var module = angular.module('users', [
     /*internal modules*/
     'users.controllers',
     'users.services',
-    'users.directives',
     /*external modules*/
     'bolt',
     'ui.elements',

@@ -1,15 +1,17 @@
 'use strict';
 
-
-var services = angular.module('bolt.services', []);
+var services = angular.module('bolt.services', [
+    'commons.users'
+]);
 
 /**
  * Service manager session of current user
  * @param $http Angie's HTTP communication component
  * @param Session component for session management
  * @param USER_ROLES list of available user roles
+ * @param UserUtils generic user related functions
  */
-services.factory('AuthService', function ($http, Session, USER_ROLES) {
+services.factory('AuthService', function ($http, Session, USER_ROLES, UserUtils) {
     return {
         /**
          * Login user with given credentials
@@ -100,10 +102,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, $log) {
      * @returns {*} non-nullable object
      */
     this.getInfo = function () {
-        var info = angular.copy(self.loadUser());
-        delete info.token;
-        delete info.role;
-        return info;
+        return UserUtils.getContactInfo(angular.copy(self.loadUser()));
     };
 
     /**

@@ -1,6 +1,8 @@
 'use strict';
 
-var controllers = angular.module('users.controllers', []);
+var controllers = angular.module('users.controllers', [
+    'commons.users'
+]);
 
 /**
  * Controllers manages registration process

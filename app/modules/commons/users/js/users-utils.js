@@ -1,9 +1,9 @@
-var directives = angular.module('users.directives', []);
+var utils = angular.module('commons.users', []);
 
 /**
- * User related formatters
+ * User related functionality
  */
-directives.value('UserFormatter', {
+utils.value('UserUtils', {
 
     /**
      * Get info about user
@@ -37,28 +37,21 @@ directives.value('UserFormatter', {
             return '';
         }
         return address.street + ", " + address.city + ", " + address.country;
-    }
+    },
 
-});
-
-/**
- * Filter for displaying info about user
- */
-directives.filter('userInfo', function (UserFormatter) {
-
-    return function (text, withDegree, withEmail) {
-        return UserFormatter.info(text, withDegree, withEmail);
-    }
-
-});
-
-/**
- * Filter for displaying full address
- */
-directives.filter('addressInfo', function (UserFormatter) {
-
-    return function (text) {
-        return UserFormatter.address(text);
+    /**
+     * Get contact info about user
+     * @param user
+     * @returns {*} object with basic contact info
+     */
+    getContactInfo: function (user) {
+        return {
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            role: user.role
+        };
     }
 
 });

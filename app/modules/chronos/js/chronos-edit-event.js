@@ -1,234 +1,138 @@
 'use strict';
 
 var calendar = angular.module('chronos.events.edit', [
+    'commons.users',
     'users.services',
-    'users.directives',
     'bolt.services'
 ]);
-
-/**
- * Editor responsible for holding information related with editing event
- */
-calendar.service('EventEditor', function ($state, $log, CalendarService, UsersService, Session, EventUtils) {
-
-    return {
-
-        onGoing: false,
-
-        eventsMap: null,
-
-        event: {},
-
-        doctor: {},
-
-        patient: {},
-
-        options: {},
-
-        prevState: {},
-
-        onChange: function () {
-
-        },
-
-        /**
-         * Check whether edited event is new
-         * @return {boolean} true if editing new event, false for edition of existing one
-         */
-        isNew: function () {
-            return this.event.id == undefined;
-        },
-
-        /**
-         * Check whether current  user will be owner of an event
-         * @return {boolean} true if user is owner, false otherwise
-         */
-        isOwner: function () {
-            return  this.doctor.id == Session.getUserId();
-        },
-
-        /**
-         * Start edition of an event
-         * @param doctorId doctor who will be the owner of the visit
-         * @param startTime optional start time of edited event
-         * @param event optional event to be edited
-         */
-        startEdition: function (doctorId, startTime, event) {
-            //set edited event
-            if (event !== undefined) {
-                this.event = event;
-            }
-            //change page
-//            if (!this.onGoing) {
-            this.prevState = $state.current;
-            $state.go('calendar-day.edit-visit', {doctorId: doctorId});
-            this.onGoing = true;
-//            }
-            this.loadDoctor(doctorId);
-            this.refresh(startTime);
-        },
-
-        /**
-         * Load doctor and his settings
-         * @param doctorId doctor to be loaded
-         */
-        loadDoctor: function (doctorId) {
-            if (doctorId == this.doctor.id) {
-                return;
-            }
-            var self = this;
-            UsersService
-                .get(doctorId)
-                .success(function (result) {
-                    self.doctor = angular.copy(result);
-                    delete self.doctor.locations;
-                    self.options = result.locations;
-                    $log.debug('Event edition - doctor loaded: ' + self.doctor.id + ", locations: " + self.options.length);
-                    if (self.doctor.id != Session.getUserId()) {
-                        self.patient = Session.getInfo();
-                        $log.debug('Event edition - patient loaded: ' + self.patient.id);
-                    }
-//                    self.patient = Session.getInfo();
-                    self.refresh(self.event.start);
-                })
-                .error(function (error) {
-                    $log.error('Couldn\'t load options - date: ' + event.start + ', error: ' + error);
-                });
-        },
-
-        /**
-         * Find option for given time
-         * @param startTime start date of event
-         * @returns {*} found option, null otherwise
-         */
-        option: function (startTime) {
-            if (startTime != null) {
-                var day = startTime.toString('dddd');
-                var hour = startTime.toString('HH:mm');
-                for (var i = 0; i < this.options.length; i++) {
-                    var working_hours = this.options[i].working_hours;
-                    for (var h = 0; h < working_hours.length; h++) {
-                        if (working_hours[h].day == day
-                            && hour >= working_hours[h].start
-                            && hour <= working_hours[h].end) {
-                            return this.options[i];
-                        }
-                    }
-                }
-            }
-            return null;
-        },
-
-        location: {},
-
-        /**
-         * Refresh event data
-         * @param startTime new proposed event start time
-         */
-        refresh: function (startTime) {
-            if (startTime !== undefined) {
-                this.event.start = startTime.clone();
-            } else if (this.isNew()) {
-                this.event.start = Date.today();
-            }
-            this.location = this.option(startTime);
-            this.event.location = {};
-            this.event.patient = this.patient;
-            this.event.patient.toString = function () {
-                //TODO use function form users module
-                return  this.last_name + ", " + this.first_name;
-            };
-            this.event.doctor = this.doctor;
-            if (this.isNew() && this.location != null) {
-                var event = this.event;
-                event.title = EventUtils.value(_.pluck(this.location.templates, 'name'),
-                    event.title, 0, false);
-                event.duration = EventUtils.value(this.location.templates[0].durations,
-                    event.duration, 0, false);
-                event.location = angular.copy(this.location);
-                delete event.location.templates;
-            }
-            this.onChange();
-        },
-
-        /**
-         * Finalize edition of an event
-         */
-        endEdition: function () {
-            $log.debug("End edition - go back to: " + this.prevState.name);
-            $state.go(this.prevState.name, {doctorId: this.doctor.id});
-            this.clear();
-        },
-
-        /**
-         * Cancel edition of an event
-         */
-        cancel: function () {
-            $log.debug("Cancelling edition - go back to: " + this.prevState.name);
-            $state.go(this.prevState.name, {doctorId: this.doctor.id});
-            this.clear();
-        },
-
-        /**
-         * Clear state of editor
-         */
-        clear: function () {
-            this.event = {};
-            this.options = {};
-            this.patient = {};
-            this.doctor = {};
-            this.onGoing = false;
-            this.prevState = {};
-        },
-
-        /**
-         * Initialize editor
-         * @param events all available events
-         */
-        init: function (eventsMap) {
-            this.eventsMap = eventsMap;
-        }
-
-    };
-
-});
 
 /**
  * Controller responsible for adding/editing events
  * @param $scope current scope
  * @param $log logger
- * @param EventEditor editor that holds information about edited event
+ * @param $state state manager
+ * @param $stateParams state parameters manager
+ * @param $q promises
+ * @param Session session of current user
  * @param CalendarService service managing events
+ * @param CALENDAR_EVENTS calendar defined events
+ * @param UsersService service responsible for users
+ * @param UserUtils user utils
  * @param uiNotification notification manager
  */
-calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParams, EventEditor, CalendarService, UsersService, UserFormatter, uiNotification) {
+calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification) {
 
-    $scope.isOwner = true;
+    $scope.isOwner = false;
     $scope.editedEvent = {};
-    $scope.durations = [];
     $scope.templates = [];
-    //TODO load access rights
-    $scope.isButtonDeleteVisible = false; //eventToEdit.id !== undefined;
-    $scope.isButtonSaveVisible = true;
-
-    console.info("DoctorId: " + $stateParams.doctorId);
-    console.info("StartTime: " + $stateParams.startTime);
-    console.info("VisitId: " + $stateParams.eventId);
-    console.info($scope.prevState);
+    $scope.durations = [];
 
     /**
      * Initialize controller state
      */
     $scope.init = function () {
-        EventEditor.onChange = function () {
-            $scope.editedEvent = EventEditor.event;
-            if (EventEditor.location != undefined && EventEditor.location.templates != undefined) {
-                $scope.location = EventEditor.location;
-                $scope.templates = EventEditor.location.templates;
-                $scope.onTemplateChange();
+        //load data
+        $log.debug("Event editor - doctorId: " + $stateParams.doctorId);
+        $scope.isOwner = Session.getUserId() == $stateParams.doctorId;
+        $log.debug("Event editor - user is owner: " + $scope.isOwner);
+
+        //load doctor
+        var loadDoctorPromise = UsersService.
+            get($stateParams.doctorId).
+            error(function (errResp, errStatus) {
+                $log.info('Couldn\'t load doctor: status: ' + errStatus + ', resp: ' + errResp.data);
+            });
+
+        //load event
+        var loadEventPromise = $q.when($scope.editedEvent);
+        if ($stateParams.eventId != undefined) {
+            $log.debug("Editing existing event - id: " + $stateParams.eventId);
+            loadEventPromise = CalendarService.
+                event($stateParams.eventId).
+                error(function (errResp, errStatus) {
+                    $log.info('Couldn\'t load event details: status: ' + errStatus + ', resp: ' + errResp.data);
+                });
+        } else {
+            $log.debug("Editing new event - start time: " + $stateParams.startTime);
+            $scope.editedEvent.start = $stateParams.startTime;
+        }
+
+        //initialize controller
+        $q.all(loadDoctorPromise, loadEventPromise).then(
+            function (values) {
+                $scope.doctor = values[0];
+                $scope.editedEvent = values[1];
+                if ($scope.editedEvent.id == undefined) {
+                    $scope.initNewEvent();
+                }
+                $scope.formatPatient();
+            }, function () {
+                uiNotification.text('Error', 'Couldn\'t initialize editor').error();
             }
+        );
+
+        //listen for start time changes
+        if (!$scope.isOwner) {
+            $scope.$on(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, function (newDate) {
+                $log.debug("Start date of edited event changed - new start: " + newDate);
+                $scope.refreshTemplates(newDate);
+            });
+        }
+    };
+
+    /**
+     * Initialize new event
+     */
+    $scope.initNewEvent = function () {
+        $scope.editedEvent.doctor = UserUtils.getContactInfo($scope.doctor);
+        $scope.editedEvent.patient = $scope.isOwner ? {} : Session.getInfo();
+        $scope.refreshTemplates($scope.editedEvent.start);
+    };
+
+    /**
+     * Refresh available templates based on event start date
+     * @param startTime date when event starts
+     */
+    $scope.refreshTemplates = function (startTime) {
+        $scope.location = this.findLocation(startTime);
+        $scope.templates = $scope.location.templates;
+        if (!$scope.isOwner) {
+            var event = $scope.editedEvent;
+            event.title = EventUtils.value(_.pluck(this.location.templates, 'name'),
+                event.title, 0, false);
+            event.duration = EventUtils.value(this.location.templates[0].durations,
+                event.duration, 0, false);
+            event.location = angular.copy(this.location);
+            delete event.location.templates;
+            $scope.onTemplateChange();
+        }
+    };
+
+    /**
+     * Find location according to event start date
+     * @param startTime time when event will start
+     * @returns {*} non-nullable location
+     */
+    $scope.findLocation = function (startTime) {
+        var day = startTime.toString('dddd');
+        var hour = startTime.toString('HH:mm');
+        var locations = $scope.doctor.locations;
+        for (var i = 0; i < locations.length; i++) {
+            var working_hours = locations[i].working_hours;
+            for (var h = 0; h < working_hours.length; h++) {
+                if (working_hours[h].day == day
+                    && hour >= working_hours[h].start
+                    && hour <= working_hours[h].end) {
+                    return locations[i];
+                }
+            }
+        }
+        //return dummy location
+        return {
+            templates: [
+                { durations: [] }
+            ]
         };
-        EventEditor.onChange();
     };
 
     /**
@@ -244,7 +148,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 $log.debug("Searching users by " + text + " - result: " + resp.data.length);
                 _.map(resp.data, function (user) {
                     user.toString = function () {
-                        return  UserFormatter.info(user, undefined, 'withEmail');
+                        return  UserUtils.info(user, undefined, 'withEmail');
                     }
                 });
                 return resp.data;
@@ -262,8 +166,15 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
     $scope.onPatientSelected = function ($item, $model, $label) {
         $log.debug('Patient selected: ' + $model.email);
         $scope.editedEvent.patient = $model;
+        $scope.formatPatient();
+    };
+
+    /**
+     * Attach proper formatter to patient
+     */
+    $scope.formatPatient = function () {
         $scope.editedEvent.patient.toString = function () {
-            return  UserFormatter.info($scope.editedEvent.patient);
+            return  UserUtils.info($scope.editedEvent.patient);
         };
     };
 
@@ -281,7 +192,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      * Cancel edition of an event
      */
     $scope.cancel = function () {
-        EventEditor.cancel();
+        $log.debug('Event edition cancelled');
     };
 
     /**
