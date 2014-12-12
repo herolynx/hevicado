@@ -325,14 +325,17 @@ describe('chronos-calendar-spec:', function () {
 
         beforeEach(angular.mock.module('chronos'));
 
-        var ctrlScope;
-        var mockCalendarService, mockUiNotification, mockEventEditor, mockModal, mockStateParams;
-        var calendarPromise;
+        var ctrlScope, mockRootScope;
+        var mockCalendarService, mockUiNotification, mockModal;
+        var mockState, mockStateParams;
+        var calendarPromise, calendarEvents;
 
         //prepare controller for testing
-        beforeEach(inject(function ($controller, $injector, _$rootScope_) {
+        beforeEach(inject(function ($controller, $injector, _$rootScope_, CALENDAR_EVENTS) {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
+            mockRootScope = jasmine.createSpyObj('$rootScope', ['$broadcast']);
+            calendarEvents = CALENDAR_EVENTS;
             //mock dependencies
             mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init', 'delete', 'save']);
             calendarPromise = {
@@ -354,19 +357,26 @@ describe('chronos-calendar-spec:', function () {
                 mockUiNotification.msg = msg;
                 return mockUiNotification;
             };
-            mockEventEditor = jasmine.createSpyObj('EventEditor', ['init', 'startEdition']);
             var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
+            mockState = jasmine.createSpyObj('$state', ['go']);
+            mockState.current = {
+                data: {
+                    addVisitState: 'mock-state.new-visit',
+                    editVisitState: 'mock-state.edit-visit'
+                }
+            };
             mockStateParams = { doctorId: "doctor-123"};
             //inject mocks
             $controller('CalendarCtrl', {
+                $rootScope: mockRootScope,
                 $scope: ctrlScope,
                 $log: mockLog,
-                EventEditor: mockEventEditor,
                 CalendarService: mockCalendarService,
                 CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
                 CalendarRenderer: $injector.get('CalendarRenderer'),
                 EventUtils: $injector.get('EventUtils'),
                 uiNotification: mockUiNotification,
+                $state: mockState,
                 $stateParams: mockStateParams
             });
         }));
@@ -398,8 +408,6 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-09-29');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-05');
-                //and event editor is initialized
-                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should initialize weekly view by leaving current Monday', function () {
@@ -427,8 +435,6 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-19');
-                //and event editor is initialized
-                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should initialize monthly view by shifting time table to beginning of the month', function () {
@@ -456,8 +462,6 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-09-29');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-11-02');
-                //and event editor is initialized
-                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should initialize daily view', function () {
@@ -484,8 +488,6 @@ describe('chronos-calendar-spec:', function () {
                 //and events started to be loading
                 expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-13');
                 expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-13');
-                //and event editor is initialized
-                expect(mockEventEditor.init).toHaveBeenCalledWith(ctrlScope.eventsMap);
             });
 
             it('should create two calendars with different caches', inject(function ($controller, $injector, $rootScope) {
@@ -1386,6 +1388,8 @@ describe('chronos-calendar-spec:', function () {
             it('should start adding new event', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
+                //and edition of event has not started
+                mockState.current.name = "mock-state.calendar";
                 //and current user
                 var currentUserId = "doctor-123";
                 //and ctrl is initialized
@@ -1400,7 +1404,31 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
-                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(currentUserId, startTime);
+                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.addVisitState, {doctorId: currentUserId, startTime: startTime.toString('yyyy-MM-dd HH:mm')});
+            });
+
+            it('should change date of edited event', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and edition of event has started
+                mockState.current.name = mockState.current.data.addVisitState;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and ctrl is initialized
+                ctrlScope.init(1, Date.today());
+                expect(ctrlScope.doctorId).toBe(currentUserId);
+                //when starting chosing new start date of an edited event
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 23
+                });
+                ctrlScope.addEvent(startDate, 13, 30);
+                //then event edition is NOT started
+                var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
+                expect(mockState.go).not.toHaveBeenCalledWith(mockState.current.data.addVisitState, {doctorId: currentUserId, startTime: startTime.toString('yyyy-MM-dd HH:mm')});
+                //and proper info event about new picked data is broadcasted
+                expect(mockRootScope.$broadcast).toHaveBeenCalledWith(calendarEvents.CALENDAR_TIME_PICKED, startTime);
             });
 
             it('should start editing event', function () {
@@ -1417,6 +1445,7 @@ describe('chronos-calendar-spec:', function () {
                     day: 23
                 });
                 var event = {
+                    id: 'event-123',
                     title: 'sample-event',
                     start: startDate.clone(),
                     end: startDate.clone().add(1).hour()
@@ -1424,7 +1453,7 @@ describe('chronos-calendar-spec:', function () {
                 //when starting editing event
                 ctrlScope.editEvent(event);
                 //then event edition is started
-                expect(mockEventEditor.startEdition).toHaveBeenCalledWith(currentUserId, event.start, event);
+                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.editVisitState, {doctorId: currentUserId, eventId: event.id});
             });
 
             it('should delete event', function () {

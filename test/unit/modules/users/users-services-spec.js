@@ -65,13 +65,11 @@ describe('users-services-spec:', function () {
             //given users service is initialized
             expect(usersService).toBeDefined();
             //and search criteria 
-            var criteria = {
-                login: '.*bravo.*'
-            };
+            var criteria = '.*bravo.*';
             //when searching users
             usersService.search(criteria);
             //then search results are returned
-            expect(mockHttp.get).toHaveBeenCalledWith('/user', criteria);
+            expect(mockHttp.get).toHaveBeenCalledWith('/user', { params: {text: criteria } });
         });
 
     });

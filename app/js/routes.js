@@ -117,21 +117,27 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             url: "/daily",
             templateUrl: "modules/chronos/partials/calendar-day.html",
             data: {
-                access: ACCESS_LEVELS.DOCTORS
+                access: ACCESS_LEVELS.DOCTORS,
+                addVisitState: 'calendar-day.new-visit',
+                editVisitState: 'calendar-day.edit-visit'
             }
         }).
         state('calendar-week', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/weekly",
             templateUrl: "modules/chronos/partials/calendar-week.html",
             data: {
-                access: ACCESS_LEVELS.DOCTORS
+                access: ACCESS_LEVELS.DOCTORS,
+                addVisitState: 'calendar-day.new-visit',
+                editVisitState: 'calendar-day.edit-visit'
             }
         }).
         state('calendar-month', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/monthly",
             templateUrl: "modules/chronos/partials/calendar-month.html",
             data: {
-                access: ACCESS_LEVELS.DOCTORS
+                access: ACCESS_LEVELS.DOCTORS,
+                addVisitState: 'calendar-day.new-visit',
+                editVisitState: 'calendar-day.edit-visit'
             }
         }).
         state('calendar-day.edit-visit', {

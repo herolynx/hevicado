@@ -47,7 +47,8 @@ module.constant('EVENT_STATE', {
 module.constant('CALENDAR_EVENTS', {
     CALENDAR_RENDER: 'calendar-render',
     EVENT_CHANGED: 'event-changed',
-    EVENT_DELETED: 'event-deleted'
+    EVENT_DELETED: 'event-deleted',
+    CALENDAR_TIME_PICKED: 'calendar-time-picked'
 });
 
 /**
