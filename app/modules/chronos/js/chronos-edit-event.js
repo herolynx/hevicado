@@ -57,7 +57,10 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 });
         } else {
             $log.debug("Editing new event - start time: " + $stateParams.startTime);
-            var startDate = $stateParams.startTime != '' ? new Date($stateParams.startTime) : new Date();
+            var startDate = $stateParams.startTime != '' ? new Date($stateParams.startTime) : Date.today().add(2).hours().set({
+                minute: 0,
+                second: 0
+            });
             $scope.editedEvent.start = startDate.clone();
             $scope.editedEvent.end = startDate.clone().add(30).minutes();
             loadEventPromise = $q.when({data: $scope.editedEvent});
@@ -81,8 +84,10 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
 
         //listen for start time changes
         $scope.$on(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, function (event, newDate) {
-            $log.debug("Start date of edited event changed - new start: " + newDate);
-            $scope.refreshTemplates(newDate);
+            if ($scope.canEdit && newDate.isAfter(Date.today())) {
+                $log.debug("Start date of edited event changed - new start: " + newDate);
+                $scope.refreshTemplates(newDate);
+            }
         });
     };
 
