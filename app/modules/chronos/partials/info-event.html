@@ -15,6 +15,11 @@
                 <div class="notes">
                     <form>
                         <ul>
+                            <li ng-show="event.cancelled != undefined">
+                                <div class="half">
+                                    Visit has been cancelled
+                                </div>
+                            </li>
                             <li>
                                 <label class="full"><b>Doctor:</b></label>
 
@@ -106,7 +111,7 @@
                                     <button class="btn blue rt"
                                             ng-show="options.actions().canCancel(event)"
                                             ng-click="options.cancel(event)">
-                                        Cancel
+                                        Cancel visit
                                     </button>
                                 </fieldset>
                             </li>

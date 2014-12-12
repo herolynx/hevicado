@@ -57,8 +57,9 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 });
         } else {
             $log.debug("Editing new event - start time: " + $stateParams.startTime);
-            $scope.editedEvent.start = new Date($stateParams.startTime);
-            $scope.editedEvent.end = new Date($stateParams.startTime).add(30).minutes();
+            var startDate = $stateParams.startTime != '' ? new Date($stateParams.startTime) : new Date();
+            $scope.editedEvent.start = startDate.clone();
+            $scope.editedEvent.end = startDate.clone().add(30).minutes();
             loadEventPromise = $q.when({data: $scope.editedEvent});
         }
 
@@ -79,12 +80,10 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         );
 
         //listen for start time changes
-        if (!$scope.isOwner) {
-            $scope.$on(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, function (newDate) {
-                $log.debug("Start date of edited event changed - new start: " + newDate);
-                $scope.refreshTemplates(newDate);
-            });
-        }
+        $scope.$on(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, function (event, newDate) {
+            $log.debug("Start date of edited event changed - new start: " + newDate);
+            $scope.refreshTemplates(newDate);
+        });
     };
 
     /**
@@ -102,6 +101,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      * @param startTime date when event starts
      */
     $scope.refreshTemplates = function (startTime) {
+        $scope.editedEvent.start = startTime;
         $scope.location = this.findLocation(startTime);
         $scope.templates = $scope.location.templates;
         if (!$scope.isOwner) {
@@ -138,7 +138,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         //return dummy location
         return {
             templates: [
-                {name: '', durations: [30, 60, 90, 120]}
+                {name: '', durations: []}
             ]
         };
     };

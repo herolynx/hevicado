@@ -33,11 +33,14 @@
         </div>
         <div class="action">
             <a class="edit" ui-sref="user-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
-            <a class="copy"><i class="icon-export"></i></a>
+            <a class="copy" ui-sref="calendar-day.new-visit({ doctorId: event.doctor.id })"><i
+                    class="icon-arrows-ccw"></i></a>
             <a class="delete" ng-click="cancel(event)" ng-show="actions().canCancel(event)">
                 <i class="icon-trash"></i>
             </a>
-            <a class="relancer"><i class="icon-arrows-ccw"></i></a>
+            <a class="relancer" ui-sref="user-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
+            <a class="relancer" ui-sref="calendar-day.new-visit({ doctorId: event.doctor.id })"><i
+                    class="icon-arrows-ccw"></i></a>
         </div>
     </div>
     <div class="circle"></div>

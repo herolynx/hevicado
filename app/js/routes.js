@@ -141,14 +141,18 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             url: "/visit/{eventId:[0-9a-z]+}",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
-                access: ACCESS_LEVELS.DOCTORS
+                access: ACCESS_LEVELS.DOCTORS,
+                addVisitState: 'calendar-day.new-visit',
+                editVisitState: 'calendar-day.edit-visit'
             }
         }).
         state('calendar-day.new-visit', {
             url: "/visit/{startTime:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}}",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
-                access: ACCESS_LEVELS.USERS
+                access: ACCESS_LEVELS.USERS,
+                addVisitState: 'calendar-day.new-visit',
+                editVisitState: 'calendar-day.edit-visit'
             }
         });
     /************************* DOCTOR ***************************************/
