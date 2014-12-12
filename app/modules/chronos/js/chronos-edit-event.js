@@ -196,6 +196,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      */
     $scope.cancel = function () {
         $log.debug('Event edition cancelled');
+        $state.go($state.previous.state.name, $state.previous.params);
     };
 
     /**
@@ -209,6 +210,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
             save($scope.editedEvent).
             success(function (resp) {
                 $log.debug('Event saved successfully: event id: ' + resp.id);
+                $state.go($state.previous.state.name, $state.previous.params);
             }).
             error(function (errResp, errStatus) {
                 $log.error('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp);
