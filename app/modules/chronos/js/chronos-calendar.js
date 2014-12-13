@@ -1,7 +1,9 @@
 'use strict';
 
 var calendar = angular.module('chronos.calendar', [
-    'chronos.events.edit'
+    'chronos.events.edit',
+    'ui.elements',
+    'commons.users.filters'
 ]);
 
 /**
@@ -17,9 +19,10 @@ var calendar = angular.module('chronos.calendar', [
  * @param CalendarRenderer renderer for attaching events to proper time lines
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param EventUtils generic functionality related with events
- * @param uiNotifications compononent managing notifications
+ * @param uiNotifications component managing notifications
+ * @param UsersService service for getting info about calendar owner
  */
-calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification) {
+calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification, UsersService) {
 
     /**
      * Include underscore
@@ -108,8 +111,9 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
      * @param day optional day that should be used in initialized of calendar
      */
     $scope.init = function (daysAmount, day) {
-        $log.info('Initializing calendar for doctor: ' + $stateParams.doctorId);
+        $log.debug('Initializing calendar for doctor: ' + $stateParams.doctorId);
         $scope.doctorId = $stateParams.doctorId;
+        $scope.loadDoctorInfo();
         $scope.viewType = daysAmount;
         CalendarService.init($stateParams.doctorId);
         if ($scope.viewType == 31) {
@@ -119,6 +123,24 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         } else {
             $scope.day(0, day);
         }
+    };
+
+    /**
+     * Load info about doctor who is owner of a calendar
+     */
+    $scope.loadDoctorInfo = function () {
+        $log.debug('Loading info about doctor: ' + $scope.doctorId);
+        UsersService.
+            get($scope.doctorId).
+            success(function (doctor) {
+                $log.debug('Doctor info loaded successfully');
+                $scope.doctor = doctor;
+            }).
+            error(function (errResp, errStatus) {
+                $log.error('Couldn\'t load doctor\'s info: ' + errStatus + ', resp: ' + errResp.data);
+                uiNotification.text('Error', 'Doctor\'s info not loaded - part of functionality may not workking properly').error();
+            }
+        );
     };
 
     /**
@@ -423,12 +445,13 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
     };
 
     /**
-     * Open date-picker
+     * Open/close date-picker
      */
-    $scope.openDatePicker = function ($event) {
+    $scope.showDatePicker = function ($event) {
+        $log.debug("Show date-picker: " + !$scope.datePickerOpened);
         $event.preventDefault();
         $event.stopPropagation();
-        $scope.opened = !$scope.opened;
+        $scope.datePickerOpened = !$scope.datePickerOpened;
     };
 
     /**
@@ -436,7 +459,7 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
      */
     $scope.onDatePickerDateChange = function () {
         $log.debug('Date picked date changed to: ' + $scope.currentDate);
-        $scope.opened = false;
+        $scope.datePickerOpened = false;
         $scope.init($scope.viewType, $scope.currentDate);
     };
 

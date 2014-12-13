@@ -49,3 +49,25 @@ elements.directive('fieldMatch', function () {
         }
     };
 });
+
+/**
+ * Directive for showing its context as pop-up info.
+ * First element of directive is treated as a open button.
+ * Second element is treated as a info to be displayed as a pop-up.
+ * Pop-up will be closed automatically after clicking on info.
+ */
+elements.directive('popupInfo', function () {
+    return {
+        restrict: 'E',
+        link: function ($scope, elem, attrs) {
+            var openButton = angular.element(elem.children()[0]);
+            var info = angular.element(elem.children()[1]);
+            openButton.click(function () {
+                info.slideDown('fast');
+            });
+            info.click(function () {
+                info.slideUp('fast');
+            });
+        }
+    };
+});

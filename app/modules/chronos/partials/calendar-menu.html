@@ -1,44 +1,29 @@
 <div class="top-info">
     <div class="widget-legend">
-        <a href="#" class="open">
-            <i class="icon-doc-text"></i>
-            Legend
-        </a>
-
-        <div class="place-list">
-            <a href="#" class="close">
-                <i class="icon-cancel-circled"></i>
+        <popup-info>
+            <a class="open">
+                <i class="icon-doc-text"></i>
+                Legend
             </a>
 
-            <div class="place blue">
-                <div class="color"></div>
-                <p>Uniwersytecki Szpital Kliniczny we Wrocławiu</p>
+            <div class="place-list">
+                <div ng-repeat="location in doctor.locations" class="place {{location.color}}">
+                    <div class="color"></div>
+                    <p>{{location.name}} - {{location.address | addressInfo}}</p>
+                </div>
             </div>
-            <div class="place orange">
-                <div class="color"></div>
-                <p>4 Szpital Wojskowy z Polikliniką we Wrocławiu</p>
-            </div>
-            <div class="place turquoise">
-                <div class="color"></div>
-                <p>Wojewódzki Szpital Specjalistyczny we Wrocławiu</p>
-            </div>
-        </div>
+        </popup-info>
     </div>
     <!-- Widget Legend -->
     <div class="widget-min-calendar">
-        <a class="open" ng-click="openDatePicker($event)">
+        <a class="open" ng-click="showDatePicker($event)">
             <i class="icon-calendar"></i>
             miniCalendar
         </a>
         <datepicker
-                class="well well-sm"
                 ng-model="currentDate"
-                min-date="Date.today()"
-                datepicker-options="dateOptions"
-                date-disabled="disabled(date, mode)"
-                ng-show="opened"
+                ng-show="datePickerOpened"
                 ng-change="onDatePickerDateChange()"
-                close-text="Close"
                 />
     </div>
     <!-- Widget MiniCalendar -->
