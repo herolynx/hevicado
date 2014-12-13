@@ -234,7 +234,10 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         var visitEditionStates = [$state.current.data.addVisitState, $state.current.data.editVisitState];
         if (!_.contains(visitEditionStates, $state.current.name)) {
             $log.debug('Add new event - start: ' + date);
-            $state.go($state.current.data.addVisitState, {doctorId: $scope.doctorId, startTime: date.toString('yyyy-MM-dd HH:mm')});
+            $state.go($state.current.data.addVisitState, {
+                doctorId: $scope.doctorId,
+                startTime: date.toString('yyyy-MM-dd HH:mm')
+            });
         } else {
             $log.debug('Event date clicked - start: ' + date);
             $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, date);
@@ -417,6 +420,24 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         var newEndDate = calendarEvent.end.clone().add(addMinutes).minute();
         calendarEvent.duration += addMinutes;
         $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
+    };
+
+    /**
+     * Open date-picker
+     */
+    $scope.openDatePicker = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = !$scope.opened;
+    };
+
+    /**
+     * Handler for changing date using date-picker
+     */
+    $scope.onDatePickerDateChange = function () {
+        $log.debug('Date picked date changed to: ' + $scope.currentDate);
+        $scope.opened = false;
+        $scope.init($scope.viewType, $scope.currentDate);
     };
 
 });
