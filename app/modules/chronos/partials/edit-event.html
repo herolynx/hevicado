@@ -52,6 +52,9 @@
                                 <label class="full">Date of the visit:</label>
                                 <fieldset class="full">
                                     <div ng-hide="isOwner">{{editedEvent.start | date: "yyyy-MM-dd HH:mm"}}</div>
+                                    <small class="error" ng-hide="isDateValid">
+                                        Visit date must be in the future
+                                    </small>
                                     <timepicker
                                             ng-show="isOwner"
                                             ng-model="editedEvent.start"
@@ -158,8 +161,10 @@
                 </form>
             </div>
         </div>
-
-        <div class="box maps-address">
+        <div class="box maps-address" ng-show="editedEvent.location.id==undefined">
+            No location chosen!
+        </div>
+        <div class="box maps-address" ng-hide="editedEvent.location.id==undefined">
             <h2><i class="icon-map"></i> Location map</h2>
 
             <div class="maps">

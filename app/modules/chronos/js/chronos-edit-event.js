@@ -29,6 +29,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
     $scope.editedEvent = {};
     $scope.templates = [];
     $scope.durations = [15, 30, 45, 60, 90, 120];
+    $scope.isDateValid = true;
 
     /**
      * Initialize controller state
@@ -57,7 +58,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 });
         } else {
             $log.debug("Editing new event - start time: " + $stateParams.startTime);
-            var startDate = $stateParams.startTime != '' ? new Date($stateParams.startTime) : Date.today().add(2).hours().set({
+            var startDate = $stateParams.startTime != '' ? new Date($stateParams.startTime) : new Date().add(2).hours().set({
                 minute: 0,
                 second: 0
             });
@@ -82,13 +83,30 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
             }
         );
 
-        //listen for start time changes
+        $scope.initCalendarChangeTimeListener();
+    };
+
+    /**
+     * Listener for watching when new date is picked on calendar
+     */
+    $scope.initCalendarChangeTimeListener = function () {
         $scope.$on(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, function (event, newDate) {
-            if ($scope.canEdit && newDate.isAfter(Date.today())) {
+            if ($scope.canEdit) {
                 $log.debug("Start date of edited event changed - new start: " + newDate);
                 $scope.refreshTemplates(newDate);
             }
         });
+    };
+
+    /**
+     * Validate date
+     * @param date date to be validated
+     * @returns {*} true if date is valid, false otherwise
+     */
+    $scope.validateDate = function (date) {
+        var validNewDate = date.isAfter(new Date());
+        $scope.isDateValid = $scope.isOwner || validNewDate;
+        return validNewDate;
     };
 
     /**
@@ -107,6 +125,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      */
     $scope.refreshTemplates = function (startTime) {
         $scope.editedEvent.start = startTime;
+        $scope.validateDate(startTime);
         $scope.location = this.findLocation(startTime);
         $scope.templates = $scope.location.templates;
         if (!$scope.isOwner) {
