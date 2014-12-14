@@ -146,25 +146,12 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
      * @returns {*} non-nullable location
      */
     $scope.findLocation = function (startTime) {
-        var day = startTime.toString('dddd');
-        var hour = startTime.toString('HH:mm');
-        var locations = $scope.doctor.locations;
-        for (var i = 0; i < locations.length; i++) {
-            var working_hours = locations[i].working_hours;
-            for (var h = 0; h < working_hours.length; h++) {
-                if (working_hours[h].day == day
-                    && hour >= working_hours[h].start
-                    && hour <= working_hours[h].end) {
-                    return locations[i];
-                }
-            }
-        }
-        //return dummy location
-        return {
-            templates: [
-                {name: '', durations: []}
-            ]
-        };
+        var foundLocation = EventUtils.findLocation($scope.doctor.locations, startTime);
+        return foundLocation || {
+                templates: [
+                    {name: '', durations: []}
+                ]
+            };
     };
 
     /**

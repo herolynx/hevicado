@@ -20,15 +20,19 @@ events.service('EventActionManager', function (EventUtils, Session, EVENT_STATE)
          * @return {boolean} true is event can be cancelled, false otherwise
          */
         canCancel: function (event) {
-            if (event == undefined || event.id == undefined) {
+            try {
+                if (event == undefined || event.id == undefined) {
+                    return false;
+                }
+                var participantsIds = [event.doctor.id, event.patient.id];
+                if (!_.contains(participantsIds, Session.getUserId())) {
+                    return false;
+                }
+                var eventState = EventUtils.state(event);
+                return eventState.key < EVENT_STATE.CLOSED.key;
+            } catch (e) {
                 return false;
             }
-            var participantsIds = [event.doctor.id, event.patient.id];
-            if (!_.contains(participantsIds, Session.getUserId())) {
-                return false;
-            }
-            var eventState = EventUtils.state(event);
-            return eventState.key < EVENT_STATE.CLOSED.key;
         },
 
         /**
@@ -38,14 +42,18 @@ events.service('EventActionManager', function (EventUtils, Session, EVENT_STATE)
          * @return {boolean} true is event can be editer, false otherwise
          */
         canEdit: function (event) {
-            if (event == undefined || event.id == undefined) {
-                return true;
-            }
-            if (event.doctor.id != Session.getUserId()) {
+            try {
+                if (event == undefined || event.id == undefined) {
+                    return true;
+                }
+                if (event.doctor.id != Session.getUserId()) {
+                    return false;
+                }
+                var eventState = EventUtils.state(event);
+                return eventState.key < EVENT_STATE.CLOSED.key;
+            } catch (e) {
                 return false;
             }
-            var eventState = EventUtils.state(event);
-            return eventState.key < EVENT_STATE.CLOSED.key;
         }
 
     };
@@ -146,6 +154,31 @@ events.service('EventUtils', function (EVENT_STATE) {
                 return isOwner ? currentValue : values[defaultIndex];
             }
             return currentValue;
+        },
+
+        /**
+         * Find location according to event start date
+         * @param locations locations with proper working hours
+         * @param startTime time when event will start
+         * @returns {*} found location, null otherwise
+         */
+        findLocation: function (locations, startTime) {
+            if (locations == undefined) {
+                return null;
+            }
+            var day = startTime.toString('dddd');
+            var hour = startTime.toString('HH:mm');
+            for (var i = 0; i < locations.length; i++) {
+                var working_hours = locations[i].working_hours;
+                for (var h = 0; h < working_hours.length; h++) {
+                    if (working_hours[h].day == day
+                        && hour >= working_hours[h].start
+                        && hour <= working_hours[h].end) {
+                        return locations[i];
+                    }
+                }
+            }
+            return null;
         }
 
     };

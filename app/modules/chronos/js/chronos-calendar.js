@@ -75,7 +75,8 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         var startDate = days[0];
         var endDate = days[days.length - 1].clone().set({hour: 23, minute: 59, second: 59});
         $log.debug('Loading calendar events - startDate: ' + startDate + ", end date: " + endDate);
-        CalendarService.events(startDate, endDate).
+        CalendarService.
+            events(startDate, endDate).
             success(function (data) {
                 $log.debug('Events loaded - data size: ' + data.length);
                 $scope.cache.removeAll();
@@ -503,6 +504,34 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         $scope.datePickerOpened = false;
         $stateParams.currentDate = null;
         $scope.init($scope.viewType, $scope.currentDate);
+    };
+
+    /**
+     * Find location available for given time
+     * @param day day without time period
+     * @param dayHour hour when visits can begin
+     * @param minutes minutes minutes that set quarter when visits can begin
+     * @returns {*} non-nullable location
+     */
+    $scope.findLocation = function (day, dayHour, minutes) {
+        //check cache
+        var defaultLocation = {color: 'black'};
+        if ($scope.doctor == undefined) {
+            return defaultLocation;
+        }
+        var cacheKey = 'location' + day.toString('yyyy-MM-dd') + ' ' + dayHour + ':' + minutes;
+        var cached = $scope.cache.get(cacheKey);
+        if (cached !== undefined) {
+            return cached;
+        }
+        var dateTime = day.clone().set({
+            hour: dayHour,
+            minute: minutes,
+            second: 0
+        });
+        var location = EventUtils.findLocation($scope.doctor.locations, dateTime) || defaultLocation;
+        $scope.cache.put(cacheKey, location);
+        return location;
     };
 
 });

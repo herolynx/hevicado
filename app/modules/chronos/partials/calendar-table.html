@@ -16,6 +16,7 @@
                  id="{{day.toString('yyyy-MM-dd')}} {{hour}}:{{quarter}}"
                  drop-channel="dndDayChannel"
                  ui-on-drop="dndDrop($event, $data, day, hour, quarter)"
+                 style="border: dashed; border-color: {{findLocation(day,hour,quarter).color}}"
                     >
                 <calendar-table-event
                         ng-repeat="event in getEvents(day,hour, quarter)"
