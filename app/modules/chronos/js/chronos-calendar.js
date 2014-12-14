@@ -125,7 +125,8 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
      * @param day optional day that should be used in initialized of calendar
      */
     $scope.init = function (daysAmount, day) {
-        $log.debug('Initializing calendar for doctor: ' + $stateParams.doctorId);
+        $log.debug('Initializing calendar for doctor: ' + $stateParams.doctorId + ', param current date: ' + $stateParams.currentDate);
+        day = $stateParams.currentDate != undefined ? new Date($stateParams.currentDate) : day;
         $scope.doctorId = $stateParams.doctorId;
         $scope.loadDoctorInfo();
         $scope.viewType = daysAmount;
@@ -272,7 +273,8 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
             $log.debug('Add new event - start: ' + date);
             $state.go($state.current.data.addVisitState, {
                 doctorId: $scope.doctorId,
-                startTime: date.toString('yyyy-MM-dd HH:mm')
+                startTime: date.toString('yyyy-MM-dd HH:mm'),
+                currentDate: date.toString('yyyy-MM-dd')
             });
         } else {
             $log.debug('Event date clicked - start: ' + date);
@@ -286,7 +288,11 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
      */
     $scope.editEvent = function (event) {
         $log.debug('Editing event - id: ' + event.id);
-        $state.go($state.current.data.editVisitState, {doctorId: $scope.doctorId, eventId: event.id});
+        $state.go($state.current.data.editVisitState, {
+            doctorId: $scope.doctorId,
+            eventId: event.id,
+            currentDate: event.start.toString('yyyy-MM-dd')
+        });
     };
 
     /**
@@ -345,6 +351,7 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
             info = [
                 {
                     name: '',
+                    color: 'turquoise',
                     value: 0
                 }
             ];
@@ -356,6 +363,7 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
                 map(function (events, location) {
                     return {
                         name: location,
+                        color: events.length > 0 ? events[0].location.color : 'turquoise',
                         value: events.length
                     };
                 }).
@@ -493,6 +501,7 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
     $scope.onDatePickerDateChange = function () {
         $log.debug('Date picked date changed to: ' + $scope.currentDate);
         $scope.datePickerOpened = false;
+        $stateParams.currentDate = null;
         $scope.init($scope.viewType, $scope.currentDate);
     };
 

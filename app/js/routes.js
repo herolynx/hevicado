@@ -111,7 +111,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('calendar-day.daily', {
-            url: "/daily",
+            url: "/daily?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
             templateUrl: "modules/chronos/partials/calendar-day.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
@@ -138,7 +138,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('calendar-day.edit-visit', {
-            url: "/visit/{eventId:[0-9a-z]+}",
+            url: "/visit/{eventId:[0-9a-z]+}?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
@@ -147,7 +147,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             }
         }).
         state('calendar-day.new-visit', {
-            url: "/visit/{startTime:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}}",
+            url: "/visit/{startTime:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}}?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.USERS,

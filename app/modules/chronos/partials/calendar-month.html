@@ -20,27 +20,28 @@
             <!-- Pagination Calendar Next, Prev -->
             <div class="grid">
                 <div ng-repeat="day in days" class="event turquoise">
-                    <a class="link"></a>
+                    <a class="link"
+                       ui-sref="calendar-day.daily({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })"></a>
 
                     <div class="date">
                         {{day | date: "dd-MM-yyyy (EEEE)"}}
                     </div>
-                    <div class="box-event" ng-repeat="cabinet in dayInfo(day, 4)">
+                    <div class="box-event">
                         <div class="box">
-                            <div class="count-event" >
+                            <div
+                                    ng-repeat="cabinet in dayInfo(day, 4) as cabinets"
+                                    ng-class="{
+                                         'count-event-small': cabinets.length > 1,
+                                         'count-event': cabinets.length <= 1
+                                    }"
+                                    class="{{cabinet.color}}"
+                                    >
                                 <p>{{cabinet.name}}</p>
 									<span>
 									{{cabinet.value}}
 									</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="info">
-                        <i class="icon-clock"></i> First visit:<br/> 9PM to 10:30PM
-                    </div>
-                    <div class="action">
-                        <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-                        <a href="#"><i class="icon-plus-circled"></i>Add note</a>
                     </div>
                 </div>
             </div>
