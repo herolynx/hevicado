@@ -1,110 +1,14 @@
-<div class="box">
-
-    <h2>Your Notes on this day</h2>
-    <a href="#" class="add">
-        <i class="icon-plus-circled"></i>
-        Add note
-    </a>
-
-    <div class="notes">
-        <a href="#" class="delete">
-            <i class="icon-trash"></i>
-        </a>
-
-        <h3>Some Title</h3>
-
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel volutpat felis. Sed
-            consectetur massa
-            at tellus blandit pretium. In nisl lorem, pulvinar ut lacus sed, posuere semper leo.
-            Vestibulum
-            elementum nisi ut eros hendrerit, nec commodo nisi accumsan. Duis vestibulum justo non leo
-            varius, id
-            posuere neque posuere. Curabitur ac finibus nisl. Sed et mi vel dui tincidunt commodo.
-        </p>
-    </div>
-    <div class="notes">
-        <a href="#" class="delete">
-            <i class="icon-trash"></i>
-        </a>
-
-        <h3>Some Title</h3>
-
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel volutpat felis. Sed
-            consectetur massa
-            at tellus blandit pretium. In nisl lorem, pulvinar ut lacus sed, posuere semper leo.
-            Vestibulum
-            elementum nisi ut eros hendrerit, nec commodo nisi accumsan. Duis vestibulum justo non leo
-            varius, id
-            posuere neque posuere. Curabitur ac finibus nisl. Sed et mi vel dui tincidunt commodo.
-        </p>
-    </div>
-    <div class="notes empty">
-        <h3>You don't have any note</h3>
-    </div>
-
-    <a href="#" class="add-big">
-        <i class="icon-plus-circled"></i>
-        <span>Add note</span>
-    </a>
-
-</div>
-<div class="box">
+<div class="box" keep-visible>
     <h2>Patients quick contact</h2>
 
     <div class="quick-contact">
         <ul>
-            <li>
+            <li ng-repeat="visit in eventsMap.events(currentDate) | orderBy:'start'">
                 <div class="describe">
-                    <strong>Marta Marciszek</strong><br/>
-                    <span>visit hour: 9:00 - 14:00</span><br/>
-                    phone: 71 342 323 323<br/>
-                    email: lorem@gmail.com
-                </div>
-                <div class="img">
-                    <div>
-                        <i class="icon-user"></i>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="describe">
-                    <strong>Obama Black Nyyga</strong><br/>
-                    <span>visit hour: 9:00 - 14:00</span><br/>
-                    phone: 71 342 323 323<br/>
-                    email: lorem@gmail.com
-                </div>
-                <div class="img">
-                    <div>
-                        <img src="images/temp/user-1.jpg" alt="User profile">
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="describe">
-                    <strong>Obama Black Nyyga</strong><br/>
-                    <span>visit hour: 9:00 - 14:00</span><br/>
-                    phone: 71 342 323 323<br/>
-                    email: lorem@gmail.com
-                </div>
-                <div class="img">
-                    <div>
-                        <img src="images/temp/user-1.jpg" alt="User profile">
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="describe">
-                    <strong>Obama Black Nyyga</strong><br/>
-                    <span>visit hour: 9:00 - 14:00</span><br/>
-                    phone: 71 342 323 323<br/>
-                    email: lorem@gmail.com
-                </div>
-                <div class="img">
-                    <div>
-                        <img src="images/temp/user-1.jpg" alt="User profile">
-                    </div>
+                    <strong>{{visit.patient | userInfo}}</strong><br/>
+                    <span>visit hour: {{visit.start.toString('HH:mm')}} - {{visit.end.toString('HH:mm')}}</span><br/>
+                    phone: {{visit.patient.phone}}<br/>
+                    email: {{visit.patient.email}} <br/>
                 </div>
             </li>
         </ul>
