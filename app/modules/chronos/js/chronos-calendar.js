@@ -42,6 +42,16 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
     $scope.cache = $cacheFactory('cacheCalendar-' + new Date());
     $scope.eventsMap = CalendarCollectionFactory.eventsMap();
 
+    $scope.filter = {
+        showCancelled: false,
+        accept: function (event) {
+            if (!this.showCancelled && event.cancelled != undefined) {
+                return false;
+            }
+            return true;
+        }
+    };
+
     /**
      * Set days displayed in chosen time period on calendar
      * @param startDate first day displayed on calendar
@@ -70,8 +80,11 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
                 $log.debug('Events loaded - data size: ' + data.length);
                 $scope.cache.removeAll();
                 _.map(data, EventUtils.normalize);
+                var events = _.filter(data, function (event) {
+                    return $scope.filter.accept(event);
+                });
                 $scope.eventsMap.clear();
-                $scope.eventsMap.addAll(data);
+                $scope.eventsMap.addAll(events);
                 $scope.buildTimelines(days);
             }).
             error(function (data, status) {
@@ -268,31 +281,6 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
     };
 
     /**
-     * Cancel event
-     * @param event event to be cancelled
-     */
-    $scope.cancelEvent = function (event) {
-        $log.debug('Cancelling event - id: ' + event.id + ', start: ' + event.start);
-        if (!EventActionManager.canCancel(event)) {
-            $log.error('Event cannot be cancelled');
-            uiNotification.text('Error', 'Event cannot be cancelled').error();
-            return;
-        }
-        CalendarService.
-            cancel(event).
-            success(function () {
-                $log.debug('Event cancelled successfully');
-                $scope.eventsMap.remove(event);
-                $scope.buildTimelineFor(event.start, event.end);
-                event.cancelled = new Date();
-            }).
-            error(function (error) {
-                $log.error('Couldn\'t cancel event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                uiNotification.text('Error', 'Couldn\'t cancel event').error();
-            });
-    };
-
-    /**
      * Edit event
      * @param event event to be edited
      */
@@ -438,6 +426,34 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
             });
     };
 
+
+    /**
+     * Cancel event
+     * @param event event to be cancelled
+     */
+    $scope.cancelEvent = function (event) {
+        $log.debug('Cancelling event - id: ' + event.id + ', start: ' + event.start);
+        if (!EventActionManager.canCancel(event)) {
+            $log.error('Event cannot be cancelled');
+            uiNotification.text('Error', 'Event cannot be cancelled').error();
+            return;
+        }
+        CalendarService.
+            cancel(event).
+            success(function () {
+                $log.debug('Event cancelled successfully');
+                $scope.eventsMap.remove(event);
+                event.cancelled = new Date();
+                $scope.cache.removeAll();
+                $scope.buildTimelineFor(event.start, event.end);
+                $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
+            }).
+            error(function (error) {
+                $log.error('Couldn\'t cancel event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Couldn\'t cancel event').error();
+            });
+    };
+
     /**
      * Change event time period based on given UI event
      * @param event resizable event
@@ -539,6 +555,7 @@ calendar.service('CalendarRenderer', function () {
 
         /**
          * Attach event to next free timeline
+         * @param event event that should be displayed
          */
         attach: function (event) {
             if (areAfter(event.start)) {
