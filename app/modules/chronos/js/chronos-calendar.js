@@ -18,11 +18,12 @@ var calendar = angular.module('chronos.calendar', [
  * @param CalendarCollectionFactory factory for creating proper event related collections
  * @param CalendarRenderer renderer for attaching events to proper time lines
  * @param CALENDAR_EVENTS events used for calendar notifications
+ * @param EventActionManager event action validator
  * @param EventUtils generic functionality related with events
  * @param uiNotifications component managing notifications
  * @param UsersService service for getting info about calendar owner
  */
-calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventUtils, uiNotification, UsersService) {
+calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
 
     /**
      * Include underscore
@@ -267,19 +268,27 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
     };
 
     /**
-     * Delete event
-     * @param event event to be deleted
+     * Cancel event
+     * @param event event to be cancelled
      */
-    $scope.deleteEvent = function (event) {
-        $log.debug('Deleting event - id: ' + event.id + ', start: ' + event.start);
-        CalendarService.delete(event.id).
-            success(function (result) {
+    $scope.cancelEvent = function (event) {
+        $log.debug('Cancelling event - id: ' + event.id + ', start: ' + event.start);
+        if (!EventActionManager.canCancel(event)) {
+            $log.error('Event cannot be cancelled');
+            uiNotification.text('Error', 'Event cannot be cancelled').error();
+            return;
+        }
+        CalendarService.
+            cancel(event).
+            success(function () {
+                $log.debug('Event cancelled successfully');
                 $scope.eventsMap.remove(event);
                 $scope.buildTimelineFor(event.start, event.end);
+                event.cancelled = new Date();
             }).
             error(function (error) {
-                $log.error('Couldn\'t delete event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                uiNotification.text('Error', 'Couldn\'t delete event').error();
+                $log.error('Couldn\'t cancel event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
+                uiNotification.text('Error', 'Couldn\'t cancel event').error();
             });
     };
 
@@ -442,6 +451,14 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         var newEndDate = calendarEvent.end.clone().add(addMinutes).minute();
         calendarEvent.duration += addMinutes;
         $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
+    };
+
+    /**
+     * Get controller's action manager
+     * @return non-nullable instance
+     */
+    $scope.actions = function () {
+        return EventActionManager;
     };
 
     /**
