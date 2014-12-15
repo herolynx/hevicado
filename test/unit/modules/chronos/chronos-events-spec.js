@@ -454,13 +454,119 @@ describe('chronos-events-spec:', function () {
                     start: Date.today().add(1).days()
                 };
                 expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
-                //when checking whether event can be cancelled
+                //when checking whether invalid event can be cancelled
                 var canCancel = eventActionManager.canCancel(event);
                 //then action is prohibited
                 expect(canCancel).toBe(false);
             });
 
         });
+
+
+        describe('event edition-spec:', function () {
+
+            it('should allow doctor to edit event in OPEN state', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in open state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().add(1).days(),
+                    doctor: {id: currentUserId},
+                    patient: {id: 'diff-user-123'}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be edited
+                var canEdit = eventActionManager.canEdit(event);
+                //then action is allowed
+                expect(canEdit).toBe(true);
+            });
+
+            it('should not allow patient to edit existing event in OPEN state', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in open state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().add(1).days(),
+                    doctor: {id: 'diff-user-123'},
+                    patient: {id: currentUserId}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be edited
+                var canEdited = eventActionManager.canEdit(event);
+                //then action is prohibited
+                expect(canEdited).toBe(false);
+            });
+
+            it('should allow everybody to edit new event', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in open state
+                var event = {
+                    start: Date.today().add(1).days(),
+                    doctor: {id: 'diff-user-123'},
+                    patient: {id: 'diff-user-123'}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be edited
+                var canEdited = eventActionManager.canEdit(event);
+                //then action is allowed
+                expect(canEdited).toBe(true);
+            });
+
+            it('should not allow doctor to edit event in CLOSED state', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in closed state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today(),
+                    doctor: {id: currentUserId},
+                    patient: {id: 'diff-user-123'}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.CLOSED);
+                //when checking whether event can be edited
+                var canEdit = eventActionManager.canEdit(event);
+                //then action is prohibited
+                expect(canEdit).toBe(false);
+            });
+
+            it('should not allow doctor to edit event in CANCELLED state', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in cancelled state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today(),
+                    cancelled: Date.today(),
+                    doctor: {id: currentUserId},
+                    patient: {id: 'diff-user-123'}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.CANCELLED);
+                //when checking whether event can be edited
+                var canEdit = eventActionManager.canEdit(event);
+                //then action is prohibited
+                expect(canEdit).toBe(false);
+            });
+
+            it('should prevent edition in case of errors', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in cancelled state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today()
+                };
+                //when checking whether invalid event can be edited
+                var canEdit = eventActionManager.canEdit(event);
+                //then action is prohibited
+                expect(canEdit).toBe(false);
+            });
+
+        });
+
     });
+
 
 });
