@@ -1522,11 +1522,14 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be cancelled
+                mockEventActionManager.canCancel.andReturn(true);
                 //when one of events is cancelled
                 ctrlScope.cancelEvent(events[0]);
                 //and back-end responded successfully
                 calendarPromise.onSuccess('CANCELLED');
-                //then event is removed
+                //then event is cancelled
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
                 //and time line is refreshed for proper period of time
                 expect(events[1].timeline).toBe(0);
@@ -1570,11 +1573,14 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be cancelled
+                mockEventActionManager.canCancel.andReturn(true);
                 //when one of events is cancelled
                 ctrlScope.cancelEvent(events[0]);
                 //and back-end responded with failure
                 calendarPromise.onError('FAILURE');
                 //then user is informed properly
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
                 expect(mockUiNotification.msg).toBe('Couldn\'t cancel event');
