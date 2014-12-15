@@ -78,6 +78,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 $scope.formatPatient();
                 $scope.canCancel = EventActionManager.canCancel($scope.editedEvent);
                 $scope.canEdit = EventActionManager.canEdit($scope.editedEvent);
+                $scope.refreshTemplates($scope.editedEvent.start);
             }, function () {
                 uiNotification.text('Error', 'Couldn\'t initialize editor').error();
             }
@@ -116,7 +117,6 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
         $scope.editedEvent.doctor = UserUtils.getContactInfo($scope.doctor);
         $scope.editedEvent.patient = $scope.isOwner ? {} : Session.getInfo();
         $scope.editedEvent.location = $scope.doctor.locations[0];
-        $scope.refreshTemplates($scope.editedEvent.start);
     };
 
     /**
