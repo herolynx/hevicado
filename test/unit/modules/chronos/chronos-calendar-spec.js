@@ -530,6 +530,39 @@ describe('chronos-calendar-spec:', function () {
                 }, 1000);
             }));
 
+            it('should initialize time table based on current date parameter', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
+                //and current date parameter is present
+                mockStateParams.currentDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 10
+                });
+                //when initializing calendar
+                ctrlScope.init(daysCount, startDate);
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
+                expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
+                //and calendar time table is set for current week
+                expect(ctrlScope.days.length).toBe(daysCount);
+                expect(ctrlScope.days[0].toString('yyyy-MM-dd')).toBe('2014-10-06');
+                expect(ctrlScope.days[6].toString('yyyy-MM-dd')).toBe('2014-10-12');
+                //and events started to be loading
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-06');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-12');
+            });
+
         });
 
         describe('calendar data loading-spec:', function () {
@@ -1228,7 +1261,6 @@ describe('chronos-calendar-spec:', function () {
             });
 
         });
-
 
         describe('calendar navigation for monthly view-spec:', function () {
 
@@ -2057,6 +2089,73 @@ describe('chronos-calendar-spec:', function () {
             });
 
         });
+
+        describe('calendar menu-spec:', function () {
+
+            it('should show mini-calendar', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
+                //and current date parameter is present
+                mockStateParams.currentDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 10
+                });
+                //and calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                expect(ctrlScope.datePickerOpened).not.toBeDefined();
+                //when showing mini-calendar
+                var event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
+                ctrlScope.showDatePicker(event);
+                //then mini-calendar is shown
+                expect(ctrlScope.datePickerOpened).toBe(true);
+                expect(event.preventDefault).toHaveBeenCalled();
+                expect(event.stopPropagation).toHaveBeenCalled();
+            });
+
+            it('should hide mini-calendar', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
+                //and current date parameter is present
+                mockStateParams.currentDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 10
+                });
+                //and calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                expect(ctrlScope.datePickerOpened).not.toBeDefined();
+                //and mini-calendar is shown
+                var event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
+                ctrlScope.showDatePicker(event);
+                expect(ctrlScope.datePickerOpened).toBe(true);
+                //when  calling show date picker once again
+                ctrlScope.showDatePicker(event);
+                //then mini-calendar is hidden
+                expect(ctrlScope.datePickerOpened).toBe(false);
+            });
+
+        })
 
     });
 
