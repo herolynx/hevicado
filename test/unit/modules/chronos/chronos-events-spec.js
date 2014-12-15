@@ -310,6 +310,75 @@ describe('chronos-events-spec:', function () {
 
         });
 
+        describe('find location-spec:', function () {
+
+            var locations = [
+                {
+                    id: "546b8fd1ef680df8426005c2",
+                    name: "Pulsantis",
+                    address: {
+                        street: "Grabiszynska 8/4",
+                        city: "Wroclaw",
+                        country: "Poland"
+                    },
+                    color: "red",
+                    working_hours: [
+                        {
+                            day: "Monday",
+                            start: "08:00",
+                            end: "10:00"
+                        },
+                        {
+                            day: "Monday",
+                            start: "12:00",
+                            end: "14:00"
+                        },
+                        {
+                            day: "Tuesday",
+                            start: "08:00",
+                            end: "16:00"
+                        }
+                    ]
+                }
+            ];
+
+            it('should find location if time is given in working hours', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and chosen time
+                var time = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 9,
+                    minute: 30
+                });
+                //when looking for locations in working hours
+                var foundLoc = eventUtils.findLocation(locations, time);
+                //then proper location is found
+                expect(foundLoc).not.toBeNull();
+                expect(foundLoc.name).toBe('Pulsantis');
+            });
+
+            it('should not find location outside of working hours', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and chosen time
+                var time = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 11,
+                    minute: 0
+                });
+                //when looking for locations outside of working hours
+                var foundLoc = eventUtils.findLocation(locations, time);
+                //then no location is found
+                expect(foundLoc).toBeNull();
+            });
+
+        });
+
     });
 
     describe('EventActionManager-spec:', function () {

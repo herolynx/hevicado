@@ -157,7 +157,7 @@ events.service('EventUtils', function (EVENT_STATE) {
         },
 
         /**
-         * Find location according to event start date
+         * Find location according to event start date and locations working hours
          * @param locations locations with proper working hours
          * @param startTime time when event will start
          * @returns {*} found location, null otherwise
