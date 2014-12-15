@@ -205,179 +205,60 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
             });
 
+            it('should inform user when editor cannot be initialized', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and existing event
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 8,
+                        minute: 30,
+                        second: 0
+                    }),
+                    end: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 9,
+                        minute: 0,
+                        second: 0
+                    }),
+                    doctor: {
+                        id: 'doctor-123',
+                        first_name: 'Zbigniew',
+                        last_name: 'Religa'
+                    },
+                    patient: {
+                        id: 'patient-123',
+                        first_name: 'Johnny',
+                        last_name: 'Bravo'
+                    }
+                };
+                mockStateParams.eventId = event.id;
+
+                //when initializing editor
+                ctrlScope.editedEvent = {};
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
+                //and edited event is about to be loaded
+                expect(mockCalendarService.event).toHaveBeenCalledWith(event.id);
+                mockQ.onError('Failed');
+                expect(ctrlScope.doctor).not.toBeDefined();
+                expect(ctrlScope.editedEvent).toEqual({});
+                //and user is informed about failure
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Couldn\'t initialize editor');
+            });
+
         });
 
-//
-//
-//        it('should delete event', function () {
-//            //given controller is initialized
-//            expect(ctrlScope).toBeDefined();
-//            //and sample event
-//            var mockEventToEdit = {
-//                id: 'event-123',
-//                start: new Date().set({
-//                    year: 2014,
-//                    month: 7,
-//                    day: 12,
-//                    hour: 12,
-//                    minute: 0,
-//                    second: 0
-//                }),
-//                duration: 15
-//            };
-//            ctrlScope.editedEvent = mockEventToEdit;
-//            //and delete option is available
-//            var promise = {
-//                then: function (f) {
-//                    promise.deffered = f;
-//                }
-//            };
-//            mockCalendarService.delete = function (event) {
-//                mockCalendarService.eventDeleted = true;
-//                return promise;
-//            };
-//            //when deleting event
-//            ctrlScope.delete();
-//            //and event is deleted successfully on back-end side
-//            promise.deffered();
-//            expect(mockCalendarService.eventDeleted).toBe(true);
-//            //then deletion of event is completed
-//            expect(mockEventEditor.endEdition).toHaveBeenCalled();
-//        });
-//
-//        it('should notify user when event is not deleted', function () {
-//            //given controller is initialized
-//            expect(ctrlScope).toBeDefined();
-//            //and sample event
-//            var mockEventToEdit = {
-//                id: 'event-123',
-//                start: new Date().set({
-//                    year: 2014,
-//                    month: 7,
-//                    day: 12,
-//                    hour: 12,
-//                    minute: 0,
-//                    second: 0
-//                }),
-//                duration: 15
-//            };
-//            ctrlScope.editedEvent = mockEventToEdit;
-//            //and delete option is available
-//            var promise = {
-//                then: function (f, e) {
-//                    promise.success = f;
-//                    promise.fail = e;
-//                }
-//            };
-//            mockCalendarService.delete = function (event) {
-//                return promise;
-//            };
-//            //when deleting event
-//            ctrlScope.delete();
-//            //and event is not deleted on back-end side
-//            mockUiNotification.text = function (title, msg) {
-//                mockUiNotification.title = title;
-//                mockUiNotification.msg = msg;
-//                return mockUiNotification;
-//            };
-//            promise.fail('Error code', {
-//                data: 'Error message'
-//            });
-//            //then edition of event is not finished
-//            expect(mockEventEditor.endEdition).not.toHaveBeenCalled();
-//            //and user is informed about failure
-//            expect(mockUiNotification.error).toHaveBeenCalled();
-//            expect(mockUiNotification.title).toBe('Error');
-//            expect(mockUiNotification.msg).toBe('Event hasn\'t been deleted');
-//        });
-//
-//        it('should save event', function () {
-//            //given controller is initialized
-//            expect(ctrlScope).toBeDefined();
-//            //and sample event
-//            var mockEventToEdit = {
-//                id: 'event-123',
-//                start: new Date().set({
-//                    year: 2014,
-//                    month: 7,
-//                    day: 12,
-//                    hour: 12,
-//                    minute: 0,
-//                    second: 0
-//                }),
-//                duration: 15
-//            };
-//            ctrlScope.editedEvent = mockEventToEdit;
-//            //and save option is available
-//            var promise = {
-//                then: function (f) {
-//                    promise.deffered = f;
-//                }
-//            };
-//            mockCalendarService.save = function (event) {
-//                mockCalendarService.eventSaved = true;
-//                return promise;
-//            };
-//            //when saving event
-//            ctrlScope.save();
-//            //and event is saved successfully on back-end side
-//            promise.deffered({
-//                data: {
-//                    id: mockEventToEdit.id
-//                }
-//            });
-//            expect(mockCalendarService.eventSaved).toBe(true);
-//            expect(mockEventToEdit.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-08-12 12:15:00');
-//            //then event edition is completed
-//            expect(mockEventEditor.endEdition).toHaveBeenCalled();
-//        });
-//
-//        it('should notify user when event is not saved', function () {
-//            //given controller is initialized
-//            expect(ctrlScope).toBeDefined();
-//            //and sample event
-//            var mockEventToEdit = {
-//                id: 'event-123',
-//                start: new Date().set({
-//                    year: 2014,
-//                    month: 7,
-//                    day: 12,
-//                    hour: 12,
-//                    minute: 0,
-//                    second: 0
-//                }),
-//                duration: 15
-//            };
-//            ctrlScope.editedEvent = mockEventToEdit;
-//            //and save option is available
-//            var promise = {
-//                then: function (f, e) {
-//                    promise.success = f;
-//                    promise.fail = e;
-//                }
-//            };
-//            mockCalendarService.save = function (event) {
-//                return promise;
-//            };
-//            //when saving event
-//            ctrlScope.save();
-//            //and event is not saved on back-end side
-//            mockUiNotification.text = function (title, msg) {
-//                mockUiNotification.title = title;
-//                mockUiNotification.msg = msg;
-//                return mockUiNotification;
-//            };
-//            promise.fail('Error code', {
-//                data: 'Error message'
-//            });
-//            //then event edition is not finished
-//            expect(mockEventEditor.endEdition).not.toHaveBeenCalled();
-//            //and user is informed about failure
-//            expect(mockUiNotification.error).toHaveBeenCalled();
-//            expect(mockUiNotification.title).toBe('Error');
-//            expect(mockUiNotification.msg).toBe('Event hasn\'t been saved');
-//        });
-//
     });
 
 });
