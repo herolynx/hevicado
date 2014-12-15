@@ -13,7 +13,7 @@ describe('chronos-service-spec:', function () {
         //prepare service for testing
         beforeEach(angular.mock.module(function ($provide) {
             //mock dependencies
-            mockHttp = jasmine.createSpyObj('$http', ['get', 'post', 'put', 'delete']);
+            mockHttp = jasmine.createSpyObj('$http', ['get', 'post', 'put']);
             $provide.value('$http', mockHttp);
             mockSession = jasmine.createSpyObj('Session', ['getUserId']);
             $provide.value('Session', mockSession);
@@ -93,18 +93,21 @@ describe('chronos-service-spec:', function () {
             });
         });
 
-        it('should delete event', function () {
+        it('should cancel event', function () {
             //given calendar service is initialized
             expect(calendarService).toBeDefined();
-            //and event exists
-            var eventId = 'event-123';
-            //when deleting event
-            var promise = calendarService.delete(eventId);
+            //and sample event
+            var event = {
+                id: 'event-123'
+            };
+            //when cancelling event
+            var promise = calendarService.cancel(event);
             //then proper communication has place
             expect(promise).not.toBeNull();
-            expect(mockHttp.delete).toHaveBeenCalledWith('/calendar/visit', {
-                id: eventId
-            });
+            expect(mockHttp.put).toHaveBeenCalled();
+            expect(mockHttp.put.mostRecentCall.args[0]).toBe('/calendar/visit');
+            expect(mockHttp.put.mostRecentCall.args[1].id).toBe(event.id);
+            expect(mockHttp.put.mostRecentCall.args[1].cancelled).not.toBeNull();
         });
 
         it('should create event', function () {
@@ -175,7 +178,8 @@ describe('chronos-service-spec:', function () {
                     title: 'sample event',
                     start: '2014-12-05 13:30:00',
                     end: '2014-12-05 14:00:00',
-                    cancelled: '2014-12-02 09:45:23' }
+                    cancelled: '2014-12-02 09:45:23'
+                }
             );
         });
 

@@ -313,8 +313,10 @@ describe('chronos-events-spec:', function () {
     });
 
     describe('EventActionManager-spec:', function () {
-        var mockEventStates;
+
+        var mockEventStates, mockSession;
         var eventActionManager, eventUtils;
+        var currentUserId = "user-123";
 
         //prepare service for testing
         beforeEach(angular.mock.module(function ($provide) {
@@ -324,7 +326,9 @@ describe('chronos-events-spec:', function () {
             mockEventStates.CLOSED.key = 1;
             mockEventStates.CANCELLED.key = 2;
             $provide.value('EVENT_STATE', mockEventStates);
-
+            mockSession = jasmine.createSpyObj('Session', ['getUserId']);
+            $provide.value('Session', mockSession);
+            mockSession.getUserId.andReturn(currentUserId);
         }));
 
         beforeEach(inject(function ($injector) {
@@ -339,8 +343,10 @@ describe('chronos-events-spec:', function () {
                 expect(eventActionManager).toBeDefined();
                 //and event in open state
                 var event = {
-                    cancelled: null,
-                    start: Date.today().add(1).days()
+                    id: 'event-123',
+                    start: Date.today().add(1).days(),
+                    doctor: {id: currentUserId},
+                    patient: {id: currentUserId}
                 };
                 expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
                 //when checking whether event can be cancelled
@@ -354,12 +360,14 @@ describe('chronos-events-spec:', function () {
                 expect(eventActionManager).toBeDefined();
                 //and event in closed state
                 var event = {
-                    cancelled: null,
+                    id: 'event-123',
                     start: new Date().set({
                         day: 1,
                         month: 1,
                         year: 2014
-                    })
+                    }),
+                    doctor: {id: currentUserId},
+                    patient: {id: currentUserId}
                 };
                 expect(eventUtils.state(event)).toBe(mockEventStates.CLOSED);
                 //when checking whether event can be cancelled
@@ -373,8 +381,11 @@ describe('chronos-events-spec:', function () {
                 expect(eventActionManager).toBeDefined();
                 //and event is cancelled already
                 var event = {
+                    id: 'event-123',
                     cancelled: Date.today(),
-                    start: Date.today()
+                    start: Date.today(),
+                    doctor: {id: currentUserId},
+                    patient: {id: currentUserId}
                 };
                 expect(eventUtils.state(event)).toBe(mockEventStates.CANCELLED);
                 //when checking whether event can be cancelled

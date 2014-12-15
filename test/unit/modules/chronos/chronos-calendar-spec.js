@@ -326,9 +326,10 @@ describe('chronos-calendar-spec:', function () {
         beforeEach(angular.mock.module('chronos'));
 
         var ctrlScope, mockRootScope;
-        var mockCalendarService, mockUiNotification, mockModal;
+        var mockCalendarService, mockUsersService;
+        var mockEventActionManager, mockUiNotification, mockModal;
         var mockState, mockStateParams;
-        var calendarPromise, calendarEvents;
+        var calendarPromise, userPromise, calendarEvents;
 
         //prepare controller for testing
         beforeEach(inject(function ($controller, $injector, _$rootScope_, CALENDAR_EVENTS) {
@@ -337,7 +338,7 @@ describe('chronos-calendar-spec:', function () {
             mockRootScope = jasmine.createSpyObj('$rootScope', ['$broadcast']);
             calendarEvents = CALENDAR_EVENTS;
             //mock dependencies
-            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init', 'delete', 'save']);
+            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init', 'cancel', 'save']);
             calendarPromise = {
                 success: function (f) {
                     calendarPromise.onSuccess = f;
@@ -349,8 +350,22 @@ describe('chronos-calendar-spec:', function () {
                 }
             };
             mockCalendarService.events.andReturn(calendarPromise);
-            mockCalendarService.delete.andReturn(calendarPromise);
+            mockCalendarService.cancel.andReturn(calendarPromise);
             mockCalendarService.save.andReturn(calendarPromise);
+            mockUsersService = jasmine.createSpyObj('mockUsersService', ['get']);
+            userPromise = {
+                success: function (f) {
+                    calendarPromise.onSuccess = f;
+                    return calendarPromise;
+                },
+                error: function (f) {
+                    calendarPromise.onError = f;
+                    return calendarPromise;
+                }
+            };
+            mockUsersService.get.andReturn(userPromise);
+            mockEventActionManager = jasmine.createSpyObj('mockEventActionManager', ['canCancel']);
+            //mock others
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
                 mockUiNotification.title = title;
@@ -365,19 +380,21 @@ describe('chronos-calendar-spec:', function () {
                     editVisitState: 'mock-state.edit-visit'
                 }
             };
-            mockStateParams = { doctorId: "doctor-123"};
+            mockStateParams = {doctorId: "doctor-123"};
             //inject mocks
             $controller('CalendarCtrl', {
                 $rootScope: mockRootScope,
                 $scope: ctrlScope,
                 $log: mockLog,
+                $state: mockState,
+                $stateParams: mockStateParams,
                 CalendarService: mockCalendarService,
                 CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
                 CalendarRenderer: $injector.get('CalendarRenderer'),
                 EventUtils: $injector.get('EventUtils'),
+                EventActionManager: mockEventActionManager,
                 uiNotification: mockUiNotification,
-                $state: mockState,
-                $stateParams: mockStateParams
+                UsersService: mockUsersService
             });
         }));
 
@@ -820,11 +837,12 @@ describe('chronos-calendar-spec:', function () {
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
                 //when summary info for chosen day is taken when no events are defined
-                var summayInfo = ctrlScope.dayInfo(startDate.add(1).days(), 4);
+                var summaryInfo = ctrlScope.dayInfo(startDate.add(1).days(), 4);
                 //then empty info is returned
-                expect(summayInfo.length).toBe(1);
-                expect(summayInfo[0]).toEqual({
+                expect(summaryInfo.length).toBe(1);
+                expect(summaryInfo[0]).toEqual({
                     name: '',
+                    color: 'turquoise',
                     value: 0
                 });
             });
@@ -1404,7 +1422,11 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
-                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.addVisitState, {doctorId: currentUserId, startTime: startTime.toString('yyyy-MM-dd HH:mm')});
+                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.addVisitState, {
+                    doctorId: currentUserId,
+                    startTime: startTime.toString('yyyy-MM-dd HH:mm'),
+                    currentDate: startTime.toString('yyyy-MM-dd')
+                });
             });
 
             it('should change date of edited event', function () {
@@ -1426,7 +1448,10 @@ describe('chronos-calendar-spec:', function () {
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is NOT started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
-                expect(mockState.go).not.toHaveBeenCalledWith(mockState.current.data.addVisitState, {doctorId: currentUserId, startTime: startTime.toString('yyyy-MM-dd HH:mm')});
+                expect(mockState.go).not.toHaveBeenCalledWith(mockState.current.data.addVisitState, {
+                    doctorId: currentUserId,
+                    startTime: startTime.toString('yyyy-MM-dd HH:mm')
+                });
                 //and proper info event about new picked data is broadcasted
                 expect(mockRootScope.$broadcast).toHaveBeenCalledWith(calendarEvents.CALENDAR_TIME_PICKED, startTime);
             });
@@ -1453,10 +1478,14 @@ describe('chronos-calendar-spec:', function () {
                 //when starting editing event
                 ctrlScope.editEvent(event);
                 //then event edition is started
-                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.editVisitState, {doctorId: currentUserId, eventId: event.id});
+                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.editVisitState, {
+                    doctorId: currentUserId,
+                    eventId: event.id,
+                    currentDate: event.start.toString('yyyy-MM-dd')
+                });
             });
 
-            it('should delete event', function () {
+            it('should cancel event', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
@@ -1477,14 +1506,14 @@ describe('chronos-calendar-spec:', function () {
                     {
                         id: 1,
                         title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour()
+                        start: startDate.clone().add(3).hours(),
+                        end: startDate.clone().add(5).hours()
                     },
                     {
                         id: 2,
                         title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour()
+                        start: startDate.clone().add(3).hours(),
+                        end: startDate.clone().add(4).hours()
                     }
                 ];
                 calendarPromise.onSuccess(events);
@@ -1493,10 +1522,10 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                //when one of events is deleted
-                ctrlScope.deleteEvent(events[0]);
+                //when one of events is cancelled
+                ctrlScope.cancelEvent(events[0]);
                 //and back-end responded successfully
-                calendarPromise.onSuccess('REMOVED');
+                calendarPromise.onSuccess('CANCELLED');
                 //then event is removed
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
                 //and time line is refreshed for proper period of time
@@ -1504,7 +1533,7 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[1].overlap.value).toBe(1);
             });
 
-            it('should inform user when event cannot be deleted', function () {
+            it('should inform user when event cannot be cancelled', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and one day display period time
@@ -1541,14 +1570,14 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                //when one of events is deleted
-                ctrlScope.deleteEvent(events[0]);
+                //when one of events is cancelled
+                ctrlScope.cancelEvent(events[0]);
                 //and back-end responded with failure
                 calendarPromise.onError('FAILURE');
                 //then user is informed properly
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
-                expect(mockUiNotification.msg).toBe('Couldn\'t delete event');
+                expect(mockUiNotification.msg).toBe('Couldn\'t cancel event');
             });
 
             it('should change event time period on drag and drop', function () {

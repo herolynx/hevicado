@@ -223,7 +223,7 @@ describe('chronos-timeline-spec:', function () {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
             //mock dependencies
-            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['save']);
+            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['save', 'cancel']);
             calendarPromise = {
                 success: function (f) {
                     calendarPromise.success = f;
@@ -235,6 +235,7 @@ describe('chronos-timeline-spec:', function () {
                 }
             };
             mockCalendarService.save.andReturn(calendarPromise);
+            mockCalendarService.cancel.andReturn(calendarPromise);
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
                 mockUiNotification.title = title;
@@ -275,7 +276,7 @@ describe('chronos-timeline-spec:', function () {
             //then event is cancelled successfully
             expect(event.cancelled).toBeDefined();
             expect(mockActionManager.canCancel).toHaveBeenCalledWith(event);
-            expect(mockCalendarService.save).toHaveBeenCalled();
+            expect(mockCalendarService.cancel).toHaveBeenCalledWith(event);
             //and state is refreshed
             expect(mockEventUtils.state).toHaveBeenCalledWith(event);
         });
@@ -294,7 +295,7 @@ describe('chronos-timeline-spec:', function () {
             //then event is not cancelled
             expect(event.cancelled).toBeUndefined();
             expect(mockActionManager.canCancel).toHaveBeenCalledWith(event);
-            expect(mockCalendarService.save).not.toHaveBeenCalled();
+            expect(mockCalendarService.cancel).not.toHaveBeenCalledWith(event);
             //and user is informed properly
             expect(mockUiNotification.error).toHaveBeenCalled();
             expect(mockUiNotification.title).toBe('Error');
