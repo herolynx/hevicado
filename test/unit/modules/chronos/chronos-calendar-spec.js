@@ -355,12 +355,12 @@ describe('chronos-calendar-spec:', function () {
             mockUsersService = jasmine.createSpyObj('mockUsersService', ['get']);
             userPromise = {
                 success: function (f) {
-                    calendarPromise.onSuccess = f;
-                    return calendarPromise;
+                    userPromise.onSuccess = f;
+                    return userPromise;
                 },
                 error: function (f) {
-                    calendarPromise.onError = f;
-                    return calendarPromise;
+                    userPromise.onError = f;
+                    return userPromise;
                 }
             };
             mockUsersService.get.andReturn(userPromise);
@@ -798,10 +798,10 @@ describe('chronos-calendar-spec:', function () {
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //when summary info for chosen day is taken
-                var summayInfo = ctrlScope.dayInfo(startDate, 4);
+                var summaryInfo = ctrlScope.dayInfo(startDate, 4);
                 //then info from that day is returned
-                expect(summayInfo.length).toBe(1);
-                expect(summayInfo[0]).toEqual({
+                expect(summaryInfo.length).toBe(1);
+                expect(summaryInfo[0]).toEqual({
                     name: 'loc1',
                     value: 2
                 });
@@ -902,10 +902,10 @@ describe('chronos-calendar-spec:', function () {
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(4);
                 //when summary info for chosen day is taken
-                var summayInfo = ctrlScope.dayInfo(startDate, 2);
+                var summaryInfo = ctrlScope.dayInfo(startDate, 2);
                 //then info from that day is returned
-                expect(summayInfo.length).toBe(2);
-                expect(summayInfo[0]).toEqual({
+                expect(summaryInfo.length).toBe(2);
+                expect(summaryInfo[0]).toEqual({
                     name: 'loc1',
                     value: 2
                 }, {
@@ -952,9 +952,9 @@ describe('chronos-calendar-spec:', function () {
                 calendarPromise.onSuccess(events);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and summary info has been read once
-                var summayInfo = ctrlScope.dayInfo(startDate, 4);
-                expect(summayInfo.length).toBe(1);
-                expect(summayInfo[0]).toEqual({
+                var summaryInfo = ctrlScope.dayInfo(startDate, 4);
+                expect(summaryInfo.length).toBe(1);
+                expect(summaryInfo[0]).toEqual({
                     name: 'loc1',
                     value: 2
                 });
@@ -964,7 +964,7 @@ describe('chronos-calendar-spec:', function () {
                 var cachedInfo = ctrlScope.dayInfo(startDate, 4);
                 //then results are returned from cache
                 expect(cachedInfo.length).toBe(1);
-                expect(cachedInfo).toEqual(summayInfo);
+                expect(cachedInfo).toEqual(summaryInfo);
             });
 
             it('should clear cache when new data is loaded', function () {
@@ -1022,6 +1022,67 @@ describe('chronos-calendar-spec:', function () {
                 //then new data is returned
                 expect(newEvents.length).toBe(1);
                 expect(newEvents[0].title).toBe('sample-event3');
+            });
+
+            it('should load info about calendar owner', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                //and calendar owner
+                var currentUserId = "doctor-123";
+                var doctor = {
+                    id: currentUserId,
+                    first_name: 'Zbigniew',
+                    last_name: 'Religa'
+                };
+                //when calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                //and back-end responded successfully
+                userPromise.onSuccess(doctor);
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
+                expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
+                //and info about doctor is loaded
+                expect(ctrlScope.doctor).toBe(doctor);
+            });
+
+            it('should inform user when info about calendar owner couldn\'t be loaded', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                //and calendar owner
+                var currentUserId = "doctor-123";
+                var doctor = {
+                    id: currentUserId,
+                    first_name: 'Zbigniew',
+                    last_name: 'Religa'
+                };
+                //when calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                //and back-end responded with failure
+                userPromise.onError('Error');
+                //then calendar is prepared for displaying data of chosen user
+                expect(ctrlScope.doctorId).toBe(currentUserId);
+                expect(mockCalendarService.init).toHaveBeenCalledWith(currentUserId);
+                //and user is informed about failed info loading
+                expect(ctrlScope.doctor).not.toBeDefined();
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Doctor\'s info not loaded - part of functionality may not workking properly');
             });
 
         });
@@ -1534,6 +1595,57 @@ describe('chronos-calendar-spec:', function () {
                 //and time line is refreshed for proper period of time
                 expect(events[1].timeline).toBe(0);
                 expect(events[1].overlap.value).toBe(1);
+            });
+
+            it('should block event cancellation', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [
+                    {
+                        id: 1,
+                        title: 'sample-event1',
+                        start: startDate.clone().add(3).hours(),
+                        end: startDate.clone().add(5).hours()
+                    },
+                    {
+                        id: 2,
+                        title: 'sample-event2',
+                        start: startDate.clone().add(3).hours(),
+                        end: startDate.clone().add(4).hours()
+                    }
+                ];
+                calendarPromise.onSuccess(events);
+                expect(events[0].timeline).toBe(0);
+                expect(events[1].timeline).toBe(1);
+                expect(events[0].overlap.value).toBe(2);
+                expect(events[1].overlap.value).toBe(2);
+                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event cannot be cancelled
+                mockEventActionManager.canCancel.andReturn(false);
+                //when one of events is cancelled
+                ctrlScope.cancelEvent(events[0]);
+                //then event is not cancelled
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
+                expect(mockCalendarService.cancel).not.toHaveBeenCalled();
+                //then user is informed properly
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Event cannot be cancelled');
             });
 
             it('should inform user when event cannot be cancelled', function () {
