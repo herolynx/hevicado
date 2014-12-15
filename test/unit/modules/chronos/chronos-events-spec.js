@@ -336,9 +336,9 @@ describe('chronos-events-spec:', function () {
             eventUtils = $injector.get('EventUtils');
         }));
 
-        describe('event cancelattion-spec:', function () {
+        describe('event cancellation-spec:', function () {
 
-            it('should allow cancel event in OPEN state', function () {
+            it('should allow doctor to cancel event in OPEN state', function () {
                 //given action manager is initialized
                 expect(eventActionManager).toBeDefined();
                 //and event in open state
@@ -346,6 +346,23 @@ describe('chronos-events-spec:', function () {
                     id: 'event-123',
                     start: Date.today().add(1).days(),
                     doctor: {id: currentUserId},
+                    patient: {id: 'diff-user-123'}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be cancelled
+                var canCancel = eventActionManager.canCancel(event);
+                //then action is allowed
+                expect(canCancel).toBe(true);
+            });
+
+            it('should allow patient to cancel event in OPEN state', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in open state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().add(1).days(),
+                    doctor: {id: 'diff-user-123'},
                     patient: {id: currentUserId}
                 };
                 expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
@@ -355,7 +372,41 @@ describe('chronos-events-spec:', function () {
                 expect(canCancel).toBe(true);
             });
 
-            it('should not allow cancel event in CLOSED state', function () {
+            it('should prevent cancellation of events by non-participant users', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in open state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().add(1).days(),
+                    doctor: {id: 'diff-user-123'},
+                    patient: {id: 'diff-user-456'}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be cancelled
+                var canCancel = eventActionManager.canCancel(event);
+                //then action is prohibited
+                expect(canCancel).toBe(false);
+            });
+
+            it('should not allow to cancel new event', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and new/not existing event in open state
+                var event = {
+                    id: undefined,
+                    start: Date.today().add(1).days(),
+                    doctor: {id: currentUserId},
+                    patient: {id: currentUserId}
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be cancelled
+                var canCancel = eventActionManager.canCancel(event);
+                //then action is prohibited
+                expect(canCancel).toBe(false);
+            });
+
+            it('should not allow to cancel event in CLOSED state for event\'s participants', function () {
                 //given action manager is initialized
                 expect(eventActionManager).toBeDefined();
                 //and event in closed state
@@ -376,7 +427,7 @@ describe('chronos-events-spec:', function () {
                 expect(canCancel).toBe(false);
             });
 
-            it('should not allow cancel event in CANCELLED state', function () {
+            it('should not allow to cancel event in CANCELLED state for event\'s participants', function () {
                 //given action manager is initialized
                 expect(eventActionManager).toBeDefined();
                 //and event is cancelled already
@@ -391,6 +442,21 @@ describe('chronos-events-spec:', function () {
                 //when checking whether event can be cancelled
                 var canCancel = eventActionManager.canCancel(event);
                 //then action is denied
+                expect(canCancel).toBe(false);
+            });
+
+            it('should prevent cancellation in case of errors', function () {
+                //given action manager is initialized
+                expect(eventActionManager).toBeDefined();
+                //and event in open state
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().add(1).days()
+                };
+                expect(eventUtils.state(event)).toBe(mockEventStates.OPEN);
+                //when checking whether event can be cancelled
+                var canCancel = eventActionManager.canCancel(event);
+                //then action is prohibited
                 expect(canCancel).toBe(false);
             });
 
