@@ -2105,12 +2105,6 @@ describe('chronos-calendar-spec:', function () {
                     month: 9,
                     day: 3
                 });
-                //and current date parameter is present
-                mockStateParams.currentDate = Date.today().set({
-                    year: 2014,
-                    month: 9,
-                    day: 10
-                });
                 //and calendar is initialized
                 ctrlScope.init(daysCount, startDate);
                 expect(ctrlScope.datePickerOpened).not.toBeDefined();
@@ -2136,6 +2130,32 @@ describe('chronos-calendar-spec:', function () {
                     month: 9,
                     day: 3
                 });
+                //and calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                expect(ctrlScope.datePickerOpened).not.toBeDefined();
+                //and mini-calendar is shown
+                var event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
+                ctrlScope.showDatePicker(event);
+                expect(ctrlScope.datePickerOpened).toBe(true);
+                //when  calling show date picker once again
+                ctrlScope.showDatePicker(event);
+                //then mini-calendar is hidden
+                expect(ctrlScope.datePickerOpened).toBe(false);
+            });
+
+            it('should reset current data param when data is changed using mini-calendar', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
                 //and current date parameter is present
                 mockStateParams.currentDate = Date.today().set({
                     year: 2014,
@@ -2149,10 +2169,234 @@ describe('chronos-calendar-spec:', function () {
                 var event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
                 ctrlScope.showDatePicker(event);
                 expect(ctrlScope.datePickerOpened).toBe(true);
-                //when  calling show date picker once again
-                ctrlScope.showDatePicker(event);
+                //when date is chosen using mini-calendar
+                ctrlScope.onDatePickerDateChange();
                 //then mini-calendar is hidden
                 expect(ctrlScope.datePickerOpened).toBe(false);
+                //and current data param is reset
+                expect(mockStateParams.currentDate).toBeNull();
+                //and loading of data has started
+                expect(mockCalendarService.events.mostRecentCall.args[0].toString('yyyy-MM-dd')).toEqual('2014-10-06');
+                expect(mockCalendarService.events.mostRecentCall.args[1].toString('yyyy-MM-dd')).toEqual('2014-10-12');
+            });
+
+            it('should find location for chosen time window', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
+                //and current date parameter is present
+                mockStateParams.currentDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 10
+                });
+                //and calendar's owner
+                var doctor = {
+                    id: currentUserId,
+                    first_name: 'Zbigniew',
+                    last_name: 'Religa',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ]
+                        }
+                    ]
+                };
+                //and calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                userPromise.onSuccess(doctor);
+                //when searching for location assigned for chosen time window
+                //in doctor's working hours
+                var location = ctrlScope.findLocation(Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15
+                }), 9, 30);
+                //then proper location according to working hours is found
+                expect(location).not.toBeNull();
+                expect(location.color).toBe('red');
+                expect(location.name).toBe('Pulsantis');
+            });
+
+            it('should find location for chosen time window using cache', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
+                //and current date parameter is present
+                mockStateParams.currentDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 10
+                });
+                //and calendar's owner
+                var doctor = {
+                    id: currentUserId,
+                    first_name: 'Zbigniew',
+                    last_name: 'Religa',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ]
+                        }
+                    ]
+                };
+                //and calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                userPromise.onSuccess(doctor);
+                //and location has been searched once
+                var location = ctrlScope.findLocation(Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15
+                }), 9, 30);
+                //then proper location according to working hours is found
+                expect(location).not.toBeNull();
+                expect(location.name).toBe('Pulsantis');
+                //when searching for location assigned for the second time
+                ctrlScope.doctor.locations = [];
+                var cachedLocation = ctrlScope.findLocation(Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15
+                }), 9, 30);
+                //then proper location is returned from cache
+                expect(cachedLocation).not.toBeNull();
+                expect(cachedLocation.name).toBe('Pulsantis');
+                expect(cachedLocation.color).toBe('red');
+                expect(cachedLocation).toEqual(location);
+            });
+
+            it('should return default location for non-working hours', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one week display period time
+                var daysCount = 7;
+                //and current user
+                var currentUserId = "doctor-123";
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 3
+                });
+                //and current date parameter is present
+                mockStateParams.currentDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 10
+                });
+                //and calendar's owner
+                var doctor = {
+                    id: currentUserId,
+                    first_name: 'Zbigniew',
+                    last_name: 'Religa',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ]
+                        }
+                    ]
+                };
+                //and calendar is initialized
+                ctrlScope.init(daysCount, startDate);
+                userPromise.onSuccess(doctor);
+                //when searching for location for non-working hours
+                var location = ctrlScope.findLocation(Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15
+                }), 10, 30);
+                //then proper location according to working hours is found
+                expect(location).not.toBeNull();
+                expect(location.name).not.toBeDefined();
+                expect(location.color).toBeDefined();
             });
 
         })
