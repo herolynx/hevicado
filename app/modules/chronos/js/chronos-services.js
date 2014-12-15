@@ -67,10 +67,10 @@ services.service('CalendarService', function (Session, $http, EventUtils, $log) 
          * @returns {*} http promise
          */
         cancel: function (event) {
-            return $http.put('/calendar/visit', {
+            return $http.put('/calendar/visit', EventUtils.toJson({
                 id: event.id,
-                cancelled: Date.today()
-            });
+                cancelled: new Date()
+            }));
         }
 
     };
