@@ -1118,6 +1118,38 @@ describe('chronos-calendar-spec:', function () {
                 expect(mockUiNotification.msg).toBe('Doctor\'s info not loaded - part of functionality may not workking properly');
             });
 
+            it('should get filtered events for chosen day', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and one day display period time
+                var daysCount = 1;
+                //and current date
+                var startDate = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 13
+                });
+                ctrlScope.beginDate = startDate;
+                ctrlScope.currentDate = startDate;
+                ctrlScope.endDate = startDate;
+                ctrlScope.days = [startDate];
+                //and loaded data
+                ctrlScope.init(daysCount, startDate);
+                var events = [
+                    {
+                        title: 'sample-event',
+                        start: startDate.clone(),
+                        end: startDate.clone().add(1).hour(),
+                        cancelled: Date.today()
+                    }
+                ];
+                calendarPromise.onSuccess(events);
+                //when events are taken for chosen day
+                var dayEvents = ctrlScope.getEvents(startDate);
+                //then filtered events are returned
+                expect(dayEvents.length).toBe(0);
+            });
+
         });
 
         describe('calendar navigation for weekly view-spec:', function () {
