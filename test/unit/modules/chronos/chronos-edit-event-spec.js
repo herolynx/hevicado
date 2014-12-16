@@ -31,7 +31,7 @@ describe('chronos.events.edit-spec:', function () {
             };
             mockQ.when = function (value) {
                 mockQ.value = value;
-                return allPromise;
+                return calendarPromise;
             };
 
             //mock calendar related stuff
@@ -189,6 +189,7 @@ describe('chronos.events.edit-spec:', function () {
                 ctrlScope.init();
 
                 //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(true);
                 expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
                 //and edited event is about to be loaded
                 expect(mockCalendarService.event).toHaveBeenCalledWith(event.id);
@@ -218,6 +219,7 @@ describe('chronos.events.edit-spec:', function () {
                 ctrlScope.init();
 
                 //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(true);
                 expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
                 //and new event is prepared
                 expect(mockCalendarService.event).not.toHaveBeenCalled();
@@ -258,6 +260,7 @@ describe('chronos.events.edit-spec:', function () {
                 ctrlScope.init();
 
                 //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(true);
                 expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
                 //and new event is prepared
                 expect(mockCalendarService.event).not.toHaveBeenCalled();
@@ -317,7 +320,254 @@ describe('chronos.events.edit-spec:', function () {
                 ctrlScope.init();
 
                 //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(true);
                 expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
+                //and edited event is about to be loaded
+                expect(mockCalendarService.event).toHaveBeenCalledWith(event.id);
+                mockQ.onError('Failed');
+                expect(ctrlScope.doctor).not.toBeDefined();
+                expect(ctrlScope.editedEvent).toEqual({});
+                //and user is informed about failure
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Couldn\'t initialize editor');
+            });
+
+        });
+
+        describe('event edition for patients-spec:', function () {
+
+            var currentUserId, doctor;
+
+            beforeEach(function () {
+                currentUserId = 'patient-123';
+                mockStateParams.doctorId = 'doctor-123';
+                mockSession.getUserId.andReturn(currentUserId);
+                mockSession.getInfo.andReturn({
+                    id: currentUserId,
+                    first_name: 'Johnny',
+                    last_name: 'Bravo'
+                });
+                doctor = {
+                    id: 'doctor-123',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ],
+                            templates: [
+                                {
+                                    id: "546c1fd1ef660df8526005b1",
+                                    name: "Ass examination",
+                                    description: "Details go here...",
+                                    durations: [30, 60]
+                                },
+                                {
+                                    id: "546c1fd1ef660df8526005b2",
+                                    name: "Eye examination",
+                                    description: "Details go here...",
+                                    durations: [30]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+
+            it('should prepare existing event for edition', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and existing event
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 8,
+                        minute: 30,
+                        second: 0
+                    }),
+                    end: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 9,
+                        minute: 0,
+                        second: 0
+                    }),
+                    doctor: {
+                        id: 'doctor-123',
+                        first_name: 'Zbigniew',
+                        last_name: 'Religa'
+                    },
+                    patient: {
+                        id: 'patient-123',
+                        first_name: 'Johnny',
+                        last_name: 'Bravo'
+                    }
+                };
+                mockStateParams.eventId = event.id;
+
+                //when initializing editor
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(false);
+                expect(mockUsersService.get).toHaveBeenCalledWith('doctor-123');
+                //and edited event is about to be loaded
+                expect(mockCalendarService.event).toHaveBeenCalledWith(event.id);
+                mockQ.onSuccess([{data: doctor}, {data: event}]);
+                expect(ctrlScope.doctor).toEqual(doctor);
+                expect(ctrlScope.editedEvent).toEqual(event);
+                //and access rights are properly granted
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(event);
+                expect(mockEventActionManager.canEdit).toHaveBeenCalledWith(event);
+                //and patient is properly formatted
+                expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
+                //and location and template are set properly
+                expect(ctrlScope.location.name).toBe('Pulsantis');
+                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+            });
+
+            it('should prepare new event for edition with default start time', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.editedEvent = {};
+                //and new event about to be created
+                mockStateParams.eventId = null;
+                //and start time is not set
+                mockStateParams.startTime = null;
+
+                //when initializing editor
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(false);
+                expect(mockUsersService.get).toHaveBeenCalledWith('doctor-123');
+                //and new event is prepared
+                expect(mockCalendarService.event).not.toHaveBeenCalled();
+                mockQ.onSuccess([{data: doctor}, mockQ.value]);
+                expect(ctrlScope.doctor).toEqual(doctor);
+
+                expect(ctrlScope.editedEvent.start).not.toBeNull();
+                expect(ctrlScope.editedEvent.end).not.toBeNull();
+                expect(ctrlScope.editedEvent.duration).not.toBeNull();
+                //and access rights are properly granted
+                expect(mockEventActionManager.canCancel).toHaveBeenCalled();
+                expect(mockEventActionManager.canEdit).toHaveBeenCalled();
+                //and patient is properly formatted
+                expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
+                //and location and template are set properly
+                expect(ctrlScope.location).not.toBeNull();
+                expect(ctrlScope.templates).not.toBeNull();
+            });
+
+
+            it('should prepare new event for edition with chosen start time', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.editedEvent = {};
+                //and new event about to be created
+                mockStateParams.eventId = null;
+                //and start time is not set
+                mockStateParams.startTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 12,
+                    minute: 30,
+                    second: 0
+                });
+
+                //when initializing editor
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(false);
+                expect(mockUsersService.get).toHaveBeenCalledWith('doctor-123');
+                //and new event is prepared
+                expect(mockCalendarService.event).not.toHaveBeenCalled();
+                mockQ.onSuccess([{data: doctor}, mockQ.value]);
+                expect(ctrlScope.doctor).toEqual(doctor);
+
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 12:30');
+                expect(ctrlScope.editedEvent.end.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 13:00');
+                expect(ctrlScope.editedEvent.duration).toBe(30);
+                //and access rights are properly granted
+                expect(mockEventActionManager.canCancel).toHaveBeenCalled();
+                expect(mockEventActionManager.canEdit).toHaveBeenCalled();
+                //and patient is properly formatted
+                expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
+                //and location and template are set properly
+                expect(ctrlScope.location.name).toBe('Pulsantis');
+                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+            });
+
+            it('should inform user when editor cannot be initialized', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and existing event
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 8,
+                        minute: 30,
+                        second: 0
+                    }),
+                    end: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 9,
+                        minute: 0,
+                        second: 0
+                    }),
+                    doctor: {
+                        id: 'doctor-123',
+                        first_name: 'Zbigniew',
+                        last_name: 'Religa'
+                    },
+                    patient: {
+                        id: 'patient-123',
+                        first_name: 'Johnny',
+                        last_name: 'Bravo'
+                    }
+                };
+                mockStateParams.eventId = event.id;
+
+                //when initializing editor
+                ctrlScope.editedEvent = {};
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(false);
+                expect(mockUsersService.get).toHaveBeenCalledWith('doctor-123');
                 //and edited event is about to be loaded
                 expect(mockCalendarService.event).toHaveBeenCalledWith(event.id);
                 mockQ.onError('Failed');
