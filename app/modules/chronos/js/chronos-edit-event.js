@@ -274,7 +274,6 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
  */
 calendar.controller('DisplayEventCtrl', function ($scope, $stateParams, $controller, $log, CalendarService, EventUtils, uiNotification) {
 
-    //TODO add tests
     $scope.options = $scope.$new();
     $controller('TimelineEventCtrl', {$scope: $scope.options});
 
