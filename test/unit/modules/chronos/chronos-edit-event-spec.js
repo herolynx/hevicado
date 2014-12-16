@@ -205,6 +205,78 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
             });
 
+            it('should prepare new event for edition with default start time', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.editedEvent = {};
+                //and new event about to be created
+                mockStateParams.eventId = null;
+                //and start time is not set
+                mockStateParams.startTime = null;
+
+                //when initializing editor
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
+                //and new event is prepared
+                expect(mockCalendarService.event).not.toHaveBeenCalled();
+                mockQ.onSuccess([{data: doctor}, mockQ.value]);
+                expect(ctrlScope.doctor).toEqual(doctor);
+
+                expect(ctrlScope.editedEvent.start).not.toBeNull();
+                expect(ctrlScope.editedEvent.end).not.toBeNull();
+                expect(ctrlScope.editedEvent.duration).toBe(30);
+                //and access rights are properly granted
+                expect(mockEventActionManager.canCancel).toHaveBeenCalled();
+                expect(mockEventActionManager.canEdit).toHaveBeenCalled();
+                //and patient is properly formatted
+                expect(ctrlScope.editedEvent.patient.toString()).toBe('');
+                //and location and template are set properly
+                expect(ctrlScope.location).not.toBeNull();
+                expect(ctrlScope.templates).not.toBeNull();
+            });
+
+
+            it('should prepare new event for edition with chosen start time', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.editedEvent = {};
+                //and new event about to be created
+                mockStateParams.eventId = null;
+                //and start time is not set
+                mockStateParams.startTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 12,
+                    minute: 30,
+                    second: 0
+                });
+
+                //when initializing editor
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
+                //and new event is prepared
+                expect(mockCalendarService.event).not.toHaveBeenCalled();
+                mockQ.onSuccess([{data: doctor}, mockQ.value]);
+                expect(ctrlScope.doctor).toEqual(doctor);
+
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 12:30');
+                expect(ctrlScope.editedEvent.end.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 13:00');
+                expect(ctrlScope.editedEvent.duration).toBe(30);
+                //and access rights are properly granted
+                expect(mockEventActionManager.canCancel).toHaveBeenCalled();
+                expect(mockEventActionManager.canEdit).toHaveBeenCalled();
+                //and patient is properly formatted
+                expect(ctrlScope.editedEvent.patient.toString()).toBe('');
+                //and location and template are set properly
+                expect(ctrlScope.location.name).toBe('Pulsantis');
+                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+            });
+
             it('should inform user when editor cannot be initialized', function () {
                 //given controller is defined
                 expect(ctrlScope).toBeDefined();
