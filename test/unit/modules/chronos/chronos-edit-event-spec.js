@@ -58,13 +58,19 @@ describe('chronos.events.edit-spec:', function () {
             mockStateParams = {doctorId: "doctor-123"};
 
             //mock users related stuff
-            mockUsersService = jasmine.createSpyObj('mockUsersService', ['get']);
+            mockUsersService = jasmine.createSpyObj('mockUsersService', ['get', 'search']);
             userPromise = {};
             userPromise.error = function (f) {
                 userPromise.onError = f;
                 return userPromise;
             };
+            userPromise.then = function (success, error) {
+                userPromise.onSuccess = success;
+                userPromise.onError = error;
+                return userPromise;
+            };
             mockUsersService.get.andReturn(userPromise);
+            mockUsersService.search.andReturn(userPromise);
             mockSession = jasmine.createSpyObj('mockSession', ['getUserId', 'getInfo']);
 
             //mock others
@@ -405,7 +411,7 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope).toBeDefined();
                 ctrlScope.doctor = doctor;
                 ctrlScope.isOwner = true;
-                //and user can edit event
+                //and user cannot edit event
                 ctrlScope.canEdit = false;
                 //and currently edited event
                 ctrlScope.editedEvent.title = 'Ass examination';
@@ -754,7 +760,7 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope).toBeDefined();
                 ctrlScope.doctor = doctor;
                 ctrlScope.isOwner = false;
-                //and user can edit event
+                //and user cannot edit event
                 ctrlScope.canEdit = false;
                 //and currently edited event
                 ctrlScope.editedEvent.title = 'Ass examination';
@@ -791,6 +797,116 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.editedEvent.title).toBe('Ass examination');
                 expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
             }));
+
+        });
+
+        describe('editor options-spec:', function () {
+
+            var currentUserId, doctor;
+
+            beforeEach(function () {
+                currentUserId = 'patient-123';
+                mockStateParams.doctorId = 'doctor-123';
+                mockSession.getUserId.andReturn(currentUserId);
+                mockSession.getInfo.andReturn({
+                    id: currentUserId,
+                    first_name: 'Johnny',
+                    last_name: 'Bravo'
+                });
+                doctor = {
+                    id: 'doctor-123',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ],
+                            templates: [
+                                {
+                                    id: "546c1fd1ef660df8526005b1",
+                                    name: "Ass examination",
+                                    description: "Details go here...",
+                                    durations: [30, 60]
+                                },
+                                {
+                                    id: "546c1fd1ef660df8526005b2",
+                                    name: "Eye examination",
+                                    description: "Details go here...",
+                                    durations: [30]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+
+            it('should find users for typing ahead', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = true;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+
+                //when typing user's name
+                ctrlScope.findUsers('Zbi');
+
+                //then users search is started
+                expect(mockUsersService.search).toHaveBeenCalledWith('Zbi');
+
+                //and results if returned are properly formatted
+                var foundUsers = [
+                    {
+                        first_name: 'Zbigniew',
+                        last_name: 'Religa',
+                        email: 'zbysiu@kunishu.com'
+                    }
+                ];
+                userPromise.onSuccess({data: foundUsers});
+                expect(foundUsers[0].toString()).toBe('Religa, Zbigniew (zbysiu@kunishu.com)');
+            });
+
+            it('should inform user when user type-ahead is not working', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = true;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+
+                //when typing user's name
+                ctrlScope.findUsers('Zbi');
+
+                //then users search is started
+                expect(mockUsersService.search).toHaveBeenCalledWith('Zbi');
+
+                //and  user is informed if error occurred while searched
+                userPromise.onError('FAILURE');
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Couldn\'t find users');
+            });
 
         });
 

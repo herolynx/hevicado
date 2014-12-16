@@ -174,6 +174,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 return resp.data;
             }, function (code, msg) {
                 $log.error("Couldn't find users - code: " + code + ", msg: " + msg);
+                uiNotification.text('Error', 'Couldn\'t find users').error();
             });
     };
 
