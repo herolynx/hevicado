@@ -42,6 +42,10 @@ describe('chronos.events.edit-spec:', function () {
                 calendarPromise.onError = f;
                 return calendarPromise;
             };
+            calendarPromise.success = function (f) {
+                calendarPromise.onSuccess = f;
+                return calendarPromise;
+            };
             mockCalendarService.event.andReturn(calendarPromise);
             mockCalendarService.cancel.andReturn(calendarPromise);
             mockCalendarService.save.andReturn(calendarPromise);
@@ -926,6 +930,254 @@ describe('chronos.events.edit-spec:', function () {
 
                 //then durations are updated
                 expect(ctrlScope.durations).toEqual([30, 60]);
+            });
+
+        });
+
+        describe('saving editor changes-spec:', function () {
+
+            var currentUserId, doctor;
+
+            beforeEach(function () {
+                currentUserId = 'patient-123';
+                mockStateParams.doctorId = 'doctor-123';
+                mockSession.getUserId.andReturn(currentUserId);
+                mockSession.getInfo.andReturn({
+                    id: currentUserId,
+                    first_name: 'Johnny',
+                    last_name: 'Bravo'
+                });
+                doctor = {
+                    id: 'doctor-123',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ],
+                            templates: [
+                                {
+                                    id: "546c1fd1ef660df8526005b1",
+                                    name: "Ass examination",
+                                    description: "Details go here...",
+                                    durations: [30, 60]
+                                },
+                                {
+                                    id: "546c1fd1ef660df8526005b2",
+                                    name: "Eye examination",
+                                    description: "Details go here...",
+                                    durations: [30]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            });
+
+            it('should go to previous page after cancelling edition', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+
+                //when cancelling edition
+                ctrlScope.cancel();
+
+                //then user is redirected to previous page
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'});
+            });
+
+            it('should save changes from editor', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+                //and edited events data
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.editedEvent.duration = 60;
+
+                //when saving changes
+                ctrlScope.save();
+
+                //then before save proper end date is set
+                expect(ctrlScope.editedEvent.end.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 09:30');
+                //and changes are saved
+                expect(mockCalendarService.save).toHaveBeenCalledWith(ctrlScope.editedEvent);
+                calendarPromise.onSuccess('SAVED');
+                //and user is redirected to previous page after save confirmation
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'});
+            });
+
+            it('should inform user when changes couldn\'t be saved', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+                //and edited events data
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.editedEvent.duration = 60;
+
+                //when saving changes
+                ctrlScope.save();
+
+                //then before save proper end date is set
+                expect(ctrlScope.editedEvent.end.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 09:30');
+                //and changes are saved
+                expect(mockCalendarService.save).toHaveBeenCalledWith(ctrlScope.editedEvent);
+                calendarPromise.onError('ERROR');
+                //and user is informed properly when save has failed
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Event hasn\'t been saved');
+            });
+
+            it('should cancel event', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+                //and edited events data
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.editedEvent.duration = 60;
+                //and even can be cancelled
+                mockEventActionManager.canCancel.andReturn(true);
+
+                //when cancelling event
+                ctrlScope.cancelVisit();
+
+                //then event is cancelled
+                expect(mockCalendarService.cancel).toHaveBeenCalledWith(ctrlScope.editedEvent);
+                calendarPromise.onSuccess('CANCELLED');
+                //and user is redirected to previous page after cancel confirmation
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'});
+            });
+
+            it('should inform user when event couldn\'t be cancelled', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+                //and edited events data
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.editedEvent.duration = 60;
+                //and even can be cancelled
+                mockEventActionManager.canCancel.andReturn(true);
+
+                //when cancelling event
+                ctrlScope.cancelVisit();
+
+                //then event is cancelled
+                expect(mockCalendarService.cancel).toHaveBeenCalledWith(ctrlScope.editedEvent);
+                calendarPromise.onError('ERROR');
+                //and user is informed properly when cancellation has failed
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Event hasn\'t been cancelled');
+            });
+
+            it('should inform user if cancellation of event is not allowed', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+                //and edited events data
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.editedEvent.duration = 60;
+                //and even cannot be cancelled
+                mockEventActionManager.canCancel.andReturn(false);
+
+                //when cancelling event
+                ctrlScope.cancelVisit();
+
+                //then user is informed that operation is prohibited
+                expect(mockUiNotification.error).toHaveBeenCalled();
+                expect(mockUiNotification.title).toBe('Error');
+                expect(mockUiNotification.msg).toBe('Event cannot be cancelled');
             });
 
         });
