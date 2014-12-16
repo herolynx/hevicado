@@ -6,7 +6,7 @@ describe('chronos.events.edit-spec:', function () {
     var mockUsersService, mockSession;
     var mockUiNotification, mockLog;
     var mockState, mockStateParams;
-    var ctrlScope, calendarPromise, userPromise, allPromise, mockQ;
+    var $rootScope, ctrlScope, calendarPromise, userPromise, allPromise, mockQ;
 
     //prepare module for testing
     beforeEach(angular.mock.module('chronos'));
@@ -17,6 +17,7 @@ describe('chronos.events.edit-spec:', function () {
         beforeEach(inject(function ($controller, $injector, _$rootScope_) {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
+            $rootScope = _$rootScope_;
             allPromise = {
                 then: function (success, error) {
                     mockQ.onSuccess = success;
@@ -333,6 +334,72 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockUiNotification.msg).toBe('Couldn\'t initialize editor');
             });
 
+            it('should change event after calendar date change in working hours', inject(function (CALENDAR_EVENTS) {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = true;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+                //and currently edited event
+                ctrlScope.editedEvent.title = 'doctors title';
+                ctrlScope.editedEvent.start = null;
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.isDateValid = null;
+
+                //when date is changed on calendar
+                var newStartTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, newStartTime);
+
+                //then edited event is updated properly
+                expect(ctrlScope.editedEvent.title).toBe('doctors title');
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
+                expect(ctrlScope.editedEvent.end).toBeNull();
+                expect(ctrlScope.isDateValid).toBe(true);
+                expect(ctrlScope.location.name).toBe('Pulsantis');
+                expect(ctrlScope.templates.length).toBe(2);
+            }));
+
+            it('should change event after calendar date change outside of working hours', inject(function (CALENDAR_EVENTS) {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = true;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+                //and currently edited event
+                ctrlScope.editedEvent.title = 'doctors title';
+                ctrlScope.editedEvent.start = null;
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.isDateValid = null;
+
+                //when date is changed on calendar
+                var newStartTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 7,
+                    minute: 30,
+                    second: 0
+                });
+                $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, newStartTime);
+
+                //then edited event is updated properly
+                expect(ctrlScope.editedEvent.title).toBe('doctors title');
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 07:30');
+                expect(ctrlScope.editedEvent.end).toBeNull();
+                expect(ctrlScope.isDateValid).toBe(true);
+                expect(ctrlScope.location.name).toBe('');
+                expect(ctrlScope.templates.length).toBe(1);
+            }));
+
         });
 
         describe('event edition for patients-spec:', function () {
@@ -578,6 +645,65 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockUiNotification.title).toBe('Error');
                 expect(mockUiNotification.msg).toBe('Couldn\'t initialize editor');
             });
+
+            it('should change event after calendar date change in working hours', inject(function (CALENDAR_EVENTS) {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = false;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+                //and currently edited event
+                ctrlScope.editedEvent.title = 'Ass examination';
+                ctrlScope.editedEvent.start = null;
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.isDateValid = null;
+
+                //when date is changed on calendar
+                var newStartTime = Date.today().add(5).days();
+                $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, newStartTime);
+
+                //then edited event is updated properly
+                expect(ctrlScope.editedEvent.title).toBe('');
+                expect(ctrlScope.editedEvent.start).toBe(newStartTime);
+                expect(ctrlScope.editedEvent.end).toBeNull();
+                expect(ctrlScope.isDateValid).toBe(true);
+                expect(ctrlScope.location.name).toBe('');
+                expect(ctrlScope.templates.length).toBe(1);
+            }));
+
+            it('should change event after calendar date change outside of working hours', inject(function (CALENDAR_EVENTS) {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = false;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+                //and currently edited event
+                ctrlScope.editedEvent.title = 'Ass examination';
+                ctrlScope.editedEvent.start = null;
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.isDateValid = null;
+
+                //when date is changed on calendar
+                var newStartTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, newStartTime);
+
+                //then edited event is updated properly
+                expect(ctrlScope.editedEvent.title).toBe('Ass examination');
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
+                expect(ctrlScope.editedEvent.end).toBeNull();
+                expect(ctrlScope.isDateValid).toBe(false);
+                expect(ctrlScope.location.name).toBe('Pulsantis');
+                expect(ctrlScope.templates.length).toBe(2);
+            }));
 
         });
 

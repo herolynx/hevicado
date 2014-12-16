@@ -148,6 +148,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
     $scope.findLocation = function (startTime) {
         var foundLocation = EventUtils.findLocation($scope.doctor.locations, startTime);
         return foundLocation || {
+                name: '',
                 templates: [
                     {name: '', durations: []}
                 ]
