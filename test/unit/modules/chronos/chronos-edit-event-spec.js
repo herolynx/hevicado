@@ -908,6 +908,26 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockUiNotification.msg).toBe('Couldn\'t find users');
             });
 
+            it('should change event duration after template change', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = true;
+                //and user can edit event
+                ctrlScope.canEdit = true;
+                //and current durations
+                ctrlScope.durations = [];
+                //and templates
+                ctrlScope.templates = doctor.locations[0].templates;
+
+                //when event template is changed
+                ctrlScope.editedEvent.title = 'Ass examination';
+                ctrlScope.onTemplateChange();
+
+                //then durations are updated
+                expect(ctrlScope.durations).toEqual([30, 60]);
+            });
+
         });
 
     });
