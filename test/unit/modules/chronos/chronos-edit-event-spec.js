@@ -400,6 +400,50 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.templates.length).toBe(1);
             }));
 
+            it('should not change event after calendar date change if doctor cannot edit event', inject(function (CALENDAR_EVENTS) {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = true;
+                //and user can edit event
+                ctrlScope.canEdit = false;
+                //and currently edited event
+                ctrlScope.editedEvent.title = 'Ass examination';
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 9,
+                    minute: 0,
+                    second: 0
+                });
+                ctrlScope.isDateValid = null;
+
+                //when date is changed on calendar
+                var newStartTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 17,
+                    hour: 7,
+                    minute: 30,
+                    second: 0
+                });
+                $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, newStartTime);
+
+                //then edited event is updated properly
+                expect(ctrlScope.editedEvent.title).toBe('Ass examination');
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
+            }));
+
+
         });
 
         describe('event edition for patients-spec:', function () {
@@ -703,6 +747,49 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.isDateValid).toBe(false);
                 expect(ctrlScope.location.name).toBe('Pulsantis');
                 expect(ctrlScope.templates.length).toBe(2);
+            }));
+
+            it('should not change event after calendar date change if patient cannot edit event', inject(function (CALENDAR_EVENTS) {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                ctrlScope.isOwner = false;
+                //and user can edit event
+                ctrlScope.canEdit = false;
+                //and currently edited event
+                ctrlScope.editedEvent.title = 'Ass examination';
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 9,
+                    minute: 0,
+                    second: 0
+                });
+                ctrlScope.isDateValid = null;
+
+                //when date is changed on calendar
+                var newStartTime = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 17,
+                    hour: 7,
+                    minute: 30,
+                    second: 0
+                });
+                $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, newStartTime);
+
+                //then edited event is updated properly
+                expect(ctrlScope.editedEvent.title).toBe('Ass examination');
+                expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
             }));
 
         });
