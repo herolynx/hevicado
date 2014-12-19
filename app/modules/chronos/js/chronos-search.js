@@ -88,7 +88,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
      */
     $scope.initTimetable = function (date, daysCount) {
         $scope.criteria.start = EventUtils.currentMonday(date);
-        $scope.criteria.end = $scope.criteria.start.clone().add(daysCount).days().set({
+        $scope.criteria.end = $scope.criteria.start.clone().add(daysCount - 1).days().set({
             hour: 23,
             minute: 59,
             second: 59
@@ -124,6 +124,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
         $scope.clear();
         $scope.criteria.start.add(days).days();
         $scope.criteria.end.add(days).days();
+        $log.debug('Shifted time table - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
         $scope.nextDoctors();
     };
 
@@ -150,6 +151,27 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
                 $scope.eof = true;
                 $scope.loading = false;
             });
+    };
+
+    /**
+     * Convert string to date
+     * @param string date in string representation
+     * @returns {Date} non-nullable instance
+     */
+    $scope.toDate = function (string) {
+        return new Date(string);
+    };
+
+    /**
+     * Count percentage of free time
+     * @param info calendar info
+     * @returns {number} non-negative number
+     */
+    $scope.free = function (info) {
+        if (info.total == 0) {
+            return 0;
+        }
+        return Math.ceil(100 - ((info.occupied / info.total) * 100));
     };
 
     $scope.initTimetable($scope.start, $scope.daysCount);

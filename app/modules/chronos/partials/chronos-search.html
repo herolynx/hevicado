@@ -118,33 +118,28 @@
                                     specjalizacja: urologia, chirurgia ogólna
                                 </span> -->
                             </div>
-                            <div class="images">
-                                <div class="user">
-                                    <div class="img">
-                                        <img src="images/temp/user-1.jpg" alt="User profile">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div ng-repeat="location in doctor.locations" class="info">
                             <div class="address">
                                 <p>
-                                    <span class="color"></span>
+                                    <span class="color {{location.color}}"></span>
                                     {{location.name}}<br/>
                                     {{location.address | addressInfo}}
                                 </p>
                             </div>
                             <div class="calendar">
-                                <div class="box-event" ng-repeat="day in location.calendar">
+                                <div class="box-event" ng-repeat="(key,value) in location.calendar">
                                     <div class="box-count">
-                                        <a href="#"></a> <!-- Link Day -->
-                                        <p>{{day.date | date: "MM-dd (EEE)"}}</p>
+                                        <a href="#"
+                                           ui-sref="calendar-day.new-visit({ doctorId: doctor.id, currentDate: key.toString('yyyy-MM-dd') })"></a>
 
-                                        <div class="count-event">
+                                        <p>{{toDate(key) | date: "dd.MM (EEE)"}}</p>
+
+                                        <div class="count-event" ng-class="{red: free(value)==20}">
                                             <p>Free</p>
-                                                <span>
-                                                {{date.free ? 'yes' : 'no'}}
-                                                </span>
+                                            <small>
+                                                {{free(value)}} %
+                                            </small>
                                         </div>
                                     </div>
                                 </div>

@@ -54,8 +54,6 @@ describe('chronos-search-spec:', function () {
             //then time table for search is set
             expect(ctrlScope.criteria.start).not.toBeNull();
             expect(ctrlScope.criteria.end).not.toBeNull();
-            var span = new TimeSpan(ctrlScope.criteria.end - ctrlScope.criteria.start);
-            expect(span.days).toBe(ctrlScope.daysCount);
         });
 
         it('should add specialization to search criteria', function () {
@@ -105,8 +103,8 @@ describe('chronos-search-spec:', function () {
             //when new time table is set
             ctrlScope.initTimetable(start, daysCount);
             //then new time table is set in search criteria
-            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-13 Sunday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-07 00:00:00');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-12 23:59:59');
         });
 
         it('should shift time table', function () {
@@ -123,13 +121,13 @@ describe('chronos-search-spec:', function () {
             });
             var daysCount = 7;
             ctrlScope.initTimetable(start, daysCount);
-            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-07 00:00:00');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-13 23:59:59');
             //when time table is shifted
             ctrlScope.moveDays(daysCount);
             //then time table is updated in search criteria
-            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-21 Monday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-14 00:00:00');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-20 23:59:59');
         });
 
 
@@ -155,8 +153,8 @@ describe('chronos-search-spec:', function () {
             //when searching for new results
             ctrlScope.search();
             //then new time table is set according to search criteria
-            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-07 00:00:00');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-13 23:59:59');
             //and state is cleared
             expect(ctrlScope.doctors.length).toBe(0);
             expect(ctrlScope.criteria.startIndex).toBe(0);
