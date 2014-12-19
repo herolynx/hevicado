@@ -81,6 +81,8 @@
                                 <input type="text"
                                        ng-model="newSpecialization"
                                        placeholder="Find specialization"
+                                       typeahead="specialization for specialization in specializations"
+                                       typeahead-editable="false"
                                         >
                             </fieldset>
                             <button ng-click="addSpecialization(newSpecialization)">Add</button>
@@ -90,7 +92,7 @@
                                 <a ng-repeat="specialization in criteria.specializations"
                                    ng-click="deleteSpacialization(specialization)"
                                         >
-                                    {{specialization.name}}
+                                    {{specialization}}
                                     <div class="delete"><i class="icon-minus-circled"></i></div>
                                 </a>
                             </div>

@@ -32,23 +32,8 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
         count: 10
     };
     $scope.newSpecialization = '';
+    $scope.specializations = ['Arelogia', 'Reumatologia', 'Dietetyka'];
     $scope.doctors = [];
-
-    /**
-     * Load available specialization
-     */
-    $scope.getSpecializations = function (expression) {
-        return [{
-            id: 1,
-            name: 'Alergologia'
-        }, {
-            id: 2,
-            name: 'Reumatalogia'
-        }, {
-            id: 3,
-            name: 'Dietetyka'
-        }];
-    };
 
     /**
      * Add new specialization to search criteria
@@ -56,7 +41,11 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
      *@param specialization new specialization to be added to criteria
      */
     $scope.addSpecialization = function (specialization) {
-        $scope.criteria.specializations.push(specialization);
+        $log.debug('Adding searched specialization: ' + specialization);
+        if (specialization != undefined && !_.contains($scope.criteria.specializations, specialization)) {
+            $scope.criteria.specializations.push(specialization);
+        }
+        $scope.newSpecialization = '';
     };
 
     /**
@@ -65,6 +54,7 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
      *@param specialization specialization to be removed from criteria
      */
     $scope.deleteSpacialization = function (specialization) {
+        $log.debug('Deleting searched specialization: ' + specialization);
         var index = $scope.criteria.specializations.indexOf(specialization);
         if (index != -1) {
             $scope.criteria.specializations.splice(index, 1);
