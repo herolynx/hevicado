@@ -17,6 +17,7 @@ var module = angular.module('angular-base',
         'bolt',
         'chronos',
         'users',
+        'doctors',
         /*
          * Internal modules
          */

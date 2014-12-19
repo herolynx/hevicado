@@ -175,8 +175,6 @@ controllers.controller('UserProfileCtrl', function ($rootScope, $scope, Session,
  */
 controllers.controller('UserInfoCtrl', function ($scope, Session, AUTH_EVENTS, USER_EVENTS, $log) {
 
-    //TODO add tests
-
     $scope.info = {};
 
     /**

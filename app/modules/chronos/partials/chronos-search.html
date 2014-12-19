@@ -75,9 +75,6 @@
                         <li>
                             <label>Specjalization (wybierz spośród wielu)</label>
                             <fieldset>
-                                <!--  typeahead="specialization for specialization in getSpecializations($viewValue)"
-                                    typeahead-loading="loadingSpecializations"
-                                    class="form-control" -->
                                 <input type="text"
                                        ng-model="newSpecialization"
                                        placeholder="Find specialization"
@@ -114,20 +111,24 @@
                         <div class="person">
                             <div class="name">
                                 <h2>
-                                    {{doctor | userInfo:'withDegree'}}
+                                    <a ui-sref="cabinet({ doctorId: doctor.id })">
+                                        {{doctor | userInfo:'withDegree'}}
+                                    </a>
                                 </h2>
-                                <!-- <span>
-                                    specjalizacja: urologia, chirurgia ogólna
-                                </span> -->
                             </div>
                         </div>
                         <div ng-repeat="location in doctor.locations" class="info">
                             <div class="address">
                                 <p>
                                     <span class="color {{location.color}}"></span>
-                                    {{location.name}}<br/>
-                                    {{location.address | addressInfo}}
+                                    <a ui-sref="cabinet({ doctorId: doctor.id })">
+                                        {{location.name}}<br/>
+                                        {{location.address | addressInfo}}
+                                    </a>
                                 </p>
+                                <div ng-repeat="specialization in location.specializations">
+                                    {{specialization}}
+                                </div>
                             </div>
                             <div class="calendar">
                                 <div class="box-event" ng-repeat="(key,value) in location.calendar">

@@ -8,7 +8,7 @@
     <div class="box">
         <div class="user">
             <strong>{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}</strong><br/>
-            <a>
+            <a ui-sref="cabinet({ doctorId: event.doctor.id })">
                 {{event.doctor | userInfo:'withDegree'}}
             </a>
 

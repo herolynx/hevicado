@@ -1,0 +1,96 @@
+<section id="main-content">
+    <div class="title-page">
+        <h1>Cabinet</h1>
+    </div>
+    <!-- Page Title -->
+    <div class="content" ng-controller="CabinetInfoCtrl">
+        <section class="cabinet">
+            <div class="top-info">
+                Gabinet lekarza
+            </div>
+
+            <div class="box-row">
+                <div class="box">
+                    <div class="info-doctor">
+                        <div class="title">
+                            <span>Presonal info</span>
+                        </div>
+
+                        <div class="name">
+                            {{doctor | userInfo:'withDegree'}}
+                            <br/>
+                        </div>
+
+                        <div class="short-info">
+                            <strong>Short info: </strong><br/>
+
+                            <p>
+                                {{doctor.description}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="box" ng-repeat="location in doctor.locations">
+                    <div class="row">
+                        <div class="color {{location.color}}">
+                            <span></span>
+                        </div>
+                        <div class="name-company">
+								<span>
+									{{location.name}}
+								</span>
+                        </div>
+                        <div class="tag">
+                            <div ng-repeat="specialization in location.specializations">
+                                {{specialization}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="box-left">
+                            <div class="address">
+                                <span>{{location.address | addressInfo}}</span>
+                            </div>
+
+                            <div class="open-hour">
+                                <div class="title">
+                                    <span>Godziny otwarcia gabinetu</span>
+                                </div>
+                                <ul>
+                                    <li ng-repeat="working in location.working_hours">
+                                        <span class="day">{{working.day}}</span>
+                                        <span class="hour">{{working.start}} - {{working.end}}</span>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                        <div class="box-right">
+                            <div class="treatments">
+                                <div class="title">
+                                    <span>Wykonywane zabiegi</span>
+                                    <ul>
+                                        <li ng-repeat="template in location.templates">
+                                            <div class="intervention">{{template.name}}</div>
+
+                                            <div class="time">
+													<span ng-repeat="duration in template.durations">
+														{{duration}}
+													</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section Page (calendar, members, ...) -->
+    </div>
+</section> <!--Main section -->

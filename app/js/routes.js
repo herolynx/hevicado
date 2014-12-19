@@ -158,10 +158,17 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     /************************* DOCTOR ***************************************/
     $stateProvider.
         state('cabinet', {
-            url: "/doctor/cabinet",
-            templateUrl: "modules/doctor/partials/cabinet.html",
+            url: "/doctor/{doctorId:[0-9a-z]+}/office",
+            templateUrl: "modules/doctors/partials/cabinet.html",
             data: {
                 access: ACCESS_LEVELS.USERS
+            }
+        }).
+        state('edit-cabinet', {
+            url: "/doctor/edit-office",
+            templateUrl: "modules/doctors/partials/edit-cabinet.html",
+            data: {
+                access: ACCESS_LEVELS.DOCTORS
             }
         });
 });
