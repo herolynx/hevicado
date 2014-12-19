@@ -2,29 +2,31 @@
 
 var search = angular.module('chronos.search', [
     'chronos.services',
-    'users.services',
+    'commons.users.filters',
+    'commons.users.directives',
     'infinite-scroll'
 ]);
 
 /**
- * Contoller managing searching of doctors and free visits
+ * Controller managing searching of doctors and free visits
  *
  * @param $scope current scope of controller
  * @param $log logger
- * @param UsersService service managing user related data
+ * @param CalendarService service managing visit related data
  * @param EventUtils generic functionality related with events
  * @param uiNotification notification service
  */
-search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, EventUtils, uiNotification) {
+search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, EventUtils, uiNotification) {
 
     $scope.daysCount = 7;
     $scope.loading = false;
-    $scope.startDate = Date.today();
+    $scope.eof = false;
+    $scope.start = Date.today();
     $scope.criteria = {
         name: '',
         localization: '',
-        startDate: null,
-        endDate: null,
+        start: null,
+        end: null,
         specializations: [],
         startIndex: 0,
         count: 10
@@ -85,9 +87,13 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, Even
      *@date daysCount length in days of time window
      */
     $scope.initTimetable = function (date, daysCount) {
-        $scope.criteria.startDate = EventUtils.currentMonday(date);
-        $scope.criteria.endDate = $scope.criteria.startDate.clone().add(daysCount).days();
-        $log.debug('Timetable set - start: ' + $scope.criteria.startDate + ', end: ' + $scope.criteria.endDate);
+        $scope.criteria.start = EventUtils.currentMonday(date);
+        $scope.criteria.end = $scope.criteria.start.clone().add(daysCount).days().set({
+            hour: 23,
+            minute: 59,
+            second: 59
+        });
+        $log.debug('Timetable set - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
     };
 
     /**
@@ -96,15 +102,16 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, Even
     $scope.clear = function () {
         $scope.doctors = [];
         $scope.criteria.startIndex = -$scope.criteria.count;
+        $scope.eof = false;
     };
 
     /**
      * Search doctors by given criteria
      */
     $scope.search = function () {
-        $log.debug('Searching doctors - name:' + $scope.criteria.name + ', start: ' + $scope.criteria.startDate);
+        $log.debug('Searching doctors - name:' + $scope.criteria.name + ', start: ' + $scope.criteria.start);
         $scope.clear();
-        $scope.initTimetable($scope.date, $scope.daysCount);
+        $scope.initTimetable($scope.start, $scope.daysCount);
         $scope.nextDoctors();
     };
 
@@ -115,8 +122,8 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, Even
     $scope.moveDays = function (days) {
         $log.debug('Search doctors - moving days: ' + days);
         $scope.clear();
-        $scope.criteria.startDate.add(days).days();
-        $scope.criteria.endDate.add(days).days();
+        $scope.criteria.start.add(days).days();
+        $scope.criteria.end.add(days).days();
         $scope.nextDoctors();
     };
 
@@ -124,24 +131,27 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, UsersService, Even
      * Load next page of data for doctors
      */
     $scope.nextDoctors = function () {
+        if ($scope.loading || $scope.eof) {
+            return;
+        }
         $log.debug('Searching next doctors');
         $scope.loading = true;
         $scope.criteria.startIndex += $scope.criteria.count;
-        UsersService.search($scope.criteria).
-        success(function (data) {
-            $log.debug('Doctors found - data size: ' + data.length);
-            $scope.loading = false;
-            for (var i = 0; i < data.length; i++) {
-                $scope.doctors.push(data[i]);
-            }
-        }).
-        error(function (data, status) {
-            $log.error('Couldn\'t find doctors - data: ' + data + ', status: ' + status);
-            uiNotification.text('Error', 'Couldn\'t find doctors').error();
-            $scope.loading = false;
-        });
+        CalendarService.search($scope.criteria).
+            success(function (data) {
+                $log.debug('Doctors found - data size: ' + data.length);
+                $scope.doctors = $scope.doctors.concat(data);
+                $scope.eof = data.length == 0;
+                $scope.loading = false;
+            }).
+            error(function (data, status) {
+                $log.error('Couldn\'t find doctors - data: ' + data + ', status: ' + status);
+                uiNotification.text('Error', 'Couldn\'t find doctors').error();
+                $scope.eof = true;
+                $scope.loading = false;
+            });
     };
 
-    $scope.initTimetable($scope.startDate, $scope.daysCount);
+    $scope.initTimetable($scope.start, $scope.daysCount);
 
 });

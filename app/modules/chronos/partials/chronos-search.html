@@ -1,152 +1,161 @@
 <section id="main-content" ng-controller="SearchDoctorCtrl">
-        <div class="title-page">
-            <h1>Search</h1>
-        </div> <!-- Page Title -->
-        <div class="content">
-            <section class="search">
-                <div class="week-prev">
-                    <a class="prev" ng-click="moveDays(-daysCount)">>
-                        <i class="icon-left-open"></i>
-                    </a>
-                </div>  
-                <div class="week-next">
-                    <a class="next" ng-click="moveDays(daysCount)">
-                        <i class="icon-right-open"></i>
-                    </a>
-                </div>  <!-- Pagination Calendar Next, Prev -->     
-            
-                <div class="top-info">
-                    Wypełnij jedno z pól aby odnaleźć tego Jedynego :P 
+    <div class="title-page">
+        <h1>Search</h1>
+    </div>
+    <!-- Page Title -->
+    <div class="content">
+        <section class="search">
+            <div class="week-prev">
+                <a class="prev" ng-click="moveDays(-daysCount)">>
+                    <i class="icon-left-open"></i>
+                </a>
+            </div>
+            <div class="week-next">
+                <a class="next" ng-click="moveDays(daysCount)">
+                    <i class="icon-right-open"></i>
+                </a>
+            </div>
+            <!-- Pagination Calendar Next, Prev -->
+
+            <div class="top-info">
+                Wypełnij jedno z pól aby odnaleźć tego Jedynego :P
+            </div>
+            <div class="box-row">
+                <div class="box">
+                    <h2><span>1</span>Person data</h2>
+                    <ul>
+                        <li>
+                            <label>Name / Address e-mail</label>
+                            <fieldset>
+                                <input type="text" ng-model="criteria.name">
+                            </fieldset>
+                        </li>
+                        <li>
+                            <label>Location</label>
+                            <fieldset>
+                                <input type="text" ng-model="criteria.localization">
+                            </fieldset>
+                        </li>
+                    </ul>
                 </div>
-                <div class="box-row">
-                    <div class="box">
-                        <h2><span>1</span>Person data</h2>
-                        <ul>
-                            <li>
-                                <label>Name / Address e-mail</label>
-                                <fieldset>
-                                    <input type="text" ng-model="criteria.name">
-                                </fieldset>
-                            </li>
-                            <li>
-                                <label>Location</label>
-                                <fieldset>
-                                    <input type="text" ng-model="criteria.localization">
-                                </fieldset>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="box">
-                        <h2><span>2</span>Termin</h2>
-                        <ul>
-                            <li>
-                                <label>Termin</label>
-                                <fieldset>
-                                    <input type="text" class="form-control" 
-                                        datepicker-popup="yyyy-MM-dd" 
-                                        ng-model="startDate" 
-                                        is-open="opened" 
-                                        min-date="Date.today()" 
-                                        datepicker-options="dateOptions" 
-                                        date-disabled="disabled(date, mode)" 
-                                        ng-required="true" 
-                                        close-text="Close" />
-                                    <button ng-click="openDatePicker($event)">
-                                            Open<i class="glyphicon glyphicon-calendar"></i>
-                                    </button>
-                                </fieldset>
-                            </li>
-                            <li>
-                                <label></label>
-                                <fieldset>
-                                    <button ng-click="search()">Search user</button>    
-                                </fieldset>
-                            </li>
-                        </ul>
-                    </div>      
-                    <div class="box">
-                        <h2><span>3</span>Wybierz specjalizację:</h2>
-                        <ul>
-                            <li>
-                                <label>Specjalization (wybierz spośród wielu)</label>
-                                <fieldset>
-                                    <!--  typeahead="specialization for specialization in getSpecializations($viewValue)" 
-                                        typeahead-loading="loadingSpecializations" 
-                                        class="form-control" -->
-                                       <input type="text" 
-                                            ng-model="newSpecialization" 
-                                            placeholder="Find specialization" 
+                <div class="box">
+                    <h2><span>2</span>Termin</h2>
+                    <ul>
+                        <li>
+                            <label>Termin</label>
+                            <fieldset>
+                                <input type="text" class="form-control"
+                                       datepicker-popup="yyyy-MM-dd"
+                                       ng-model="start"
+                                       is-open="opened"
+                                       ng-disabled="true"
+                                       min-date="Date.today()"
+                                       datepicker-options="dateOptions"
+                                       date-disabled="disabled(date, mode)"
+                                       ng-required="true"
+                                       close-text="Close"
+                                       user-date
+                                        />
+                                <button ng-click="openDatePicker($event)">
+                                    Open<i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </fieldset>
+                        </li>
+                        <li>
+                            <label></label>
+                            <fieldset>
+                                <button ng-click="search()">Search user</button>
+                            </fieldset>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h2><span>3</span>Wybierz specjalizację:</h2>
+                    <ul>
+                        <li>
+                            <label>Specjalization (wybierz spośród wielu)</label>
+                            <fieldset>
+                                <!--  typeahead="specialization for specialization in getSpecializations($viewValue)"
+                                    typeahead-loading="loadingSpecializations"
+                                    class="form-control" -->
+                                <input type="text"
+                                       ng-model="newSpecialization"
+                                       placeholder="Find specialization"
                                         >
-                                </fieldset>
-                                <button ng-click="addSpecialization(newSpecialization)">Add</button> 
-                            </li>
-                            <li>
-                                <div class="tag" >
-                                    <a ng-repeat="specialization in criteria.specializations"
-                                       ng-click="deleteSpacialization(specialization)"
-                                    >
-                                        {{specialization.name}}
-                                        <div class="delete"><i class="icon-minus-circled"></i></div>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>   
-                    </div>      
-                </div> <!-- Form -->
-                <div class="top-info">
-                    Wyniki wyszukiwania
-                </div>
-              <div class="box-row" 
-                        infinite-scroll='nextDoctors()'
-                        infinite-scroll-disabled='loading'
-                        infinite-scroll-distance='2'
-               >
-                    <div class="results">
-                        <div ng-repeat="doctor in doctors" class="box blue"> <!-- Color -->
-                            <div class="person">
-                                <div class="name">
-                                    <h2>
-                                        {{doctor.first_name}}<br/> 
-                                        {{doctor.last_name}}
-                                    </h2>
-                                    <!-- <span>
-                                        specjalizacja: urologia, chirurgia ogólna
-                                    </span> -->
-                                </div>
-                                <div class="images">
-                                    <div class="user">
-                                        <div class="img">
-                                            <img src="images/temp/user-1.jpg" alt="User profile">   
-                                        </div>
-                                    </div>
-                                </div>                              
+                            </fieldset>
+                            <button ng-click="addSpecialization(newSpecialization)">Add</button>
+                        </li>
+                        <li>
+                            <div class="tag">
+                                <a ng-repeat="specialization in criteria.specializations"
+                                   ng-click="deleteSpacialization(specialization)"
+                                        >
+                                    {{specialization.name}}
+                                    <div class="delete"><i class="icon-minus-circled"></i></div>
+                                </a>
                             </div>
-                            <div ng-repeat="location in doctor.locations" class="info">
-                                <div class="address">
-                                    <p>
-                                        <span class="color"></span>
-                                        {{location.name}}<br/>
-                                        {{location.address.street}}<br/>
-                                        {{location.address.city}}, {{location.address.country}}
-                                    </p>                                
-                                </div>                          
-                                <div class="calendar">
-                                    <div class="box-event" ng-repeat="day in location.calendar">
-                                        <div class="box-count">
-                                            <a href="#"></a> <!-- Link Day -->
-                                            <p>{{day.date | date: "MM-dd (EEE)"}}</p>
-                                            <div class="count-event">                               
-                                                <p>Free</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Form -->
+            <div class="top-info">
+                Wyniki wyszukiwania
+            </div>
+            <div class="box-row"
+                 infinite-scroll='nextDoctors()'
+                 infinite-scroll-disabled='loading'
+                 infinite-scroll-distance='2'
+                    >
+                <div class="results">
+                    <div ng-repeat="doctor in doctors" class="box blue"> <!-- Color -->
+                        <div class="person">
+                            <div class="name">
+                                <h2>
+                                    {{doctor | userInfo}}
+                                </h2>
+                                <!-- <span>
+                                    specjalizacja: urologia, chirurgia ogólna
+                                </span> -->
+                            </div>
+                            <div class="images">
+                                <div class="user">
+                                    <div class="img">
+                                        <img src="images/temp/user-1.jpg" alt="User profile">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="location in doctor.locations" class="info">
+                            <div class="address">
+                                <p>
+                                    <span class="color"></span>
+                                    {{location.name}}<br/>
+                                    {{location.address | addressInfo}}
+                                </p>
+                            </div>
+                            <div class="calendar">
+                                <div class="box-event" ng-repeat="day in location.calendar">
+                                    <div class="box-count">
+                                        <a href="#"></a> <!-- Link Day -->
+                                        <p>{{day.date | date: "MM-dd (EEE)"}}</p>
+
+                                        <div class="count-event">
+                                            <p>Free</p>
                                                 <span>
                                                 {{date.free ? 'yes' : 'no'}}
-                                                </span> 
-                                            </div>
+                                                </span>
                                         </div>
                                     </div>
-                                </div>    
-                            </div>                          
-                        </div><!-- Person box -->
-                    </div><!-- Result -->
-            </section> <!-- Section Page (calendar, members, ...) -->
-        </div>
-    </section> <!--Main section -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Person box -->
+                </div>
+            </div>
+            <!-- Result -->
+        </section>
+        <!-- Section Page (calendar, members, ...) -->
+    </div>
+</section> <!--Main section -->

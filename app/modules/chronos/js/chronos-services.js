@@ -71,6 +71,16 @@ services.service('CalendarService', function (Session, $http, EventUtils, $log) 
                 id: event.id,
                 cancelled: new Date()
             }));
+        },
+
+        /**
+         * Search free visits and doctors
+         * @param criteria search conditions
+         * @returns {*} http promise
+         */
+        search: function (criteria) {
+            $log.debug('Searching free visits: ' + criteria)
+            return $http.post('/calendar', EventUtils.toJson(angular.copy(criteria)));
         }
 
     };

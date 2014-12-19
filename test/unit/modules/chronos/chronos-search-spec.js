@@ -9,7 +9,7 @@ describe('chronos-search-spec:', function () {
 
         beforeEach(angular.mock.module('chronos'));
 
-        var mockUsersService, mockUiNotification;
+        var mockCalendarService, mockUiNotification;
         var searchPromise;
         var ctrlScope;
 
@@ -18,7 +18,7 @@ describe('chronos-search-spec:', function () {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
             //mock dependencies
-            mockUsersService = jasmine.createSpyObj('mockUsersService', ['search']);
+            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['search']);
             searchPromise = {
                 success: function (f) {
                     searchPromise.onSuccess = f;
@@ -29,7 +29,7 @@ describe('chronos-search-spec:', function () {
                     return searchPromise;
                 }
             };
-            mockUsersService.search.andReturn(searchPromise);
+            mockCalendarService.search.andReturn(searchPromise);
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
                 mockUiNotification.title = title;
@@ -41,7 +41,7 @@ describe('chronos-search-spec:', function () {
             $controller('SearchDoctorCtrl', {
                 $scope: ctrlScope,
                 $log: mockLog,
-                UsersService: mockUsersService,
+                CalendarService: mockCalendarService,
                 EventUtils: $injector.get('EventUtils'),
                 uiNotification: mockUiNotification
             });
@@ -52,9 +52,9 @@ describe('chronos-search-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //when controller is reached
             //then time table for search is set
-            expect(ctrlScope.criteria.startDate).not.toBeNull();
-            expect(ctrlScope.criteria.endDate).not.toBeNull();
-            var span = new TimeSpan(ctrlScope.criteria.endDate - ctrlScope.criteria.startDate);
+            expect(ctrlScope.criteria.start).not.toBeNull();
+            expect(ctrlScope.criteria.end).not.toBeNull();
+            var span = new TimeSpan(ctrlScope.criteria.end - ctrlScope.criteria.start);
             expect(span.days).toBe(ctrlScope.daysCount);
         });
 
@@ -93,7 +93,7 @@ describe('chronos-search-spec:', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
             //and new time table
-            var startDate = new Date().set({
+            var start = new Date().set({
                 day: 12,
                 month: 6,
                 year: 2014,
@@ -103,17 +103,17 @@ describe('chronos-search-spec:', function () {
             });
             var daysCount = 6;
             //when new time table is set
-            ctrlScope.initTimetable(startDate, daysCount);
+            ctrlScope.initTimetable(start, daysCount);
             //then new time table is set in search criteria
-            expect(ctrlScope.criteria.startDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
-            expect(ctrlScope.criteria.endDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-13 Sunday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-13 Sunday');
         });
 
         it('should shift time table', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
             //current time table
-            var startDate = new Date().set({
+            var start = new Date().set({
                 day: 12,
                 month: 6,
                 year: 2014,
@@ -122,14 +122,14 @@ describe('chronos-search-spec:', function () {
                 second: 0
             });
             var daysCount = 7;
-            ctrlScope.initTimetable(startDate, daysCount);
-            expect(ctrlScope.criteria.startDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
-            expect(ctrlScope.criteria.endDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
+            ctrlScope.initTimetable(start, daysCount);
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
             //when time table is shifted
             ctrlScope.moveDays(daysCount);
             //then time table is updated in search criteria
-            expect(ctrlScope.criteria.startDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
-            expect(ctrlScope.criteria.endDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-21 Monday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-21 Monday');
         });
 
 
@@ -137,7 +137,7 @@ describe('chronos-search-spec:', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
             //and search criteria
-            ctrlScope.date = new Date().set({
+            ctrlScope.start = new Date().set({
                 day: 12,
                 month: 6,
                 year: 2014,
@@ -155,21 +155,21 @@ describe('chronos-search-spec:', function () {
             //when searching for new results
             ctrlScope.search();
             //then new time table is set according to search criteria
-            expect(ctrlScope.criteria.startDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
-            expect(ctrlScope.criteria.endDate.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
+            expect(ctrlScope.criteria.start.toString('yyyy-MM-dd dddd')).toBe('2014-07-07 Monday');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd dddd')).toBe('2014-07-14 Monday');
             //and state is cleared
             expect(ctrlScope.doctors.length).toBe(0);
             expect(ctrlScope.criteria.startIndex).toBe(0);
             //and load of data has begun
             expect(ctrlScope.loading).toBe(true);
-            expect(mockUsersService.search).toHaveBeenCalledWith(ctrlScope.criteria);
+            expect(mockCalendarService.search).toHaveBeenCalledWith(ctrlScope.criteria);
         });
 
         it('should find doctors according to search criteria', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
             //and search criteria
-            ctrlScope.date = new Date().set({
+            ctrlScope.start = new Date().set({
                 day: 12,
                 month: 6,
                 year: 2014,
@@ -184,7 +184,7 @@ describe('chronos-search-spec:', function () {
             //when searching for new results
             ctrlScope.search();
             //and back-end has responsed successfully
-            expect(mockUsersService.search).toHaveBeenCalledWith(ctrlScope.criteria);
+            expect(mockCalendarService.search).toHaveBeenCalledWith(ctrlScope.criteria);
             var doctors = [{
                 id: 1,
                 name: 'doctor'
@@ -200,7 +200,7 @@ describe('chronos-search-spec:', function () {
             //given controller is initialized
             expect(ctrlScope).toBeDefined();
             //and search criteria
-            ctrlScope.date = new Date().set({
+            ctrlScope.start = new Date().set({
                 day: 12,
                 month: 6,
                 year: 2014,
@@ -215,7 +215,7 @@ describe('chronos-search-spec:', function () {
             //when searching for new results
             ctrlScope.search();
             //and back-end has responded with failure
-            expect(mockUsersService.search).toHaveBeenCalledWith(ctrlScope.criteria);
+            expect(mockCalendarService.search).toHaveBeenCalledWith(ctrlScope.criteria);
             searchPromise.onError('ERROR');
             //then user is informed that search has failed
             expect(mockUiNotification.error).toHaveBeenCalled();
