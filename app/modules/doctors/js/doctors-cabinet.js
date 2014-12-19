@@ -92,6 +92,68 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
         $scope.newSpecialization = '';
     };
 
+    /**
+     * Add value
+     * @param array array to be modified
+     * @param value optional value to be added. If null empty object will be added.
+     */
+    $scope.addValue = function (array, value) {
+        $log.debug('Adding value');
+        var newValue = value || {};
+        if (!_.contains(array, newValue)) {
+            array.push(newValue);
+        }
+    };
+
+    /**
+     * Delete value
+     * @param array array to be modified
+     * @param value value to be deleted
+     */
+    $scope.deleteValue = function (array, value) {
+        $log.debug('Deleteing value');
+        var index = array.indexOf(value);
+        if (index != -1) {
+            array.splice(index, 1);
+        }
+    };
+
+    /**
+     * Add new empty location
+     * @param array array to be modified
+     */
+    $scope.addLocation = function (array) {
+        $log.debug('Adding location');
+        array.push(
+            {
+                name: "",
+                address: {
+                    street: "",
+                    city: "",
+                    country: ""
+                },
+                color: "turqoise",
+                working_hours: [],
+                templates: [],
+                specializations: []
+            }
+        );
+    };
+
+    /**
+     * Add new empty template
+     * @param array array to be modified
+     */
+    $scope.addTemplate = function (array) {
+        $log.debug('Adding template');
+        array.push(
+            {
+                name: "",
+                durations: []
+            }
+        );
+    };
+
     $scope.init(Session.getUserId());
 
 });

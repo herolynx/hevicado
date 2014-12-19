@@ -17,7 +17,7 @@
             <!--</div>-->
         </div>
         <div class="address">
-            <a>{{event.location.name}}</a>
+            <a ui-sref="cabinet({ doctorId: event.doctor.id })">{{event.location.name}}</a>
 
             <p>
                 {{event.location.address | addressInfo}}

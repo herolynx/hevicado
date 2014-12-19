@@ -33,7 +33,10 @@
                 <div class="box" ng-repeat="location in doctor.locations">
                     <div class="row">
                         <div class="delete">
-                            <a href="#" tooltip-animation="false" tooltip="Skasuj gabinet" tooltip-popup-delay='1000'>
+                            <a tooltip-animation="false"
+                               tooltip="Skasuj gabinet"
+                               tooltip-popup-delay='1000'
+                               ng-click="deleteValue(doctor.locations, location)">
                                 <i class="icon-trash"></i>
                             </a>
                         </div>
@@ -48,8 +51,11 @@
                         <div class="tag">
                             <div ng-repeat="specialization in location.specializations">
                                 {{specialization}}
-                                <div class="delete" tooltip-animation="false" tooltip="Skasuj specializacje"
-                                     tooltip-popup-delay='1000'>
+                                <div class="delete"
+                                     tooltip-animation="false"
+                                     tooltip="Skasuj specializacje"
+                                     tooltip-popup-delay='1000'
+                                     ng-click="deleteValue(location.specializations, specialization)">
                                     <a href="#">
                                         <i class="icon-trash"></i>
                                     </a>
@@ -64,8 +70,7 @@
                                         >
                             </div>
                             <div class="add">
-
-                                <a href="#">
+                                <a ng-click="addValue(location.specializations, newSpecialization)">
                                     <i class="icon-plus-circled"></i>Dodaj specializacje
                                 </a>
                             </div>
@@ -91,6 +96,14 @@
                                 </div>
                                 <ul>
                                     <li ng-repeat="working in location.working_hours">
+                                        <div class="delete">
+                                            <a tooltip-animation="false"
+                                               tooltip="Skasuj godzine"
+                                               tooltip-popup-delay='1000'
+                                               ng-click="deleteValue(location.working_hours, working)">
+                                                <i class="icon-trash"></i>
+                                            </a>
+                                        </div>
                                         <span class="day">
                                              <select name="lang" ng-model="working.day" required>
                                                  <option ng-repeat="day in days"
@@ -112,19 +125,11 @@
                                                         hour-step="1"
                                                         minute-step="15"
                                                     />
-
                                         </span>
-
-                                        <div class="delete">
-                                            <a href="#" tooltip-animation="false" tooltip="Skasuj godzine"
-                                               tooltip-popup-delay='1000'>
-                                                <i class="icon-trash"></i>
-                                            </a>
-                                        </div>
                                     </li>
                                 </ul>
                                 <div class="add">
-                                    <a href="#">
+                                    <a ng-click="addValue(location.working_hours)">
                                         <i class="icon-plus-circled"></i>Dodaj godziny
                                     </a>
                                 </div>
@@ -139,9 +144,17 @@
                                     <ul>
                                         <li ng-repeat="template in location.templates">
                                             <div class="intervention">
+                                                <div class="delete">
+                                                    <a tooltip-animation="false"
+                                                       tooltip="Skasuj zabieg"
+                                                       tooltip-popup-delay='1000'
+                                                       ng-click="deleteValue(location.templates, template)">
+                                                        <i class="icon-trash"></i>
+                                                    </a>
+                                                </div>
                                                 <input type="text"
                                                        ng-model="template.name"
-                                                       placeholder="Nowa specializacja"
+                                                       placeholder="Nazwa zabiegu"
                                                        typeahead="templates for templates in templates"
                                                        typeahead-editable="false"
                                                         >
@@ -151,16 +164,19 @@
 													<span ng-repeat="duration in template.durations">
 														{{duration}}
                                                            <div class="delete">
-                                                               <a href="#" tooltip-animation="false"
-                                                                  tooltip="Skasuj zabieg" tooltip-popup-delay='1000'>
+                                                               <a tooltip-animation="false"
+                                                                  tooltip="Skasuj godzine"
+                                                                  tooltip-popup-delay='1000'
+                                                                  ng-click="deleteValue(template.durations, duration)"
+                                                                       >
                                                                    <i class="icon-trash"></i>
                                                                </a>
                                                            </div>
 													</span>
-                                                <input type="number">
+                                                <input type="number" ng-model="newDuration">
 
                                                 <div class="add">
-                                                    <a href="#">
+                                                    <a ng-click="addValue(template.durations, newDuration)">
                                                         <i class="icon-plus-circled"></i>
                                                     </a>
                                                 </div>
@@ -168,7 +184,7 @@
                                         </li>
                                     </ul>
                                     <div class="add">
-                                        <a href="#">
+                                        <a href="#" ng-click="addTemplate(location.templates)">
                                             <i class="icon-plus-circled"></i>Dodaj zabieg
                                         </a>
                                     </div>
@@ -179,7 +195,7 @@
                     </div>
                 </div>
                 <div class="add">
-                    <a href="#">
+                    <a ng-click="addLocation(doctor.locations)">
                         <i class="icon-plus-circled"></i>Dodaj gabinet
                     </a>
                 </div>
