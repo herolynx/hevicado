@@ -1,4 +1,4 @@
-<section id="main-content">
+<section id="main-content" xmlns="http://www.w3.org/1999/html">
     <div class="title-page">
         <h1>Cabinet</h1>
     </div>
@@ -25,24 +25,49 @@
                             <strong>Short info: </strong><br/>
 
                             <p>
-                                {{doctor.description}}
+                                <textarea ng-model="doctor.description"></textarea>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="box" ng-repeat="location in doctor.locations">
                     <div class="row">
+                        <div class="delete">
+                            <a href="#" tooltip-animation="false" tooltip="Skasuj gabinet" tooltip-popup-delay='1000'>
+                                <i class="icon-trash"></i>
+                            </a>
+                        </div>
                         <div class="color {{location.color}}">
                             <span></span>
                         </div>
                         <div class="name-company">
 								<span>
-									{{location.name}}
+									<input ng-model="location.name">
 								</span>
                         </div>
                         <div class="tag">
                             <div ng-repeat="specialization in location.specializations">
                                 {{specialization}}
+                                <div class="delete" tooltip-animation="false" tooltip="Skasuj specializacje"
+                                     tooltip-popup-delay='1000'>
+                                    <a href="#">
+                                        <i class="icon-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="text"
+                                       ng-model="newSpecialization"
+                                       placeholder="Nowa specializacja"
+                                       typeahead="specialization for specialization in specializations"
+                                       typeahead-editable="false"
+                                        >
+                            </div>
+                            <div class="add">
+
+                                <a href="#">
+                                    <i class="icon-plus-circled"></i>Dodaj specializacje
+                                </a>
                             </div>
                         </div>
 
@@ -50,7 +75,14 @@
                     <div class="row">
                         <div class="box-left">
                             <div class="address">
-                                <span>{{location.address | addressInfo}}</span>
+                                <div>Ulica:</div>
+                                <input ng-model="location.address.street">
+
+                                <div>Miasto:</div>
+                                <input ng-model="location.address.city">
+
+                                <div>Panstwo:</div>
+                                <input ng-model="location.address.country">
                             </div>
 
                             <div class="open-hour">
@@ -59,11 +91,43 @@
                                 </div>
                                 <ul>
                                     <li ng-repeat="working in location.working_hours">
-                                        <span class="day">{{working.day}}</span>
-                                        <span class="hour">{{working.start}} - {{working.end}}</span>
+                                        <span class="day">
+                                             <select name="lang" ng-model="working.day" required>
+                                                 <option ng-repeat="day in days"
+                                                         ng-selected="{{day==working.day}}"
+                                                         value="{{day}}">
+                                                     {{day}}
+                                                 </option>
+                                             </select>
+                                        </span>
+                                        <span class="hour">
+                                            <timepicker ng-model="working.startDate"
+                                                        show-meridian="false"
+                                                        hour-step="1"
+                                                        minute-step="15"
+                                                    />
+                                            -
+                                            <timepicker ng-model="working.endDate"
+                                                        show-meridian="false"
+                                                        hour-step="1"
+                                                        minute-step="15"
+                                                    />
+
+                                        </span>
+
+                                        <div class="delete">
+                                            <a href="#" tooltip-animation="false" tooltip="Skasuj godzine"
+                                               tooltip-popup-delay='1000'>
+                                                <i class="icon-trash"></i>
+                                            </a>
+                                        </div>
                                     </li>
                                 </ul>
-
+                                <div class="add">
+                                    <a href="#">
+                                        <i class="icon-plus-circled"></i>Dodaj godziny
+                                    </a>
+                                </div>
                             </div>
 
                         </div>
@@ -74,20 +138,50 @@
                                     <span>Wykonywane zabiegi</span>
                                     <ul>
                                         <li ng-repeat="template in location.templates">
-                                            <div class="intervention">{{template.name}}</div>
+                                            <div class="intervention">
+                                                <input type="text"
+                                                       ng-model="template.name"
+                                                       placeholder="Nowa specializacja"
+                                                       typeahead="templates for templates in templates"
+                                                       typeahead-editable="false"
+                                                        >
+                                            </div>
 
                                             <div class="time">
 													<span ng-repeat="duration in template.durations">
 														{{duration}}
+                                                           <div class="delete">
+                                                               <a href="#" tooltip-animation="false"
+                                                                  tooltip="Skasuj zabieg" tooltip-popup-delay='1000'>
+                                                                   <i class="icon-trash"></i>
+                                                               </a>
+                                                           </div>
 													</span>
+                                                <input type="number">
+
+                                                <div class="add">
+                                                    <a href="#">
+                                                        <i class="icon-plus-circled"></i>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </li>
                                     </ul>
+                                    <div class="add">
+                                        <a href="#">
+                                            <i class="icon-plus-circled"></i>Dodaj zabieg
+                                        </a>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="add">
+                    <a href="#">
+                        <i class="icon-plus-circled"></i>Dodaj gabinet
+                    </a>
                 </div>
             </div>
         </section>
