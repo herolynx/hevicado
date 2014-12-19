@@ -20,9 +20,10 @@ cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $statePara
 
     /**
      * Initialize controller
+     * @param doctorId doctor to be displayed
      */
-    $scope.init = function () {
-        $scope.doctorId = $stateParams.doctorId;
+    $scope.init = function (doctorId) {
+        $scope.doctorId = doctorId;
         $log.debug('Loading info about doctor: ' + $scope.doctorId);
         UsersService.
             get($scope.doctorId).
@@ -37,6 +38,16 @@ cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $statePara
         );
     };
 
-    $scope.init();
+    if ($stateParams.doctorId != undefined) {
+        $scope.init($stateParams.doctorId);
+    }
+
+});
+
+cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $controller, $log, uiNotification) {
+
+    $controller('CabinetInfoCtrl', {$scope: $scope});
+
+    $scope.init(Session.getUserId());
 
 });
