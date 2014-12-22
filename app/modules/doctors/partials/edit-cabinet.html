@@ -8,102 +8,112 @@
             <div class="top-info">
                 Gabinet lekarza
             </div>
+            <form name="cabinet" novalidate>
+                <div class="box-row">
+                    <div class="box">
+                        <div class="info-doctor">
+                            <div class="title">
+                                <span>Presonal info</span>
+                            </div>
 
-            <div class="box-row">
-                <div class="box">
-                    <div class="info-doctor">
-                        <div class="title">
-                            <span>Presonal info</span>
-                        </div>
+                            <div class="name">
+                                {{doctor | userInfo:'withDegree'}}
+                                <br/>
+                            </div>
 
-                        <div class="name">
-                            {{doctor | userInfo:'withDegree'}}
-                            <br/>
-                        </div>
+                            <div class="short-info">
+                                <strong>Short info: </strong><br/>
 
-                        <div class="short-info">
-                            <strong>Short info: </strong><br/>
-
-                            <p>
-                                <textarea ng-model="doctor.description"></textarea>
-                            </p>
+                                <p>
+                                    <textarea ng-model="doctor.description"></textarea>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="box" ng-repeat="location in doctor.locations">
-                    <div class="row">
-                        <div class="delete">
-                            <a tooltip-animation="false"
-                               tooltip="Skasuj gabinet"
-                               tooltip-popup-delay='1000'
-                               ng-click="deleteValue(doctor.locations, location)">
-                                <i class="icon-trash"></i>
-                            </a>
-                        </div>
-                        <div class="color {{location.color}}">
-                            <span></span>
-                        </div>
-                        <div class="name-company">
-								<span>
-									<input ng-model="location.name">
-								</span>
-                        </div>
-                        <div class="tag">
-                            <div ng-repeat="specialization in location.specializations">
-                                {{specialization}}
-                                <div class="delete"
-                                     tooltip-animation="false"
-                                     tooltip="Skasuj specializacje"
-                                     tooltip-popup-delay='1000'
-                                     ng-click="deleteValue(location.specializations, specialization)">
-                                    <a href="#">
-                                        <i class="icon-trash"></i>
+                    <div class="box" ng-repeat="location in doctor.locations">
+                        <div class="row">
+                            <div class="delete">
+                                <a tooltip-animation="false"
+                                   tooltip="Skasuj gabinet"
+                                   tooltip-popup-delay='1000'
+                                   ng-click="deleteValue(doctor.locations, location)">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </div>
+                            <div class="color {{location.color}}">
+                                <span></span>
+                            </div>
+                            <div class="name-company">
+                                <ng-form id="cabientName-{{$index}}" name="cabientName">
+                                    <span>
+                                        <input id="name"
+                                               name="name"
+                                               placeholder="Nazwa gabinetu"
+                                               ng-model="location.name"
+                                               ng-minlength="2"
+                                               required>
+                                    </span>
+                                    <small class="error" ng-show="cabientName.name.$error.minlength">
+                                        Cabinet name must have at least 2 characters
+                                    </small>
+                                </ng-form>
+                            </div>
+                            <div class="tag">
+                                <div ng-repeat="specialization in location.specializations">
+                                    {{specialization}}
+                                    <div class="delete"
+                                         tooltip-animation="false"
+                                         tooltip="Skasuj specializacje"
+                                         tooltip-popup-delay='1000'
+                                         ng-click="deleteValue(location.specializations, specialization)">
+                                        <a href="#">
+                                            <i class="icon-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input type="text"
+                                           ng-model="newSpecialization"
+                                           placeholder="Nowa specializacja"
+                                           typeahead="specialization for specialization in specializations"
+                                           typeahead-editable="false"
+                                            >
+                                </div>
+                                <div class="add">
+                                    <a ng-click="addValue(location.specializations, newSpecialization)">
+                                        <i class="icon-plus-circled"></i>Dodaj specializacje
                                     </a>
                                 </div>
                             </div>
-                            <div>
-                                <input type="text"
-                                       ng-model="newSpecialization"
-                                       placeholder="Nowa specializacja"
-                                       typeahead="specialization for specialization in specializations"
-                                       typeahead-editable="false"
-                                        >
-                            </div>
-                            <div class="add">
-                                <a ng-click="addValue(location.specializations, newSpecialization)">
-                                    <i class="icon-plus-circled"></i>Dodaj specializacje
-                                </a>
-                            </div>
+
                         </div>
+                        <div class="row">
+                            <div class="box-left">
+                                <div class="address">
+                                    <div>Ulica:</div>
+                                    <input ng-model="location.address.street">
 
-                    </div>
-                    <div class="row">
-                        <div class="box-left">
-                            <div class="address">
-                                <div>Ulica:</div>
-                                <input ng-model="location.address.street">
+                                    <div>Miasto:</div>
+                                    <input ng-model="location.address.city">
 
-                                <div>Miasto:</div>
-                                <input ng-model="location.address.city">
-
-                                <div>Panstwo:</div>
-                                <input ng-model="location.address.country">
-                            </div>
-
-                            <div class="open-hour">
-                                <div class="title">
-                                    <span>Godziny otwarcia gabinetu</span>
+                                    <div>Panstwo:</div>
+                                    <input ng-model="location.address.country">
                                 </div>
-                                <ul>
-                                    <li ng-repeat="working in location.working_hours">
-                                        <div class="delete">
-                                            <a tooltip-animation="false"
-                                               tooltip="Skasuj godzine"
-                                               tooltip-popup-delay='1000'
-                                               ng-click="deleteValue(location.working_hours, working)">
-                                                <i class="icon-trash"></i>
-                                            </a>
-                                        </div>
+
+                                <div class="open-hour">
+                                    <div class="title">
+                                        <span>Godziny otwarcia gabinetu</span>
+                                    </div>
+                                    <ul>
+                                        <li ng-repeat="working in location.working_hours">
+                                            <div class="delete">
+                                                <a tooltip-animation="false"
+                                                   tooltip="Skasuj godzine"
+                                                   tooltip-popup-delay='1000'
+                                                   ng-click="deleteValue(location.working_hours, working)">
+                                                    <i class="icon-trash"></i>
+                                                </a>
+                                            </div>
                                         <span class="day">
                                              <select name="lang" ng-model="working.day" required>
                                                  <option ng-repeat="day in days"
@@ -126,41 +136,41 @@
                                                         minute-step="15"
                                                     />
                                         </span>
-                                    </li>
-                                </ul>
-                                <div class="add">
-                                    <a ng-click="addValue(location.working_hours)">
-                                        <i class="icon-plus-circled"></i>Dodaj godziny
-                                    </a>
+                                        </li>
+                                    </ul>
+                                    <div class="add">
+                                        <a ng-click="addValue(location.working_hours)">
+                                            <i class="icon-plus-circled"></i>Dodaj godziny
+                                        </a>
+                                    </div>
                                 </div>
+
                             </div>
 
-                        </div>
-
-                        <div class="box-right">
-                            <div class="treatments">
-                                <div class="title">
-                                    <span>Wykonywane zabiegi</span>
-                                    <ul>
-                                        <li ng-repeat="template in location.templates">
-                                            <div class="intervention">
-                                                <div class="delete">
-                                                    <a tooltip-animation="false"
-                                                       tooltip="Skasuj zabieg"
-                                                       tooltip-popup-delay='1000'
-                                                       ng-click="deleteValue(location.templates, template)">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
+                            <div class="box-right">
+                                <div class="treatments">
+                                    <div class="title">
+                                        <span>Wykonywane zabiegi</span>
+                                        <ul>
+                                            <li ng-repeat="template in location.templates">
+                                                <div class="intervention">
+                                                    <div class="delete">
+                                                        <a tooltip-animation="false"
+                                                           tooltip="Skasuj zabieg"
+                                                           tooltip-popup-delay='1000'
+                                                           ng-click="deleteValue(location.templates, template)">
+                                                            <i class="icon-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                    <input type="text"
+                                                           ng-model="template.name"
+                                                           placeholder="Nazwa zabiegu"
+                                                           typeahead="templates for templates in templates"
+                                                           typeahead-editable="false"
+                                                            >
                                                 </div>
-                                                <input type="text"
-                                                       ng-model="template.name"
-                                                       placeholder="Nazwa zabiegu"
-                                                       typeahead="templates for templates in templates"
-                                                       typeahead-editable="false"
-                                                        >
-                                            </div>
 
-                                            <div class="time">
+                                                <div class="time">
 													<span ng-repeat="duration in template.durations">
 														{{duration}}
                                                            <div class="delete">
@@ -173,33 +183,40 @@
                                                                </a>
                                                            </div>
 													</span>
-                                                <input type="number" ng-model="newDuration">
+                                                    <input type="number" ng-model="newDuration">
 
-                                                <div class="add">
-                                                    <a ng-click="addValue(template.durations, newDuration)">
-                                                        <i class="icon-plus-circled"></i>
-                                                    </a>
+                                                    <div class="add">
+                                                        <a ng-click="addValue(template.durations, newDuration)">
+                                                            <i class="icon-plus-circled"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="add">
-                                        <a href="#" ng-click="addTemplate(location.templates)">
-                                            <i class="icon-plus-circled"></i>Dodaj zabieg
-                                        </a>
+                                            </li>
+                                        </ul>
+                                        <div class="add">
+                                            <a href="#" ng-click="addTemplate(location.templates)">
+                                                <i class="icon-plus-circled"></i>Dodaj zabieg
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="add">
+                        <a ng-click="addLocation(doctor.locations)">
+                            <i class="icon-plus-circled"></i>Dodaj gabinet
+                        </a>
+                    </div>
+                    <div class="add">
+                        <a ng-disabled="cabinet.$invalid"
+                           ng-click="save(doctor)">
+                            <i class="icon-plus-circled"></i>Save
+                        </a>
+                    </div>
                 </div>
-                <div class="add">
-                    <a ng-click="addLocation(doctor.locations)">
-                        <i class="icon-plus-circled"></i>Dodaj gabinet
-                    </a>
-                </div>
-            </div>
+            </form>
         </section>
         <!-- Section Page (calendar, members, ...) -->
     </div>
