@@ -80,26 +80,17 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
     };
 
     /**
-     * Add new specialization to search criteria
-     *
-     *@param specialization new specialization to be added to criteria
-     */
-    $scope.addSpecialization = function (specialization) {
-        $log.debug('Adding specialization: ' + specialization);
-        if (specialization != undefined && !_.contains($scope.criteria.specializations, specialization)) {
-            $scope.criteria.specializations.push(specialization);
-        }
-        $scope.newSpecialization = '';
-    };
-
-    /**
      * Add value
      * @param array array to be modified
      * @param value optional value to be added. If null empty object will be added.
+     * @param allowedValues array of allowed values
      */
-    $scope.addValue = function (array, value) {
+    $scope.addValue = function (array, value, allowedValues) {
         $log.debug('Adding value');
         var newValue = value || {};
+        if (allowedValues != undefined && !_.contains(allowedValues, newValue)) {
+            return;
+        }
         if (!_.contains(array, newValue)) {
             array.push(newValue);
         }

@@ -76,11 +76,11 @@
                                            ng-model="newSpecialization"
                                            placeholder="Nowa specializacja"
                                            typeahead="specialization for specialization in specializations"
-                                           typeahead-editable="false"
+                                           typeahead-editable="true"
                                             >
                                 </div>
                                 <div class="add">
-                                    <a ng-click="addValue(location.specializations, newSpecialization)">
+                                    <a ng-click="addValue(location.specializations, newSpecialization, specializations)">
                                         <i class="icon-plus-circled"></i>Dodaj specializacje
                                     </a>
                                 </div>
@@ -90,14 +90,37 @@
                         <div class="row">
                             <div class="box-left">
                                 <div class="address">
-                                    <div>Ulica:</div>
-                                    <input ng-model="location.address.street">
+                                    <ng-form id="cabientAddress-{{$index}}" name="cabientAddress">
 
-                                    <div>Miasto:</div>
-                                    <input ng-model="location.address.city">
+                                        <div>Ulica:</div>
+                                        <input name="street"
+                                               ng-model="location.address.street"
+                                               ng-minlength="2"
+                                               required>
+                                        <small class="error" ng-show="cabientAddress.street.$error.minlength">
+                                            Must have at least 2 characters
+                                        </small>
 
-                                    <div>Panstwo:</div>
-                                    <input ng-model="location.address.country">
+                                        <div>Miasto:</div>
+                                        <input name="city"
+                                               ng-model="location.address.city"
+                                               ng-minlength="2"
+                                               required>
+                                        <small class="error" ng-show="cabientAddress.city.$error.minlength">
+                                            Must have at least 2 characters
+                                        </small>
+
+                                        <div>Panstwo:</div>
+                                        <input name="country"
+                                               ng-model="location.address.country"
+                                               ng-minlength="2"
+                                               required>
+                                        </span>
+                                        <small class="error" ng-show="cabientAddress.country.$error.minlength">
+                                            Must have at least 2 characters
+                                        </small>
+
+                                    </ng-form>
                                 </div>
 
                                 <div class="open-hour">
@@ -166,7 +189,7 @@
                                                            ng-model="template.name"
                                                            placeholder="Nazwa zabiegu"
                                                            typeahead="templates for templates in templates"
-                                                           typeahead-editable="false"
+                                                           typeahead-editable="true"
                                                             >
                                                 </div>
 
