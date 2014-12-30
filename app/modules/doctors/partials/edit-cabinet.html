@@ -71,16 +71,19 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div>
-                                    <input type="text"
-                                           ng-model="newSpecialization"
-                                           placeholder="Nowa specializacja"
-                                           typeahead="specialization for specialization in specializations"
-                                           typeahead-editable="true"
-                                            >
-                                </div>
+                                <ng-form name="newSpecializationForm">
+                                    <div>
+                                        <input type="text"
+                                               ng-model="newSpecialization"
+                                               placeholder="Nowa specializacja"
+                                               typeahead="specialization for specialization in specializations"
+                                               typeahead-editable="false"
+                                                >
+                                    </div>
+                                </ng-form>
                                 <div class="add">
-                                    <a ng-click="addValue(location.specializations, newSpecialization, specializations)">
+                                    <a ng-click="addValue(location.specializations, newSpecialization, specializations, newSpecializationForm)"
+                                       ng-hide="newSpecializationForm.$invalid">
                                         <i class="icon-plus-circled"></i>Dodaj specializacje
                                     </a>
                                 </div>
@@ -177,20 +180,37 @@
                                         <ul>
                                             <li ng-repeat="template in location.templates">
                                                 <div class="intervention">
-                                                    <div class="delete">
-                                                        <a tooltip-animation="false"
-                                                           tooltip="Skasuj zabieg"
-                                                           tooltip-popup-delay='1000'
-                                                           ng-click="deleteValue(location.templates, template)">
-                                                            <i class="icon-trash"></i>
-                                                        </a>
-                                                    </div>
-                                                    <input type="text"
-                                                           ng-model="template.name"
-                                                           placeholder="Nazwa zabiegu"
-                                                           typeahead="templates for templates in templates"
-                                                           typeahead-editable="true"
-                                                            >
+                                                    <ng-form name="templateNameForm">
+                                                        <div class="delete">
+                                                            <a tooltip-animation="false"
+                                                               tooltip="Skasuj zabieg"
+                                                               tooltip-popup-delay='1000'
+                                                               ng-click="deleteValue(location.templates, template)">
+                                                                <i class="icon-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="templateName"
+                                                               ng-model="template.name"
+                                                               placeholder="Nazwa zabiegu"
+                                                               typeahead="templates for templates in templates"
+                                                               typeahead-editable="false"
+                                                               ng-change="onTemplateChange(templateNameForm, location.templates, template)"
+                                                               required
+                                                                >
+                                                        <small class="error"
+                                                               ng-show="templateNameForm.$error.required">
+                                                            Template name not given
+                                                        </small>
+                                                        <small class="error"
+                                                               ng-show="templateNameForm.$error.duplicate">
+                                                            Duplicated template name
+                                                        </small>
+                                                        <small class="error"
+                                                               ng-show="templateNameForm.$error.editable">
+                                                            Not allowed template name
+                                                        </small>
+                                                    </ng-form>
                                                 </div>
 
                                                 <div class="time">
@@ -206,10 +226,22 @@
                                                                </a>
                                                            </div>
 													</span>
-                                                    <input type="number" ng-model="newDuration">
-
+                                                    <ng-form name="templateDurations">
+                                                        <small class="error"
+                                                               ng-hide="isTemplateDurationValid(templateDurations, template)">
+                                                            At least one duration must be given
+                                                        </small>
+                                                    </ng-form>
+                                                    <ng-form name="newDurationForm">
+                                                        <input type="number"
+                                                               name="durationTime"
+                                                               ng-model="newDuration"
+                                                               ng-maxlength="3"
+                                                                >
+                                                    </ng-form>
                                                     <div class="add">
-                                                        <a ng-click="addValue(template.durations, newDuration)">
+                                                        <a ng-click="addValue(template.durations, newDuration)"
+                                                           ng-hide="newDurationForm.$invalid">
                                                             <i class="icon-plus-circled"></i>
                                                         </a>
                                                     </div>
@@ -232,14 +264,14 @@
                             <i class="icon-plus-circled"></i>Dodaj gabinet
                         </a>
                     </div>
-                    <div class="add">
-                        <a ng-disabled="cabinet.$invalid"
-                           ng-click="save(doctor)">
-                            <i class="icon-plus-circled"></i>Save
-                        </a>
-                    </div>
                 </div>
             </form>
+            <div class="add">
+                <a ng-hide="cabinet.$invalid"
+                   ng-click="save(doctor)">
+                    <i class="icon-plus-circled"></i>Save
+                </a>
+            </div>
         </section>
         <!-- Section Page (calendar, members, ...) -->
     </div>

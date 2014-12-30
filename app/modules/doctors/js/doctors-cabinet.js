@@ -102,7 +102,7 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
      * @param value value to be deleted
      */
     $scope.deleteValue = function (array, value) {
-        $log.debug('Deleteing value');
+        $log.debug('Deleting value');
         var index = array.indexOf(value);
         if (index != -1) {
             array.splice(index, 1);
@@ -143,6 +143,33 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
                 durations: []
             }
         );
+    };
+
+    /**
+     * On template change listener
+     * @param field view form field
+     * @param templates all templates in given location
+     * @param template changed template
+     */
+    $scope.onTemplateChange = function (field, templates, template) {
+        console.info(field);
+        var duplicates = _.filter(templates, function (elm) {
+            return elm.name == template.name;
+        });
+        console.info(field);
+        field.$setValidity('duplicate', duplicates.length <= 1);
+    };
+
+    /**
+     * Check whether durations of template are valid
+     * @param field view form field
+     * @param template template to be checked
+     * @returns {boolean} true is field is valid, false otherwise
+     */
+    $scope.isTemplateDurationValid = function (field, template) {
+        var valid = template.durations.length > 0;
+        field.$setValidity('durations', valid);
+        return valid;
     };
 
     $scope.init(Session.getUserId());
