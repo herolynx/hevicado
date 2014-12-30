@@ -29,7 +29,7 @@ describe('doctors-cabinet-spec:', function () {
             };
             mockUsersService.get.andReturn(userServicePromise);
             //mock others
-            mockStateParams = jasmine.createSpyObj('$stateParams', ['go']);
+            mockStateParams = {};
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
                 mockUiNotification.title = title;
@@ -78,6 +78,207 @@ describe('doctors-cabinet-spec:', function () {
             expect(mockUiNotification.title).toBe('Error');
             expect(mockUiNotification.msg).toBe('Doctor\'s info not loaded - part of functionality may not workking properly');
         });
+
+    });
+
+    describe('EditCabinetCtrl-spec', function () {
+
+        var ctrlScope;
+        var mockUsersService, mockStateParams, mockSession;
+        var mockUiNotification, mockLog;
+        var userServicePromise;
+        var doctorId = 'doctor-123';
+
+        beforeEach(angular.mock.module(function ($provide) {
+            mockStateParams = {};
+            $provide.value('$stateParams', mockStateParams);
+            mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
+            mockUiNotification.text = function (title, msg) {
+                mockUiNotification.title = title;
+                mockUiNotification.msg = msg;
+                return mockUiNotification;
+            };
+            $provide.value('uiNotification', mockUiNotification);
+            //mock others
+            mockLog = jasmine.createSpyObj('$log', ['debug', 'error']);
+            $provide.value('$log', mockLog);
+            //mock services
+            mockUsersService = jasmine.createSpyObj('UsersService', ['get', 'save']);
+            userServicePromise = {
+                success: function (f) {
+                    userServicePromise.onSuccess = f;
+                    return userServicePromise;
+                },
+                error: function (f) {
+                    userServicePromise.onError = f;
+                    return userServicePromise;
+                }
+            };
+            mockUsersService.get.andReturn(userServicePromise);
+            mockUsersService.save.andReturn(userServicePromise);
+            $provide.value('UsersService', mockUsersService);
+        }));
+
+        //prepare controller for testing
+        beforeEach(inject(function ($controller, _$rootScope_) {
+            //prepare controller for testing
+            ctrlScope = _$rootScope_.$new();
+            //mock user session
+            mockSession = jasmine.createSpyObj('mockSession', ['getUserId']);
+            mockSession.getUserId.andReturn(doctorId);
+            //inject mocks
+            $controller('EditCabinetCtrl', {
+                $scope: ctrlScope,
+                UsersService: mockUsersService,
+                uiNotification: mockUiNotification,
+                Session: mockSession,
+                $log: mockLog
+            });
+        }));
+
+        it('should de-normalize working hours after doctor\'s info is loaded', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //then info about doctor is loaded
+            expect(ctrlScope.doctorId).toBe(doctorId);
+            expect(mockUsersService.get).toHaveBeenCalledWith(doctorId);
+            var mockDoctor = {
+                email: 'doctor@kunishu.com',
+                locations: [
+                    {
+                        id: "546b8fd1ef680df8426005c2",
+                        name: "Pulsantis",
+                        address: {
+                            street: "Grabiszynska 8/4",
+                            city: "Wroclaw",
+                            country: "Poland"
+                        },
+                        color: "red",
+                        working_hours: [
+                            {
+                                day: "Monday",
+                                start: "08:00",
+                                end: "10:00"
+                            },
+                            {
+                                day: "Monday",
+                                start: "12:00",
+                                end: "14:00"
+                            },
+                            {
+                                day: "Tuesday",
+                                start: "08:00",
+                                end: "16:00"
+                            }
+                        ],
+                        templates: [
+                            {
+                                _id: "546c1fd1ef660df8526005b1",
+                                name: "Ass examination",
+                                description: "Details go here...",
+                                durations: [30, 60]
+                            },
+                            {
+                                _id: "546c1fd1ef660df8526005b2",
+                                name: "Eye examination",
+                                description: "Details go here...",
+                                durations: [30]
+                            }
+                        ]
+                    }
+                ]
+            };
+            userServicePromise.onSuccess(mockDoctor);
+            expect(ctrlScope.doctor).toBe(mockDoctor);
+            //and working hours are de-normalized
+            expect(ctrlScope.doctor.locations[0].working_hours[0].startDate.toString('HH:mm')).toBe('08:00');
+            expect(ctrlScope.doctor.locations[0].working_hours[0].endDate.toString('HH:mm')).toBe('10:00');
+        });
+
+        it('should add default location', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //when adding location
+            var array = [];
+            ctrlScope.addLocation(array);
+            //then default location is stored
+            expect(array).toEqual([
+                {
+                    name: "",
+                    address: {
+                        street: "",
+                        city: "",
+                        country: ""
+                    },
+                    color: "turqoise",
+                    working_hours: [],
+                    templates: [],
+                    specializations: []
+                }
+            ]);
+        });
+
+        it('should add default template', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //when adding location
+            var array = [];
+            ctrlScope.addTemplate(array);
+            //then default template is stored
+            expect(array).toEqual([
+                {
+                    name: "",
+                    durations: []
+                }
+            ]);
+        });
+
+        it('should add new value', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and allowed values
+            var allowedValue = ['1', '2', '3'];
+            //when adding new allowed value
+            var array = [];
+            ctrlScope.addValue(array, '1', allowedValue);
+            //then value is added
+            expect(array).toEqual(['1']);
+        });
+
+        it('should not add un-allowed value', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and allowed values
+            var allowedValue = ['1', '2', '3'];
+            //when adding new not allowed value
+            var array = [];
+            ctrlScope.addValue(array, '4', allowedValue);
+            //then value is not added
+            expect(array).toEqual([]);
+        });
+
+        it('should not add duplicated value', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and allowed values
+            var allowedValue = ['1', '2', '3'];
+            //when adding duplicated value
+            var array = ['1'];
+            ctrlScope.addValue(array, '1', allowedValue);
+            //then new value is not added
+            expect(array).toEqual(['1']);
+        });
+
+        it('should delete value', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //when deleting value
+            var array = ['1', '2', '3'];
+            ctrlScope.deleteValue(array, '1');
+            //then value is deleted
+            expect(array).toEqual(['2', '3']);
+        });
+
 
     });
 
