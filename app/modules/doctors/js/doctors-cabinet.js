@@ -72,8 +72,16 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
      */
     $scope.save = function (doctor) {
         $log.debug('Saving doctor\'s cabinet: ' + doctor.email);
+        var normalizedDoctor = angular.copy(doctor);
+        var workingHours = _.flatten(_.pluck(normalizedDoctor.locations, 'working_hours'));
+        _.map(workingHours, function (elm) {
+            elm.start = elm.startDate.toString('HH:mm');
+            elm.end = elm.endDate.toString('HH:mm');
+            delete elm.startDate;
+            delete elm.endDate;
+        });
         UsersService.
-            save(doctor).
+            save(normalizedDoctor).
             then(function () {
                 $log.debug('Changes saved successfully');
             }, function (errResp, errStatus) {
@@ -194,7 +202,7 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
      * @param workingHour change working hours
      */
     $scope.onWorkingHoursChange = function (field, workingHour) {
-        if(workingHour.startDate==null||workingHour.endDate==null) {
+        if (workingHour.startDate == null || workingHour.endDate == null) {
             return;
         }
         var workingHours = _.flatten(_.pluck($scope.doctor.locations, 'working_hours'));
