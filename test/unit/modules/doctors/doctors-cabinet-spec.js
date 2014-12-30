@@ -279,6 +279,74 @@ describe('doctors-cabinet-spec:', function () {
             expect(array).toEqual(['2', '3']);
         });
 
+        it('should validate template', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and templates
+            var templates = [
+                {name: 'tem-1'},
+                {name: 'tem-2'}
+            ];
+            //and changed template
+            var currTemplate = {name: 'tem-3'};
+            //and template field
+            var field = {
+                $setValidity: function (name, valid) {
+                    field.msg = name;
+                    field.valid = valid;
+                }
+            };
+            //when validating template
+            ctrlScope.onTemplateChange(field, templates, currTemplate);
+            //then field is valid
+            expect(field.msg).toBe('duplicate');
+            expect(field.valid).toBe(true);
+        });
+
+        it('should invalidate duplicated templates', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and templates
+            var templates = [
+                {name: 'tem-1'},
+                {name: 'tem-1'},
+                {name: 'tem-2'}
+            ];
+            //and changed template
+            var currTemplate = {name: 'tem-1'};
+            //and template field
+            var field = {
+                $setValidity: function (name, valid) {
+                    field.msg = name;
+                    field.valid = valid;
+                }
+            };
+            //when validating template
+            ctrlScope.onTemplateChange(field, templates, currTemplate);
+            //then field is valid
+            expect(field.msg).toBe('duplicate');
+            expect(field.valid).toBe(false);
+        });
+
+        it('should validate template duration times', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and changed template
+            var currTemplate = {name: 'tem-3', durations: [30]};
+            //and template field
+            var field = {
+                $setValidity: function (name, valid) {
+                    field.msg = name;
+                    field.valid = valid;
+                }
+            };
+            //when validating template duration times
+            ctrlScope.isTemplateDurationValid(field, currTemplate);
+            //then field is valid
+            expect(field.msg).toBe('durations');
+            expect(field.valid).toBe(true);
+        });
+
 
     });
 
