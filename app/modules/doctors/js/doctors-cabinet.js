@@ -211,7 +211,6 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
         });
         field.$setValidity('order', workingHour.startDate.isBefore(workingHour.endDate));
         field.$setValidity('duplicate', duplicates.length <= 1);
-        console.info(duplicates);
     };
 
     $scope.init(Session.getUserId(), function () {

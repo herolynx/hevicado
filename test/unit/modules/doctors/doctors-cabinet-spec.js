@@ -347,7 +347,299 @@ describe('doctors-cabinet-spec:', function () {
             expect(field.valid).toBe(true);
         });
 
+        it('should validate working hours', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and doctor
+            ctrlScope.doctor = {
+                email: 'doctor@kunishu.com',
+                locations: [
+                    {
+                        id: "546b8fd1ef680df8426005c2",
+                        name: "Pulsantis",
+                        address: {
+                            street: "Grabiszynska 8/4",
+                            city: "Wroclaw",
+                            country: "Poland"
+                        },
+                        color: "red",
+                        working_hours: [
+                            {
+                                day: "Monday",
+                                start: "08:00",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                end: "10:00",
+                                endDate: Date.today().set({
+                                    hour: 10, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Monday",
+                                start: "12:00",
+                                startDate: Date.today().set({
+                                    hour: 12, minute: 0, second: 0
+                                }),
+                                end: "14:00",
+                                endDate: Date.today().set({
+                                    hour: 14, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Tuesday",
+                                start: "08:00",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                end: "16:00",
+                                endDate: Date.today().set({
+                                    hour: 16, minute: 0, second: 0
+                                })
+                            }
+                        ],
+                        templates: [
+                            {
+                                _id: "546c1fd1ef660df8526005b1",
+                                name: "Ass examination",
+                                description: "Details go here...",
+                                durations: [30, 60]
+                            },
+                            {
+                                _id: "546c1fd1ef660df8526005b2",
+                                name: "Eye examination",
+                                description: "Details go here...",
+                                durations: [30]
+                            }
+                        ]
+                    }
+                ]
+            };
+            //and working hours
+            var workingHours = {
+                day: "Monday",
+                startDate: Date.today().set({
+                    hour: 8, minute: 0, second: 0
+                }),
+                endDate: Date.today().set({
+                    hour: 10, minute: 0, second: 0
+                })
+            };
+            //and working hours field
+            var field = {
+                msg: [],
+                valid: [],
+                $setValidity: function (name, valid) {
+                    field.msg.push(name);
+                    field.valid.push(valid);
+                }
+            };
+            //when validating working hours
+            ctrlScope.onWorkingHoursChange(field, workingHours);
+            //then field order is valid
+            expect(field.msg[0]).toBe('order');
+            expect(field.valid[0]).toBe(true);
+            //and working hours are not overlapped
+            expect(field.msg[1]).toBe('duplicate');
+            expect(field.valid[1]).toBe(true);
+        });
+
+        it('should invalidate overlapped working hours', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and doctor
+            ctrlScope.doctor = {
+                email: 'doctor@kunishu.com',
+                locations: [
+                    {
+                        id: "546b8fd1ef680df8426005c2",
+                        name: "Pulsantis",
+                        address: {
+                            street: "Grabiszynska 8/4",
+                            city: "Wroclaw",
+                            country: "Poland"
+                        },
+                        color: "red",
+                        working_hours: [
+                            {
+                                day: "Monday",
+                                start: "08:00",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                end: "10:00",
+                                endDate: Date.today().set({
+                                    hour: 10, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Monday",
+                                start: "12:00",
+                                startDate: Date.today().set({
+                                    hour: 12, minute: 0, second: 0
+                                }),
+                                end: "14:00",
+                                endDate: Date.today().set({
+                                    hour: 14, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Tuesday",
+                                start: "08:00",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                end: "16:00",
+                                endDate: Date.today().set({
+                                    hour: 16, minute: 0, second: 0
+                                })
+                            }
+                        ],
+                        templates: [
+                            {
+                                _id: "546c1fd1ef660df8526005b1",
+                                name: "Ass examination",
+                                description: "Details go here...",
+                                durations: [30, 60]
+                            },
+                            {
+                                _id: "546c1fd1ef660df8526005b2",
+                                name: "Eye examination",
+                                description: "Details go here...",
+                                durations: [30]
+                            }
+                        ]
+                    }
+                ]
+            };
+            //and working hours
+            var workingHours = {
+                day: "Monday",
+                startDate: Date.today().set({
+                    hour: 8, minute: 0, second: 0
+                }),
+                endDate: Date.today().set({
+                    hour: 15, minute: 0, second: 0
+                })
+            };
+            //and working hours field
+            var field = {
+                msg: [],
+                valid: [],
+                $setValidity: function (name, valid) {
+                    field.msg.push(name);
+                    field.valid.push(valid);
+                }
+            };
+            //when validating working hours
+            ctrlScope.onWorkingHoursChange(field, workingHours);
+            //then field order is valid
+            expect(field.msg[0]).toBe('order');
+            expect(field.valid[0]).toBe(true);
+            //and working hours are overlapped
+            expect(field.msg[1]).toBe('duplicate');
+            expect(field.valid[1]).toBe(false);
+        });
+
+        it('should invalidate working hours in wrong order', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and doctor
+            ctrlScope.doctor = {
+                email: 'doctor@kunishu.com',
+                locations: [
+                    {
+                        id: "546b8fd1ef680df8426005c2",
+                        name: "Pulsantis",
+                        address: {
+                            street: "Grabiszynska 8/4",
+                            city: "Wroclaw",
+                            country: "Poland"
+                        },
+                        color: "red",
+                        working_hours: [
+                            {
+                                day: "Monday",
+                                start: "08:00",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                end: "10:00",
+                                endDate: Date.today().set({
+                                    hour: 10, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Monday",
+                                start: "12:00",
+                                startDate: Date.today().set({
+                                    hour: 12, minute: 0, second: 0
+                                }),
+                                end: "14:00",
+                                endDate: Date.today().set({
+                                    hour: 14, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Tuesday",
+                                start: "08:00",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                end: "16:00",
+                                endDate: Date.today().set({
+                                    hour: 16, minute: 0, second: 0
+                                })
+                            }
+                        ],
+                        templates: [
+                            {
+                                _id: "546c1fd1ef660df8526005b1",
+                                name: "Ass examination",
+                                description: "Details go here...",
+                                durations: [30, 60]
+                            },
+                            {
+                                _id: "546c1fd1ef660df8526005b2",
+                                name: "Eye examination",
+                                description: "Details go here...",
+                                durations: [30]
+                            }
+                        ]
+                    }
+                ]
+            };
+            //and working hours
+            var workingHours = {
+                day: "Monday",
+                startDate: Date.today().set({
+                    hour: 10, minute: 0, second: 0
+                }),
+                endDate: Date.today().set({
+                    hour: 8, minute: 0, second: 0
+                })
+            };
+            //and working hours field
+            var field = {
+                msg: [],
+                valid: [],
+                $setValidity: function (name, valid) {
+                    field.msg.push(name);
+                    field.valid.push(valid);
+                }
+            };
+            //when validating working hours
+            ctrlScope.onWorkingHoursChange(field, workingHours);
+            //then field order is invalid
+            expect(field.msg[0]).toBe('order');
+            expect(field.valid[0]).toBe(false);
+            //and working hours are not overlapped
+            expect(field.msg[1]).toBe('duplicate');
+            expect(field.valid[1]).toBe(true);
+        });
+
 
     });
 
-});
+})
+;
