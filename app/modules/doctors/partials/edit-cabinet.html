@@ -132,36 +132,51 @@
                                     </div>
                                     <ul>
                                         <li ng-repeat="working in location.working_hours">
-                                            <div class="delete">
-                                                <a tooltip-animation="false"
-                                                   tooltip="Skasuj godzine"
-                                                   tooltip-popup-delay='1000'
-                                                   ng-click="deleteValue(location.working_hours, working)">
-                                                    <i class="icon-trash"></i>
-                                                </a>
-                                            </div>
-                                        <span class="day">
-                                             <select name="lang" ng-model="working.day" required>
-                                                 <option ng-repeat="day in days"
-                                                         ng-selected="{{day==working.day}}"
-                                                         value="{{day}}">
-                                                     {{day}}
-                                                 </option>
-                                             </select>
-                                        </span>
-                                        <span class="hour">
-                                            <timepicker ng-model="working.startDate"
-                                                        show-meridian="false"
-                                                        hour-step="1"
-                                                        minute-step="15"
-                                                    />
-                                            -
-                                            <timepicker ng-model="working.endDate"
-                                                        show-meridian="false"
-                                                        hour-step="1"
-                                                        minute-step="15"
-                                                    />
-                                        </span>
+                                            <ng-form name="workingHoursForm">
+                                                <div class="delete">
+                                                    <a tooltip-animation="false"
+                                                       tooltip="Skasuj godzine"
+                                                       tooltip-popup-delay='1000'
+                                                       ng-click="deleteValue(location.working_hours, working)">
+                                                        <i class="icon-trash"></i>
+                                                    </a>
+                                                </div>
+                                                <span class="day">
+                                                     <select name="lang"
+                                                             ng-model="working.day"
+                                                             ng-change="onWorkingHoursChange(workingHoursForm, working)"
+                                                             required>
+                                                         <option ng-repeat="day in days"
+                                                                 ng-selected="{{day==working.day}}"
+                                                                 value="{{day}}">
+                                                             {{day}}
+                                                         </option>
+                                                     </select>
+                                                </span>
+                                                <span class="hour">
+                                                    <timepicker ng-model="working.startDate"
+                                                                show-meridian="false"
+                                                                hour-step="1"
+                                                                minute-step="15"
+                                                                ng-change="onWorkingHoursChange(workingHoursForm, working)"
+                                                            />
+                                                    -
+                                                    <timepicker ng-model="working.endDate"
+                                                                show-meridian="false"
+                                                                hour-step="1"
+                                                                minute-step="15"
+                                                                ng-change="onWorkingHoursChange(workingHoursForm, working)"
+                                                            />
+                                                </span>
+                                                <small class="error"
+                                                       ng-show="workingHoursForm.$error.duplicate">
+                                                    Working hours are overlapping
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="workingHoursForm.$error.order">
+                                                    Start hour must be before end hour
+                                                </small>
+                                            </ng-form>
                                         </li>
                                     </ul>
                                     <div class="add">

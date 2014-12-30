@@ -21,8 +21,9 @@ cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $statePara
     /**
      * Initialize controller
      * @param doctorId doctor to be displayed
+     * @param afterInit optional after initialization handler
      */
-    $scope.init = function (doctorId) {
+    $scope.init = function (doctorId, afterInit) {
         $scope.doctorId = doctorId;
         $log.debug('Loading info about doctor: ' + $scope.doctorId);
         UsersService.
@@ -30,6 +31,9 @@ cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $statePara
             success(function (doctor) {
                 $log.debug('Doctor info loaded successfully');
                 $scope.doctor = doctor;
+                if (afterInit !== undefined) {
+                    afterInit();
+                }
             }).
             error(function (errResp, errStatus) {
                 $log.error('Couldn\'t load doctor\'s info: ' + errStatus + ', resp: ' + errResp.data);
@@ -152,11 +156,9 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
      * @param template changed template
      */
     $scope.onTemplateChange = function (field, templates, template) {
-        console.info(field);
         var duplicates = _.filter(templates, function (elm) {
             return elm.name == template.name;
         });
-        console.info(field);
         field.$setValidity('duplicate', duplicates.length <= 1);
     };
 
@@ -172,6 +174,53 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
         return valid;
     };
 
-    $scope.init(Session.getUserId());
+    /**
+     * Check whether  src working hours is overlapping tgt working hours
+     * @param src source working hours
+     * @param tgt targt working hours
+     * @returns {boolean} true if working hours overlaps, false otherwise
+     */
+    $scope.overLaps = function (src, tgt) {
+        return src.day == tgt.day && (
+            (src.startDate.compareTo(tgt.startDate) >= 0 && src.endDate.compareTo(tgt.endDate) < 0)
+            ||
+            (src.endDate.compareTo(tgt.startDate) > 0 && src.endDate.compareTo(tgt.endDate) <= 0)
+            );
+    };
+
+    /**
+     * On working hour change listener
+     * @param field view form field
+     * @param workingHour change working hours
+     */
+    $scope.onWorkingHoursChange = function (field, workingHour) {
+        if(workingHour.startDate==null||workingHour.endDate==null) {
+            return;
+        }
+        var workingHours = _.flatten(_.pluck($scope.doctor.locations, 'working_hours'));
+        var duplicates = _.filter(workingHours, function (elm) {
+            return $scope.overLaps(workingHour, elm) || $scope.overLaps(elm, workingHour);
+        });
+        field.$setValidity('order', workingHour.startDate.isBefore(workingHour.endDate));
+        field.$setValidity('duplicate', duplicates.length <= 1);
+        console.info(duplicates);
+    };
+
+    $scope.init(Session.getUserId(), function () {
+        $log.debug('Denormalizing working hours');
+        var toDate = function (string) {
+            var time = string.split(':');
+            return Date.today().set({
+                hour: Number(time[0]),
+                minute: Number(time[1]),
+                second: 0
+            });
+        };
+        var workingHours = _.flatten(_.pluck($scope.doctor.locations, 'working_hours'));
+        _.map(workingHours, function (elm) {
+            elm.startDate = toDate(elm.start);
+            elm.endDate = toDate(elm.end);
+        });
+    });
 
 });
