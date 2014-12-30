@@ -82,9 +82,10 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
         });
         UsersService.
             save(normalizedDoctor).
-            then(function () {
+            success(function () {
                 $log.debug('Changes saved successfully');
-            }, function (errResp, errStatus) {
+            }).
+            error(function (errResp, errStatus) {
                 $log.error('Cabinet hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp.data);
                 uiNotification.text('Error', 'Changes hasn\'t been saved').error();
             }

@@ -638,6 +638,132 @@ describe('doctors-cabinet-spec:', function () {
             expect(field.valid[1]).toBe(true);
         });
 
+        it('should change office info', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and doctor
+            var doctor = {
+                email: 'doctor@kunishu.com',
+                locations: [
+                    {
+                        id: "546b8fd1ef680df8426005c2",
+                        name: "Pulsantis",
+                        address: {
+                            street: "Grabiszynska 8/4",
+                            city: "Wroclaw",
+                            country: "Poland"
+                        },
+                        color: "red",
+                        working_hours: [
+                            {
+                                day: "Monday",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                endDate: Date.today().set({
+                                    hour: 10, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Monday",
+                                startDate: Date.today().set({
+                                    hour: 12, minute: 0, second: 0
+                                }),
+                                endDate: Date.today().set({
+                                    hour: 14, minute: 0, second: 0
+                                })
+                            }
+                        ]
+                    }
+                ]
+            };
+            //when saving changes
+            ctrlScope.save(doctor);
+            //then working hours are normalized
+            //info is saved
+            expect(mockUsersService.save).toHaveBeenCalledWith(
+                {
+                    email: 'doctor@kunishu.com',
+                    locations: [{
+                        id: '546b8fd1ef680df8426005c2',
+                        name: 'Pulsantis',
+                        address: {street: 'Grabiszynska 8/4', city: 'Wroclaw', country: 'Poland'},
+                        color: 'red',
+                        working_hours: [
+                            {day: 'Monday', start: '08:00', end: '10:00'},
+                            {day: 'Monday', start: '12:00', end: '14:00'}
+                        ]
+                    }]
+                }
+            );
+            userServicePromise.onSuccess('OK');
+        });
+
+        it('should inform user when office info couldn\'t be saved', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //and doctor
+            var doctor = {
+                email: 'doctor@kunishu.com',
+                locations: [
+                    {
+                        id: "546b8fd1ef680df8426005c2",
+                        name: "Pulsantis",
+                        address: {
+                            street: "Grabiszynska 8/4",
+                            city: "Wroclaw",
+                            country: "Poland"
+                        },
+                        color: "red",
+                        working_hours: [
+                            {
+                                day: "Monday",
+                                startDate: Date.today().set({
+                                    hour: 8, minute: 0, second: 0
+                                }),
+                                endDate: Date.today().set({
+                                    hour: 10, minute: 0, second: 0
+                                })
+                            },
+                            {
+                                day: "Monday",
+                                startDate: Date.today().set({
+                                    hour: 12, minute: 0, second: 0
+                                }),
+                                endDate: Date.today().set({
+                                    hour: 14, minute: 0, second: 0
+                                })
+                            }
+                        ]
+                    }
+                ]
+            };
+            //when saving changes
+            ctrlScope.save(doctor);
+            //then working hours are normalized
+            //info is saved
+            expect(mockUsersService.save).toHaveBeenCalledWith(
+                {
+                    email: 'doctor@kunishu.com',
+                    locations: [{
+                        id: '546b8fd1ef680df8426005c2',
+                        name: 'Pulsantis',
+                        address: {street: 'Grabiszynska 8/4', city: 'Wroclaw', country: 'Poland'},
+                        color: 'red',
+                        working_hours: [
+                            {day: 'Monday', start: '08:00', end: '10:00'},
+                            {day: 'Monday', start: '12:00', end: '14:00'}
+                        ]
+                    }]
+                }
+            );
+            //and user is informed about failure
+            userServicePromise.onError('ERROR');
+            expect(mockUiNotification.error).toHaveBeenCalled();
+            expect(mockUiNotification.title).toBe('Error');
+            expect(mockUiNotification.msg).toBe('Changes hasn\'t been saved');
+        });
+
 
     });
 
