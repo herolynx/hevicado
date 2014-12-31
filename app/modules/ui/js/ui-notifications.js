@@ -97,6 +97,6 @@ ui.directive('uiNotify', function (uiNotification) {
                 uiNotification.text('', $scope.message)[notificationType]();
             });
         }
-    }
+    };
 
 });

@@ -33,7 +33,7 @@ function EventsMap() {
         if (event.id === undefined) {
             event.id = generateUUID();
         }
-        return event
+        return event;
     };
 
     /**

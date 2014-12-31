@@ -62,7 +62,7 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
                 uiNotification.text('Error', 'User hasn\'t been registered').error();
             }
         );
-    }
+    };
 
 });
 

@@ -11,7 +11,7 @@ filters.filter('userInfo', function (UserUtils) {
 
     return function (text, withDegree, withEmail) {
         return UserUtils.info(text, withDegree, withEmail);
-    }
+    };
 
 });
 

@@ -22,6 +22,6 @@ directives.directive('keepVisible', function ($window) {
                 elm.css('top', shiftTop > 0 ? shiftTop : 0);
             });
         }
-    }
+    };
 
 });

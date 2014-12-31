@@ -54,8 +54,8 @@ var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVEN
                 $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHORIZED);
             }
         }
-    })
-}
+    });
+};
 
 // check user access rights when visiting stuff in application
 module.run(checkUserAccessRights);

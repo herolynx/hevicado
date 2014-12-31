@@ -13,7 +13,7 @@ calendar.directive('calendarMenu', function () {
         restrict: 'E',
         templateUrl: 'modules/chronos/partials/calendar-menu.html',
         scope: false
-    }
+    };
 });
 
 /**
@@ -25,7 +25,7 @@ calendar.directive('calendarTable', function () {
         restrict: 'E',
         templateUrl: 'modules/chronos/partials/calendar-table.html',
         scope: false
-    }
+    };
 });
 
 /**
@@ -46,7 +46,7 @@ calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CAL
         clear(elm);
         //set height
         var quarterRoot = elm.parent();
-        var quarterHeight = quarterRoot.height() ;
+        var quarterHeight = quarterRoot.height();
         var height = event.quarter * quarterHeight;
         elm.height(height - 1);
         //set width
@@ -87,6 +87,6 @@ calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CAL
                 setEventSize(elm, $scope.event);
             });
         }
-    }
+    };
 
 });

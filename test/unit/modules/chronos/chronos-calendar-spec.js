@@ -2431,7 +2431,7 @@ describe('chronos-calendar-spec:', function () {
                 expect(location.color).toBeDefined();
             });
 
-        })
+        });
 
     });
 

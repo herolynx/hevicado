@@ -37,7 +37,7 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
      * Logout current user
      */
     $scope.logout = function () {
-        $log.debug('Logging out current user')
+        $log.debug('Logging out current user');
         if (AuthService.isAuthenticated()) {
             AuthService.
                 logout().
@@ -46,5 +46,5 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
                     $state.go('default');
                 });
         }
-    }
+    };
 });

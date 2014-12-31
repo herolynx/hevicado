@@ -169,7 +169,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
                 _.map(resp.data, function (user) {
                     user.toString = function () {
                         return UserUtils.info(user, undefined, 'withEmail');
-                    }
+                    };
                 });
                 return resp.data;
             }, function (code, msg) {

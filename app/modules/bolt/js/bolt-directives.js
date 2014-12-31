@@ -33,7 +33,7 @@ function AuthorizedElement(element, children, reqRoles, AuthService, attachStrat
             //show element
             element.show();
         }
-    }
+    };
 
     /**
      * Attach managed element to event-bus so its visibility
@@ -52,7 +52,7 @@ function AuthorizedElement(element, children, reqRoles, AuthService, attachStrat
         eventBus.$on(AUTH_EVENTS.SESSION_TIMEOUT, function () {
             checkAccessRights();
         });
-    }
+    };
 
 }
 
@@ -98,6 +98,6 @@ directives.directive('permission', function (AuthService, AUTH_EVENTS, attachStr
             authElement.attachToEventBus($scope, AUTH_EVENTS);
             authElement.checkAccessRights();
         }
-    }
+    };
 
 });

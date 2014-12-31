@@ -17,7 +17,7 @@ services.service('UsersService', function ($http, $log) {
          * @returns {*} http promise
          */
         get: function (userId) {
-            $log.debug('Getting user: ' + userId)
+            $log.debug('Getting user: ' + userId);
             return $http.get('/user/' + userId);
         },
 
@@ -27,7 +27,7 @@ services.service('UsersService', function ($http, $log) {
          * @returns {*} http promise
          */
         search: function (criteria) {
-            $log.debug('Searching users: ' + criteria)
+            $log.debug('Searching users: ' + criteria);
             return $http.get('/user', {
                 params: {text: criteria}
             });
@@ -40,9 +40,9 @@ services.service('UsersService', function ($http, $log) {
          * @returns {*} http promise
          */
         save: function (user) {
-            $log.debug('Saving user: ' + user.id)
+            $log.debug('Saving user: ' + user.id);
             return $http[user.id === undefined ? 'post' : 'put']('/user', user);
         }
-    }
+    };
 
 });

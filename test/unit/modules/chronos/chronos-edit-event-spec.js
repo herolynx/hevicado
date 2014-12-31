@@ -158,7 +158,7 @@ describe('chronos.events.edit-spec:', function () {
                             ]
                         }
                     ]
-                }
+                };
             });
 
             it('should prepare existing event for edition', function () {
@@ -514,7 +514,7 @@ describe('chronos.events.edit-spec:', function () {
                             ]
                         }
                     ]
-                }
+                };
             });
 
             it('should prepare existing event for edition', function () {
@@ -862,7 +862,7 @@ describe('chronos.events.edit-spec:', function () {
                             ]
                         }
                     ]
-                }
+                };
             });
 
             it('should find users for typing ahead', function () {
@@ -992,7 +992,7 @@ describe('chronos.events.edit-spec:', function () {
                             ]
                         }
                     ]
-                }
+                };
             });
 
             it('should go to previous page after cancelling edition', function () {

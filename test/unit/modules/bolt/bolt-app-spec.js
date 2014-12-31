@@ -42,7 +42,7 @@ describe('bolt-app-spec:', function () {
                     getUserRole: function () {
                         return 'USER';
                     }
-                }
+                };
             };
             //when trying to reach private resource
             var nextResource = { url: 'http://bolt.com/private', data: { access: [ 'ADMIN' ] } };
@@ -70,7 +70,7 @@ describe('bolt-app-spec:', function () {
                     getUserRole: function () {
                         return 'GUEST';
                     }
-                }
+                };
             };
             //when trying to reach private resource
             var nextResource = { url: 'http://bolt.com/private', data: { access: [ 'USER' ] } };
@@ -99,7 +99,7 @@ describe('bolt-app-spec:', function () {
                     getUserRole: function () {
                         return 'USER';
                     }
-                }
+                };
             };
             //when trying to reach private resource
             var nextResource = { url: 'http://bolt.com/private', data: { access: [ 'USER' ] } };

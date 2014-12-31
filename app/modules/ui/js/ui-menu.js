@@ -12,7 +12,7 @@ uiMenu.directive('topMenu', function () {
         restrict: 'E',
         templateUrl: 'modules/ui/partials/top-menu.html',
         scope: false
-    }
+    };
 });
 
 /**

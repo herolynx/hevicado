@@ -79,7 +79,7 @@ services.service('CalendarService', function (Session, $http, EventUtils, $log) 
          * @returns {*} http promise
          */
         search: function (criteria) {
-            $log.debug('Searching free visits: ' + criteria)
+            $log.debug('Searching free visits: ' + criteria);
             return $http.post('/calendar', EventUtils.toJson(angular.copy(criteria)));
         }
 

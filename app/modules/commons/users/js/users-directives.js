@@ -22,5 +22,5 @@ directives.directive('userDate', function () {
                 return data.toString('yyyy-MM-dd');
             });
         }
-    }
+    };
 });

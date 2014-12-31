@@ -157,5 +157,5 @@ timeline.directive('calendarTimelineEvent', function () {
         scope: {
             event: '=event'
         }
-    }
+    };
 });
