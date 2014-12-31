@@ -1,6 +1,12 @@
 {
   "globalstrict": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "window": false,
+    "$": false,
+    "_": false,
+    "document": false,
+    "alert": false,
+    "console": false
   }
 }

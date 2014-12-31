@@ -1,5 +1,8 @@
 # generic
 *.log
+tmp
+**/tmp
+release
 
 # JS related
 bower_components

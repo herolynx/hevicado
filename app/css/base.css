@@ -74,22 +74,10 @@ nav,
 section {
   display: block;
 }
-/* BORDER */
-/* BORDER */
-/* BORDER */
-/* BORDER */
-/* PADDING */
-/* PADDING */
-/* PADDING */
-/* PADDING */
-/* MARGIN */
-/* MARGIN */
-/* MARGIN */
-/* MARGIN */
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
+/* BORDER *//* BORDER *//* BORDER *//* BORDER */
+/* PADDING *//* PADDING *//* PADDING *//* PADDING */
+/* MARGIN *//* MARGIN *//* MARGIN *//* MARGIN */
+/* FLOAT *//* FLOAT *//* FLOAT *//* FLOAT */
 .fl {
   float: left;
 }
@@ -99,10 +87,7 @@ section {
 .fn {
   float: none;
 }
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
-/* FLOAT */
+/* FLOAT *//* FLOAT *//* FLOAT *//* FLOAT */
 .clear {
   clear: both;
 }
@@ -118,10 +103,7 @@ section {
 .dn {
   display: none;
 }
-/* fonts */
-/* fonts */
-/* fonts */
-/* fonts */
+/* fonts *//* fonts *//* fonts *//* fonts */
 .bold {
   font-weight: bold;
 }
@@ -158,10 +140,7 @@ section {
 .lowercase {
   text-transform: lowercase;
 }
-/* OTHER */
-/* OTHER */
-/* OTHER */
-/* OTHER */
+/* OTHER *//* OTHER *//* OTHER *//* OTHER */
 .pointer {
   cursor: pointer;
 }
@@ -179,10 +158,7 @@ section {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* CONTENT */
-/* CONTENT */
-/* CONTENT */
-/* CONTENT */
+/* CONTENT *//* CONTENT *//* CONTENT *//* CONTENT */
 @font-face {
   font-family: 'Titillium Web';
   src: url('../fonts/titilliumweb-regular-webfont.eot');
