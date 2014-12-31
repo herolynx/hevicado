@@ -88,7 +88,7 @@ gulp.task('release', ['clean', 'views', 'less', 'copy:assets'], function () {
         .pipe(usemin({
             css: ['concat'],
             libJs: [rev()],
-            tscJs: [rev()]
+            kunishuJs: [rev()]
         }))
         .pipe(gulp.dest('release/'));
 });
