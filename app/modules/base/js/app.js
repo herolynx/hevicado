@@ -25,7 +25,8 @@ var module = angular.module('angular-base',
         'angular-base.services',
         'angular-base.directives',
         'angular-base.controllers',
-        'angular-base.routes'
+        'angular-base.routes',
+        'angular-base.menu'
     ]
 ).
     /* configure language settings */
