@@ -89,12 +89,13 @@ gulp.task('release', ['clean', 'views', 'less', 'copy:assets'], function () {
                 relative: true
             }
         ))
-        // TODO: add minifiction when the source files support it (i.e. do not break after minifcation)
-        .pipe(usemin({
-            css: ['concat'],
-            libJs: [rev()],
-            kunishuJs: [rev()]
-        }))
+        .pipe(usemin(
+            {
+                css: [minifyCss(), 'concat'],
+                libJs: [uglify(), rev()],
+                kunishuJs: [uglify(), rev()]
+            }
+        ))
         .pipe(gulp.dest('release/'));
 });
 
