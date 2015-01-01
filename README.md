@@ -17,6 +17,12 @@ Cloud management of the business
    $npm test
 ```
 
+or
+
+```shell
+   gulp test
+```
+
 #### Run e2e tests
 
 ```shell
@@ -30,8 +36,30 @@ Cloud management of the business
    $npm start
 ```
 
-#### Update index-async 
+or
 
 ```shell
-   $npm run update-index-async
+   $gulp
+```
+
+## Release build
+
+1. Change application version ('version' value in app/modules/base/js/app.js)
+
+2. Clean your current build
+
+```shell
+   $gulp clean
+```
+
+3. Create new release build
+
+```shell
+   $gulp release
+```
+
+4. Check locally whether release build is OK
+
+```shell
+   $gulp serve:release
 ```
