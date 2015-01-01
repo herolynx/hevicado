@@ -1,13 +1,13 @@
 'use strict';
 
-var directives = angular.module('commons.users.directives', [
+var commonsDirectives = angular.module('commons.users.directives', [
     'commons.users.utils'
 ]);
 
 /**
  * Directive for handling dates according to user's settings
  */
-directives.directive('userDate', function () {
+commonsDirectives.directive('userDate', function () {
     return {
         require: 'ngModel',
         restrict: 'A',

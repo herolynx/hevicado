@@ -1,29 +1,29 @@
 'use strict';
 
-var filters = angular.module('commons.users.filters', [
+var commonsFilters = angular.module('commons.users.filters', [
     'commons.users.utils'
 ]);
 
 /**
  * Filter for displaying info about user
  */
-filters.filter('userInfo', function (UserUtils) {
+commonsFilters.filter('userInfo', ['UserUtils', function (UserUtils) {
 
     return function (text, withDegree, withEmail) {
         return UserUtils.info(text, withDegree, withEmail);
     };
 
-});
+}]);
 
 /**
  * Filter for displaying full address
  */
-filters.filter('addressInfo', function (UserUtils) {
+commonsFilters.filter('addressInfo', ['UserUtils', function (UserUtils) {
 
     return function (text) {
         return UserUtils.address(text);
     };
 
-});
+}]);
 
 
