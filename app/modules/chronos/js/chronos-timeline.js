@@ -1,6 +1,6 @@
 'use strict';
 
-var timeline = angular.module('chronos.timeline', [
+var chronosTimeline = angular.module('chronos.timeline', [
     'chronos.services',
     'commons.users.filters',
     'infinite-scroll'
@@ -14,7 +14,7 @@ var timeline = angular.module('chronos.timeline', [
  * @param EventUtils generic event related functions
  * @param uiNotification notification manager
  */
-timeline.controller('TimelineCtrl', function ($scope, $log, CalendarService, EventUtils, uiNotification) {
+chronosTimeline.controller('TimelineCtrl', ['$scope', '$log', 'CalendarService', 'EventUtils', 'uiNotification', function ($scope, $log, CalendarService, EventUtils, uiNotification) {
 
     $scope.monthsCount = 3;
     $scope.events = [];
@@ -83,7 +83,7 @@ timeline.controller('TimelineCtrl', function ($scope, $log, CalendarService, Eve
     $scope.init();
     $scope.getEvents($scope.startDate, $scope.endDate);
 
-});
+}]);
 
 /**
  * Controller manages single event on time-line
@@ -95,7 +95,7 @@ timeline.controller('TimelineCtrl', function ($scope, $log, CalendarService, Eve
  * @param EVENT_STATE all possible states of events
  * @param uiNotification user notification manager
  */
-timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService, EventActionManager, EventUtils, EVENT_STATE, uiNotification) {
+chronosTimeline.controller('TimelineEventCtrl', ['$scope', '$log', 'CalendarService', 'EventActionManager', 'EventUtils', 'EVENT_STATE', 'uiNotification', function ($scope, $log, CalendarService, EventActionManager, EventUtils, EVENT_STATE, uiNotification) {
 
     /**
      * Get controller's action manager
@@ -144,13 +144,12 @@ timeline.controller('TimelineEventCtrl', function ($scope, $log, CalendarService
             });
     };
 
-});
-
+}]);
 
 /**
  * Directive displays single event on time-line
  */
-timeline.directive('calendarTimelineEvent', function () {
+chronosTimeline.directive('calendarTimelineEvent', function () {
     return {
         restrict: 'E',
         templateUrl: 'modules/chronos/partials/calendar-timeline-event.html',

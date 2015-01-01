@@ -1,6 +1,6 @@
 'use strict';
 
-var calendar = angular.module('chronos.events.edit', [
+var chronosEditEvent = angular.module('chronos.events.edit', [
     'commons.users.utils',
     'commons.users.filters',
     'users.services',
@@ -23,7 +23,7 @@ var calendar = angular.module('chronos.events.edit', [
  * @param UserUtils user utils
  * @param uiNotification notification manager
  */
-calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, EventActionManager, EventUtils, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification) {
+chronosEditEvent.controller('EditEventCtrl', ['$scope', '$log', '$state', '$stateParams', '$q', 'Session', 'CalendarService', 'EventActionManager', 'EventUtils', 'CALENDAR_EVENTS', 'UsersService', 'UserUtils', 'uiNotification', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, EventActionManager, EventUtils, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification) {
 
     $scope.isOwner = false;
     $scope.editedEvent = {};
@@ -259,7 +259,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
 
     //initialize controller
     $scope.init();
-});
+}]);
 
 /**
  * Controller responsible for displaying details about events.
@@ -272,7 +272,7 @@ calendar.controller('EditEventCtrl', function ($scope, $log, $state, $stateParam
  * @param EventUtils generic functions related with events
  * @param uiNotification notification manager
  */
-calendar.controller('DisplayEventCtrl', function ($scope, $stateParams, $controller, $log, CalendarService, EventUtils, uiNotification) {
+chronosEditEvent.controller('DisplayEventCtrl', ['$scope', '$stateParams', '$controller', '$log', 'CalendarService', 'EventUtils', 'uiNotification', function ($scope, $stateParams, $controller, $log, CalendarService, EventUtils, uiNotification) {
 
     $scope.options = $scope.$new();
     $controller('TimelineEventCtrl', {$scope: $scope.options});
@@ -298,4 +298,4 @@ calendar.controller('DisplayEventCtrl', function ($scope, $stateParams, $control
 
     $scope.load($stateParams.eventId);
 
-});
+}]);

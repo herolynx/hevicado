@@ -1,6 +1,6 @@
 'use strict';
 
-var collections = angular.module('chronos.collections', []);
+var chronosCollections = angular.module('chronos.collections', []);
 
 /**
  * Multi-map of events with day->[event1, event2,...] map entries.
@@ -194,7 +194,7 @@ function EventsMap() {
 /**
  * Factory responsible for creation of calendar related collections
  */
-collections.factory('CalendarCollectionFactory', function () {
+chronosCollections.factory('CalendarCollectionFactory', function () {
 
     return {
 

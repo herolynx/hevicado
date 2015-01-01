@@ -1,6 +1,6 @@
 'use strict';
 
-var services = angular.module('chronos.services', []);
+var chronosServices = angular.module('chronos.services', []);
 
 /**
  * Service manages user's calendar and related data.
@@ -9,7 +9,7 @@ var services = angular.module('chronos.services', []);
  * @param EventUtils generic event related functions
  * @param $log logger
  */
-services.service('CalendarService', function (Session, $http, EventUtils, $log) {
+chronosServices.service('CalendarService', ['Session', '$http', 'EventUtils', '$log', function (Session, $http, EventUtils, $log) {
 
     var ownerId;
 
@@ -85,4 +85,4 @@ services.service('CalendarService', function (Session, $http, EventUtils, $log) 
 
     };
 
-});
+}]);

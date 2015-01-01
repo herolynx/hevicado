@@ -1,6 +1,6 @@
 'use strict';
 
-var calendar = angular.module('chronos.calendar.directives', []);
+var chronCalDirectives = angular.module('chronos.calendar.directives', []);
 
 /**
  * Directive displays top menu of the calendar.
@@ -8,7 +8,7 @@ var calendar = angular.module('chronos.calendar.directives', []);
  * It also allows switching type of calendar view between day, week and month.
  * Directive uses the parent scope of the controller.
  */
-calendar.directive('calendarMenu', function () {
+chronCalDirectives.directive('calendarMenu', function () {
     return {
         restrict: 'E',
         templateUrl: 'modules/chronos/partials/calendar-menu.html',
@@ -20,7 +20,7 @@ calendar.directive('calendarMenu', function () {
  * Directive displays chosen days of calendar in table form.
  * Directive uses the parent scope of the controller.
  */
-calendar.directive('calendarTable', function () {
+chronCalDirectives.directive('calendarTable', function () {
     return {
         restrict: 'E',
         templateUrl: 'modules/chronos/partials/calendar-table.html',
@@ -35,7 +35,7 @@ calendar.directive('calendarTable', function () {
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param CALENDAR_SETTINGS settings for calendar rendering
  */
-calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CALENDAR_SETTINGS) {
+chronCalDirectives.directive('calendarTableEvent', ['$window', 'CALENDAR_EVENTS', 'CALENDAR_SETTINGS', function ($window, CALENDAR_EVENTS, CALENDAR_SETTINGS) {
 
     /**
      * Set size of the displayed event element
@@ -89,4 +89,4 @@ calendar.directive('calendarTableEvent', function ($window, CALENDAR_EVENTS, CAL
         }
     };
 
-});
+}]);

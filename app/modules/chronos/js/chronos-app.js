@@ -3,7 +3,7 @@
 /**
  * Configure module for time and calendar management
  */
-var module = angular.module('chronos', [
+var chronosModule = angular.module('chronos', [
     /*internal modules*/
     'chronos.collections',
     'chronos.services',
@@ -23,7 +23,7 @@ var module = angular.module('chronos', [
 /**
  * Possible states of event
  */
-module.constant('EVENT_STATE', {
+chronosModule.constant('EVENT_STATE', {
     //event is open
     OPEN: {
         key: 0,
@@ -44,7 +44,7 @@ module.constant('EVENT_STATE', {
 /**
  * Calendar notification events
  */
-module.constant('CALENDAR_EVENTS', {
+chronosModule.constant('CALENDAR_EVENTS', {
     CALENDAR_RENDER: 'calendar-render',
     EVENT_CHANGED: 'event-changed',
     EVENT_DELETED: 'event-deleted',
@@ -54,7 +54,7 @@ module.constant('CALENDAR_EVENTS', {
 /**
  * Calendar settings
  */
-module.constant('CALENDAR_SETTINGS', {
+chronosModule.constant('CALENDAR_SETTINGS', {
     EVENT_WIDTH_PERCENTAGE: 0.87,
     EVENT_WIDTH_MARGIN: 10
 });

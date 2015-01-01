@@ -1,12 +1,12 @@
 'use strict';
 
-var directives = angular.module('chronos.directives', []);
+var chronosDirectives = angular.module('chronos.directives', []);
 
 /**
  * Directive for keeping element visible on the screen all the time,
  * no matter of window scroll position.
  */
-directives.directive('keepVisible', function ($window) {
+chronosDirectives.directive('keepVisible', ['$window', function ($window) {
 
     return {
         restrict: 'A',
@@ -24,4 +24,4 @@ directives.directive('keepVisible', function ($window) {
         }
     };
 
-});
+}]);

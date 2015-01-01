@@ -1,6 +1,6 @@
 'use strict';
 
-var calendar = angular.module('chronos.calendar', [
+var chronosCalendar = angular.module('chronos.calendar', [
     'chronos.events.edit',
     'ui.elements',
     'commons.users.filters'
@@ -23,7 +23,7 @@ var calendar = angular.module('chronos.calendar', [
  * @param uiNotifications component managing notifications
  * @param UsersService service for getting info about calendar owner
  */
-calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
+chronosCalendar.controller('CalendarCtrl', ['$rootScope', '$scope', '$state', '$stateParams', '$cacheFactory', '$log', 'CalendarService', 'CalendarCollectionFactory', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService', function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
 
     /**
      * Include underscore
@@ -534,14 +534,14 @@ calendar.controller('CalendarCtrl', function ($rootScope, $scope, $state, $state
         return location;
     };
 
-});
+}]);
 
 /**
  * Renderer manages displaying of events in the chosen day.
  * Renderer marks timeline where event should be displayed and number of overlaping events
  * that will be displayed at the same time.
  */
-calendar.service('CalendarRenderer', function () {
+chronosCalendar.service('CalendarRenderer', function () {
 
     var t = [];
     var overlap = {

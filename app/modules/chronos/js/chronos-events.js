@@ -1,6 +1,6 @@
 'use strict';
 
-var events = angular.module('chronos.events', []);
+var chronosEvents = angular.module('chronos.events', []);
 
 /**
  * Manager checks whether chosen actions can be performed on event
@@ -9,7 +9,7 @@ var events = angular.module('chronos.events', []);
  * @param Session session of current user
  * @param EVENT_STATE possible states of event
  */
-events.service('EventActionManager', function (EventUtils, Session, EVENT_STATE) {
+chronosEvents.service('EventActionManager', ['EventUtils', 'Session', 'EVENT_STATE', function (EventUtils, Session, EVENT_STATE) {
 
     return {
 
@@ -57,14 +57,14 @@ events.service('EventActionManager', function (EventUtils, Session, EVENT_STATE)
         }
 
     };
-});
+}]);
 
 /**
  * Generic functionality related with events
  *
  * @param EVENT_STATE possible states of events
  */
-events.service('EventUtils', function (EVENT_STATE) {
+chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
 
     return {
 
@@ -183,4 +183,4 @@ events.service('EventUtils', function (EVENT_STATE) {
 
     };
 
-});
+}]);

@@ -1,6 +1,6 @@
 'use strict';
 
-var search = angular.module('chronos.search', [
+var chronosSearch = angular.module('chronos.search', [
     'chronos.services',
     'commons.users.filters',
     'commons.users.directives',
@@ -16,7 +16,7 @@ var search = angular.module('chronos.search', [
  * @param EventUtils generic functionality related with events
  * @param uiNotification notification service
  */
-search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, EventUtils, uiNotification) {
+chronosSearch.controller('SearchDoctorCtrl', ['$scope', '$log', 'CalendarService', 'EventUtils', 'uiNotification', function ($scope, $log, CalendarService, EventUtils, uiNotification) {
 
     $scope.daysCount = 7;
     $scope.loading = false;
@@ -166,4 +166,4 @@ search.controller('SearchDoctorCtrl', function ($scope, $log, CalendarService, E
 
     $scope.initTimetable($scope.start, $scope.daysCount);
 
-});
+}]);
