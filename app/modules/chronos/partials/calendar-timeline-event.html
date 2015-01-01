@@ -46,7 +46,7 @@
     <div class="circle"></div>
     <div class="date">
         <div class="status">
-            {{state.value}}
+            {{'visit.state.' + state.value | translate}}
         </div>
         <div class="day">{{event.start | date: "dd"}}</div>
         <div class="month">

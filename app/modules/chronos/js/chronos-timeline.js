@@ -3,6 +3,7 @@
 var chronosTimeline = angular.module('chronos.timeline', [
     'chronos.services',
     'commons.users.filters',
+    'ui.generic',
     'infinite-scroll'
 ]);
 

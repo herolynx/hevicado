@@ -1,14 +1,14 @@
 <section id="main-content" ng-controller="TimelineCtrl">
     <div class="title-page">
-        <h1>Visit</h1>
+        <h1 translate>visit.patient-visits</h1>
     </div>
     <div class="content">
         <section class="visit2">
-            <div class="top-info">
-                Aby zrezygnować z wizyty możesz użyć przycisku kosza lub złapać i przeciągnąć na pole "Canceled Visit"
+            <div class="top-info" translate>
+                visit.patient-visits-info
             </div>
-            <div ng-show="events.length==0">
-                Nie masz zadnych wizyt
+            <div ng-show="events.length==0" translate>
+                visit.no-visits
             </div>
             <div class="box-row">
                 <ul infinite-scroll='next()'

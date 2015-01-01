@@ -16,32 +16,32 @@
                     <form>
                         <ul>
                             <li ng-show="event.cancelled != undefined">
-                                <div class="half">
-                                    Visit has been cancelled
+                                <div class="half" translate>
+                                    visit.visit-cancelled
                                 </div>
                             </li>
                             <li>
-                                <label class="full"><b>Doctor:</b></label>
+                                <label class="full"><b>{{'visit.doctor' | translate}}:</b></label>
 
                             </li>
                             <li>
-                                <label class="full">Imię i nazwisko:</b></label>
+                                <label class="full">{{'visit.full-name' | translate}}:</b></label>
                                 <fieldset class="full">
-                                    {{event.doctor.degree}} {{event.doctor.first_name}} {{event.doctor.last_name}}
+                                    {{event.doctor | userInfo:'withDegree'}}
                                 </fieldset>
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Address: {{event.location.name}}:</label>
+                                    <label class="full">{{'visit.address' | translate}}: </label>
                                     <fieldset class="full">
-                                        {{event.location.address.street}}, {{event.location.address.city}},
-                                        {{event.location.address.country}}
+                                        {{event.location.name}} <br/>
+                                        {{event.location.address | addressInfo}}
                                     </fieldset>
                                 </div>
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Telefon</label>
+                                    <label class="full">{{'user-profile.phone' | translate}}</label>
                                     <fieldset class="full">
                                         {{event.doctor.phone}}
                                     </fieldset>
@@ -49,7 +49,7 @@
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Email:</label>
+                                    <label class="full">{{'generic.email' | translate}}:</label>
                                     <fieldset class="full">
                                         <a href="mailto:{{event.doctor.email}}">{{event.doctor.email}}</a>
                                     </fieldset>
@@ -57,12 +57,12 @@
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full"><b>Badanie:</b></label>
+                                    <label class="full"><b>{{'visit.examination' | translate}}:</b></label>
                                 </div>
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Typ:</label>
+                                    <label class="full">{{'visit.title' | translate}}:</label>
                                     <fieldset class="full">
                                         {{event.title}}
                                     </fieldset>
@@ -70,7 +70,7 @@
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full top">Opis:</label>
+                                    <label class="full top">{{'generic.description' | translate}}:</label>
                                     <fieldset class="full">
                                         {{event.description}}
                                     </fieldset>
@@ -78,20 +78,20 @@
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full"><b>Pacjent:</b></label>
+                                    <label class="full"><b>{{'visit.patient' | translate}}:</b></label>
                                 </div>
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Imię i nazwisko</label>
+                                    <label class="full">{{'visit.full-name' | translate}}:</label>
                                     <fieldset class="full">
-                                        {{event.patient.first_name}} {{event.patient.last_name}}
+                                        {{event.patient | userInfo}}
                                     </fieldset>
                                 </div>
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Telefon</label>
+                                    <label class="full">{{'user-profile.phone' | translate}}:</label>
                                     <fieldset class="full">
                                         {{event.patient.phone}}
                                     </fieldset>
@@ -99,7 +99,7 @@
                             </li>
                             <li>
                                 <div class="half">
-                                    <label class="full">Email:</label>
+                                    <label class="full">{{'generic.email' | translate}}:</label>
                                     <fieldset class="full">
                                         <a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a>
                                     </fieldset>
@@ -110,8 +110,9 @@
                                 <fieldset class="full">
                                     <button class="btn blue rt"
                                             ng-show="options.actions().canCancel(event)"
-                                            ng-click="options.cancel(event)">
-                                        Cancel visit
+                                            ng-click="options.cancel(event)"
+                                            translate>
+                                        visit.cancel-visit
                                     </button>
                                 </fieldset>
                             </li>
@@ -121,7 +122,7 @@
                 </div>
             </div>
             <div class="box maps-address">
-                <h2><i class="icon-map"></i> Location map</h2>
+                <h2><i class="icon-map"></i> {{'visit.location' | translate}}</h2>
 
                 <div class="maps">
                     <div>
@@ -134,12 +135,12 @@
                     {{event.location.address.street}}, {{event.location.address.city}},
                     {{event.location.address.country}}
                     <div class="row hour">
-                        <h2>Godziny otwarcia gabinetu:</h2>
+                        <h2>{{'visit.open-hours' | translate}}:</h2>
 
                         <p>
 
                         <div ng-repeat="working in event.location.working_hours">
-                            <span>{{working.day}}:</span>
+                            <span>{{'days.' + working.day | toLowerCase | translate}}:</span>
                             {{working.start}} - {{working.end}}<br/>
                         </div>
                         </p>

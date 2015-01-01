@@ -37,3 +37,13 @@ $(document).ready(function () {
 //        }
 //    });
 //});
+
+/**
+ * Filter normalizes string to lower case
+ */
+uiGeneric.filter('toLowerCase', function () {
+    return function (text) {
+        return text !== null ? text.toLowerCase() : '';
+    };
+});
+

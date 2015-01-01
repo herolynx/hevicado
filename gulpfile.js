@@ -130,22 +130,28 @@ gulp.task('serve:dev', ['less'], function () {
     // TODO: add js code style check (jscs) once coding conventions are ok
     // TODO: ...
 
-    // Legacy CSS support. Reloads legacy app.css if it is changed.
-    gulp.watch('./app/css/*.css',
-        function () {
-            reloadBrowser('app.css');
-        }
-    );
-
     // Watch for Less changes
     gulp.watch('./app/**/*.less', ['less']);
 
-    // Full reload on js, template or translation changes
+    // Watch for CSS changes
+    gulp.watch('./app/css/*.css',
+        function () {
+            reloadBrowser();
+        }
+    );
+
+    //Watch for language files changes
+    gulp.watch('./app/lang/*.json',
+        function () {
+            reloadBrowser();
+        }
+    );
+
+    // Watch for JS or template changes
     gulp.watch([
             './app/**/*.js',
             './app/**/*.html',
-            './app/index.html',
-            './app/*.json'
+            './app/index.html'
         ], function () {
             reloadBrowser();
         }

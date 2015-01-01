@@ -7,11 +7,21 @@
     "orange": "Pomaranczowy",
     "blue": "Niebieski"
   },
+  "days": {
+    "monday": "Poniedzialek",
+    "tuesday": "Wtorek",
+    "wednesday": "Sroda",
+    "thursday": "Czwartek",
+    "friday": "Piatek",
+    "saturday": "Sobota",
+    "sunday": "Niedziela"
+  },
   "generic": {
     "back-to-top": "Poczatek",
     "email": "E-mail",
     "save": "Zapisz",
     "search": "Szukaj",
+    "description": "Opis",
     "validation": {
       "2-chars": "Pole musi zawierac co najmniej 2 znaki.",
       "6-chars": "Pole musi zawierac co najmniej 6 znakow."
@@ -72,6 +82,27 @@
       "wrong-phone": "Podany telefon jest nieprawidlowy.",
       "samples": "Przyklady"
     }
+  },
+  "visit": {
+    "patient-visits": "Wizyty",
+    "patient-visits-info": "Wizyty pacjenta w kolejnosci chronologicznej",
+    "no-visits": "Nie masz zadnych wizyt",
+    "state": {
+      "event-state-cancelled": "Anulowana",
+      "event-state-closed": "Zamknieta",
+      "event-state-open": "Otwarta"
+    },
+    "visit-cancelled": "Wizyta zostala anulowana",
+    "visit": "Wizyta",
+    "doctor": "Doktor",
+    "full-name": "Imie i nazwisko",
+    "address": "Adres",
+    "examination": "Badanie",
+    "title": "Tytul",
+    "patient": "Pacjent",
+    "cancel-visit": "Anuluj wizyte",
+    "location": "Lokalizacja",
+    "open-hours": "Godziny otwarcia"
   },
   "time-zones": {
     "CET": "Czas środkowoeuropejski"
