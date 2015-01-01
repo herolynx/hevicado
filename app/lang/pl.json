@@ -2,11 +2,20 @@
   "lang": {
     "pl": "Polski"
   },
+  "themes:": {
+    "turquoise": "Turkosowy",
+    "orange": "Pomaranczowy",
+    "blue": "Niebieski"
+  },
   "generic": {
     "back-to-top": "Poczatek",
-    "title-login": "Logowanie",
-    "title-registration": "Rejestracja",
-    "email": "E-mail"
+    "email": "E-mail",
+    "save": "Zapisz",
+    "search": "Szukaj",
+    "validation": {
+      "2-chars": "Pole musi zawierac co najmniej 2 znaki.",
+      "6-chars": "Pole musi zawierac co najmniej 6 znakow."
+    }
   },
   "menu": {
     "visits": "Wizity",
@@ -17,10 +26,10 @@
     "cabinet": "Gabinet",
     "account": "Konto",
     "account-preferences": "Ustawienia",
-    "account-payments": "Platnosci",
-    "search": "Szukaj"
+    "account-payments": "Platnosci"
   },
   "login": {
+    "login": "Logowanie",
     "info-no-account": "Nie masz jeszcze konta?",
     "info-register": "Zarejestruj sie teraz",
     "user-login": "Login",
@@ -29,6 +38,7 @@
     "wrongCredentials": "Zly login i/lub haslo"
   },
   "registration": {
+    "registration": "Rejestracja",
     "info-after-registration": "Zarejestruj się, a następnie uzupełnij swoje dane w swoim profilu",
     "info-before-1": "Zanim wypełnisz formularz rejestracji, zapoznaj się z",
     "info-before-2": "korzyściami",
@@ -46,5 +56,24 @@
       "length-password": "Haslo musi zawierac co najmniej 5 znakow.",
       "no-match-password": "Podane hasla sa rozne."
     }
+  },
+  "user-profile": {
+    "user-account": "Konto uzytkownika",
+    "change-credentials": "Zmien login i/lub haslo",
+    "user-info": "Informacje o uzytkowniku",
+    "first-name": "Imie",
+    "last-name": "Nazwisko",
+    "phone": "Telefon",
+    "settings": "Ustawienia",
+    "lang": "Jezyk",
+    "time-zone": "Strefa czasowa",
+    "theme": "Motyw",
+    "validation": {
+      "wrong-phone": "Podany telefon jest nieprawidlowy.",
+      "samples": "Przyklady"
+    }
+  },
+  "time-zones": {
+    "CET": "Czas środkowoeuropejski"
   }
 }
