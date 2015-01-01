@@ -3,6 +3,6 @@
 
 describe('services-spec', function () {
 
-    beforeEach(angular.mock.module('angular-base.services'));
+    beforeEach(angular.mock.module('base.services'));
 
 });

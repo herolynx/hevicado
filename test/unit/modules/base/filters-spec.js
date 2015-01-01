@@ -2,7 +2,7 @@
 
 describe('filters-spec:', function () {
 
-    beforeEach(angular.mock.module('angular-base.filters'));
+    beforeEach(angular.mock.module('base.filters'));
 
     describe('interpolate-spec:', function () {
 

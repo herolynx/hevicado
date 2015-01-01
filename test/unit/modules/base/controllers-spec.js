@@ -3,7 +3,7 @@
 
 describe('controllers-spec', function () {
 
-    beforeEach(angular.mock.module('angular-base.controllers'));
+    beforeEach(angular.mock.module('base.controllers'));
 
     describe('LangCtrl-spec:', function () {
 
