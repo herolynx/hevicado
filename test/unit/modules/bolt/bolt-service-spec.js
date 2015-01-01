@@ -111,6 +111,42 @@ describe('bolt-service-spec:', function () {
             );
         });
 
+        it('should refresh only user info in session', function () {
+            //given session service is initialized
+            expect(session).toBeDefined();
+            //and user has session created
+            mockCookieStore.get.andReturn(
+                {
+                    token: 'token-123',
+                    id: 'user-123',
+                    first_name: 'johnny1',
+                    last_name: 'bravo1',
+                    role: 'USER'
+                }
+            );
+            //when refreshing info about user
+            session.refresh(
+                {
+                    token: 'token-456',
+                    id: 'user-456',
+                    role: 'ADMIN',
+                    first_name: 'johnny2',
+                    last_name: 'bravo2'
+                }
+            );
+            //then only user info is refreshed
+            //and crucial data like token remains untouched
+            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser',
+                {
+                    token: 'token-123',
+                    id: 'user-456',
+                    role: 'ADMIN',
+                    first_name: 'johnny2',
+                    last_name: 'bravo2'
+                }
+            );
+        });
+
     });
 
     describe('AuthService-spec:', function () {

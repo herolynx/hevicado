@@ -15,7 +15,4 @@ var usersModule = angular.module('users', [
 ]).
     constant('THEMES', ['turquoise', 'orange', 'blue']).
     constant('LANGS', ['pl']).
-    constant('TIME_ZONES', ['CET']).
-    constant('USER_EVENTS', {
-        USER_INFO_CHANGED: 'user-info-changed'
-    });
+    constant('TIME_ZONES', ['CET']);

@@ -128,6 +128,17 @@ boltServices.service('Session', ['$cookieStore', 'USER_ROLES', 'UserUtils', '$lo
     };
 
     /**
+     * Refresh info about user stored in session
+     * @param user new user data
+     */
+    this.refresh = function (user) {
+        $log.debug('Refreshing user session info - user id: ' + user.id + ', role: ' + user.role);
+        var newUserData = angular.copy(user);
+        newUserData.token = self.loadUser().token;
+        self.create(newUserData);
+    };
+
+    /**
      * Destroy user's current session
      */
     this.destroy = function () {

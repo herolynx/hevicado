@@ -17,7 +17,8 @@ var boltModule = angular.module('bolt',
         USER_LOGGED_OUT: 'auth-logout-success',
         SESSION_TIMEOUT: 'auth-session-timeout',
         USER_NOT_AUTHENTICATED: 'auth-not-authenticated',
-        USER_NOT_AUTHORIZED: 'auth-not-authorized'
+        USER_NOT_AUTHORIZED: 'auth-not-authorized',
+        SESSION_REFRESH: 'session-refresh'
     }).
     constant('USER_ROLES', {
         GUEST: 'guest',
