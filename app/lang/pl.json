@@ -22,6 +22,8 @@
     "save": "Zapisz",
     "search": "Szukaj",
     "description": "Opis",
+    "open": "Otworz",
+    "close": "Zamknij",
     "validation": {
       "2-chars": "Pole musi zawierac co najmniej 2 znaki.",
       "6-chars": "Pole musi zawierac co najmniej 6 znakow."
@@ -102,7 +104,14 @@
     "patient": "Pacjent",
     "cancel-visit": "Anuluj wizyte",
     "location": "Lokalizacja",
-    "open-hours": "Godziny otwarcia"
+    "open-hours": "Godziny otwarcia",
+    "search-doctor": "Wyszukiwanie lekarza",
+    "search-info": "Podaj kryteria wyszukiwania",
+    "visit-date": "Termin",
+    "begin-date": "Termin od",
+    "specialization": "Specializacja",
+    "chose-specialization": "Wybierz specializacje",
+    "search-result": "Wynik wyszukiwania"
   },
   "time-zones": {
     "CET": "Czas środkowoeuropejski"

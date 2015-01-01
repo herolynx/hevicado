@@ -1,6 +1,6 @@
 <section id="main-content" ng-controller="SearchDoctorCtrl">
     <div class="title-page">
-        <h1>Search</h1>
+        <h1 translate>visit.search-doctor</h1>
     </div>
     <!-- Page Title -->
     <div class="content">
@@ -17,32 +17,36 @@
             </div>
             <!-- Pagination Calendar Next, Prev -->
 
-            <div class="top-info">
-                Wypełnij jedno z pól aby odnaleźć tego Jedynego :P
+            <div class="top-info" translate>
+                visit.search-info
             </div>
             <div class="box-row">
                 <div class="box">
-                    <h2><span>1</span>Person data</h2>
+                    <h2><span>1</span>{{'visit.doctor' | translate}}</h2>
                     <ul>
                         <li>
-                            <label>Name / Address e-mail</label>
+                            <label>{{'visit.full-name' | translate}} / {{'generic.email' | translate}}:</label>
                             <fieldset>
-                                <input type="text" ng-model="criteria.name">
+                                <input type="text"
+                                       ng-model="criteria.name"
+                                       placeholder="{{'visit.full-name' | translate}} / {{'generic.email' | translate}}">
                             </fieldset>
                         </li>
                         <li>
-                            <label>Location</label>
+                            <label>{{'visit.location' | translate}}:</label>
                             <fieldset>
-                                <input type="text" ng-model="criteria.localization">
+                                <input type="text"
+                                       ng-model="criteria.localization"
+                                       placeholder="{{'visit.location' | translate}}">
                             </fieldset>
                         </li>
                     </ul>
                 </div>
                 <div class="box">
-                    <h2><span>2</span>Termin</h2>
+                    <h2><span>2</span>{{'visit.visit-date' | translate}}</h2>
                     <ul>
                         <li>
-                            <label>Termin</label>
+                            <label>{{'visit.begin-date' | translate}}:</label>
                             <fieldset>
                                 <input type="text" class="form-control"
                                        datepicker-popup="yyyy-MM-dd"
@@ -53,31 +57,31 @@
                                        datepicker-options="dateOptions"
                                        date-disabled="disabled(date, mode)"
                                        ng-required="true"
-                                       close-text="Close"
+                                       close-text="{{'generic.close' | translate}}"
                                        user-date
                                         />
                                 <button ng-click="openDatePicker($event)">
-                                    Open<i class="glyphicon glyphicon-calendar"></i>
+                                    {{'generic.open' | translate}}<i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </fieldset>
                         </li>
                         <li>
                             <label></label>
                             <fieldset>
-                                <button ng-click="search()">Search user</button>
+                                <button ng-click="search()" translate>generic.search</button>
                             </fieldset>
                         </li>
                     </ul>
                 </div>
                 <div class="box">
-                    <h2><span>3</span>Wybierz specjalizację:</h2>
+                    <h2><span>3</span>{{'visit.specialization' | translate}}</h2>
                     <ul>
                         <li>
-                            <label>Specjalization (wybierz spośród wielu)</label>
+                            <label>{{'visit.chose-specialization' | translate}}:</label>
                             <fieldset>
                                 <input type="text"
                                        ng-model="newSpecialization"
-                                       placeholder="Find specialization"
+                                       placeholder="{{'visit.chose-specialization' | translate}}"
                                        typeahead="specialization for specialization in specializations"
                                        typeahead-editable="false"
                                         >
@@ -98,8 +102,8 @@
                 </div>
             </div>
             <!-- Form -->
-            <div class="top-info">
-                Wyniki wyszukiwania
+            <div class="top-info" translate>
+                visit.search-result
             </div>
             <div class="box-row"
                  infinite-scroll='nextDoctors()'
@@ -126,6 +130,7 @@
                                         {{location.address | addressInfo}}
                                     </a>
                                 </p>
+
                                 <div ng-repeat="specialization in location.specializations">
                                     {{specialization}}
                                 </div>
