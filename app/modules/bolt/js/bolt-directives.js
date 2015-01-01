@@ -1,6 +1,6 @@
 'use strict';
 
-var directives = angular.module('bolt.directives', []);
+var boltDirectives = angular.module('bolt.directives', []);
 
 /**
  * Definition of authorized element which visibility is controlled based on user's access rights.
@@ -59,7 +59,7 @@ function AuthorizedElement(element, children, reqRoles, AuthService, attachStrat
 /**
  * Function defines strategy for showing/hiding elements
  */
-directives.value('attachStrategy', {
+boltDirectives.value('attachStrategy', {
     hide: function (parent, element) {
         if (element.detach !== undefined) {
             element.detach();
@@ -81,7 +81,7 @@ directives.value('attachStrategy', {
  * @param AUTH_EVENTS events that will be listened in order to change element's visibility
  * @param attachStrategy strategy for showing/hiding elements
  */
-directives.directive('permission', function (AuthService, AUTH_EVENTS, attachStrategy) {
+boltDirectives.directive('permission', ['AuthService', 'AUTH_EVENTS', 'attachStrategy', function (AuthService, AUTH_EVENTS, attachStrategy) {
 
     return {
         restrict: 'E',
@@ -100,4 +100,4 @@ directives.directive('permission', function (AuthService, AUTH_EVENTS, attachStr
         }
     };
 
-});
+}]);

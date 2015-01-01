@@ -3,7 +3,7 @@
 /**
  * Configure authentication module
  */
-var module = angular.module('bolt',
+var boltModule = angular.module('bolt',
     [
         'bolt.controllers',
         'bolt.services',
@@ -50,7 +50,7 @@ var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVEN
                 $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHENTICATED);
             } else {
                 $log.info('User is not allowed to see resource ' + next.url + ' - no sufficient privileges of: ' +
-                    AuthService.getCurrentSession().getUserRole());
+                AuthService.getCurrentSession().getUserRole());
                 $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHORIZED);
             }
         }
@@ -58,4 +58,4 @@ var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVEN
 };
 
 // check user access rights when visiting stuff in application
-module.run(checkUserAccessRights);
+boltModule.run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', '$log', checkUserAccessRights]);

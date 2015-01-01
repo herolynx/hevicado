@@ -1,6 +1,8 @@
 'use strict';
 
-var controllers = angular.module('bolt.controllers', ['ui.notifications']);
+var boltControllers = angular.module('bolt.controllers', [
+    'ui.notifications'
+]);
 
 /**
  * Controller manages user's login/logout process
@@ -11,7 +13,7 @@ var controllers = angular.module('bolt.controllers', ['ui.notifications']);
  * @param AUTH_EVENTS list of authentication events
  * @param $log Angie's logger component
  */
-controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS, $log) {
+boltControllers.controller('LoginCtrl', ['$rootScope', '$scope', '$state', 'AuthService', 'AUTH_EVENTS', '$log', function ($rootScope, $scope, $state, AuthService, AUTH_EVENTS, $log) {
     $scope.credentials = {
         login: '',
         password: ''
@@ -47,4 +49,4 @@ controllers.controller('LoginCtrl', function ($rootScope, $scope, $state, AuthSe
                 });
         }
     };
-});
+}]);

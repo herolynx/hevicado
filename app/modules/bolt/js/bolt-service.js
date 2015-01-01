@@ -1,6 +1,6 @@
 'use strict';
 
-var services = angular.module('bolt.services', [
+var boltServices = angular.module('bolt.services', [
     'commons.users.utils'
 ]);
 
@@ -10,7 +10,7 @@ var services = angular.module('bolt.services', [
  * @param Session component for session management
  * @param USER_ROLES list of available user roles
  */
-services.factory('AuthService', function ($http, Session, USER_ROLES) {
+boltServices.factory('AuthService', ['$http', 'Session', 'USER_ROLES', function ($http, Session, USER_ROLES) {
     return {
         /**
          * Login user with given credentials
@@ -64,7 +64,7 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
             return Session;
         }
     };
-});
+}]);
 
 /**
  * User's session definition. <br>
@@ -74,7 +74,7 @@ services.factory('AuthService', function ($http, Session, USER_ROLES) {
  * @param UserUtils generic user related functions
  * @param $log Angie's logger
  */
-services.service('Session', function ($cookieStore, USER_ROLES, UserUtils, $log) {
+boltServices.service('Session', ['$cookieStore', 'USER_ROLES', 'UserUtils', '$log', function ($cookieStore, USER_ROLES, UserUtils, $log) {
 
     var self = this;
 
@@ -139,7 +139,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, UserUtils, $log)
     };
 
     return this;
-});
+}]);
 
 /**
  * Component adds user's token to header of each outgoing request. <br/>
@@ -150,7 +150,7 @@ services.service('Session', function ($cookieStore, USER_ROLES, UserUtils, $log)
  * @param Session user's current session
  * @param AUTH_EVENTS list of authentication events
  */
-services.factory('AuthInterceptor', function ($rootScope, $q, Session, AUTH_EVENTS) {
+boltServices.factory('AuthInterceptor', ['$rootScope', '$q', 'Session', 'AUTH_EVENTS', function ($rootScope, $q, Session, AUTH_EVENTS) {
     return {
         request: function (config) {
             config.headers = config.headers || {};
@@ -173,4 +173,4 @@ services.factory('AuthInterceptor', function ($rootScope, $q, Session, AUTH_EVEN
             return response || $q.when(response);
         }
     };
-});
+}]);
