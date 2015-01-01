@@ -1,11 +1,11 @@
 'use strict';
 
-var elements = angular.module("ui.elements", []);
+var uiElements = angular.module("ui.elements", []);
 
 /**
  * Directive for resizable element
  */
-elements.directive('uiResizable', function ($parse) {
+uiElements.directive('uiResizable', ['$parse', function ($parse) {
     return {
         restrict: 'A',
 
@@ -26,13 +26,13 @@ elements.directive('uiResizable', function ($parse) {
             });
         }
     };
-});
+}]);
 
 /**
  * Directive for matching field values.
  * It can be used to confirm values of chosen fields.
  */
-elements.directive('fieldMatch', function () {
+uiElements.directive('fieldMatch', function () {
     return {
         require: 'ngModel',
         restrict: 'A',
@@ -56,7 +56,7 @@ elements.directive('fieldMatch', function () {
  * Second element is treated as a info to be displayed as a pop-up.
  * Pop-up will be closed automatically after clicking on info.
  */
-elements.directive('popupInfo', function () {
+uiElements.directive('popupInfo', function () {
     return {
         restrict: 'E',
         link: function ($scope, elem, attrs) {

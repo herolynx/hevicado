@@ -3,17 +3,15 @@
 /**
  * Configure module for ui utils
  */
-var ui = angular.module('ui.notifications',
-    [
-        'pascalprecht.translate'
-    ]
-);
+var uiNotif = angular.module('ui.notifications', [
+    'pascalprecht.translate'
+]);
 
 /**
  * Service manages UI notifications that can pop-up on the screen
  * @param $translate component manging translations
  */
-ui.service('uiNotification', function ($translate) {
+uiNotif.service('uiNotification', ['$translate', function ($translate) {
 
     var _title, _text;
 
@@ -66,7 +64,7 @@ ui.service('uiNotification', function ($translate) {
 
     return this;
 
-});
+}]);
 
 /**
  * Directive displays chosen message when proper event is dispatched.
@@ -76,7 +74,7 @@ ui.service('uiNotification', function ($translate) {
  * message: text to be displayed in notification
  * @param uiNotification component managing notifications on UI
  */
-ui.directive('uiNotify', function (uiNotification) {
+uiNotif.directive('uiNotify', ['uiNotification', function (uiNotification) {
 
     return {
         restrict: 'E',
@@ -99,4 +97,4 @@ ui.directive('uiNotify', function (uiNotification) {
         }
     };
 
-});
+}]);
