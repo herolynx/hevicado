@@ -19,7 +19,7 @@ var gulp = require('gulp'),
 // LINTS JS CODE
 gulp.task('lint', function () {
     return gulp
-        .src(['./app/js/**/*.js', './app/modules/**/js/*.js', 'test/**/*.js'])
+        .src(['./app/modules/**/js/*.js', 'test/**/*.js'])
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter("default"));
 });
@@ -27,7 +27,7 @@ gulp.task('lint', function () {
 // JS CHECK STYLE
 gulp.task('jscs', function () {
     return gulp
-        .src(['./app/js/**/*.js', './app/modules/**/js/*.js', 'test/**/*.js'])
+        .src(['./app/modules/**/js/*.js', 'test/**/*.js'])
         .pipe(jscs());
 });
 

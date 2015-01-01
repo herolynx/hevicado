@@ -34,7 +34,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     $stateProvider.
         state('default', {
             url: "/main",
-            templateUrl: "partials/main.html",
+            templateUrl: "modules/base/partials/main.html",
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
@@ -66,7 +66,7 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     $stateProvider.
         state('main', {
             url: "/main",
-            templateUrl: "partials/main.html",
+            templateUrl: "modules/base/partials/main.html",
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }

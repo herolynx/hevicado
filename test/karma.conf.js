@@ -24,14 +24,13 @@ module.exports = function (config) {
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
             /* tested components */
-            'app/js/*.js',
             'app/modules/**/*.js',
             /* test cases */
             'test/unit/**/*.js'
         ],
 
         //exclude files
-        exclude: [ ],
+        exclude: [],
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
