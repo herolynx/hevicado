@@ -1,94 +1,113 @@
 <section id="main-content">
     <div class="title-page">
-        <h1>Registration</h1>
+        <h1 translate>generic.title-registration</h1>
     </div>
     <!-- Page Title -->
     <div class="content">
         <section class="registration">
             <div class="top-info">
                 <p>
-                    Zanim wypełnisz formularz rejestracji, zapoznaj się z <a href="#">korzyściami</a>
-                    oraz z naszym <a href="#">regulaminem</a>.
+                    {{'registration.info-before-1' | translate}}
+                    <a href="#" ui-sref="features" translate>registration.info-before-2</a>
+                    {{'registration.info-before-3' | translate}}
+                    <a href="#" ui-sref="regulations" translate>registration.info-before-4</a>.
                 </p>
 
-                <p>
-                    Zarejestruj się a następnie uzupełnij swoje dane w swoim profilu
+                <p translate>
+                    registration.info-after-registration
                 </p>
             </div>
             <div class="box-row">
                 <form name="userForm" ng-submit="save(user)" ng-controller="RegistrationCtrl" novalidate>
                     <div class="box none">
-                        <h2><span>1</span>Account</h2>
+                        <h2><span>1</span>{{'registration.account' | translate}}</h2>
                         <ul>
                             <li>
                                 <fieldset>
-                                    <input name="email" type="email" placeholder="E-mail" ng-model="user.email"
-                                           ng-minlength="5" required>
+                                    <input name="email"
+                                           type="email"
+                                           placeholder="{{'generic.email' | translate}}"
+                                           ng-model="user.email"
+                                           ng-minlength="5"
+                                           required>
                                 </fieldset>
-                                <small class="error" ng-show="userForm.email.$error.minlength">
-                                    Your e-mail is required to be at least 5 characters
+                                <small class="error" ng-show="userForm.email.$error.minlength" translate>
+                                    registration.validation.length-email
                                 </small>
-                                <small class="error" ng-show="userForm.email.$error.email">
-                                    That is not a valid email. Please input a valid email.
+                                <small class="error" ng-show="userForm.email.$error.email" translate>
+                                    registration.validation.wrong-email
                                 </small>
                             </li>
                             <li>
                                 <fieldset>
-                                    <input name="email2" type="email" placeholder="Confirm your e-mail"
+                                    <input name="email2"
+                                           type="email"
+                                           placeholder="{{'registration.repeat-email' | translate}}"
                                            ng-model="userConf.email"
-                                           ng-minlength="5" field-match="user.email" required>
-                                    <small class="error" ng-show="userForm.email2.$error.minlength">
-                                        Your e-mail is required to be at least 5 characters
+                                           ng-minlength="5"
+                                           field-match="user.email"
+                                           required>
+                                    <small class="error" ng-show="userForm.email2.$error.minlength" translate>
+                                        registration.validation.length-email
                                     </small>
-                                    <small class="error" ng-show="userForm.email2.$error.email">
-                                        That is not a valid email. Please input a valid email.
+                                    <small class="error" ng-show="userForm.email2.$error.email" translate>
+                                        registration.validation.wrong-email
                                     </small>
-                                    <small class="error" ng-show="userForm.email2.$error.fieldMatch">
-                                        Given e-mails are not the same
+                                    <small class="error" ng-show="userForm.email2.$error.fieldMatch" translate>
+                                        registration.validation.no-match-email
                                     </small>
                                 </fieldset>
                             </li>
                         </ul>
                     </div>
                     <div class="box">
-                        <h2><span>2</span>Password:</h2>
+                        <h2><span>2</span>{{'login.password' | translate}}</h2>
                         <ul>
                             <li>
                                 <fieldset>
-                                    <input name="password" type="password" placeholder="Password"
+                                    <input name="password"
+                                           type="password"
+                                           placeholder="{{'login.password' | translate}}"
                                            ng-model="user.password"
-                                           ng-minlength="5" required>
-                                    <small class="error" ng-show="userForm.password.$error.minlength">
-                                        Your password is required to be at least 5 characters
+                                           ng-minlength="5"
+                                           required>
+                                    <small class="error" ng-show="userForm.password.$error.minlength" translate>
+                                        registration.validation.length-password
                                     </small>
                                 </fieldset>
                             </li>
                             <li>
                                 <fieldset>
-                                    <input name="password2" type="password" placeholder="Confirm your password"
-                                           ng-model="userConf.password" field-match="user.password"
-                                           ng-minlength="5" required>
-                                    <small class="error" ng-show="userForm.password2.$error.minlength">
-                                        Your password is required to be at least 5 characters
+                                    <input name="password2"
+                                           type="password"
+                                           placeholder="{{'registration.repeat-password' | translate}}"
+                                           ng-model="userConf.password"
+                                           field-match="user.password"
+                                           ng-minlength="5"
+                                           required>
+                                    <small class="error" ng-show="userForm.password2.$error.minlength" translate>
+                                        registration.validation.length-password
                                     </small>
-                                    <small class="error" ng-show="userForm.password2.$error.fieldMatch">
-                                        Given passwords are not the same
+                                    <small class="error" ng-show="userForm.password2.$error.fieldMatch" translate>
+                                        registration.validation.no-match-password
                                     </small>
                                 </fieldset>
                             </li>
                         </ul>
                     </div>
                     <div class="box">
-                        <h2><span>3</span>Confirm:</h2>
+                        <h2><span>3</span>{{'generic.title-registration' | translate}}</h2>
                         <ul>
-                            <li>
-                                <button ng-disabled="userForm.$invalid">Register</button>
-                            </li>
                             <li>
 								<span class="checkbox">
-									<input type="checkbox">
-									Accept the rules
+									<input type="checkbox"
+                                           ng-model="isAccepted"
+                                           required>
+									<a href="#" ui-sref="regulations" translate>registration.accept-rules</a>
 								</span>
+                            </li>
+                            <li>
+                                <button ng-disabled="userForm.$invalid" translate>registration.register</button>
                             </li>
                         </ul>
                     </div>

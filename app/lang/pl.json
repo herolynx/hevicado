@@ -4,7 +4,9 @@
   },
   "generic": {
     "back-to-top": "Poczatek",
-    "title-login": "Logowanie"
+    "title-login": "Logowanie",
+    "title-registration": "Rejestracja",
+    "email": "E-mail"
   },
   "menu": {
     "visits": "Wizity",
@@ -25,5 +27,24 @@
     "password": "Haslo",
     "login-in": "Zaloguj",
     "wrongCredentials": "Zly login i/lub haslo"
+  },
+  "registration": {
+    "info-after-registration": "Zarejestruj się, a następnie uzupełnij swoje dane w swoim profilu",
+    "info-before-1": "Zanim wypełnisz formularz rejestracji, zapoznaj się z",
+    "info-before-2": "korzyściami",
+    "info-before-3": "oraz z naszym",
+    "info-before-4": "regulaminem i polityka cookies",
+    "account": "Konto",
+    "repeat-email": "Powtorz e-mail",
+    "repeat-password": "Powtorz haslo",
+    "register": "Stworz konto",
+    "accept-rules": "Akceptuje regulamin wraz z polityka cookies",
+    "validation": {
+      "length-email": "E-mail musi zawierac co najmniej 5 znakow.",
+      "wrong-email": "Podany e-mail jest niepoprawny.",
+      "no-match-email": "Adresy e-mail sa rozne.",
+      "length-password": "Haslo musi zawierac co najmniej 5 znakow.",
+      "no-match-password": "Podane hasla sa rozne."
+    }
   }
 }

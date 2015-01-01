@@ -81,6 +81,13 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
                 access: ACCESS_LEVELS.PUBLIC
             }
         }).
+        state('features', {
+            url: "/features",
+            templateUrl: "modules/base/partials/features.html",
+            data: {
+                access: ACCESS_LEVELS.PUBLIC
+            }
+        }).
         state('pricing', {
             url: "/pricing",
             templateUrl: "modules/base/partials/pricing.html",
