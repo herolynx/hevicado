@@ -11,19 +11,22 @@
                 <li>
                     <a ui-sref="user-visits">
                         <i class="icon-newspaper"></i>
-                        Visit
+                        {{'menu.visits' | translate}}
                     </a>
                 </li>
                 <li>
                     <permission roles="doctor">
                         <a ui-sref="calendar-week">
                             <i class="icon-calendar"></i>
-                            Calendar
+                            {{'menu.calendar' | translate}}
                         </a>
                         <ul class="subpage">
-                            <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })">Daily</a></li>
-                            <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })">Weekly</a></li>
-                            <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })">Monthly</a></li>
+                            <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })" translate>menu.calendar-daily</a>
+                            </li>
+                            <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
+                            </li>
+                            <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })" translate>menu.calendar-monthly</a>
+                            </li>
                         </ul>
                     </permission>
                 </li>
@@ -31,24 +34,24 @@
                     <permission roles="doctor">
                         <a ui-sref="edit-cabinet">
                             <i class="icon-monitor"></i>
-                            Cabinet
+                            {{'menu.cabinet' | translate}}
                         </a>
                     </permission>
                 </li>
                 <li>
                     <a>
                         <i class="icon-tools"></i>
-                        My account
+                        {{'menu.account' | translate}}
                     </a>
                     <ul class="subpage">
-                        <li><a href="#" ui-sref="user-profile">Preferences</a></li>
-                        <li><a>Payments</a></li>
+                        <li><a href="#" ui-sref="user-profile" translate>menu.account-preferences</a></li>
+                        <li><a translate>menu.account-payments</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#" ui-sref="search-doctor">
                         <i class="icon-search"></i>
-                        Search
+                        {{'menu.search' | translate}}
                     </a>
                 </li>
             </ul>

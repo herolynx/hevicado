@@ -35,7 +35,7 @@ var baseModule = angular.module('base',
             prefix: 'lang/',
             suffix: '.json'
         });
-        $translateProvider.preferredLanguage('en');
+        $translateProvider.preferredLanguage('pl');
         $translateProvider.useCookieStorage(); //store lang in cookies
     }]).
     value('version', '0.0.1');
