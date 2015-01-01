@@ -44,21 +44,20 @@ or
 
 ## Release build
 
-1. Change application version ('version' value in app/modules/base/js/app.js)
+1) Change application version ('version' value in app/modules/base/js/app.js)
 
-2. Clean your current build
+2) Clean your current build
 
 ```shell
    $gulp clean
 ```
-
-3. Create new release build
+3) Create new release build
 
 ```shell
    $gulp release
 ```
 
-4. Check locally whether release build is OK
+4) Check locally whether release build is OK
 
 ```shell
    $gulp serve:release
