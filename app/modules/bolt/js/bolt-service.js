@@ -121,7 +121,9 @@ boltServices.service('Session', ['$cookieStore', 'USER_ROLES', 'UserUtils', '$lo
      */
     this.create = function (user) {
         $log.debug('Creating session - user id: ' + user.id + ', role: ' + user.role + ', token: ' + user.token);
-        _currentUser = user;
+        _currentUser = UserUtils.getContactInfo(user);
+        _currentUser.token = user.token;
+        _currentUser.profile = user.profile;
         $cookieStore.put('currentUser', _currentUser);
     };
 

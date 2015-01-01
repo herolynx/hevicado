@@ -40,7 +40,7 @@ describe('bolt-service-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //and session has been created before
-            mockCookieStore.get.andReturn({ token: 'token-123', id: 'user-456', role: 'USER'});
+            mockCookieStore.get.andReturn({token: 'token-123', id: 'user-456', role: 'USER'});
             //when data of current user is accessed
             //then state from cookie is restored
             expect(session.getToken()).toBe('token-123');
@@ -52,9 +52,13 @@ describe('bolt-service-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //when creating new session
-            session.create({ token: 'token-123', id: 'user-456', role: 'USER'});
+            session.create({token: 'token-123', id: 'user-456', role: 'USER'});
             //then cookie is created for current user
-            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', { token: 'token-123', id: 'user-456', role: 'USER' });
+            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', {
+                token: 'token-123',
+                id: 'user-456',
+                role: 'USER'
+            });
             //and proper log message appears
             expect(mockLog.debug).toHaveBeenCalledWith('Creating session - user id: user-456, role: USER, token: token-123');
         });
@@ -69,6 +73,44 @@ describe('bolt-service-spec:', function () {
             //and proper log message appears
             expect(mockLog.debug).toHaveBeenCalledWith('Deleting session - user id: null');
         });
+
+        it('should keep only the most import data about user in session', function () {
+            //given session service is initialized
+            expect(session).toBeDefined();
+            //when creating new session with all info about user
+            session.create(
+                {
+                    token: 'token-123',
+                    id: 'user-456',
+                    role: 'ADMIN',
+                    first_name: 'johnny',
+                    last_name: 'bravo',
+                    email: 'johnny.bravo@kunishu.com',
+                    profile: {
+                        lang: 'en',
+                        time_zone: 'CET'
+                    },
+                    not_important: 'value1'
+                }
+            );
+            //then cookie is created for current user
+            //and session will keep only the most important data about user
+            expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser',
+                {
+                    id: 'user-456',
+                    first_name: 'johnny',
+                    last_name: 'bravo',
+                    email: 'johnny.bravo@kunishu.com',
+                    phone: undefined,
+                    role: 'ADMIN',
+                    token: 'token-123',
+                    profile: {
+                        lang: 'en', time_zone: 'CET'
+                    }
+                }
+            );
+        });
+
     });
 
     describe('AuthService-spec:', function () {
@@ -109,9 +151,9 @@ describe('bolt-service-spec:', function () {
                 role: 'USER'
             };
             //when trying to log in with user's credentials
-            authService.login({ login: 'user@bolt.com', password: 'pass#123' });
+            authService.login({login: 'user@bolt.com', password: 'pass#123'});
             //and response for authentication is positive
-            var response = { data: user };
+            var response = {data: user};
             deferredHttp.resolve(response);
             $rootScope.$apply();
             //then session is created for validated user
@@ -127,7 +169,7 @@ describe('bolt-service-spec:', function () {
                 role: 'USER'
             };
             //when trying to log in with wrong credentials
-            authService.login({ login: 'user@bolt.com', password: 'pass#123' });
+            authService.login({login: 'user@bolt.com', password: 'pass#123'});
             //and response for authentication is not positive
             deferredHttp.reject();
             $rootScope.$apply();
@@ -234,8 +276,8 @@ describe('bolt-service-spec:', function () {
                 return 'token-123';
             };
             //when HTTP request is about to be sent
-            var config = { };
-            config.headers = { Authorization: null };
+            var config = {};
+            config.headers = {Authorization: null};
             authInterceptor.request(config);
             //then current user's token is added to HTTP header
             expect(config.headers.Authorization).toBe('token-123');
@@ -249,8 +291,8 @@ describe('bolt-service-spec:', function () {
                 return null;
             };
             //when HTTP request is about to be sent
-            var config = { };
-            config.headers = { Authorization: null };
+            var config = {};
+            config.headers = {Authorization: null};
             authInterceptor.request(config);
             //then HTTP header is empty
             expect(config.headers.Authorization).toBeNull();
@@ -260,7 +302,7 @@ describe('bolt-service-spec:', function () {
             //given auth interceptor is initialized
             expect(authInterceptor).toBeDefined();
             //when HTTP response is received with proper code
-            var response = { status: 401 };
+            var response = {status: 401};
             authInterceptor.response(response);
             //then proper broadcast message is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_NOT_AUTHENTICATED);
@@ -272,7 +314,7 @@ describe('bolt-service-spec:', function () {
             //given auth interceptor is initialized
             expect(authInterceptor).toBeDefined();
             //when HTTP response is received with proper code
-            var response = { status: 403 };
+            var response = {status: 403};
             authInterceptor.response(response);
             //then proper broadcast message is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_NOT_AUTHORIZED);
@@ -284,7 +326,7 @@ describe('bolt-service-spec:', function () {
             //given auth interceptor is initialized
             expect(authInterceptor).toBeDefined();
             //when HTTP response is received with proper code
-            var response = { status: 419 };
+            var response = {status: 419};
             authInterceptor.response(response);
             //then proper broadcast message is sent
             expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.SESSION_TIMEOUT);
@@ -297,7 +339,7 @@ describe('bolt-service-spec:', function () {
             expect(authInterceptor).toBeDefined();
             //when HTTP response is received without error code
             //then response is propagated
-            var response = { status: 200 };
+            var response = {status: 200};
             expect(authInterceptor.response(response)).toBe(response);
         });
     });
