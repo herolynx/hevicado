@@ -36,7 +36,7 @@ or
    $npm start
 ```
 
-or
+or run using gulp for browser auto-refreshing:
 
 ```shell
    $gulp
