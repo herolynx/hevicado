@@ -51,16 +51,14 @@ gulp.task('views', function () {
     return gulp
         .src('./app/modules/**/*.html')
         .pipe(templateCache({
-            module: 'kunishu',
-            root: 'js'
+            module: 'angular-base',
+            root: 'modules'
         }))
-        .pipe(gulp.dest('./.tmp/js'));
+        .pipe(gulp.dest('./app/tmp/js'));
 });
 
 // COPY INDEPENDENT ASSETS TO RELEASE DIR (own and 3rd party)
 gulp.task('copy:assets', function () {
-    //gulp.src('./app/trans-*.json')
-    //    .pipe(gulp.dest('release/'));
 
     gulp.src('./app/css/*.css')
         .pipe(gulp.dest('release/css'));
@@ -71,16 +69,23 @@ gulp.task('copy:assets', function () {
     gulp.src('./app/images/**/*')
         .pipe(gulp.dest('release/images'));
 
+    gulp.src('./app/lang/**/*')
+        .pipe(gulp.dest('release/lang'));
+
+    gulp.src('./app/lib/**/*')
+        .pipe(gulp.dest('release/lib'));
+
 });
 
 // CREATE A RELEASE TO THE RELEASE DIR
 gulp.task('release', ['clean', 'views', 'less', 'copy:assets'], function () {
     return gulp
         .src('./app/index.html')
-        .pipe(inject(gulp.src('./.tmp/js/templates.js', {read: false}),
+        .pipe(inject(
+            gulp.src('./app/tmp/js/templates.js', {read: false}),
             {
                 starttag: '<!-- inject:templates:js -->',
-                ignorePath: './.tmp/',
+                ignorePath: './app/tmp/',
                 relative: true
             }
         ))
