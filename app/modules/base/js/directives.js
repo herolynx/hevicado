@@ -1,6 +1,6 @@
 'use strict';
 
-var baseDirectives = angular.module('angular-base.directives', []);
+var baseDirectives = angular.module('base.directives', []);
 
 /**
  * Directive displays current version of application

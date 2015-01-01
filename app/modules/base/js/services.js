@@ -1,6 +1,6 @@
 'use strict';
 
-var baseServices = angular.module('angular-base.services', []);
+var baseServices = angular.module('base.services', []);
 
 //TODO move to config
 baseServices.constant('HTTP_CONFIG', {

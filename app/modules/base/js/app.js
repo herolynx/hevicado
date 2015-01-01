@@ -3,7 +3,7 @@
 /**
  * Define main base module
  */
-var baseModule = angular.module('angular-base',
+var baseModule = angular.module('base',
     [
         /*
          * External 3rd partiess modules
@@ -21,12 +21,12 @@ var baseModule = angular.module('angular-base',
         /*
          * Internal modules
          */
-        'angular-base.filters',
-        'angular-base.services',
-        'angular-base.directives',
-        'angular-base.controllers',
-        'angular-base.routes',
-        'angular-base.menu'
+        'base.filters',
+        'base.services',
+        'base.directives',
+        'base.controllers',
+        'base.routes',
+        'base.menu'
     ]
 ).
     /* configure language settings */

@@ -1,6 +1,6 @@
 'use strict';
 
-var baseRoutes = angular.module('angular-base.routes', [
+var baseRoutes = angular.module('base.routes', [
     'ui.router'
 ]);
 

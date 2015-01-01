@@ -1,6 +1,6 @@
 'use strict';
 
-var baseControllers = angular.module('angular-base.controllers', [
+var baseControllers = angular.module('base.controllers', [
     'ui.menu',
     'ui.generic'
 ]);

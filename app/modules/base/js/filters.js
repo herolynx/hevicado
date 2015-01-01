@@ -1,6 +1,6 @@
 'use strict';
 
-var baseFilters = angular.module('angular-base.filters', []);
+var baseFilters = angular.module('base.filters', []);
 
 /**
  * Initialize app's current version filter

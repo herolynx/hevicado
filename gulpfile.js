@@ -51,7 +51,7 @@ gulp.task('views', function () {
     return gulp
         .src('./app/modules/**/*.html')
         .pipe(templateCache({
-            module: 'angular-base',
+            module: 'base',
             root: 'modules'
         }))
         .pipe(gulp.dest('./app/tmp/js'));
