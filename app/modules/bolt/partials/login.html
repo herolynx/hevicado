@@ -1,47 +1,49 @@
 <section id="main-content">
     <div class="title-page">
-        <h1>Login</h1>
+        <h1 translate>generic.title-login</h1>
     </div>
     <div class="content" ng-controller="LoginCtrl">
         <section class="login">
             <div class="top-info">
-                <p>
-                    You don't have an account on our website?
+                <p translate>
+                    login.info-no-account
                 </p>
 
                 <p>
-                    <a href="#" ui-sref="registration">Register now</a>
+                    <a href="#" ui-sref="registration" translate>login.info-register</a>
                 </p>
             </div>
             <div class="box-row">
                 <form name="loginForm" ng-submit="login(credentials)" novalidate>
                     <div class="box none">
-                        <h2><span>1</span>Login</h2>
+                        <h2><span>1</span>{{'login.user-login' | translate}}</h2>
                         <ul>
                             <li>
                                 <fieldset>
-                                    <input type="text" placeholder="Login" ng-model="credentials.login">
+                                    <input type="text" placeholder="{{'login.user-login' | translate}}"
+                                           ng-model="credentials.login">
                                 </fieldset>
                             </li>
                         </ul>
                     </div>
                     <div class="box">
-                        <h2><span>2</span>Password</h2>
+                        <h2><span>2</span>{{'login.password' | translate}}</h2>
                         <ul>
                             <li>
                                 <fieldset>
-                                    <input type="password" placeholder="Password" ng-model="credentials.password">
+                                    <input type="password" placeholder="{{'login.password' | translate}}"
+                                           ng-model="credentials.password">
                                 </fieldset>
                             </li>
                         </ul>
                     </div>
                     <div class="box">
-                        <h2><span>3</span>Login</h2>
+                        <h2><span>3</span>{{'generic.title-login' | translate}}</h2>
                         <ul>
                             <li>
                                 <fieldset>
                                     <button>
-                                        <i class="icon-login"></i>Login
+                                        <i class="icon-login"></i>{{'login.login-in' | translate}}
                                     </button>
                                 </fieldset>
                             </li>

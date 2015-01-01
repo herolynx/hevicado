@@ -3,7 +3,8 @@
     "pl": "Polski"
   },
   "generic": {
-    "back-to-top": "Poczatek"
+    "back-to-top": "Poczatek",
+    "title-login": "Logowanie"
   },
   "menu": {
     "visits": "Wizity",
@@ -17,6 +18,12 @@
     "account-payments": "Platnosci",
     "search": "Szukaj"
   },
-  "users": {
+  "login": {
+    "info-no-account": "Nie masz jeszcze konta?",
+    "info-register": "Zarejestruj sie teraz",
+    "user-login": "Login",
+    "password": "Haslo",
+    "login-in": "Zaloguj",
+    "wrongCredentials": "Zly login i/lub haslo"
   }
 }
