@@ -1,6 +1,6 @@
 'use strict';
 
-var cabinet = angular.module('doctors.cabinet', [
+var doctorsCabinet = angular.module('doctors.cabinet', [
     'users.services',
     'bolt.services',
     'commons.users.filters'
@@ -14,7 +14,7 @@ var cabinet = angular.module('doctors.cabinet', [
  * @param $log logger
  * @param uiNotification UI notification manager
  */
-cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $stateParams, $log, uiNotification) {
+doctorsCabinet.controller('CabinetInfoCtrl', ['$scope', 'UsersService', '$stateParams', '$log', 'uiNotification', function ($scope, UsersService, $stateParams, $log, uiNotification) {
 
     $scope.doctor = {};
 
@@ -46,7 +46,7 @@ cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $statePara
         $scope.init($stateParams.doctorId);
     }
 
-});
+}]);
 
 /**
  * Controller responsible for editing cabinet related data.
@@ -58,7 +58,7 @@ cabinet.controller('CabinetInfoCtrl', function ($scope, UsersService, $statePara
  * @param $log logger
  * @param uiNotification UI notification manager
  */
-cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $controller, $log, uiNotification) {
+doctorsCabinet.controller('EditCabinetCtrl', ['$scope', 'UsersService', 'Session', '$controller', '$log', 'uiNotification', function ($scope, UsersService, Session, $controller, $log, uiNotification) {
 
     $scope.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     $scope.specializations = ['Arelogia', 'Reumatologia', 'Dietetyka'];
@@ -231,4 +231,4 @@ cabinet.controller('EditCabinetCtrl', function ($scope, UsersService, Session, $
         });
     });
 
-});
+}]);

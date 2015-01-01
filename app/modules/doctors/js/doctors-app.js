@@ -1,6 +1,6 @@
 'use strict';
 
-var module = angular.module('doctors', [
+var doctorsModule = angular.module('doctors', [
     'doctors.cabinet'
 ]);
 
