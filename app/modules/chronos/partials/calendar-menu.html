@@ -3,7 +3,7 @@
         <popup-info>
             <a class="open">
                 <i class="icon-doc-text"></i>
-                Legend
+                {{'calendar.legend' | translate}}
             </a>
 
             <div class="place-list">
@@ -18,7 +18,7 @@
     <div class="widget-min-calendar">
         <a class="open" ng-click="showDatePicker($event)">
             <i class="icon-calendar"></i>
-            miniCalendar
+            {{'calendar.mini-calendar' | translate}}
         </a>
         <datepicker
                 ng-model="currentDate"
@@ -47,18 +47,18 @@
 <div class="amount">
     <ul>
         <li>
-            <a href="#" ui-sref="calendar-day.daily({ doctorId: doctorId })">
-                Daily
+            <a href="#" ui-sref="calendar-day.daily({ doctorId: doctorId })" translate>
+                menu.calendar-daily
             </a>
         </li>
         <li>
-            <a href="#" ui-sref="calendar-week({ doctorId: doctorId })">
-                Weekly
+            <a href="#" ui-sref="calendar-week({ doctorId: doctorId })" translate>
+                menu.calendar-weekly
             </a>
         </li>
         <li>
-            <a href="#" ui-sref="calendar-month({ doctorId: doctorId })">
-                Monthly
+            <a href="#" ui-sref="calendar-month({ doctorId: doctorId })" translate>
+                menu.calendar-monthly
             </a>
         </li>
     </ul>

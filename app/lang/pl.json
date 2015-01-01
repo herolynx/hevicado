@@ -113,6 +113,10 @@
     "chose-specialization": "Wybierz specializacje",
     "search-result": "Wynik wyszukiwania"
   },
+  "calendar": {
+    "legend": "Legenda",
+    "mini-calendar": "Kalendarz"
+  },
   "time-zones": {
     "CET": "Czas środkowoeuropejski"
   }
