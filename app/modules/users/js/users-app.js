@@ -3,7 +3,7 @@
 /**
  * Configure module for users
  */
-var module = angular.module('users', [
+var usersModule = angular.module('users', [
 
     /*internal modules*/
     'users.controllers',

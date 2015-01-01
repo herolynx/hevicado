@@ -1,6 +1,6 @@
 'use strict';
 
-var controllers = angular.module('users.controllers', [
+var usersControllers = angular.module('users.controllers', [
     'commons.users.filters'
 ]);
 
@@ -16,7 +16,7 @@ var controllers = angular.module('users.controllers', [
  * @param uiNotification component for managing user's notifications
  * @param $log logger component
  */
-controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state, UsersService, AuthService, USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
+usersControllers.controller('RegistrationCtrl', ['$rootScope', '$scope', '$state', 'UsersService', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'uiNotification', '$log', function ($rootScope, $scope, $state, UsersService, AuthService, USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
 
     $scope.user = {
         email: '',
@@ -64,7 +64,7 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
         );
     };
 
-});
+}]);
 
 
 /**
@@ -81,7 +81,7 @@ controllers.controller('RegistrationCtrl', function ($rootScope, $scope, $state,
  * @param TIME_ZONES all available time zones
  * @param USER_EVENTS user's related events
  */
-controllers.controller('UserProfileCtrl', function ($rootScope, $scope, Session, UsersService, USER_EVENTS, uiNotification, $log, LANGS, THEMES, TIME_ZONES) {
+usersControllers.controller('UserProfileCtrl', ['$rootScope', '$scope', 'Session', 'UsersService', 'USER_EVENTS', 'uiNotification', '$log', 'LANGS', 'THEMES', 'TIME_ZONES', function ($rootScope, $scope, Session, UsersService, USER_EVENTS, uiNotification, $log, LANGS, THEMES, TIME_ZONES) {
 
     $scope.user = {
         first_name: '',
@@ -163,7 +163,7 @@ controllers.controller('UserProfileCtrl', function ($rootScope, $scope, Session,
             }
         );
     };
-});
+}]);
 
 /**
  * Controller responsible for displaying generic info about currently logged in user
@@ -173,7 +173,7 @@ controllers.controller('UserProfileCtrl', function ($rootScope, $scope, Session,
  * @param USER_EVENTS user related events
  * @param $log logger
  */
-controllers.controller('UserInfoCtrl', function ($scope, Session, AUTH_EVENTS, USER_EVENTS, $log) {
+usersControllers.controller('UserInfoCtrl', ['$scope', 'Session', 'AUTH_EVENTS', 'USER_EVENTS', '$log', function ($scope, Session, AUTH_EVENTS, USER_EVENTS, $log) {
 
     $scope.info = {};
 
@@ -203,4 +203,4 @@ controllers.controller('UserInfoCtrl', function ($scope, Session, AUTH_EVENTS, U
     $scope.init();
     $scope.register();
 
-});
+}]);

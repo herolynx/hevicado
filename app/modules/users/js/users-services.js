@@ -1,13 +1,13 @@
 'use strict';
 
-var services = angular.module('users.services', []);
+var usersServices = angular.module('users.services', []);
 
 /**
  * Service managing users and users' related data
  * @param $http http communication service
  * @param $log logger
  */
-services.service('UsersService', function ($http, $log) {
+usersServices.service('UsersService', ['$http', '$log', function ($http, $log) {
 
     return {
 
@@ -45,4 +45,4 @@ services.service('UsersService', function ($http, $log) {
         }
     };
 
-});
+}]);
