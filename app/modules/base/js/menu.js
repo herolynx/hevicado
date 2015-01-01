@@ -19,7 +19,7 @@ baseMenu.directive('topMenu', function () {
  * Show sub-options for menu items.
  * Note: function must be called directly when whole menu module is loaded.
  */
-baseMenu.run(function ($rootScope) {
+baseMenu.run(['$rootScope', function ($rootScope) {
     $rootScope.$watch(function () {
         $("nav li").hover(
             function () {
@@ -37,4 +37,4 @@ baseMenu.run(function ($rootScope) {
             }
         );
     });
-});
+}]);

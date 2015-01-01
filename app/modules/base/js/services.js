@@ -1,9 +1,9 @@
 'use strict';
 
-var services = angular.module('angular-base.services', []);
+var baseServices = angular.module('angular-base.services', []);
 
 //TODO move to config
-services.constant('HTTP_CONFIG', {
+baseServices.constant('HTTP_CONFIG', {
     server: 'http://localhost:8080'
 });
 
@@ -11,7 +11,7 @@ services.constant('HTTP_CONFIG', {
  * Interceptor redirects HTTP requests to back-end if needed
  * @param HTTP_CONFIG communication settings
  */
-services.factory('HttpInterceptor', function (HTTP_CONFIG) {
+baseServices.factory('HttpInterceptor', ['HTTP_CONFIG', function (HTTP_CONFIG) {
 
     /**
      * Check whether request should be redirected
@@ -46,6 +46,6 @@ services.factory('HttpInterceptor', function (HTTP_CONFIG) {
             return config;
         }
     };
-});
+}]);
 
 

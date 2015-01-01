@@ -3,7 +3,7 @@
 /**
  * Define main base module
  */
-var module = angular.module('angular-base',
+var baseModule = angular.module('angular-base',
     [
         /*
          * External 3rd partiess modules
@@ -42,8 +42,8 @@ var module = angular.module('angular-base',
 
 //register authentication interceptor in order to perform
 // default actions related with incoming and outgoing communication
-module.config(function ($httpProvider) {
+baseModule.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push('HttpInterceptor');
     $httpProvider.interceptors.push('AuthInterceptor');
-});
+}]);
 

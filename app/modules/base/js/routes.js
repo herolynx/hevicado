@@ -1,13 +1,16 @@
 'use strict';
 
-var routes = angular.module('angular-base.routes', [
+var baseRoutes = angular.module('angular-base.routes', [
     'ui.router'
 ]);
 
 /**
  * Listener for saving previous state
+ * @param $rootScope root scope for watching state changes
+ * @param $log logger
+ * @param $state state manager
  */
-routes.run(function ($rootScope, $log, $state, $location) {
+baseRoutes.run(['$rootScope', '$log', '$state', function ($rootScope, $log, $state) {
 
     $log.debug('Initializing go-back listener');
 
@@ -17,7 +20,7 @@ routes.run(function ($rootScope, $log, $state, $location) {
             params: fromParams
         };
     });
-});
+}]);
 
 /**
  * Configure routing rules between application states
@@ -25,7 +28,7 @@ routes.run(function ($rootScope, $log, $state, $location) {
  * @param $urlRouterProvider application URL manager
  * @param ACCESS_LEVELS available access levels in application
  */
-routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
+baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
     //
     // for any unmatched url, redirect to /login
     $urlRouterProvider.otherwise("/login");
@@ -171,4 +174,4 @@ routes.config(function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
                 access: ACCESS_LEVELS.DOCTORS
             }
         });
-});
+}]);

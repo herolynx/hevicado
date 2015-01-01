@@ -1,11 +1,11 @@
 'use strict';
 
-var filters = angular.module('angular-base.filters', []);
+var baseFilters = angular.module('angular-base.filters', []);
 
 /**
  * Initialize app's current version filter
  */
-filters.filter('interpolate', ['version', function (version) {
+baseFilters.filter('interpolate', ['version', function (version) {
     return function (text) {
         return String(text).replace(/\%VERSION\%/mg, version);
     };

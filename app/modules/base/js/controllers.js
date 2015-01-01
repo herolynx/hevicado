@@ -1,6 +1,6 @@
 'use strict';
 
-var controllers = angular.module('angular-base.controllers', [
+var baseControllers = angular.module('angular-base.controllers', [
     'ui.menu',
     'ui.generic'
 ]);
@@ -10,7 +10,7 @@ var controllers = angular.module('angular-base.controllers', [
  * @param $scope current scope of controller
  * @param $translate component for language management
  */
-controllers.controller('LangCtrl', function ($scope, $translate) {
+baseControllers.controller('LangCtrl', ['$scope', '$translate', function ($scope, $translate) {
     /**
      * Check current language
      * @param key code of language to be used
@@ -18,4 +18,4 @@ controllers.controller('LangCtrl', function ($scope, $translate) {
     $scope.changeLanguage = function (key) {
         $translate.use(key);
     };
-});
+}]);
