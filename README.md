@@ -47,7 +47,9 @@ or run using gulp for browser auto-refreshing:
 1) Change application version
 
 a) 'version' value in app/modules/base/js/app.js
+
 b) bower.json
+
 c) package.json
 
 2) Clean your current build
