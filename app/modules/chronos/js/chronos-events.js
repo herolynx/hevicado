@@ -164,14 +164,14 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
                 return null;
             }
             var utcDate = toUTCDate(startTime);
-            var day = startTime.toString('dddd');
-            var hour = startTime.toString('HH:mm');
+            var day = utcDate.toString('dddd');
+            var hour = utcDate.toString('HH:mm');
             for (var i = 0; i < locations.length; i++) {
                 var working_hours = locations[i].working_hours;
                 for (var h = 0; h < working_hours.length; h++) {
                     if (working_hours[h].day == day
                         && hour >= working_hours[h].start
-                        && hour <= working_hours[h].end) {
+                        && hour < working_hours[h].end) {
                         return locations[i];
                     }
                 }

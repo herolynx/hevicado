@@ -13,7 +13,7 @@ describe('chronos.events.edit-spec:', function () {
 
     beforeEach(function () {
         toUTCDate = function (value) {
-            return typeof value != 'string' ? value.toString('yyyy-MM-dd HH:mm:ss') : value;
+            return typeof value != 'string' ? value : Date.parse(value);
         };
         toLocalDate = function (value) {
             return typeof value == 'string' ? Date.parse(value) : new Date(value);

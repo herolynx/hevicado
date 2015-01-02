@@ -331,6 +331,15 @@ describe('chronos-calendar-spec:', function () {
         var mockState, mockStateParams;
         var calendarPromise, userPromise, calendarEvents;
 
+        beforeEach(function () {
+            toUTCDate = function (value) {
+                return typeof value != 'string' ? value : Date.parse(value);
+            };
+            toLocalDate = function (value) {
+                return typeof value == 'string' ? Date.parse(value) : new Date(value);
+            };
+        });
+
         //prepare controller for testing
         beforeEach(inject(function ($controller, $injector, _$rootScope_, CALENDAR_EVENTS) {
             //prepare controller for testing
