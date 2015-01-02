@@ -17,6 +17,8 @@
     "angular-bootstrap": "0.12.x",
     "toastr": "2.1.x",
     "datejs": "1.0.x",
+    "momentjs": "2.8.x",
+    "moment-timezone": "0.2.x",
     "ngInfiniteScroll": "1.1.x",
     "underscore": "1.7.x"
   },

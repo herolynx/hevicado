@@ -30,8 +30,6 @@ chronosCalendar.controller('CalendarCtrl', ['$rootScope', '$scope', '$state', '$
      */
     $scope._ = _;
 
-    $scope.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
     $scope.beginDate = Date.today();
     $scope.endDate = Date.today();
     $scope.currentDate = Date.today();

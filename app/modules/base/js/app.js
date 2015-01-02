@@ -37,6 +37,7 @@ var baseModule = angular.module('base',
         });
         $translateProvider.preferredLanguage('pl');
         $translateProvider.useCookieStorage(); //store lang in cookies
+        moment.locale('pl');
     }]).
     value('version', '0.0.1');
 

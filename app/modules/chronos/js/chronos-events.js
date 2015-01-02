@@ -101,21 +101,18 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
          * @return the same instance of event
          */
         normalize: function (event) {
-            var toDate = function (value) {
-                return typeof value == 'string' ? Date.parse(value) : new Date(value);
-            };
             if (event.start.clone === undefined) {
-                event.start = toDate(event.start);
+                event.start = toLocalDate(event.start);
             }
             if (event.end.clone === undefined) {
-                event.end = toDate(event.end);
+                event.end = toLocalDate(event.end);
             }
             if (event.duration === undefined) {
                 var span = new TimeSpan(event.end - event.start);
                 event.duration = span.getTotalMilliseconds() / (1000 * 60);
             }
             if (event.cancelled != undefined && event.cancelled.clone === undefined) {
-                event.cancelled = toDate(event.cancelled);
+                event.cancelled = toLocalDate(event.cancelled);
             }
             return event;
         },
@@ -127,7 +124,7 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
          */
         toJson: function (event) {
             var toString = function (value) {
-                return typeof value != 'string' ? value.toString('yyyy-MM-dd HH:mm:ss') : value;
+                return typeof value != 'string' ? toUTCDate(value).toString('yyyy-MM-dd HH:mm:ss') : value;
             };
             if (event.start != undefined) {
                 event.start = toString(event.start);
@@ -166,6 +163,7 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
             if (locations == undefined) {
                 return null;
             }
+            var utcDate = toUTCDate(startTime);
             var day = startTime.toString('dddd');
             var hour = startTime.toString('HH:mm');
             for (var i = 0; i < locations.length; i++) {

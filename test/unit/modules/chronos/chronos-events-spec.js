@@ -11,6 +11,12 @@ describe('chronos-events-spec:', function () {
 
         //prepare service for testing
         beforeEach(angular.mock.module(function ($provide) {
+            toUTCDate = function (value) {
+                return typeof value != 'string' ? value.toString('yyyy-MM-dd HH:mm:ss') : value;
+            };
+            toLocalDate = function (value) {
+                return typeof value == 'string' ? Date.parse(value) : new Date(value);
+            };
             //mock dependencies
             mockEventStates = jasmine.createSpyObj('EVENT_STATE', ['OPEN', 'CLOSED', 'CANCELLED']);
             $provide.value('EVENT_STATE', mockEventStates);

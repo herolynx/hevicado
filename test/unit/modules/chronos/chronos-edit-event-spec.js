@@ -11,6 +11,15 @@ describe('chronos.events.edit-spec:', function () {
     //prepare module for testing
     beforeEach(angular.mock.module('chronos'));
 
+    beforeEach(function () {
+        toUTCDate = function (value) {
+            return typeof value != 'string' ? value.toString('yyyy-MM-dd HH:mm:ss') : value;
+        };
+        toLocalDate = function (value) {
+            return typeof value == 'string' ? Date.parse(value) : new Date(value);
+        };
+    });
+
     describe('EditEventCtrl-spec:', function () {
 
         //prepare controller for testing

@@ -1,6 +1,8 @@
 'use strict';
 
-var chronosServices = angular.module('chronos.services', []);
+var chronosServices = angular.module('chronos.services', [
+    'chronos.events'
+]);
 
 /**
  * Service manages user's calendar and related data.

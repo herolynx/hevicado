@@ -12,6 +12,9 @@ describe('chronos-service-spec:', function () {
 
         //prepare service for testing
         beforeEach(angular.mock.module(function ($provide) {
+            toUTCDate = function (value) {
+                return value;
+            };
             //mock dependencies
             mockHttp = jasmine.createSpyObj('$http', ['get', 'post', 'put']);
             $provide.value('$http', mockHttp);
