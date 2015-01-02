@@ -82,12 +82,11 @@ usersControllers.controller('RegistrationCtrl',
  * @param $log logger
  * @param LANG all available languages in the app
  * @param THEMES apps themes
- * @param TIME_ZONES all available time zones
  * @param AUTH_EVENTS user's related events
  */
 usersControllers.controller('UserProfileCtrl',
-    ['$rootScope', '$scope', 'Session', 'UsersService', 'AUTH_EVENTS', 'uiNotification', '$log', 'LANGS', 'THEMES', 'TIME_ZONES',
-        function ($rootScope, $scope, Session, UsersService, AUTH_EVENTS, uiNotification, $log, LANGS, THEMES, TIME_ZONES) {
+    ['$rootScope', '$scope', 'Session', 'UsersService', 'AUTH_EVENTS', 'uiNotification', '$log', 'LANGS', 'THEMES',
+        function ($rootScope, $scope, Session, UsersService, AUTH_EVENTS, uiNotification, $log, LANGS, THEMES) {
 
             $scope.user = {
                 first_name: '',
@@ -97,7 +96,6 @@ usersControllers.controller('UserProfileCtrl',
                 phone: '',
                 profile: {
                     lang: LANGS[0],
-                    time_zone: TIME_ZONES[0],
                     theme: THEMES[0]
                 }
             };
@@ -108,7 +106,6 @@ usersControllers.controller('UserProfileCtrl',
 
             $scope.themes = THEMES;
             $scope.langs = LANGS;
-            $scope.timeZones = TIME_ZONES;
 
             /**
              * Load profile data of current user

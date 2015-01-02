@@ -14,5 +14,4 @@ var usersModule = angular.module('users', [
     'ui.notifications'
 ]).
     constant('THEMES', ['turquoise', 'orange', 'blue']).
-    constant('LANGS', ['pl']).
-    constant('TIME_ZONES', ['CET']);
+    constant('LANGS', ['pl']);

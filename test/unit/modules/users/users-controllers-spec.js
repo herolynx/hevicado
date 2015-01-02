@@ -216,7 +216,6 @@ describe('users-controllers-spec:', function () {
             var mockLog = jasmine.createSpyObj('$log', ['debug', 'error']);
             var mockLangs = ['en'];
             var mockThemes = ['blue'];
-            var mockTimeZones = ['CET'];
             mockAuthEvents = {
                 SESSION_REFRESH: 'mock-session-refresh'
             };
@@ -229,7 +228,6 @@ describe('users-controllers-spec:', function () {
                 uiNotification: mockUiNotification,
                 $log: mockLog,
                 LANGS: mockLangs,
-                TIME_ZONES: mockTimeZones,
                 THEMES: mockThemes,
                 AUTH_EVENTS: mockAuthEvents
             });

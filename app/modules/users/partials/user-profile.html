@@ -138,18 +138,6 @@
                                 </fieldset>
                             </li>
                             <li>
-                                <label>{{'user-profile.time-zone' | translate}}:</label>
-                                <fieldset>
-                                    <select name="timezone" ng-model="user.profile.time_zone">
-                                        <option ng-repeat="tz in timeZones"
-                                                ng-selected="{{user.profile.time_zone==tz}}"
-                                                value="{{tz}}">
-                                            {{tz}} - {{'time-zones.' + tz | translate}}
-                                        </option>
-                                    </select>
-                                </fieldset>
-                            </li>
-                            <li>
                                 <label>{{'user-profile.theme' | translate}}:</label>
                                 <fieldset>
                                     <select name="theme" ng-model="user.profile.theme" required>
