@@ -48,8 +48,8 @@
                                                ng-minlength="2"
                                                required>
                                     </span>
-                                    <small class="error" ng-show="cabientName.name.$error.minlength">
-                                        Cabinet name must have at least 2 characters
+                                    <small class="error" ng-show="cabientName.name.$error.minlength" translate>
+                                        generic.validation.2-chars
                                     </small>
                                 </ng-form>
                             </div>
@@ -95,8 +95,8 @@
                                                ng-model="location.address.street"
                                                ng-minlength="2"
                                                required>
-                                        <small class="error" ng-show="cabientAddress.street.$error.minlength">
-                                            Must have at least 2 characters
+                                        <small class="error" ng-show="cabientAddress.street.$error.minlength" translate>
+                                            generic.validation.2-chars
                                         </small>
 
                                         <div>{{'cabinet.city' | translate}}:</div>
@@ -104,8 +104,8 @@
                                                ng-model="location.address.city"
                                                ng-minlength="2"
                                                required>
-                                        <small class="error" ng-show="cabientAddress.city.$error.minlength">
-                                            Must have at least 2 characters
+                                        <small class="error" ng-show="cabientAddress.city.$error.minlength" translate>
+                                            generic.validation.2-chars
                                         </small>
 
                                         <div>{{'cabinet.country' | translate}}:</div>
@@ -114,8 +114,9 @@
                                                ng-minlength="2"
                                                required>
                                         </span>
-                                        <small class="error" ng-show="cabientAddress.country.$error.minlength">
-                                            Must have at least 2 characters
+                                        <small class="error" ng-show="cabientAddress.country.$error.minlength"
+                                               translate>
+                                            generic.validation.2-chars
                                         </small>
 
                                     </ng-form>
@@ -164,12 +165,12 @@
                                                             />
                                                 </span>
                                                 <small class="error"
-                                                       ng-show="workingHoursForm.$error.duplicate">
-                                                    Working hours are overlapping
+                                                       ng-show="workingHoursForm.$error.duplicate" translate>
+                                                    cabinet.validation.overlapping-hours
                                                 </small>
                                                 <small class="error"
-                                                       ng-show="workingHoursForm.$error.order">
-                                                    Start hour must be before end hour
+                                                       ng-show="workingHoursForm.$error.order" translate>
+                                                    cabinet.validation.start-hour-before-end
                                                 </small>
                                             </ng-form>
                                         </li>
@@ -202,23 +203,23 @@
                                                         <input type="text"
                                                                name="templateName"
                                                                ng-model="template.name"
-                                                               placeholder="Nazwa zabiegu"
+                                                               placeholder="{{'cabinet.template-name' | translate}}"
                                                                typeahead="templates for templates in templates"
                                                                typeahead-editable="false"
                                                                ng-change="onTemplateChange(templateNameForm, location.templates, template)"
                                                                required
                                                                 >
                                                         <small class="error"
-                                                               ng-show="templateNameForm.$error.required">
-                                                            Template name not given
+                                                               ng-show="templateNameForm.$error.required" translate>
+                                                            cabinet.validation.no-template
                                                         </small>
                                                         <small class="error"
-                                                               ng-show="templateNameForm.$error.duplicate">
-                                                            Duplicated template name
+                                                               ng-show="templateNameForm.$error.duplicate" translate>
+                                                            cabinet.validation.duplicate-template
                                                         </small>
                                                         <small class="error"
-                                                               ng-show="templateNameForm.$error.editable">
-                                                            Not allowed template name
+                                                               ng-show="templateNameForm.$error.editable" translate>
+                                                            cabinet.validation.wrong-template
                                                         </small>
                                                     </ng-form>
                                                 </div>
@@ -238,8 +239,8 @@
 													</span>
                                                     <ng-form name="templateDurations">
                                                         <small class="error"
-                                                               ng-hide="isTemplateDurationValid(templateDurations, template)">
-                                                            At least one duration must be given
+                                                               ng-hide="isTemplateDurationValid(templateDurations, template)" translate>
+                                                            cabinet.validation.no-time-length
                                                         </small>
                                                     </ng-form>
                                                     <ng-form name="newDurationForm">

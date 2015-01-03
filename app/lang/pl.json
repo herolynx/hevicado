@@ -142,6 +142,15 @@
     "delete-hour": "Skasuj godzine",
     "add-examination": "Dodaj zabieg",
     "delete-examination": "Skasuj zabieg",
-    "delete-time-length": "Skasuj czas trwania"
+    "delete-time-length": "Skasuj czas trwania",
+    "template-name": "Nazwa badania",
+    "validation": {
+      "overlapping-hours": "Godziny otwarcia sie powtarzaja",
+      "start-hour-before-end": "Godzina otwarcia jest wczesniejsza niz godzina zakonczenia",
+      "no-template": "Brak nazwy badania",
+      "duplicate-template": "Nazwa badania juz wystepuje",
+      "wrong-template": "Nazwa badania jest niedozwolona",
+      "no-time-length": "Brak czasu trwania badania"
+    }
   }
 }
