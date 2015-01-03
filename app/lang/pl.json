@@ -126,7 +126,9 @@
     "legend": "Legenda",
     "mini-calendar": "Kalendarz"
   },
-  "time-zones": {
-    "CET": "Czas środkowoeuropejski"
+  "cabinet": {
+    "doctors-cabinet": "Gabinet lekarza",
+    "info": "Informacje",
+    "examination-types": "Wykonywane zabiegi"
   }
 }
