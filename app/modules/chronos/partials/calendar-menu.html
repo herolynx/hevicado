@@ -31,12 +31,12 @@
     <div class="date">
         <div class="month">
             <a ng-click="month(-1)"><i class="icon-left-open"></i></a>
-            <span>{{beginDate | date: "MMMM"}}</span>
+            <span>{{currentDate | date: "MMMM"}}</span>
             <a ng-click="month(1)"><i class="icon-right-open"></i></a>
         </div>
         <div class="year">
             <a ng-click="year(-1)"><i class="icon-left-open"></i></a>
-            <span>{{beginDate | date: "yyyy"}}</span>
+            <span>{{currentDate | date: "yyyy"}}</span>
             <a ng-click="year(1)"><i class="icon-right-open"></i></a>
         </div>
     </div>
