@@ -7,15 +7,15 @@
                 <form name="visitForm" novalidate>
                     <ul>
                         <li ng-show="editedEvent.cancelled != undefined">
-                            <div class="half">
-                                Visit has been cancelled
+                            <div class="half" translate>
+                                visit.visit-cancelled
                             </div>
                         </li>
                         <li>
-                            <label class="full">Title:</label>
+                            <label class="full">{{'visit.title' | translate}}:</label>
                             <fieldset class="full">
                                 <input type="text" id="titleinput" name="titleinput"
-                                       placeholder="Title"
+                                       placeholder="{{'visit.title' | translate}}"
                                        ng-show="isOwner"
                                        ng-model="editedEvent.title"
                                        ng-required="true"
@@ -23,8 +23,8 @@
                                        typeahead="template.name for template in templates"
                                        ng-disabled="canEdit==false"
                                        ng-maxlength="255">
-                                <small class="error" ng-show="visitForm.titleinput.$error.minlength">
-                                    Title is required to be at least 3 characters
+                                <small class="error" ng-show="visitForm.titleinput.$error.minlength" translate>
+                                    generic.validation.3-chars
                                 </small>
                                 <select name="title" id="titleselect" name="titleselect"
                                         ng-hide="isOwner"
@@ -37,7 +37,7 @@
                         </li>
                         <li ng-show="isOwner">
                             <div class="half">
-                                <label class="full">Location:</label>
+                                <label class="full">{{'visit.location' | translate}}:</label>
                                 <fieldset class="full">
                                     <select name="location" id="location-select"
                                             ng-options="location.name for location in doctor.locations track by location.id"
@@ -49,11 +49,11 @@
                         </li>
                         <li>
                             <div class="half">
-                                <label class="full">Date of the visit:</label>
+                                <label class="full">{{'visit.visit-date' | translate}}:</label>
                                 <fieldset class="full">
                                     <div ng-hide="isOwner">{{editedEvent.start | date: "yyyy-MM-dd HH:mm"}}</div>
-                                    <small class="error" ng-hide="isDateValid">
-                                        Visit date must be in the future
+                                    <small class="error" ng-hide="isDateValid" translate>
+                                        visit.validation.date-in-future
                                     </small>
                                     <timepicker
                                             ng-show="isOwner"
@@ -67,10 +67,10 @@
                         </li>
                         <li>
                             <div class="half">
-                                <label class="full">Visit length:</label>
+                                <label class="full">{{'visit.visit-length' | translate}}:</label>
                                 <fieldset class="full">
                                     <input type="text" id="durationinput" name="durationinput"
-                                           placeholder="Length in minutes"
+                                           placeholder="{{'visit.minutes-length' | translate}}"
                                            ng-show="isOwner"
                                            ng-model="editedEvent.duration"
                                            ng-required="true"
@@ -79,8 +79,8 @@
                                            ng-maxlength="3"
                                            ng-disabled="canEdit==false"
                                            ng-pattern="/^[1-9]+[0-9]+$/">
-                                    <small class="error" ng-show="visitForm.durationinput.$error.pattern">
-                                        Visit length must be a positive number (2-3 digits)
+                                    <small class="error" ng-show="visitForm.durationinput.$error.pattern" translate>
+                                        visit.validation.wrong-length
                                     </small>
                                     <select name="term_visit" id="duration-select"
                                             ng-hide="isOwner"
@@ -92,7 +92,7 @@
                         </li>
                         <li>
                             <div class="half">
-                                <label class="full">Doctor:</label>
+                                <label class="full">{{'visit.doctor' | translate}}:</label>
                                 <fieldset class="full">
                                     <div>{{editedEvent.doctor | userInfo:'withDegree'}}
                                     </div>
@@ -109,10 +109,10 @@
                         </li>
                         <li>
                             <div class="half">
-                                <label class="full">Patient:</label>
+                                <label class="full">{{'visit.patient' | translate}}:</label>
                                 <fieldset class="full">
                                     <input type="text"
-                                           placeholder="Patient name"
+                                           placeholder="{{'visit.patient' | translate}}"
                                            typeahead="user for user in findUsers($viewValue)"
                                            typeahead-loading="loadingUsers"
                                            typeahead-min-length="1"
@@ -138,23 +138,25 @@
                             </div>
                         </li>
                         <li>
-                            <label class="full top">Description:</label>
+                            <label class="full top">{{'generic.description' | translate}}:</label>
                             <fieldset class="full">
                                 <textarea
                                         ng-model="editedEvent.description"
-                                        placeholder="Details"
+                                        placeholder="{{'generic.description' | translate}}"
                                         ng-disabled="canEdit==false"/>
                             </fieldset>
                         </li>
                         <li>
                             <label class="full"></label>
                             <fieldset class="full">
-                                <button class="btn blue rt" ng-click="cancelVisit()" ng-show="canCancel">Cancel visit
+                                <button class="btn blue rt" ng-click="cancelVisit()" ng-show="canCancel">
+                                    {{'visit.cancel-visit' | translate}}
                                 </button>
                                 <button class="btn blue rt" ng-click="save()" ng-disabled="visitForm.$invalid"
-                                        ng-show="canEdit">Save
+                                        ng-show="canEdit">{{'generic.save' | translate}}
                                 </button>
-                                <button class="btn blue rt" ng-click="cancel()">Cancel</button>
+                                <button class="btn blue rt" ng-click="cancel()">{{'generic.cancel' | translate}}
+                                </button>
                             </fieldset>
                         </li>
                     </ul>
@@ -162,10 +164,10 @@
             </div>
         </div>
         <div class="box maps-address" ng-show="editedEvent.location.id==undefined">
-            No location chosen!
+            {{'visit.no-location' | translate}}
         </div>
         <div class="box maps-address" ng-hide="editedEvent.location.id==undefined">
-            <h2><i class="icon-map"></i> Location map</h2>
+            <h2><i class="icon-map"></i>{{'visit.location' | translate}}</h2>
 
             <div class="maps">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
@@ -175,12 +177,12 @@
                 <h2>{{editedEvent.location.name}}</h2>
                 {{editedEvent.location.address | addressInfo}}
                 <div class="row hour">
-                    <h2>Godziny otwarcia gabinetu:</h2>
+                    <h2>{{'visit.open-hours' | translate}}:</h2>
 
                     <p>
 
                     <div ng-repeat="working in editedEvent.location.working_hours">
-                        <span>{{working.day}}:</span>
+                        <span>{{'days.' + working.day | toLowerCase | translate}}:</span>
                         {{working.start}} - {{working.end}}<br/>
                     </div>
                     </p>

@@ -20,12 +20,14 @@
     "back-to-top": "Poczatek",
     "email": "E-mail",
     "save": "Zapisz",
+    "cancel": "Anuluj",
     "search": "Szukaj",
     "description": "Opis",
     "open": "Otworz",
     "close": "Zamknij",
     "validation": {
       "2-chars": "Pole musi zawierac co najmniej 2 znaki.",
+      "3-chars": "Pole musi zawierac co najmniej 3 znaki.",
       "6-chars": "Pole musi zawierac co najmniej 6 znakow."
     }
   },
@@ -111,7 +113,14 @@
     "begin-date": "Termin od",
     "specialization": "Specializacja",
     "chose-specialization": "Wybierz specializacje",
-    "search-result": "Wynik wyszukiwania"
+    "search-result": "Wynik wyszukiwania",
+    "visit-length": "Czas wizyty",
+    "minutes-length": "Czas w minutach",
+    "no-location": "Lokazalicja nie zostala wybrana",
+    "validation": {
+      "wrong-length": "Czas musi byc liczba dodatnia (2-3 cyfry)",
+      "date-in-future": "Data musi byc w przyszlosci"
+    }
   },
   "calendar": {
     "legend": "Legenda",
