@@ -81,7 +81,10 @@ boltServices.service('Session', ['$cookieStore', 'USER_ROLES', 'UserUtils', '$lo
     var _currentUser = {
         'token': null,
         'id': null,
-        'role': USER_ROLES.GUEST
+        'role': USER_ROLES.GUEST,
+        'profile': {
+            theme: 'turquoise'
+        }
     };
 
     this.getToken = function () {
