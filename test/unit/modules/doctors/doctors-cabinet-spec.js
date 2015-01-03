@@ -210,7 +210,7 @@ describe('doctors-cabinet-spec:', function () {
                         city: "",
                         country: ""
                     },
-                    color: "turqoise",
+                    color: "turquoise",
                     working_hours: [],
                     templates: [],
                     specializations: []

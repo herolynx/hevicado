@@ -75,8 +75,8 @@ doctorsCabinet.controller('EditCabinetCtrl', ['$scope', 'UsersService', 'Session
         var normalizedDoctor = angular.copy(doctor);
         var workingHours = _.flatten(_.pluck(normalizedDoctor.locations, 'working_hours'));
         _.map(workingHours, function (elm) {
-            elm.start = elm.startDate.toString('HH:mm');
-            elm.end = elm.endDate.toString('HH:mm');
+            elm.start = toUTCDate(elm.startDate).toString('HH:mm');
+            elm.end = toUTCDate(elm.endDate).toString('HH:mm');
             delete elm.startDate;
             delete elm.endDate;
         });
@@ -136,7 +136,7 @@ doctorsCabinet.controller('EditCabinetCtrl', ['$scope', 'UsersService', 'Session
                     city: "",
                     country: ""
                 },
-                color: "turqoise",
+                color: "turquoise",
                 working_hours: [],
                 templates: [],
                 specializations: []
@@ -226,8 +226,8 @@ doctorsCabinet.controller('EditCabinetCtrl', ['$scope', 'UsersService', 'Session
         };
         var workingHours = _.flatten(_.pluck($scope.doctor.locations, 'working_hours'));
         _.map(workingHours, function (elm) {
-            elm.startDate = toDate(elm.start);
-            elm.endDate = toDate(elm.end);
+            elm.startDate = toLocalDate(toDate(elm.start));
+            elm.endDate = toLocalDate(toDate(elm.end));
         });
     });
 
