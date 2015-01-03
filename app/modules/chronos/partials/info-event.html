@@ -8,7 +8,8 @@
 
                 <h2>
                     <i class="icon-calendar"></i>
-                    {{event.start | date: "dd-MM-yyyy (EEEE)"}} <br/>
+                    {{event.start | dateFormat}} ({{event.start | dateFormat: "dddd" | normalizeText}})
+                    <br/>
                     {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                 </h2>
 

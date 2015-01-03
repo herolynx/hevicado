@@ -2,7 +2,7 @@
 <table>
     <tr>
         <th></th>
-        <th ng-repeat="day in days">{{day | date: "dd-MM-yyyy (EEEE)"}}
+        <th ng-repeat="day in days">{{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
             <div>
                 <i class="icon-plus-circled"></i>
                 <i class="icon-comment"></i>

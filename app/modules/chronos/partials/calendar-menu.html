@@ -31,7 +31,7 @@
     <div class="date">
         <div class="month">
             <a ng-click="month(-1)"><i class="icon-left-open"></i></a>
-            <span>{{currentDate | date: "MMMM"}}</span>
+            <span>{{currentDate | dateFormat: "MMMM" | normalizeText}}</span>
             <a ng-click="month(1)"><i class="icon-right-open"></i></a>
         </div>
         <div class="year">

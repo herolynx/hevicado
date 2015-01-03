@@ -24,7 +24,7 @@
                        ui-sref="calendar-day.daily({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })"></a>
 
                     <div class="date">
-                        {{day | date: "dd-MM-yyyy (EEEE)"}}
+                        {{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
                     </div>
                     <div class="box-event">
                         <div class="box">
@@ -36,16 +36,14 @@
                                     }"
                                     class="{{cabinet.color}}"
                                     >
-                              <!--   <p>{{cabinet.name}}</p> -->
 									<span>
 									{{cabinet.value}}
 									</span>
                             </div>
-							<div class="action">
-								<a href="#"><i class="icon-plus-circled"></i>Add visit</a>
-								<a href="#"><i class="icon-plus-circled"></i>Add note</a>
-							</div>
-							
+                            <div class="action">
+                                <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -26,4 +26,33 @@ commonsFilters.filter('addressInfo', ['UserUtils', function (UserUtils) {
 
 }]);
 
+/**
+ * Format date
+ * @param text date to be formatted
+ * @param format date format
+ */
+commonsFilters.filter('dateFormat', function () {
+
+    return function (text, format) {
+        if (format === undefined) {
+            format = 'DD-MM-YYYY';
+        }
+        return moment(text).format(format);
+    };
+
+});
+
+/**
+ * Normalize text (first letter capital, rest lower case)
+ */
+commonsFilters.filter('normalizeText', function () {
+
+    return function (text) {
+        return text.substr(0, 1).toUpperCase() + text.substr(1).toLowerCase();
+    };
+
+});
+
+
+
 

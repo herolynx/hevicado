@@ -50,7 +50,7 @@
         </div>
         <div class="day">{{event.start | date: "dd"}}</div>
         <div class="month">
-            <span>{{event.start | date: "EEEE"}}</span>
+            <span>{{event.start | dateFormat: "dddd" | normalizeText}}</span>
             {{event.start | date: "MM-yyyy"}} <br/>
         </div>
     </div>
