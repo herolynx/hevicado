@@ -105,6 +105,7 @@
     "title": "Tytul",
     "patient": "Pacjent",
     "cancel-visit": "Anuluj wizyte",
+    "add-visit": "Dodaj wizyte",
     "location": "Lokalizacja",
     "open-hours": "Godziny otwarcia",
     "search-doctor": "Wyszukiwanie lekarza",
@@ -117,6 +118,7 @@
     "visit-length": "Czas wizyty",
     "minutes-length": "Czas w minutach",
     "no-location": "Lokazalicja nie zostala wybrana",
+    "patients-quick-contact": "Kontakty do pacjentow",
     "validation": {
       "wrong-length": "Czas musi byc liczba dodatnia (2-3 cyfry)",
       "date-in-future": "Data musi byc w przyszlosci"

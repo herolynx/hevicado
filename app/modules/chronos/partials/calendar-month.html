@@ -41,7 +41,10 @@
 									</span>
                             </div>
                             <div class="action">
-                                <a href="#"><i class="icon-plus-circled"></i>Add visit</a>
+                                <a href="#"
+                                   ui-sref="calendar-day.new-visit({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })">
+                                    <i class="icon-plus-circled"></i>
+                                    {{'visit.add-visit' | translate}}</a>
                             </div>
 
                         </div>

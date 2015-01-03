@@ -1,5 +1,5 @@
 <div class="box" keep-visible>
-    <h2>Patients quick contact</h2>
+    <h2 translate>visit.patients-quick-contact</h2>
 
     <div class="quick-contact">
         <ul>
@@ -7,8 +7,8 @@
                 <div class="describe">
                     <strong>{{visit.patient | userInfo}}</strong><br/>
                     <span>visit hour: {{visit.start.toString('HH:mm')}} - {{visit.end.toString('HH:mm')}}</span><br/>
-                    phone: {{visit.patient.phone}}<br/>
-                    email: {{visit.patient.email}} <br/>
+                    {{'visit.phone' | translate}}: {{visit.patient.phone}}<br/>
+                    {{'generic.email' | translate}}: {{visit.patient.email}} <br/>
                 </div>
             </li>
         </ul>
