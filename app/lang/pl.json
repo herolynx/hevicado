@@ -129,6 +129,19 @@
   "cabinet": {
     "doctors-cabinet": "Gabinet lekarza",
     "info": "Informacje",
-    "examination-types": "Wykonywane zabiegi"
+    "examination-types": "Wykonywane zabiegi",
+    "delete-cabinet": "Skasuj gabinet",
+    "add-cabinet": "Dodaj gabinet",
+    "cabinet-name": "Nazwa gabinetu",
+    "delete-specialization": "Skasuj specializacje",
+    "add-specialization": "Dodaj specializacje",
+    "street": "Ulica",
+    "city": "Miasto",
+    "country": "Panstwo",
+    "add-hour": "Dodaj godzine",
+    "delete-hour": "Skasuj godzine",
+    "add-examination": "Dodaj zabieg",
+    "delete-examination": "Skasuj zabieg",
+    "delete-time-length": "Skasuj czas trwania"
   }
 }

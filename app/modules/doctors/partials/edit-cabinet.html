@@ -1,28 +1,23 @@
 <section id="main-content" xmlns="http://www.w3.org/1999/html">
     <div class="title-page">
-        <h1>Cabinet</h1>
+        <h1 translate>cabinet.doctors-cabinet</h1>
     </div>
     <!-- Page Title -->
     <div class="content" ng-controller="EditCabinetCtrl">
         <section class="cabinet">
-            <div class="top-info">
-                Gabinet lekarza
+            <div class="top-info" translate>
+                cabinet.info
             </div>
             <form name="cabinet" novalidate>
                 <div class="box-row">
                     <div class="box">
                         <div class="info-doctor">
                             <div class="title">
-                                <span>Presonal info</span>
-                            </div>
-
-                            <div class="name">
-                                {{doctor | userInfo:'withDegree'}}
-                                <br/>
+                                <span>{{doctor | userInfo:'withDegree'}}</span>
                             </div>
 
                             <div class="short-info">
-                                <strong>Short info: </strong><br/>
+                                <strong>{{'generic.description' | translate}}:</strong><br/>
 
                                 <p>
                                     <textarea ng-model="doctor.description"></textarea>
@@ -34,7 +29,7 @@
                         <div class="row">
                             <div class="delete">
                                 <a tooltip-animation="false"
-                                   tooltip="Skasuj gabinet"
+                                   tooltip="{{'cabinet.delete-cabinet' | translate}}"
                                    tooltip-popup-delay='1000'
                                    ng-click="deleteValue(doctor.locations, location)">
                                     <i class="icon-trash"></i>
@@ -48,7 +43,7 @@
                                     <span>
                                         <input id="name"
                                                name="name"
-                                               placeholder="Nazwa gabinetu"
+                                               placeholder="{{'cabinet.cabinet-name' | translate}}"
                                                ng-model="location.name"
                                                ng-minlength="2"
                                                required>
@@ -63,7 +58,7 @@
                                     {{specialization}}
                                     <div class="delete"
                                          tooltip-animation="false"
-                                         tooltip="Skasuj specializacje"
+                                         tooltip="{{'cabinet.delete-specialization' | translate}}"
                                          tooltip-popup-delay='1000'
                                          ng-click="deleteValue(location.specializations, specialization)">
                                         <a href="#">
@@ -75,7 +70,7 @@
                                     <div>
                                         <input type="text"
                                                ng-model="newSpecialization"
-                                               placeholder="Nowa specializacja"
+                                               placeholder="{{'visit.specialization' | translate}}"
                                                typeahead="specialization for specialization in specializations"
                                                typeahead-editable="false"
                                                 >
@@ -84,7 +79,7 @@
                                 <div class="add">
                                     <a ng-click="addValue(location.specializations, newSpecialization, specializations, newSpecializationForm)"
                                        ng-hide="newSpecializationForm.$invalid">
-                                        <i class="icon-plus-circled"></i>Dodaj specializacje
+                                        <i class="icon-plus-circled"></i>{{'cabinet.add-specialization' | translate}}
                                     </a>
                                 </div>
                             </div>
@@ -95,7 +90,7 @@
                                 <div class="address">
                                     <ng-form id="cabientAddress-{{$index}}" name="cabientAddress">
 
-                                        <div>Ulica:</div>
+                                        <div>{{'cabinet.street' | translate}}:</div>
                                         <input name="street"
                                                ng-model="location.address.street"
                                                ng-minlength="2"
@@ -104,7 +99,7 @@
                                             Must have at least 2 characters
                                         </small>
 
-                                        <div>Miasto:</div>
+                                        <div>{{'cabinet.city' | translate}}:</div>
                                         <input name="city"
                                                ng-model="location.address.city"
                                                ng-minlength="2"
@@ -113,7 +108,7 @@
                                             Must have at least 2 characters
                                         </small>
 
-                                        <div>Panstwo:</div>
+                                        <div>{{'cabinet.country' | translate}}:</div>
                                         <input name="country"
                                                ng-model="location.address.country"
                                                ng-minlength="2"
@@ -128,14 +123,14 @@
 
                                 <div class="open-hour">
                                     <div class="title">
-                                        <span>Godziny otwarcia gabinetu</span>
+                                        <span>{{'visit.open-hours' | translate}}:</span>
                                     </div>
                                     <ul>
                                         <li ng-repeat="working in location.working_hours">
                                             <ng-form name="workingHoursForm">
                                                 <div class="delete">
                                                     <a tooltip-animation="false"
-                                                       tooltip="Skasuj godzine"
+                                                       tooltip="{{'cabinet.delete-hour' | translate}}"
                                                        tooltip-popup-delay='1000'
                                                        ng-click="deleteValue(location.working_hours, working)">
                                                         <i class="icon-trash"></i>
@@ -149,7 +144,7 @@
                                                          <option ng-repeat="day in days"
                                                                  ng-selected="{{day==working.day}}"
                                                                  value="{{day}}">
-                                                             {{day}}
+                                                             {{'days.' + day | toLowerCase | translate}}
                                                          </option>
                                                      </select>
                                                 </span>
@@ -181,7 +176,7 @@
                                     </ul>
                                     <div class="add">
                                         <a ng-click="addValue(location.working_hours)">
-                                            <i class="icon-plus-circled"></i>Dodaj godziny
+                                            <i class="icon-plus-circled"></i>{{'cabinet.add-hour' | translate}}
                                         </a>
                                     </div>
                                 </div>
@@ -191,14 +186,14 @@
                             <div class="box-right">
                                 <div class="treatments">
                                     <div class="title">
-                                        <span>Wykonywane zabiegi</span>
+                                        <span>{{'cabinet.examination-types' | translate}}:</span>
                                         <ul>
                                             <li ng-repeat="template in location.templates">
                                                 <div class="intervention">
                                                     <ng-form name="templateNameForm">
                                                         <div class="delete">
                                                             <a tooltip-animation="false"
-                                                               tooltip="Skasuj zabieg"
+                                                               tooltip="{{'cabinet.delete-examination' | translate}}"
                                                                tooltip-popup-delay='1000'
                                                                ng-click="deleteValue(location.templates, template)">
                                                                 <i class="icon-trash"></i>
@@ -233,7 +228,7 @@
 														{{duration}}
                                                            <div class="delete">
                                                                <a tooltip-animation="false"
-                                                                  tooltip="Skasuj godzine"
+                                                                  tooltip="{{'cabinet.delete-time-length' | translate}}"
                                                                   tooltip-popup-delay='1000'
                                                                   ng-click="deleteValue(template.durations, duration)"
                                                                        >
@@ -265,7 +260,8 @@
                                         </ul>
                                         <div class="add">
                                             <a href="#" ng-click="addTemplate(location.templates)">
-                                                <i class="icon-plus-circled"></i>Dodaj zabieg
+                                                <i class="icon-plus-circled"></i>
+                                                {{'cabinet.add-examination' | translate}}
                                             </a>
                                         </div>
                                     </div>
@@ -276,7 +272,7 @@
                     </div>
                     <div class="add">
                         <a ng-click="addLocation(doctor.locations)">
-                            <i class="icon-plus-circled"></i>Dodaj gabinet
+                            <i class="icon-plus-circled"></i>{{'cabinet.add-cabinet' | translate}}
                         </a>
                     </div>
                 </div>
@@ -284,7 +280,7 @@
             <div class="add">
                 <a ng-hide="cabinet.$invalid"
                    ng-click="save(doctor)">
-                    <i class="icon-plus-circled"></i>Save
+                    <i class="icon-plus-circled"></i>{{'generic.save' | translate}}
                 </a>
             </div>
         </section>
