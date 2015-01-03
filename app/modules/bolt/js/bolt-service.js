@@ -105,6 +105,14 @@ boltServices.service('Session', ['$cookieStore', 'USER_ROLES', 'UserUtils', '$lo
     };
 
     /**
+     * Get user's profile with settings
+     * @returns {*} non-nullable object
+     */
+    this.getProfile = function () {
+        return self.loadUser().profile;
+    };
+
+    /**
      * Load data of current user from cookie
      */
     this.loadUser = function () {
