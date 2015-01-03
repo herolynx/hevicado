@@ -158,7 +158,10 @@ boltServices.service('Session', ['$cookieStore', 'USER_ROLES', 'UserUtils', '$lo
         _currentUser = {
             'token': null,
             'id': null,
-            'userRole': USER_ROLES.GUEST
+            'userRole': USER_ROLES.GUEST,
+            'profile': {
+                theme: 'turquoise'
+            }
         };
     };
 

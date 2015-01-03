@@ -53,6 +53,12 @@ commonsDirectives.directive('userTheme', ['AUTH_EVENTS', 'Session', function (AU
             $scope.$on(AUTH_EVENTS.SESSION_REFRESH, function () {
                 changeColor(element);
             });
+            $scope.$on(AUTH_EVENTS.USER_LOGGED_IN, function () {
+                changeColor(element);
+            });
+            $scope.$on(AUTH_EVENTS.USER_LOGGED_OUT, function () {
+                changeColor(element);
+            });
         }
     };
 }]);
