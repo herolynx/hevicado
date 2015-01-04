@@ -5,6 +5,7 @@ var chronosSearch = angular.module('chronos.search', [
     'commons.users.filters',
     'commons.users.directives',
     'commons.labels',
+    'commons.labels.filters',
     'infinite-scroll'
 ]);
 

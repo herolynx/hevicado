@@ -134,7 +134,7 @@
                                 </p>
 
                                 <div ng-repeat="specialization in location.specializations">
-                                    {{'specializations.' + specialization | translate}}
+                                    {{ specialization | label:'specializations' | translate}}
                                 </div>
                             </div>
                             <div class="calendar">
