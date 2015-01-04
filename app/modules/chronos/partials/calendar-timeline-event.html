@@ -24,7 +24,9 @@
             </p>
         </div>
         <div class="reason">
-            <a ui-sref="user-visit({ eventId: event.id })"><strong>{{event.title}}</strong></a><br/>
+            <a ui-sref="user-visit({ eventId: event.id })">
+                <strong>{{event.title | label:'templates' | translate}}</strong>
+            </a><br/>
             {{event.description}}
         </div>
         <div class="date-address">
