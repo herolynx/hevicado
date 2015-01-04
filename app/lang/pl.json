@@ -126,8 +126,7 @@
     }
   },
   "calendar": {
-    "legend": "Legenda",
-    "mini-calendar": "Kalendarz"
+    "legend": "Legenda"
   },
   "cabinet": {
     "doctors-cabinet": "Gabinet lekarza",
