@@ -82,18 +82,20 @@
                                 <input type="text"
                                        ng-model="newSpecialization"
                                        placeholder="{{'visit.chose-specialization' | translate}}"
-                                       typeahead="specialization for specialization in specializations"
+                                       typeahead="specialization as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10 "
                                        typeahead-editable="false"
                                         >
                             </fieldset>
-                            <button ng-click="addSpecialization(newSpecialization)">Add</button>
+                            <button ng-click="addSpecialization(newSpecialization)">
+                                {{'generic.add' | translate}}
+                            </button>
                         </li>
                         <li>
                             <div class="tag">
                                 <a ng-repeat="specialization in criteria.specializations"
-                                   ng-click="deleteSpacialization(specialization)"
+                                   ng-click="deleteSpecialization(specialization)"
                                         >
-                                    {{specialization}}
+                                    {{specialization.value}}
                                     <div class="delete"><i class="icon-minus-circled"></i></div>
                                 </a>
                             </div>

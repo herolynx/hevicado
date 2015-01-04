@@ -4,6 +4,7 @@ var chronosSearch = angular.module('chronos.search', [
     'chronos.services',
     'commons.users.filters',
     'commons.users.directives',
+    'commons.labels',
     'infinite-scroll'
 ]);
 
@@ -16,154 +17,166 @@ var chronosSearch = angular.module('chronos.search', [
  * @param EventUtils generic functionality related with events
  * @param uiNotification notification service
  */
-chronosSearch.controller('SearchDoctorCtrl', ['$scope', '$log', 'CalendarService', 'EventUtils', 'uiNotification', function ($scope, $log, CalendarService, EventUtils, uiNotification) {
+chronosSearch.controller('SearchDoctorCtrl',
+    ['$scope', '$log', 'CalendarService', 'EventUtils', 'uiNotification', 'Labels',
+        function ($scope, $log, CalendarService, EventUtils, uiNotification, Labels) {
 
-    $scope.daysCount = 7;
-    $scope.loading = false;
-    $scope.eof = false;
-    $scope.start = Date.today();
-    $scope.criteria = {
-        name: '',
-        localization: '',
-        start: null,
-        end: null,
-        specializations: [],
-        startIndex: 0,
-        count: 10
-    };
-    $scope.newSpecialization = '';
-    $scope.specializations = ['Arelogia', 'Reumatologia', 'Dietetyka'];
-    $scope.doctors = [];
+            $scope.daysCount = 7;
+            $scope.loading = false;
+            $scope.eof = false;
+            $scope.start = Date.today();
+            $scope.criteria = {
+                name: '',
+                localization: '',
+                start: null,
+                end: null,
+                specializations: [],
+                startIndex: 0,
+                count: 10
+            };
+            $scope.newSpecialization = '';
+            $scope.specializations = [];
+            Labels.getSpecializations()
+                .then(function (values) {
+                    $scope.specializations = values;
+                });
+            $scope.doctors = [];
 
-    /**
-     * Add new specialization to search criteria
-     *
-     *@param specialization new specialization to be added to criteria
-     */
-    $scope.addSpecialization = function (specialization) {
-        $log.debug('Adding searched specialization: ' + specialization);
-        if (specialization != undefined && !_.contains($scope.criteria.specializations, specialization)) {
-            $scope.criteria.specializations.push(specialization);
+            /**
+             * Add new specialization to search criteria
+             *
+             *@param specialization new specialization to be added to criteria
+             */
+            $scope.addSpecialization = function (specialization) {
+                $log.debug('Adding searched specialization: ' + specialization.value);
+                if (specialization != undefined && !_.contains($scope.criteria.specializations, specialization)) {
+                    $scope.criteria.specializations.push(specialization);
+                }
+                $scope.newSpecialization = '';
+            };
+
+            /**
+             * Delete specialization from search criteria
+             *
+             *@param specialization specialization to be removed from criteria
+             */
+            $scope.deleteSpecialization = function (specialization) {
+                $log.debug('Deleting searched specialization: ' + specialization);
+                var index = $scope.criteria.specializations.indexOf(specialization);
+                if (index != -1) {
+                    $scope.criteria.specializations.splice(index, 1);
+                }
+            };
+
+            /**
+             * Open date-picker
+             */
+            $scope.openDatePicker = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.opened = true;
+            };
+
+            /**
+             * Set time-table for search
+             *
+             *@date date chosen date that should be embraced in time window
+             *@date daysCount length in days of time window
+             */
+            $scope.initTimetable = function (date, daysCount) {
+                $scope.criteria.start = EventUtils.currentMonday(date);
+                $scope.criteria.end = $scope.criteria.start.clone().add(daysCount - 1).days().set({
+                    hour: 23,
+                    minute: 59,
+                    second: 59
+                });
+                $log.debug('Timetable set - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
+            };
+
+            /**
+             * Clear current state of search
+             */
+            $scope.clear = function () {
+                $scope.doctors = [];
+                $scope.criteria.startIndex = -$scope.criteria.count;
+                $scope.eof = false;
+            };
+
+            /**
+             * Search doctors by given criteria
+             */
+            $scope.search = function () {
+                $log.debug('Searching doctors - name:' + $scope.criteria.name + ', start: ' + $scope.criteria.start);
+                $scope.clear();
+                $scope.initTimetable($scope.start, $scope.daysCount);
+                $scope.nextDoctors();
+            };
+
+            /**
+             * Move current time window forward or backward chosen number of days
+             * @param days number of days to shift current time window
+             */
+            $scope.moveDays = function (days) {
+                $log.debug('Search doctors - moving days: ' + days);
+                $scope.clear();
+                $scope.criteria.start.add(days).days();
+                $scope.criteria.end.add(days).days();
+                $log.debug('Shifted time table - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
+                $scope.nextDoctors();
+            };
+
+            /**
+             * Load next page of data for doctors
+             */
+            $scope.nextDoctors = function () {
+                if ($scope.loading || $scope.eof) {
+                    return;
+                }
+                $log.debug('Searching next doctors');
+                $scope.loading = true;
+                $scope.criteria.startIndex += $scope.criteria.count;
+                var normalizedCriteria = angular.copy($scope.criteria);
+                normalizedCriteria.specializations = _.map(normalizedCriteria.specializations, function (specialization) {
+                    return specialization.key;
+                });
+                CalendarService.search(normalizedCriteria).
+                    success(function (data) {
+                        $log.debug('Doctors found - data size: ' + data.length);
+                        $scope.doctors = $scope.doctors.concat(data);
+                        $scope.eof = data.length == 0;
+                        $scope.loading = false;
+                    }).
+                    error(function (data, status) {
+                        $log.error('Couldn\'t find doctors - data: ' + data + ', status: ' + status);
+                        uiNotification.text('Error', 'Couldn\'t find doctors').error();
+                        $scope.eof = true;
+                        $scope.loading = false;
+                    });
+            };
+
+            /**
+             * Convert string to date
+             * @param string date in string representation
+             * @returns {Date} non-nullable instance
+             */
+            $scope.toDate = function (string) {
+                return new Date(string);
+            };
+
+            /**
+             * Count percentage of free time
+             * @param info calendar info
+             * @returns {number} non-negative number
+             */
+            $scope.free = function (info) {
+                if (info.total == 0) {
+                    return 0;
+                }
+                return Math.ceil(100 - ((info.occupied / info.total) * 100));
+            };
+
+            $scope.initTimetable($scope.start, $scope.daysCount);
+
         }
-        $scope.newSpecialization = '';
-    };
-
-    /**
-     * Dleet specialization from search criteria
-     *
-     *@param specialization specialization to be removed from criteria
-     */
-    $scope.deleteSpacialization = function (specialization) {
-        $log.debug('Deleting searched specialization: ' + specialization);
-        var index = $scope.criteria.specializations.indexOf(specialization);
-        if (index != -1) {
-            $scope.criteria.specializations.splice(index, 1);
-        }
-    };
-
-    /**
-     * Open date-picker
-     */
-    $scope.openDatePicker = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.opened = true;
-    };
-
-    /**
-     * Set time-table for search
-     *
-     *@date date chosen date that should be embraced in time window
-     *@date daysCount length in days of time window
-     */
-    $scope.initTimetable = function (date, daysCount) {
-        $scope.criteria.start = EventUtils.currentMonday(date);
-        $scope.criteria.end = $scope.criteria.start.clone().add(daysCount - 1).days().set({
-            hour: 23,
-            minute: 59,
-            second: 59
-        });
-        $log.debug('Timetable set - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
-    };
-
-    /**
-     * Clear current state of search
-     */
-    $scope.clear = function () {
-        $scope.doctors = [];
-        $scope.criteria.startIndex = -$scope.criteria.count;
-        $scope.eof = false;
-    };
-
-    /**
-     * Search doctors by given criteria
-     */
-    $scope.search = function () {
-        $log.debug('Searching doctors - name:' + $scope.criteria.name + ', start: ' + $scope.criteria.start);
-        $scope.clear();
-        $scope.initTimetable($scope.start, $scope.daysCount);
-        $scope.nextDoctors();
-    };
-
-    /**
-     * Move current time window forward or backward chosen number of days
-     * @param days number of days to shift current time window
-     */
-    $scope.moveDays = function (days) {
-        $log.debug('Search doctors - moving days: ' + days);
-        $scope.clear();
-        $scope.criteria.start.add(days).days();
-        $scope.criteria.end.add(days).days();
-        $log.debug('Shifted time table - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
-        $scope.nextDoctors();
-    };
-
-    /**
-     * Load next page of data for doctors
-     */
-    $scope.nextDoctors = function () {
-        if ($scope.loading || $scope.eof) {
-            return;
-        }
-        $log.debug('Searching next doctors');
-        $scope.loading = true;
-        $scope.criteria.startIndex += $scope.criteria.count;
-        CalendarService.search($scope.criteria).
-            success(function (data) {
-                $log.debug('Doctors found - data size: ' + data.length);
-                $scope.doctors = $scope.doctors.concat(data);
-                $scope.eof = data.length == 0;
-                $scope.loading = false;
-            }).
-            error(function (data, status) {
-                $log.error('Couldn\'t find doctors - data: ' + data + ', status: ' + status);
-                uiNotification.text('Error', 'Couldn\'t find doctors').error();
-                $scope.eof = true;
-                $scope.loading = false;
-            });
-    };
-
-    /**
-     * Convert string to date
-     * @param string date in string representation
-     * @returns {Date} non-nullable instance
-     */
-    $scope.toDate = function (string) {
-        return new Date(string);
-    };
-
-    /**
-     * Count percentage of free time
-     * @param info calendar info
-     * @returns {number} non-negative number
-     */
-    $scope.free = function (info) {
-        if (info.total == 0) {
-            return 0;
-        }
-        return Math.ceil(100 - ((info.occupied / info.total) * 100));
-    };
-
-    $scope.initTimetable($scope.start, $scope.daysCount);
-
-}]);
+    ]
+);

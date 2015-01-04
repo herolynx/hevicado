@@ -61,8 +61,8 @@ describe('chronos-search-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and sample specialization
             var spec = {
-                id: "spec-1",
-                name: "spec.label"
+                key: "spec-1",
+                value: "spec.label"
             };
             //when specialization is added to search criteria
             ctrlScope.addSpecialization(spec);
@@ -76,13 +76,13 @@ describe('chronos-search-spec:', function () {
             expect(ctrlScope).toBeDefined();
             //and chosen specialization in search
             var spec = {
-                id: "spec-1",
-                name: "spec.label"
+                key: "spec-1",
+                value: "spec.label"
             };
             ctrlScope.addSpecialization(spec);
             expect(ctrlScope.criteria.specializations.length).toBe(1);
             //when specialization is deleted from search criteria
-            ctrlScope.deleteSpacialization(spec);
+            ctrlScope.deleteSpecialization(spec);
             //then specialization is removed
             expect(ctrlScope.criteria.specializations.length).toBe(0);
         });
