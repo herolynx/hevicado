@@ -8,7 +8,7 @@ var commonsLabelsFilters = angular.module('commons.labels.filters', []);
 commonsLabelsFilters.filter('label', function () {
 
     return function (text, prefix) {
-        if (text === null || text === '') {
+        if (text === undefined || text === null || text === '') {
             return '';
         }
         return text.indexOf("$$") == 0 ? (prefix + '.' + text) : text;

@@ -12,6 +12,7 @@ commonsLabels.service('Labels',
         function ($translate, $q) {
 
             var SPECIALIZATIONS_COUNT = 77;
+            var TEMPLATES_COUNT = 3;
 
             /**
              * Translate label
@@ -52,6 +53,14 @@ commonsLabels.service('Labels',
                  */
                 getSpecializations: function () {
                     return get('specializations', '$$spec', SPECIALIZATIONS_COUNT);
+                },
+
+                /**
+                 * Get all templates (key-value)
+                 * @returns {*} non-nullable promise
+                 */
+                getTemplates: function () {
+                    return get('templates', '$$temp', TEMPLATES_COUNT);
                 }
             };
 

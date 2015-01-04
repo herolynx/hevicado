@@ -17,6 +17,7 @@ var chronosSearch = angular.module('chronos.search', [
  * @param CalendarService service managing visit related data
  * @param EventUtils generic functionality related with events
  * @param uiNotification notification service
+ * @param Labels labels manager
  */
 chronosSearch.controller('SearchDoctorCtrl',
     ['$scope', '$log', 'CalendarService', 'EventUtils', 'uiNotification', 'Labels',

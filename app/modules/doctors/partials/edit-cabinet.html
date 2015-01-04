@@ -55,7 +55,7 @@
                             </div>
                             <div class="tag">
                                 <div ng-repeat="specialization in location.specializations">
-                                    {{specialization}}
+                                    {{specialization | label:'specializations' | translate}}
                                     <div class="delete"
                                          tooltip-animation="false"
                                          tooltip="{{'cabinet.delete-specialization' | translate}}"
@@ -71,13 +71,13 @@
                                         <input type="text"
                                                ng-model="newSpecialization"
                                                placeholder="{{'visit.specialization' | translate}}"
-                                               typeahead="specialization for specialization in specializations"
+                                               typeahead="specialization as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10"
                                                typeahead-editable="false"
                                                 >
                                     </div>
                                 </ng-form>
                                 <div class="add">
-                                    <a ng-click="addValue(location.specializations, newSpecialization, specializations, newSpecializationForm)"
+                                    <a ng-click="addEntry(location.specializations, newSpecialization, specializations, newSpecializationForm)"
                                        ng-hide="newSpecializationForm.$invalid">
                                         <i class="icon-plus-circled"></i>{{'cabinet.add-specialization' | translate}}
                                     </a>
@@ -239,7 +239,8 @@
 													</span>
                                                     <ng-form name="templateDurations">
                                                         <small class="error"
-                                                               ng-hide="isTemplateDurationValid(templateDurations, template)" translate>
+                                                               ng-hide="isTemplateDurationValid(templateDurations, template)"
+                                                               translate>
                                                             cabinet.validation.no-time-length
                                                         </small>
                                                     </ng-form>

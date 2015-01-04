@@ -84,7 +84,7 @@ describe('doctors-cabinet-spec:', function () {
     describe('EditCabinetCtrl-spec', function () {
 
         var ctrlScope;
-        var mockUsersService, mockStateParams, mockSession;
+        var mockUsersService, mockStateParams, mockSession, mockLabels;
         var mockUiNotification, mockLog;
         var userServicePromise;
         var doctorId = 'doctor-123';
@@ -126,13 +126,24 @@ describe('doctors-cabinet-spec:', function () {
             //mock user session
             mockSession = jasmine.createSpyObj('mockSession', ['getUserId']);
             mockSession.getUserId.andReturn(doctorId);
+            //mock others
+            mockLabels = jasmine.createSpyObj('mockLabels', ['getSpecializations', 'getTemplates']);
+            var labelPromise = {
+                then: function (f) {
+                    labelPromise.onSuccess = f;
+                    return labelPromise;
+                }
+            };
+            mockLabels.getSpecializations.andReturn(labelPromise);
+            mockLabels.getTemplates.andReturn(labelPromise);
             //inject mocks
             $controller('EditCabinetCtrl', {
                 $scope: ctrlScope,
                 UsersService: mockUsersService,
                 uiNotification: mockUiNotification,
                 Session: mockSession,
-                $log: mockLog
+                $log: mockLog,
+                Labels: mockLabels
             });
         }));
 
