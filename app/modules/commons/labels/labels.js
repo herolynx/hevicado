@@ -29,6 +29,21 @@ commonsLabels.service('Labels',
                     });
             };
 
+            /**
+             * Get all sub-labels (key-value)
+             * @param labelName name of the main label which sub-labels should be taken
+             * @param keyPrefix sub-labels key prefix
+             * @returns {*} non-nullable promise
+             */
+            var get = function (labelName, keyPrefix, count) {
+                var promises = [];
+                for (var i = 1; i <= count; i++) {
+                    var key = keyPrefix + '-' + i;
+                    promises.push(translateLabel(labelName, key));
+                }
+                return $q.all(promises);
+            };
+
             return {
 
                 /**
@@ -36,13 +51,7 @@ commonsLabels.service('Labels',
                  * @returns {*} non-nullable promise
                  */
                 getSpecializations: function () {
-                    var allSpec = [];
-                    var promises = [];
-                    for (var i = 1; i <= SPECIALIZATIONS_COUNT; i++) {
-                        var key = 'spec-' + i;
-                        promises.push(translateLabel('specializations', key));
-                    }
-                    return $q.all(promises);
+                    return get('specializations', '$$spec', SPECIALIZATIONS_COUNT);
                 }
             };
 
