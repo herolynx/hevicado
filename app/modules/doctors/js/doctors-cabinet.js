@@ -3,7 +3,8 @@
 var doctorsCabinet = angular.module('doctors.cabinet', [
     'users.services',
     'bolt.services',
-    'commons.users.filters'
+    'commons.users.filters',
+    'commons.labels.directives'
 ]);
 
 /**
