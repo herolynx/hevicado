@@ -68,6 +68,7 @@ doctorsCabinet.controller('EditCabinetCtrl',
     ['$scope', 'UsersService', 'Session', '$controller', '$log', 'uiNotification', 'Labels',
         function ($scope, UsersService, Session, $controller, $log, uiNotification, Labels) {
 
+            $scope._ = _;
             $scope.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
             $scope.specializations = [];
             Labels.getSpecializations()
@@ -126,24 +127,6 @@ doctorsCabinet.controller('EditCabinetCtrl',
                     array.push(newValue);
                 }
             };
-
-            /**
-             * Add value
-             * @param array array to be modified
-             * @param entry optional entry to be added. If null empty object will be added.
-             * @param allowedEntries array of allowed values
-             */
-            $scope.addEntry = function (array, entry, allowedEntries) {
-                $log.debug('Adding entry - key: ' + entry.key + ', value: ' + entry.value);
-                var newValue = entry || {};
-                if (allowedEntries != undefined && !_.contains(allowedEntries, newValue)) {
-                    return;
-                }
-                if (!_.contains(array, newValue.key)) {
-                    array.push(newValue.key);
-                }
-            };
-
 
             /**
              * Delete value

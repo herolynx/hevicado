@@ -20,7 +20,7 @@ commonsLabelsDirectives.directive('labelInput', ['$filter', function ($filter) {
             });
 
             ngModel.$formatters.push(function (modelValue) {
-                if (modelValue === undefined || modelValue == '') {
+                if (modelValue === undefined || modelValue === null || modelValue == '') {
                     return '';
                 }
                 return modelValue.indexOf("$$") == 0 ? $filter('translate')(scope.prefix + '.' + modelValue) : modelValue;

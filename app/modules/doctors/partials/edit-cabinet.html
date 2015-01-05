@@ -71,13 +71,15 @@
                                         <input type="text"
                                                ng-model="newSpecialization"
                                                placeholder="{{'visit.specialization' | translate}}"
-                                               typeahead="specialization as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10"
+                                               typeahead="specialization.key as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10"
                                                typeahead-editable="false"
+                                               label-input
+                                               prefix="specializations"
                                                 >
                                     </div>
                                 </ng-form>
                                 <div class="add">
-                                    <a ng-click="addEntry(location.specializations, newSpecialization, specializations, newSpecializationForm)"
+                                    <a ng-click="addValue(location.specializations, newSpecialization, _.pluck(specializations,'key'), newSpecializationForm)"
                                        ng-hide="newSpecializationForm.$invalid">
                                         <i class="icon-plus-circled"></i>{{'cabinet.add-specialization' | translate}}
                                     </a>
