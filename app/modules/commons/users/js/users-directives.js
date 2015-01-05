@@ -1,13 +1,13 @@
 'use strict';
 
 var commonsDirectives = angular.module('commons.users.directives', [
-    'commons.users.utils'
+    'commons.users.filters'
 ]);
 
 /**
  * Directive for handling dates according to user's settings
  */
-commonsDirectives.directive('userDate', function () {
+commonsDirectives.directive('dateInput', ['$filter', function ($filter) {
     return {
         require: 'ngModel',
         restrict: 'A',
@@ -19,11 +19,11 @@ commonsDirectives.directive('userDate', function () {
 
             ngModelController.$formatters.push(function (data) {
                 //convert data from model format to view format
-                return data.toString('yyyy-MM-dd');
+                return $filter('dateFormat')(data);
             });
         }
     };
-});
+}]);
 
 /**
  * Directive responsible for changing elements according to user's profile

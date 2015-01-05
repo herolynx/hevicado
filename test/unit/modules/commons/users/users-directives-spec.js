@@ -115,4 +115,59 @@ describe('commons.users.directives-spec:', function () {
 
     });
 
+    describe('dateInput-spec:', function () {
+
+        it('should convert view to model value', function () {
+            //given current scope is active
+            expect($scope).toBeDefined();
+            //when input date is set
+            $scope.modelDate = '';
+            var element = angular.element(
+                '<form name="form">' +
+                '<input name="date" date-input ng-model="modelDate">' +
+                '</form>'
+            );
+            var compiled = $compile(element)($scope);
+            $scope.form.date.$setViewValue(Date.today().set(
+                {
+                    year: 2015,
+                    month: 0,
+                    day: 5,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                }
+            ));
+            $scope.$digest();
+            //then date is formatted properly
+            expect($scope.modelDate.toString('yyyy-MM-dd')).toBe('2015-01-05');
+        });
+
+        it('should convert model to view value', function () {
+            //given current scope is active
+            expect($scope).toBeDefined();
+            //when input date is set
+            $scope.modelDate = Date.today().set(
+                {
+                    year: 2015,
+                    month: 0,
+                    day: 5,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                }
+            );
+            var element = angular.element(
+                '<form name="form">' +
+                '<input name="date" date-input ng-model="modelDate">' +
+                '</form>'
+            );
+            var compiled = $compile(element)($scope);
+            $scope.$digest();
+            //then date is formatted properly
+            expect($scope.form.date.$viewValue).toBe('05-01-2015');
+        });
+
+    });
+
 });
