@@ -53,6 +53,24 @@ commonsFilters.filter('normalizeText', function () {
 
 });
 
+/**
+ * Filter converts working hours (HH:mm) into local one (based on user browser settings)
+ * @param text hours to be converted
+ */
+commonsFilters.filter('toLocalHours', function () {
+
+    return function (text) {
+        var time = text.split(':');
+        var date = Date.today().set({
+            hour: Number(time[0]),
+            minute: Number(time[1]),
+            second: 0
+        });
+        return toLocalDate(date).toString('HH:mm');
+    };
+
+});
+
 
 
 

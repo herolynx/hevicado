@@ -142,7 +142,7 @@
 
                         <div ng-repeat="working in event.location.working_hours">
                             <span>{{'days.' + working.day | toLowerCase | translate}}:</span>
-                            {{working.start}} - {{working.end}}<br/>
+                            {{working.start | toLocalHours}} - {{working.end | toLocalHours}}<br/>
                         </div>
                         </p>
                     </div>
