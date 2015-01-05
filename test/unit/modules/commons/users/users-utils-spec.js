@@ -49,7 +49,7 @@ describe('commons.users.utils-spec:', function () {
             expect(info).toBe('Religa, Zbigniew (zbigniew.religa@kunishu.com)');
         });
 
-        it('should get generic info about user', function () {
+        it('should get detail info about user', function () {
             //given utils are initialized
             expect(utils).toBeDefined();
             //and sample user
