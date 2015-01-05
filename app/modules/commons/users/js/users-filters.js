@@ -48,6 +48,9 @@ commonsFilters.filter('dateFormat', function () {
 commonsFilters.filter('normalizeText', function () {
 
     return function (text) {
+        if (text === undefined || text === null || text === '') {
+            return '';
+        }
         return text.substr(0, 1).toUpperCase() + text.substr(1).toLowerCase();
     };
 

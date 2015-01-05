@@ -134,9 +134,27 @@ describe('commons.users.filters-spec:', function () {
 
     describe('normalizeText-spec:', function () {
 
+        it('should normalize string', inject(function ($filter) {
+            //given sample text
+            var text = 'master of the puppets';
+            //when normalizing text
+            var normalized = $filter('normalizeText')(text);
+            //then proper value is returned
+            expect(normalized).toBe('Master of the puppets');
+        }));
+
     });
 
     describe('toLocalHours-spec:', function () {
+
+        it('should normalize working hours', inject(function ($filter) {
+            //given sample hours
+            var text = '09:00';
+            //when normalizing hours
+            var normalized = $filter('toLocalHours')(text);
+            //then proper value is returned
+            expect(normalized).toBe('09:00');
+        }));
 
     });
 
