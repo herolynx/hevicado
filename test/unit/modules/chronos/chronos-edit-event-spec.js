@@ -221,9 +221,12 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockEventActionManager.canEdit).toHaveBeenCalledWith(event);
                 //and patient is properly formatted
                 expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
-                //and location and template are set properly
+                //and location and templates are set properly
                 expect(ctrlScope.location.name).toBe('Pulsantis');
-                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+                var viewTempl = angular.copy(doctor.locations[0].templates);
+                viewTempl[0].srcName = viewTempl[0].name;
+                viewTempl[1].srcName = viewTempl[1].name;
+                expect(ctrlScope.templates).toEqual(viewTempl);
             });
 
             it('should prepare new event for edition with default start time', function () {
@@ -254,7 +257,7 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockEventActionManager.canEdit).toHaveBeenCalled();
                 //and patient is properly formatted
                 expect(ctrlScope.editedEvent.patient.toString()).toBe('');
-                //and location and template are set properly
+                //and location and templates are set properly
                 expect(ctrlScope.location).not.toBeNull();
                 expect(ctrlScope.templates).not.toBeNull();
             });
@@ -295,9 +298,12 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockEventActionManager.canEdit).toHaveBeenCalled();
                 //and patient is properly formatted
                 expect(ctrlScope.editedEvent.patient.toString()).toBe('');
-                //and location and template are set properly
+                //and location and templates are set properly
                 expect(ctrlScope.location.name).toBe('Pulsantis');
-                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+                var viewTempl = angular.copy(doctor.locations[0].templates);
+                viewTempl[0].srcName = viewTempl[0].name;
+                viewTempl[1].srcName = viewTempl[1].name;
+                expect(ctrlScope.templates).toEqual(viewTempl);
             });
 
             it('should inform user when editor cannot be initialized', function () {
@@ -462,7 +468,6 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
             }));
 
-
         });
 
         describe('event edition for patients-spec:', function () {
@@ -577,9 +582,12 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockEventActionManager.canEdit).toHaveBeenCalledWith(event);
                 //and patient is properly formatted
                 expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
-                //and location and template are set properly
+                //and location and templates are set properly
                 expect(ctrlScope.location.name).toBe('Pulsantis');
-                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+                var viewTempl = angular.copy(doctor.locations[0].templates);
+                viewTempl[0].srcName = viewTempl[0].name;
+                viewTempl[1].srcName = viewTempl[1].name;
+                expect(ctrlScope.templates).toEqual(viewTempl);
             });
 
             it('should prepare new event for edition with default start time', function () {
@@ -610,7 +618,7 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockEventActionManager.canEdit).toHaveBeenCalled();
                 //and patient is properly formatted
                 expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
-                //and location and template are set properly
+                //and location and templates are set properly
                 expect(ctrlScope.location).not.toBeNull();
                 expect(ctrlScope.templates).not.toBeNull();
             });
@@ -651,9 +659,12 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockEventActionManager.canEdit).toHaveBeenCalled();
                 //and patient is properly formatted
                 expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
-                //and location and template are set properly
+                //and location and templates are set properly
                 expect(ctrlScope.location.name).toBe('Pulsantis');
-                expect(ctrlScope.templates).toEqual(doctor.locations[0].templates);
+                var viewTempl = angular.copy(doctor.locations[0].templates);
+                viewTempl[0].srcName = viewTempl[0].name;
+                viewTempl[1].srcName = viewTempl[1].name;
+                expect(ctrlScope.templates).toEqual(viewTempl);
             });
 
             it('should inform user when editor cannot be initialized', function () {
@@ -1187,6 +1198,172 @@ describe('chronos.events.edit-spec:', function () {
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
                 expect(mockUiNotification.msg).toBe('Event cannot be cancelled');
+            });
+
+        });
+
+        describe('template translations-spec:', function () {
+
+            var currentUserId, doctor;
+
+            beforeEach(function () {
+                currentUserId = 'doctor-123';
+                mockStateParams.doctorId = currentUserId;
+                mockSession.getUserId.andReturn(currentUserId);
+                doctor = {
+                    id: 'doctor-123',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00"
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00"
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00"
+                                }
+                            ],
+                            templates: [
+                                {
+                                    id: "546c1fd1ef660df8526005b1",
+                                    name: "$$temp-1",
+                                    description: "Details go here...",
+                                    durations: [30, 60]
+                                },
+                                {
+                                    id: "546c1fd1ef660df8526005b2",
+                                    name: "Eye examination",
+                                    description: "Details go here...",
+                                    durations: [30]
+                                }
+                            ]
+                        }
+                    ]
+                };
+            });
+
+            it('should translate templates', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and doctor templates
+
+                //and existing event
+                var event = {
+                    id: 'event-123',
+                    start: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 8,
+                        minute: 30,
+                        second: 0
+                    }),
+                    end: Date.today().set({
+                        year: 2014,
+                        month: 11,
+                        day: 15,
+                        hour: 9,
+                        minute: 0,
+                        second: 0
+                    }),
+                    doctor: {
+                        id: 'doctor-123',
+                        first_name: 'Zbigniew',
+                        last_name: 'Religa'
+                    },
+                    patient: {
+                        id: 'patient-123',
+                        first_name: 'Johnny',
+                        last_name: 'Bravo'
+                    }
+                };
+                mockStateParams.eventId = event.id;
+
+                //when initializing editor
+                ctrlScope.init();
+
+                //then info about doctor is about to be loaded
+                expect(ctrlScope.isOwner).toBe(true);
+                expect(mockUsersService.get).toHaveBeenCalledWith(currentUserId);
+                //and edited event is about to be loaded
+                expect(mockCalendarService.event).toHaveBeenCalledWith(event.id);
+                mockQ.onSuccess([{data: doctor}, {data: event}]);
+                expect(ctrlScope.doctor).toEqual(doctor);
+                expect(ctrlScope.editedEvent).toEqual(event);
+                //and access rights are properly granted
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(event);
+                expect(mockEventActionManager.canEdit).toHaveBeenCalledWith(event);
+                //and patient is properly formatted
+                expect(ctrlScope.editedEvent.patient.toString()).toBe('Bravo, Johnny');
+                //and location and templates are set properly
+                expect(ctrlScope.location.name).toBe('Pulsantis');
+                //and templates are translated
+                var viewTempl = angular.copy(doctor.locations[0].templates);
+                viewTempl[0].srcName = viewTempl[0].name;
+                viewTempl[0].name = 'templates.' + viewTempl[0].name;
+                viewTempl[1].srcName = viewTempl[1].name;
+                expect(ctrlScope.templates).toEqual(viewTempl);
+            });
+
+            it('should save translated template with its key as title', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                ctrlScope.doctor = doctor;
+                //and doctor's templates
+                var viewTempl = angular.copy(doctor.locations[0].templates);
+                viewTempl[0].srcName = viewTempl[0].name;
+                viewTempl[0].name = 'templates.' + viewTempl[0].name;
+                viewTempl[1].srcName = viewTempl[1].name;
+                ctrlScope.templates = viewTempl;
+                //and previous page
+                mockState.previous = {
+                    state: {name: 'visit-search'},
+                    params: {id: '123', criteria: 'name'}
+                };
+                //and edited events data
+                ctrlScope.editedEvent.start = Date.today().set({
+                    year: 2014,
+                    month: 11,
+                    day: 15,
+                    hour: 8,
+                    minute: 30,
+                    second: 0
+                });
+                ctrlScope.editedEvent.end = null;
+                ctrlScope.editedEvent.duration = 60;
+                //event has title of one of translated templates
+                ctrlScope.templates[0].name = 'translated template';
+                ctrlScope.editedEvent.title = ctrlScope.templates[0].name;
+
+                //when saving changes
+                ctrlScope.save();
+
+                //then before save proper end date is set
+                expect(ctrlScope.editedEvent.end.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 09:30');
+                //and template key is set as title of saved event
+                var event = angular.copy(ctrlScope.editedEvent);
+                event.title = ctrlScope.templates[0].srcName;
+                expect(mockCalendarService.save).toHaveBeenCalledWith(event);
+                //and changes are saved
+                calendarPromise.onSuccess('SAVED');
+                //and user is redirected to previous page after save confirmation
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'});
             });
 
         });

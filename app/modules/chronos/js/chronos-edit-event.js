@@ -23,7 +23,7 @@ var chronosEditEvent = angular.module('chronos.events.edit', [
  * @param UserUtils user utils
  * @param uiNotification notification manager
  */
-chronosEditEvent.controller('EditEventCtrl', ['$scope', '$log', '$state', '$stateParams', '$q', 'Session', 'CalendarService', 'EventActionManager', 'EventUtils', 'CALENDAR_EVENTS', 'UsersService', 'UserUtils', 'uiNotification', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, EventActionManager, EventUtils, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification) {
+chronosEditEvent.controller('EditEventCtrl', ['$scope', '$log', '$state', '$stateParams', '$q', 'Session', 'CalendarService', 'EventActionManager', 'EventUtils', 'CALENDAR_EVENTS', 'UsersService', 'UserUtils', 'uiNotification', '$filter', function ($scope, $log, $state, $stateParams, $q, Session, CalendarService, EventActionManager, EventUtils, CALENDAR_EVENTS, UsersService, UserUtils, uiNotification, $filter) {
 
     $scope.isOwner = false;
     $scope.editedEvent = {};
@@ -127,10 +127,17 @@ chronosEditEvent.controller('EditEventCtrl', ['$scope', '$log', '$state', '$stat
         $scope.editedEvent.start = startTime;
         $scope.validateDate(startTime);
         $scope.location = this.findLocation(startTime);
-        $scope.templates = $scope.location.templates;
+        var label = $filter('label');
+        var translate = $filter('translate');
+        $scope.templates = _.map($scope.location.templates, function (template) {
+            var copy = angular.copy(template);
+            copy.srcName = copy.name;
+            copy.name = translate(label(copy.name, 'templates'));
+            return copy;
+        });
         if (!$scope.isOwner) {
             var event = $scope.editedEvent;
-            event.title = EventUtils.value(_.pluck(this.location.templates, 'name'),
+            event.title = EventUtils.value(_.pluck($scope.templates, 'name'),
                 event.title, 0, false);
             event.duration = EventUtils.value(this.location.templates[0].durations,
                 event.duration, 0, false);
@@ -222,9 +229,19 @@ chronosEditEvent.controller('EditEventCtrl', ['$scope', '$log', '$state', '$stat
      */
     $scope.save = function () {
         $log.debug('Saving event - id: ' + $scope.editedEvent.id + ', start: ' + $scope.editedEvent.start + ', title: ' + $scope.editedEvent.title);
+        //prepare event for saving
         $scope.editedEvent.end = $scope.editedEvent.start.clone().add(Number($scope.editedEvent.duration)).minutes();
+        var event = angular.copy($scope.editedEvent);
+        //check whether title is set based on template
+        var template = _.find($scope.templates, function (template) {
+            return $scope.editedEvent.title == template.name;
+        });
+        if (template != null) {
+            event.title = template.srcName;
+        }
+        //save event
         CalendarService.
-            save($scope.editedEvent).
+            save(event).
             success(function (resp) {
                 $log.debug('Event saved successfully: event id: ' + resp.id);
                 $state.go($state.previous.state.name, $state.previous.params);
