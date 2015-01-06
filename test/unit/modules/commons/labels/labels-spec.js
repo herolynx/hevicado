@@ -62,6 +62,18 @@ describe('commons.labels-spec:', function () {
             expect(translated[expected - 1]).toBe('templates.$$temp-' + expected);
         });
 
+        it('should get degrees labels', function () {
+            //given label service is initialized
+            expect(labels).toBeDefined();
+            //when getting templates labels
+            labels.getDegrees();
+            //then all labels are translated
+            var expected = 6;
+            expect(translated.length).toBe(expected);
+            expect(translated[0]).toBe('degrees.$$degree-1');
+            expect(translated[expected - 1]).toBe('degrees.$$degree-' + expected);
+        });
+
     });
 
 });

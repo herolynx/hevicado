@@ -373,7 +373,7 @@ describe('chronos-calendar-spec:', function () {
                 }
             };
             mockUsersService.get.andReturn(userPromise);
-            mockEventActionManager = jasmine.createSpyObj('mockEventActionManager', ['canCancel']);
+            mockEventActionManager = jasmine.createSpyObj('mockEventActionManager', ['canCancel', 'canEdit']);
             //mock others
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
@@ -1810,6 +1810,9 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be changed
+                mockEventActionManager.canEdit.andReturn(true);
+
                 //when one of events is updated on DnD
                 var dndEvent = {};
                 ctrlScope.dndDrop(dndEvent, events[0], startDate, 8, 0, 0);
@@ -1865,6 +1868,9 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be changed
+                mockEventActionManager.canEdit.andReturn(true);
+
                 //when one of events is updated on DnD
                 var dndEvent = {};
                 ctrlScope.dndDrop(dndEvent, events[0], startDate, 8, 0, 0);
@@ -1924,6 +1930,9 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be changed
+                mockEventActionManager.canEdit.andReturn(true);
+
                 //when duration of event is changed using resizing
                 var dndEvent = {};
                 var ui = {
@@ -1988,6 +1997,9 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be changed
+                mockEventActionManager.canEdit.andReturn(true);
+
                 //when duration of event is changed using resizing
                 var dndEvent = {};
                 var ui = {
@@ -2056,6 +2068,9 @@ describe('chronos-calendar-spec:', function () {
                 expect(events[0].overlap.value).toBe(2);
                 expect(events[1].overlap.value).toBe(2);
                 expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
+                //and event can be changed
+                mockEventActionManager.canEdit.andReturn(true);
+
                 //when duration of event is changed using resizing
                 var dndEvent = {};
                 var ui = {
@@ -2117,6 +2132,9 @@ describe('chronos-calendar-spec:', function () {
                 calendarPromise.onSuccess(events);
                 //and first read has been done
                 expect(ctrlScope.getEvents(startDate, 3, 0).length).toBe(2);
+                //and event can be changed
+                mockEventActionManager.canEdit.andReturn(true);
+
                 //when one of events is updated using DnD or resizing
                 var dndEvent = {};
                 var newDate = startDate.clone().add(1).days();
