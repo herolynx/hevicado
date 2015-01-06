@@ -390,6 +390,10 @@ chronosCalendar.controller('CalendarCtrl', ['$rootScope', '$scope', '$state', '$
     $scope.dndDrop = function (dndEvent, calendarEvent, day, hour, minute) {
         $log.debug('DnD stop on - day: ' + day + ', hour: ' + hour + ', minutes: ' + minute);
         $log.debug('DnD event moved - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
+        if (!EventActionManager.canEdit(calendarEvent)) {
+            $log.error('Event cannot be changed as not editable');
+            return;
+        }
         EventUtils.normalize(calendarEvent);
         var newStartDate = day.clone().set({
             hour: hour,
@@ -469,6 +473,10 @@ chronosCalendar.controller('CalendarCtrl', ['$rootScope', '$scope', '$state', '$
      */
     $scope.dndChangeTime = function (event, ui, calendarEvent) {
         $log.debug('Changing event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
+        if (!EventActionManager.canEdit(calendarEvent)) {
+            $log.error('Event cannot be changed as not editable');
+            return;
+        }
         var deltaHeight = ui.size.height - ui.originalSize.height;
         var addMinutes = 15 * Math.round(deltaHeight / 15);
         var newEndDate = calendarEvent.end.clone().add(addMinutes).minute();
