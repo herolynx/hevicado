@@ -218,7 +218,8 @@ chronosEditEvent.controller('EditEventCtrl',
                 var selectedTemplate = _.find($scope.templates, function (template) {
                     return template.name == $scope.editedEvent.title;
                 });
-                $scope.durations = selectedTemplate.durations || [];
+                $scope.durations = selectedTemplate != null ? selectedTemplate.durations : [0];
+                $scope.editedEvent.duration = $scope.durations[0];
             };
 
             /**

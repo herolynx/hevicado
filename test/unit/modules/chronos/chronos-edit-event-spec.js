@@ -822,6 +822,24 @@ describe('chronos.events.edit-spec:', function () {
                 expect(ctrlScope.editedEvent.start.toString('yyyy-MM-dd HH:mm')).toBe('2014-12-15 08:30');
             }));
 
+            it('should refresh duration time after template changed', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and templates
+                ctrlScope.templates = doctor.locations[0].templates;
+                //and duration set for event
+                ctrlScope.editedEvent.duration = 120;
+                ctrlScope.durations = undefined;
+
+                //when template is changed
+                ctrlScope.editedEvent.title = 'Ass examination';
+                ctrlScope.onTemplateChange();
+
+                //then duration time is refreshed
+                expect(ctrlScope.durations).toEqual([30, 60]);
+                expect(ctrlScope.editedEvent.duration).toBe(30);
+            });
+
         });
 
         describe('editor options-spec:', function () {

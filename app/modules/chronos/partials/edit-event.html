@@ -86,7 +86,9 @@
                                     <select name="term_visit" id="duration-select"
                                             ng-hide="isOwner"
                                             ng-model="editedEvent.duration">
-                                        <option ng-repeat="duration in durations">{{duration}}</option>
+                                        <option
+                                                ng-repeat="duration in durations"
+                                                ng-selected="editedEvent.duration==duration">{{duration}}</option>
                                     </select>
                                 </fieldset>
                             </div>
