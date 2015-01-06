@@ -481,6 +481,10 @@ chronosCalendar.controller('CalendarCtrl',
                 }
                 var deltaHeight = ui.size.height - ui.originalSize.height;
                 var addMinutes = 15 * Math.round(deltaHeight / 15);
+                if (calendarEvent.duration + addMinutes < 15) {
+                    //don't re-size too much
+                    return;
+                }
                 var newEndDate = calendarEvent.end.clone().add(addMinutes).minute();
                 calendarEvent.duration += addMinutes;
                 $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
