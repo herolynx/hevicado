@@ -114,6 +114,7 @@
     "visit-date": "Termin",
     "begin-date": "Termin od",
     "specialization": "Specializacja",
+	
     "chose-specialization": "Wybierz specializacje",
     "search-result": "Wynik wyszukiwania",
     "visit-length": "Czas wizyty",
@@ -146,6 +147,8 @@
     "delete-examination": "Skasuj zabieg",
     "delete-time-length": "Skasuj czas trwania",
     "template-name": "Nazwa badania",
+	"cabinet-specialization": "Specializacja gabinetu:",
+	"cabinet-address": "Adres gabinetu:",
     "validation": {
       "overlapping-hours": "Godziny otwarcia sie powtarzaja",
       "start-hour-before-end": "Godzina otwarcia jest wczesniejsza niz godzina zakonczenia",

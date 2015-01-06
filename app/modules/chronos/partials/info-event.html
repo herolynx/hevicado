@@ -1,18 +1,16 @@
 <div class="content">
     <div class="title-page">
-        <h1>Wizyta</h1>
+        <h1 translate>visit.visit</h1>
     </div>
     <section class="calendar">
-        <div class="details" ng-controller="DisplayEventCtrl">
+        <div class="details-info-event" ng-controller="DisplayEventCtrl">
             <div class="box">
-
                 <h2>
                     <i class="icon-calendar"></i>
                     {{event.start | dateFormat}} ({{event.start | dateFormat: "dddd" | normalizeText}})
                     <br/>
                     {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                 </h2>
-
                 <div class="notes">
                     <form>
                         <ul>
@@ -124,7 +122,6 @@
             </div>
             <div class="box maps-address">
                 <h2><i class="icon-map"></i> {{'visit.location' | translate}}</h2>
-
                 <div class="maps">
                     <div>
                         <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"

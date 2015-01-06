@@ -22,31 +22,29 @@
                 <div ng-repeat="day in days" class="event" user-theme>
                     <a class="link"
                        ui-sref="calendar-day.daily({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })"></a>
-
                     <div class="date">
                         {{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
                     </div>
                     <div class="box-event">
                         <div class="box">
                             <div
-                                    ng-repeat="cabinet in dayInfo(day, 4) as cabinets"
-                                    ng-class="{
-                                         'count-event-small': cabinets.length > 1,
-                                         'count-event': cabinets.length <= 1
-                                    }"
-                                    class="{{cabinet.color}}"
-                                    >
-									<span>
+								ng-repeat="cabinet in dayInfo(day, 4) as cabinets"
+								ng-class="{
+									 'count-event-small': cabinets.length > 1,
+									 'count-event': cabinets.length <= 1
+								}"
+								class="{{cabinet.color}}"
+								>
+								<span>
 									{{cabinet.value}}
-									</span>
+								</span>
                             </div>
                             <div class="action">
                                 <a href="#"
-                                   ui-sref="calendar-day.new-visit({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })">
-                                    <i class="icon-plus-circled"></i>
-                                    {{'visit.add-visit' | translate}}</a>
+									ui-sref="calendar-day.new-visit({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })">
+									<i class="icon-plus-circled"></i>
+									{{'visit.add-visit' | translate}}</a>
                             </div>
-
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
                 cabinet.info
             </div>
             <a ui-sref="calendar-day.new-visit({ doctorId: doctorId })" translate>visit.add-visit</a>
-            <div class="box-row">
+            <div class="box-row doctor-info">
                 <div class="box">
                     <div class="info-doctor">
                         <div class="name-company">
@@ -20,7 +20,6 @@
 
                         <div class="description">
                             <strong>{{'generic.description' | translate}}:</strong><br/>
-
                             <p>
                                 {{doctor.description}}
                             </p>
@@ -29,9 +28,9 @@
                 </div>
             </div>
 
-            <div class="box-row">
-                <div class="box" ng-repeat="location in doctor.locations">
-                    <div class="row">
+			<div class="box-row" ng-repeat="location in doctor.locations">
+				 <div class="box cabinet-name">
+					<div class="row">
                         <div class="color {{location.color}}">
                             <span></span>
                         </div>
@@ -40,38 +39,56 @@
 								{{location.name}}
 							</span>
                         </div>
-
                         <div class="specialization">
-                            <div ng-repeat="specialization in location.specializations">
+							<div class="title">
+								<span>{{"cabinet.cabinet-specialization" | translate}}</span>
+							</div>
+                            <div ng-repeat="specialization in location.specializations" class="option">
                                 {{specialization | label:'specializations' | translate}}
                             </div>
                         </div>
-
-                    </div>
-                    <div class="row">
+                    </div>				 
+				</div>
+                <div class="box">                   
+                    <div class="row data">
                         <div class="box-left">
                             <div class="address">
-                                <div class="title">
-                                    <span>Address info</span>
-                                </div>
-                                <span>{{location.address | addressInfo}}</span>
-                            </div>
-
-                            <div class="open-hour">
-                                <div class="title">
-                                    <span>{{'visit.open-hours' | translate}}:</span>
-                                </div>
-                                <ul>
-                                    <li ng-repeat="working in location.working_hours">
-                                        <span class="day">{{'days.' + working.day | toLowerCase | translate}}</span>
-                                        <span class="hour">{{working.start | toLocalHours}} - {{working.end | toLocalHours}}</span>
-                                    </li>
-                                </ul>
-
-                            </div>
-
+								<div class="box">
+									<div class="title">
+										<span>{{"cabinet.cabinet-address" | translate}}</span>
+									</div>
+									<span>
+										{{location.address.street}}<br/>
+										{{location.address.city}}<br/>
+										{{location.address.country}}
+										<br/><br/>
+										{{'user-profile.phone' | translate}}: {{doctor.phone}}<br/>
+										Fax: +48 555 444 444!<br/>
+										{{'generic.email' | translate}}: <a href="mailto:{{event.patient.email}}">{{doctor.email}}</a><br/>																			
+										WWW: <a href="#">http://www.dupa.com.pl!</a>
+									</span>
+								</div>
+								<div class="box">
+									<div class="title">
+										<span>Mapa dojazdu</span>
+									</div>
+									<div class="maps">
+										mapa
+									</div>
+								</div>
+								<div class="open-hour">
+									<div class="title">
+										<span>{{'visit.open-hours' | translate}}:</span>
+									</div>
+									<ul>
+										<li ng-repeat="working in location.working_hours">
+											<span class="day">{{'days.' + working.day | toLowerCase | translate}}</span>
+											<span class="hour">{{working.start | toLocalHours}} - {{working.end | toLocalHours}}</span>
+										</li>
+									</ul>
+								</div>
+                            </div> 
                         </div>
-
                         <div class="box-right">
                             <div class="treatments">
                                 <div class="title">
@@ -81,16 +98,14 @@
                                             <div class="intervention">
                                                 {{template.name | label:'templates' | translate}}
                                             </div>
-
                                             <div class="time">
-													<span ng-repeat="duration in template.durations">
-														{{duration}}
-													</span>
+												<span ng-repeat="duration in template.durations">
+													{{duration}}
+												</span>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                     </div>
