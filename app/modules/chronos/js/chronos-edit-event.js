@@ -137,14 +137,17 @@ chronosEditEvent.controller('EditEventCtrl',
                     copy.name = translate(label(copy.name, 'templates'));
                     return copy;
                 });
+                $scope.editedEvent.location = angular.copy($scope.location);
+                if ($scope.editedEvent.location != null) {
+                    delete $scope.editedEvent.location.templates;
+                }
                 if (!$scope.isOwner) {
                     var event = $scope.editedEvent;
                     event.title = EventUtils.value(_.pluck($scope.templates, 'name'),
                         event.title, 0, false);
-                    event.duration = EventUtils.value(this.location.templates[0].durations,
+                    event.duration = EventUtils.value($scope.location.templates[0].durations,
                         event.duration, 0, false);
-                    event.location = angular.copy(this.location);
-                    delete event.location.templates;
+
                     $scope.onTemplateChange();
                 }
             };

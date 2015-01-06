@@ -43,6 +43,7 @@
                                             ng-options="location.name for location in doctor.locations track by location.id"
                                             ng-model="editedEvent.location"
                                             ng-disabled="canEdit==false"
+                                            ng-selected="editedEvent.location.id==location.id"
                                             required/>
                                 </fieldset>
                             </div>
