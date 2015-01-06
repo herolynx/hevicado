@@ -1,7 +1,8 @@
 'use strict';
 
 var usersControllers = angular.module('users.controllers', [
-    'commons.users.filters'
+    'commons.users.filters',
+    'commons.labels'
 ]);
 
 /**
@@ -9,7 +10,7 @@ var usersControllers = angular.module('users.controllers', [
  * @param $rootScope main scope of application
  * @param $scope scope of controllers
  * @param $state app state manager
- * @param UserSerice service managing users in app
+ * @param UserService service managing users in app
  * @param AuthService authorization manager needed for logging in
  * @param USER_ROLES set of available user roles
  * @param AUTH_EVENTS set of available authorization events
@@ -19,6 +20,7 @@ var usersControllers = angular.module('users.controllers', [
 usersControllers.controller('RegistrationCtrl',
     ['$rootScope', '$scope', '$state', 'UsersService', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'uiNotification', '$log',
         function ($rootScope, $scope, $state, UsersService, AuthService, USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
+
 
             $scope.user = {
                 email: '',
@@ -83,10 +85,19 @@ usersControllers.controller('RegistrationCtrl',
  * @param LANG all available languages in the app
  * @param THEMES apps themes
  * @param AUTH_EVENTS user's related events
+ * @param Labels labels provider
+ * @param USER_ROLES set of possible roles
  */
 usersControllers.controller('UserProfileCtrl',
-    ['$rootScope', '$scope', 'Session', 'UsersService', 'AUTH_EVENTS', 'uiNotification', '$log', 'LANGS', 'THEMES',
-        function ($rootScope, $scope, Session, UsersService, AUTH_EVENTS, uiNotification, $log, LANGS, THEMES) {
+    ['$rootScope', '$scope', 'Session', 'UsersService', 'AUTH_EVENTS', 'uiNotification', '$log', 'LANGS', 'THEMES', 'Labels', 'USER_ROLES',
+        function ($rootScope, $scope, Session, UsersService, AUTH_EVENTS, uiNotification, $log, LANGS, THEMES, Labels, USER_ROLES) {
+
+
+            $scope.degrees = [];
+            Labels.getDegrees()
+                .then(function (values) {
+                    $scope.degrees = values;
+                });
 
             $scope.user = {
                 first_name: '',
@@ -116,6 +127,7 @@ usersControllers.controller('UserProfileCtrl',
                     get(Session.getUserId()).then(function (resp) {
                         $log.debug('Profile data loaded successfully: user id: ' + resp.data.id);
                         $scope.user = resp.data;
+                        $scope.isDoctor = $scope.user.role == USER_ROLES.DOCTOR;
                     }, function (errResp, errStatus) {
                         $log.error('Couldn\'t load profile data: status: ' + errStatus + ', resp: ' + errResp.data);
                         uiNotification.text('Error', 'User profile wasn\'t loaded').error();

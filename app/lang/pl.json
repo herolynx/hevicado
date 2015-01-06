@@ -238,5 +238,14 @@
     "$$temp-1": "Badanie ogolne",
     "$$temp-2": "Badania kontrolne",
     "$$temp-3": "Badania okresowe"
+  },
+  "degrees": {
+    "degree": "Stopien naukowy",
+    "$$degree-1": " ",
+    "$$degree-2": "mgr.",
+    "$$degree-3": "lekarz",
+    "$$degree-4": "dr. n. med.",
+    "$$degree-5": "dr. hab. n. med.",
+    "$$degree-6": "prof. dr. hab. n. med."
   }
 }

@@ -75,6 +75,22 @@
                     <div class="box">
                         <h2><span>2</span>{{'user-profile.user-info' | translate}}</h2>
                         <ul>
+                            <li ng-show="isDoctor">
+                                <label>{{'degrees.degree' | translate}}:</label>
+                                <fieldset>
+                                    <div class="btn-group" dropdown is-open="dropdown.isDegreeOpen">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                                            {{'degrees.' + user.degree | translate}}<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="degree in degrees"
+                                                ng-click="user.degree=degree.key">
+                                                {{degree.value}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </fieldset>
+                            </li>
                             <li>
                                 <label>{{'user-profile.first-name' | translate}}:</label>
                                 <fieldset>

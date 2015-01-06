@@ -176,7 +176,7 @@ describe('users-controllers-spec:', function () {
     describe('UserProfileCtrl-spec', function () {
 
         var ctrlScope, spyRootScope;
-        var mockUsersService, mockSession, mockUiNotification, mockAuthEvents;
+        var mockUsersService, mockSession, mockUiNotification, mockAuthEvents, mockLabels;
         /* Deferred response of users service */
         var userServicePromise;
 
@@ -206,6 +206,15 @@ describe('users-controllers-spec:', function () {
                 mockUsersService.getUserId = userId;
                 return userServicePromise;
             };
+            //mock labels
+            mockLabels = jasmine.createSpyObj('mockLabels', ['getDegrees']);
+            var labelPromise = {
+                then: function (f) {
+                    labelPromise.onSuccess = f;
+                    return labelPromise;
+                }
+            };
+            mockLabels.getDegrees.andReturn(labelPromise);
             //mock others
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
@@ -219,6 +228,7 @@ describe('users-controllers-spec:', function () {
             mockAuthEvents = {
                 SESSION_REFRESH: 'mock-session-refresh'
             };
+            var mockRoles = {DOCTOR: 'doctor'};
             //inject mocks
             $controller('UserProfileCtrl', {
                 $rootScope: spyRootScope,
@@ -229,7 +239,9 @@ describe('users-controllers-spec:', function () {
                 $log: mockLog,
                 LANGS: mockLangs,
                 THEMES: mockThemes,
-                AUTH_EVENTS: mockAuthEvents
+                AUTH_EVENTS: mockAuthEvents,
+                Labels: mockLabels,
+                USER_ROLES: mockRoles
             });
         }));
 

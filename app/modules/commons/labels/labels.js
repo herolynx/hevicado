@@ -13,6 +13,7 @@ commonsLabels.service('Labels',
 
             var SPECIALIZATIONS_COUNT = 77;
             var TEMPLATES_COUNT = 3;
+            var DEGREES_COUNT = 6;
 
             /**
              * Translate label
@@ -61,6 +62,14 @@ commonsLabels.service('Labels',
                  */
                 getTemplates: function () {
                     return get('templates', '$$temp', TEMPLATES_COUNT);
+                },
+
+                /**
+                 * Get all degress (key-value)
+                 * @returns {*} non-nullable promise
+                 */
+                getDegrees: function () {
+                    return get('degrees', '$$degree', DEGREES_COUNT);
                 }
             };
 
