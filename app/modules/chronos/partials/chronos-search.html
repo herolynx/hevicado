@@ -52,17 +52,15 @@
                                        datepicker-popup="dd-MM-yyyy"
                                        ng-model="start"
                                        is-open="opened"
-                                       ng-disabled="true"
+                                       readonly="true"
                                        min-date="Date.today()"
                                        datepicker-options="dateOptions"
                                        date-disabled="disabled(date, mode)"
                                        ng-required="true"
                                        close-text="{{'generic.close' | translate}}"
+                                       ng-click="openDatePicker($event)"
                                        date-input
                                         />
-                                <button ng-click="openDatePicker($event)">
-                                    {{'generic.open' | translate}}<i class="glyphicon glyphicon-calendar"></i>
-                                </button>
                             </fieldset>
                         </li>
                         <li>
