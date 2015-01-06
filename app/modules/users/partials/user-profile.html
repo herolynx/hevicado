@@ -128,25 +128,33 @@
                             <li>
                                 <label>{{'user-profile.lang' | translate}}:</label>
                                 <fieldset>
-                                    <select name="lang" ng-model="user.profile.lang" required>
-                                        <option ng-repeat="lang in langs"
-                                                ng-selected="{{user.profile.lang==lang}}"
-                                                value="{{lang}}">
-                                            {{'lang.' + lang | translate}}
-                                        </option>
-                                    </select>
+                                    <div class="btn-group" dropdown is-open="dropdown.isLangOpen">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                                            {{'lang.' + user.profile.lang | translate}}<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="lang in langs"
+                                                ng-click="user.profile.lang=lang">
+                                                {{'lang.' + lang | translate}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </fieldset>
                             </li>
                             <li>
                                 <label>{{'user-profile.theme' | translate}}:</label>
                                 <fieldset>
-                                    <select name="theme" ng-model="user.profile.theme" required>
-                                        <option ng-repeat="theme in themes"
-                                                ng-selected="{{user.profile.theme==theme}}"
-                                                value="{{theme}}">
-                                            {{'themes.' + theme | translate}}
-                                        </option>
-                                    </select>
+                                    <div class="btn-group" dropdown is-open="dropdown.isThemeOpen">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                                            {{'themes.' + user.profile.theme | translate}}<span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="theme in themes"
+                                                ng-click="user.profile.theme=theme">
+                                                {{'themes.' + theme | translate}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </fieldset>
                             </li>
                         </ul>
