@@ -243,6 +243,29 @@ describe('chronos-events-spec:', function () {
                 expect(event.duration).toBe(60);
             });
 
+            it('should mark events with time windows occupied by other users', function () {
+                //given event utils are initialized
+                expect(eventUtils).toBeDefined();
+                //and event with number dates
+                var date = Date.today().set({
+                    year: 2014,
+                    month: 9,
+                    day: 14,
+                    hour: 8,
+                    minute: 0
+                });
+                var event = {
+                    start: date.getTime(),
+                    end: date.clone().add(1).hour().getTime()
+                };
+                expect(typeof event.start).toBe('number');
+                expect(typeof event.end).toBe('number');
+                //when normalizing an event
+                eventUtils.normalize(event);
+                //then proper color is set
+                expect(event.location).toEqual({color: 'red'});
+            });
+
         });
 
         describe('to plain JSON normalization-spec:', function () {

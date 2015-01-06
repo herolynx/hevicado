@@ -114,6 +114,12 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
             if (event.cancelled != undefined && event.cancelled.clone === undefined) {
                 event.cancelled = toLocalDate(event.cancelled);
             }
+            if (event.location === undefined) {
+                //time window is occupied so mark with proper color
+                event.location = {
+                    color: 'red'
+                };
+            }
             return event;
         },
 
