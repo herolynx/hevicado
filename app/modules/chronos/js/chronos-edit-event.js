@@ -3,6 +3,7 @@
 var chronosEditEvent = angular.module('chronos.events.edit', [
     'commons.users.utils',
     'commons.users.filters',
+    'commons.maps.directives',
     'users.services',
     'bolt.services'
 ]);
