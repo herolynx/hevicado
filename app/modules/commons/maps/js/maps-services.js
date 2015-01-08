@@ -4,7 +4,12 @@ var commonsMapsServices = angular.module('commons.maps.services', [
     'commons.users.utils'
 ]);
 
-
+/**
+ * Service for managing map related data
+ * @param $http HTTP service
+ * @param $log logger
+ * @param UserUtils generic user related functions
+ */
 commonsMapsServices.service('MapService',
     ['$http', '$log', 'UserUtils',
         function ($http, $log, UserUtils) {
