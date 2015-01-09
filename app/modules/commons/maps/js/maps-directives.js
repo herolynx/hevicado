@@ -39,7 +39,7 @@ commonsMapsDirectives.directive('googleMap',
                         $log.debug('Showing location on map - title: ' + title + ', address: ' + address);
                         $scope.position.name = title;
                         MapService.
-                            find(address, function (response, status) {
+                            find(address, function (response) {
                                 if (response !== null && response.length > 0) {
                                     $scope.position.center.latitude = response[0].geometry.location.k;
                                     $scope.position.center.longitude = response[0].geometry.location.D;
@@ -53,8 +53,6 @@ commonsMapsDirectives.directive('googleMap',
 
                 },
                 link: function ($scope, elm, attrs) {
-                    console.info($scope)
-                    $scope.show($scope.title, $scope.address);
                     $scope.$watch('address', function () {
                         $log.debug('Map address changed - refreshing');
                         $scope.show($scope.title, $scope.address);

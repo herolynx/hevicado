@@ -2,11 +2,12 @@
 
 describe('commons.maps.directives-spec:', function () {
 
-    var $rootScope, $scope, $compile, $httpBackend;
+    var $rootScope, $scope, $compile;
     var mockMapService;
 
     //prepare module for testing
     beforeEach(angular.mock.module('commons.maps.directives'));
+    beforeEach(angular.mock.module('app/modules/commons/maps/partials/map.html'));
 
     beforeEach(angular.mock.module(function ($provide) {
         //mock dependencies
@@ -21,17 +22,14 @@ describe('commons.maps.directives-spec:', function () {
         $provide.value('$log', mockLog);
     }));
 
-    beforeEach(inject(function ($injector, _$rootScope_, _$compile_) {
+    beforeEach(inject(function ($templateCache, _$rootScope_, _$compile_) {
         $rootScope = _$rootScope_;
         $scope = $rootScope.$new();
         $compile = _$compile_;
-        $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.expectGET('modules/commons/maps/partials/map.html').respond(200, '<div>map template</div>');
-    }));
+        var mapTemplate = $templateCache.get('app/modules/commons/maps/partials/map.html');
+        $templateCache.put('modules/commons/maps/partials/map.html', mapTemplate);
 
-    afterEach(function () {
-        $httpBackend.verifyNoOutstandingExpectation();
-    });
+    }));
 
     describe('googleMap-spec:', function () {
 
@@ -48,23 +46,27 @@ describe('commons.maps.directives-spec:', function () {
             $scope.testtTitle = "Grabiszynska street view";
             //when google map is created
             var element = angular.element(
-                '<div>' +
-                '<google-map address="testAddress" title="testTitle"/>' +
-                '</div>'
+                '<google-map address="testAddress" title="testTitle"/>'
             );
             var compiled = $compile(element)($scope);
-            //$scope.$digest();
+            expect(compiled.find('map').attr('center')).not.toBeDefined();
             $scope.$digest();
             //then proper location is searched
-            expect($scope.title).toBe('Grabiszynska street view');
-            expect($scope.address).toBe(address);
             expect(mockMapService.address).toBe(address);
             expect(mockMapService.callback).toBeDefined();
-            console.info(compiled)
-            //and proper location is set
-
+            //and proper location is set on map when location is found
+            mockMapService.callback([
+                {
+                    geometry: {
+                        location: {
+                            k: 666.66,
+                            D: 69.69
+                        }
+                    }
+                }
+            ]);
+            expect(compiled.find('map').attr('center')).toEqual('[666.66, 69.69]');
         });
-
 
     });
 

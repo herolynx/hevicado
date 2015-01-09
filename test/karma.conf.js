@@ -29,6 +29,8 @@ module.exports = function (config) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             /* tested components */
             'app/modules/**/*.js',
+            /* tested templates */
+            'app/modules/**/*.html',
             /* test cases */
             'test/unit/**/*.js'
         ],
@@ -57,12 +59,18 @@ module.exports = function (config) {
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
-            'karma-phantomjs-launcher'
+            'karma-phantomjs-launcher',
+            'karma-ng-html2js-preprocessor'
         ],
 
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
+        },
+
+        // generate js files from html templates to expose them during testing.
+        preprocessors: {
+            'app/modules/**/*.html': ['html2js']
         },
 
         // Continuous Integration mode
