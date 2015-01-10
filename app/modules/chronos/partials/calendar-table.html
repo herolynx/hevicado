@@ -2,11 +2,11 @@
 <table>
     <tr>
         <th></th>
-        <th ng-repeat="day in days">{{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
-            <div>
+        <th ng-repeat="day in days"><i class="icon-calendar"></i> {{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
+          <!--   <div>
                 <i class="icon-plus-circled"></i>
                 <i class="icon-comment"></i>
-            </div>
+            </div> -->
         </th>
     </tr>
     <tr ng-repeat="hour in _.range(0,24)">

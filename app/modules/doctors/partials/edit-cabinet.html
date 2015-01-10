@@ -9,278 +9,299 @@
                 cabinet.info
             </div>
             <form name="cabinet" novalidate>
-                <div class="box-row">
+                <div class="box-row doctor-info">
                     <div class="box">
-                        <div class="info-doctor">
-                            <div class="title">
-                                <span>{{doctor | userInfo:'withDegree'}}</span>
-                            </div>
+						<div class="info-doctor">
+							<div class="name-company">
+								<span>
+									{{doctor | userInfo:'withDegree'}}
+								</span>
+							</div>
+							<div class="description">
+								<strong>{{'generic.description' | translate}}:</strong><br/>
+								<p>
+									<textarea ng-model="doctor.description"></textarea>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="add">
+					<a ng-click="addLocation(doctor.locations)">
+						<i class="icon-plus-circled"></i>{{'cabinet.add-cabinet' | translate}}
+					</a>
+				</div>
+			   <div class="box-row" ng-repeat="location in doctor.locations">
+					<div class="box cabinet-name">
+						<div class="row">							
+							<div class="color {{location.color}}">
+								<span></span>
+							</div>
+							<div class="name-company">
+								<ng-form id="cabientName-{{$index}}" name="cabientName">
+									<span>
+										<input id="name"
+										   name="name"
+										   placeholder="{{'cabinet.cabinet-name' | translate}}"
+										   ng-model="location.name"
+										   ng-minlength="2"
+										   required>
+									</span>
+									<small class="error" ng-show="cabientName.name.$error.minlength" translate>
+										generic.validation.2-chars
+									</small>
+								</ng-form>
+								<div class="delete">
+									<a tooltip-animation="false"
+									   tooltip="{{'cabinet.delete-cabinet' | translate}}"
+									   tooltip-popup-delay='1000'
+									   ng-click="deleteValue(doctor.locations, location)">
+										<i class="icon-trash"></i>
+									</a>
+								</div>
+							</div>
+							
+							<div class="specialization">
+								<div class="title">
+									<span>{{"cabinet.cabinet-specialization" | translate}}</span>
+								</div>
+								<div class="list-specialization">
+									<div class="list" ng-repeat="specialization in location.specializations">								
+										<span>{{specialization | label:'specializations' | translate}}</span>
+										<div class="delete"
+											 tooltip-animation="false"
+											 tooltip="{{'cabinet.delete-specialization' | translate}}"
+											 tooltip-popup-delay='1000'
+											 ng-click="deleteValue(location.specializations, specialization)">
+											<a href="#">
+												<i class="icon-trash"></i>
+											</a>
+										</div>									
+									</div>
+								</div>
+								<ng-form name="newSpecializationForm">
+									<div class="new-specialization">
+										<input type="text"
+											ng-model="newSpecialization"
+											placeholder="{{'visit.specialization' | translate}}"
+											typeahead="specialization.key as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10"
+											typeahead-editable="false"
+											label-input
+											prefix="specializations"
+											>
+									</div>
+								</ng-form>
+								<div class="add">
+									<a ng-click="addValue(location.specializations, newSpecialization, _.pluck(specializations,'key'), newSpecializationForm)"
+									   ng-hide="newSpecializationForm.$invalid">
+										<i class="icon-plus-circled"></i>{{'cabinet.add-specialization' | translate}}
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box">        
+						<div class="row-data">
+							<div class="box-left">
+								<div class="address">
+									<div class="box">
+										<div class="title">
+											<span>{{"cabinet.cabinet-address" | translate}}</span>
+										</div>
+										
+										<ng-form id="cabientAddress-{{$index}}" name="cabientAddress">
 
-                            <div class="short-info">
-                                <strong>{{'generic.description' | translate}}:</strong><br/>
+											<div>{{'cabinet.street' | translate}}:</div>
+											<input name="street"
+												   ng-model="location.address.street"
+												   ng-minlength="2"
+												   required>
+											<small class="error" ng-show="cabientAddress.street.$error.minlength" translate>
+												generic.validation.2-chars
+											</small>
 
-                                <p>
-                                    <textarea ng-model="doctor.description"></textarea>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box" ng-repeat="location in doctor.locations">
-                        <div class="row">
-                            <div class="delete">
-                                <a tooltip-animation="false"
-                                   tooltip="{{'cabinet.delete-cabinet' | translate}}"
-                                   tooltip-popup-delay='1000'
-                                   ng-click="deleteValue(doctor.locations, location)">
-                                    <i class="icon-trash"></i>
-                                </a>
-                            </div>
-                            <div class="color {{location.color}}">
-                                <span></span>
-                            </div>
-                            <div class="name-company">
-                                <ng-form id="cabientName-{{$index}}" name="cabientName">
-                                    <span>
-                                        <input id="name"
-                                               name="name"
-                                               placeholder="{{'cabinet.cabinet-name' | translate}}"
-                                               ng-model="location.name"
-                                               ng-minlength="2"
-                                               required>
-                                    </span>
-                                    <small class="error" ng-show="cabientName.name.$error.minlength" translate>
-                                        generic.validation.2-chars
-                                    </small>
-                                </ng-form>
-                            </div>
-                            <div class="tag">
-                                <div ng-repeat="specialization in location.specializations">
-                                    {{specialization | label:'specializations' | translate}}
-                                    <div class="delete"
-                                         tooltip-animation="false"
-                                         tooltip="{{'cabinet.delete-specialization' | translate}}"
-                                         tooltip-popup-delay='1000'
-                                         ng-click="deleteValue(location.specializations, specialization)">
-                                        <a href="#">
-                                            <i class="icon-trash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <ng-form name="newSpecializationForm">
-                                    <div>
-                                        <input type="text"
-                                               ng-model="newSpecialization"
-                                               placeholder="{{'visit.specialization' | translate}}"
-                                               typeahead="specialization.key as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10"
-                                               typeahead-editable="false"
-                                               label-input
-                                               prefix="specializations"
-                                                >
-                                    </div>
-                                </ng-form>
-                                <div class="add">
-                                    <a ng-click="addValue(location.specializations, newSpecialization, _.pluck(specializations,'key'), newSpecializationForm)"
-                                       ng-hide="newSpecializationForm.$invalid">
-                                        <i class="icon-plus-circled"></i>{{'cabinet.add-specialization' | translate}}
-                                    </a>
-                                </div>
-                            </div>
+											<div>{{'cabinet.city' | translate}}:</div>
+											<input name="city"
+												   ng-model="location.address.city"
+												   ng-minlength="2"
+												   required>
+											<small class="error" ng-show="cabientAddress.city.$error.minlength" translate>
+												generic.validation.2-chars
+											</small>
 
-                        </div>
-                        <div class="row">
-                            <div class="box-left">
-                                <div class="address">
-                                    <ng-form id="cabientAddress-{{$index}}" name="cabientAddress">
+											<div>{{'cabinet.country' | translate}}:</div>
+											<input name="country"
+												   ng-model="location.address.country"
+												   ng-minlength="2"
+												   required>
+											</span>
+											<small class="error" ng-show="cabientAddress.country.$error.minlength"
+												   translate>
+												generic.validation.2-chars
+											</small>
 
-                                        <div>{{'cabinet.street' | translate}}:</div>
-                                        <input name="street"
-                                               ng-model="location.address.street"
-                                               ng-minlength="2"
-                                               required>
-                                        <small class="error" ng-show="cabientAddress.street.$error.minlength" translate>
-                                            generic.validation.2-chars
-                                        </small>
-
-                                        <div>{{'cabinet.city' | translate}}:</div>
-                                        <input name="city"
-                                               ng-model="location.address.city"
-                                               ng-minlength="2"
-                                               required>
-                                        <small class="error" ng-show="cabientAddress.city.$error.minlength" translate>
-                                            generic.validation.2-chars
-                                        </small>
-
-                                        <div>{{'cabinet.country' | translate}}:</div>
-                                        <input name="country"
-                                               ng-model="location.address.country"
-                                               ng-minlength="2"
-                                               required>
-                                        </span>
-                                        <small class="error" ng-show="cabientAddress.country.$error.minlength"
-                                               translate>
-                                            generic.validation.2-chars
-                                        </small>
-
-                                    </ng-form>
-                                </div>
-
-                                <div class="open-hour">
-                                    <div class="title">
-                                        <span>{{'visit.open-hours' | translate}}:</span>
-                                    </div>
-                                    <ul>
-                                        <li ng-repeat="working in location.working_hours">
-                                            <ng-form name="workingHoursForm">
-                                                <div class="delete">
-                                                    <a tooltip-animation="false"
-                                                       tooltip="{{'cabinet.delete-hour' | translate}}"
-                                                       tooltip-popup-delay='1000'
-                                                       ng-click="deleteValue(location.working_hours, working)">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
-                                                </div>
-                                                <span class="day">
-                                                     <select name="lang"
-                                                             ng-model="working.day"
-                                                             ng-change="onWorkingHoursChange(workingHoursForm, working)"
-                                                             required>
-                                                         <option ng-repeat="day in days"
-                                                                 ng-selected="{{day==working.day}}"
-                                                                 value="{{day}}">
-                                                             {{'days.' + day | toLowerCase | translate}}
-                                                         </option>
-                                                     </select>
-                                                </span>
-                                                <span class="hour">
-                                                    <timepicker ng-model="working.startDate"
-                                                                show-meridian="false"
-                                                                hour-step="1"
-                                                                minute-step="15"
-                                                                ng-change="onWorkingHoursChange(workingHoursForm, working)"
-                                                            />
-                                                    -
-                                                    <timepicker ng-model="working.endDate"
-                                                                show-meridian="false"
-                                                                hour-step="1"
-                                                                minute-step="15"
-                                                                ng-change="onWorkingHoursChange(workingHoursForm, working)"
-                                                            />
-                                                </span>
-                                                <small class="error"
-                                                       ng-show="workingHoursForm.$error.duplicate" translate>
-                                                    cabinet.validation.overlapping-hours
-                                                </small>
-                                                <small class="error"
-                                                       ng-show="workingHoursForm.$error.order" translate>
-                                                    cabinet.validation.start-hour-before-end
-                                                </small>
-                                            </ng-form>
-                                        </li>
-                                    </ul>
-                                    <div class="add">
-                                        <a ng-click="addValue(location.working_hours)">
-                                            <i class="icon-plus-circled"></i>{{'cabinet.add-hour' | translate}}
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="box-right">
-                                <div class="treatments">
-                                    <div class="title">
-                                        <span>{{'cabinet.examination-types' | translate}}:</span>
-                                        <ul>
-                                            <li ng-repeat="template in location.templates">
-                                                <div class="intervention">
-                                                    <ng-form name="templateNameForm">
-                                                        <div class="delete">
-                                                            <a tooltip-animation="false"
-                                                               tooltip="{{'cabinet.delete-examination' | translate}}"
-                                                               tooltip-popup-delay='1000'
-                                                               ng-click="deleteValue(location.templates, template)">
-                                                                <i class="icon-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                        <input type="text"
-                                                               name="templateName"
-                                                               ng-model="template.name"
-                                                               placeholder="{{'cabinet.template-name' | translate}}"
-                                                               typeahead="template.key as template.value for template in templates"
-                                                               typeahead-editable="false"
-                                                               ng-change="onTemplateChange(templateNameForm, location.templates, template)"
-                                                               label-input
-                                                               prefix="templates"
-                                                               required
-                                                                >
-                                                        <small class="error"
-                                                               ng-show="templateNameForm.$error.required" translate>
-                                                            cabinet.validation.no-template
-                                                        </small>
-                                                        <small class="error"
-                                                               ng-show="templateNameForm.$error.duplicate" translate>
-                                                            cabinet.validation.duplicate-template
-                                                        </small>
-                                                        <small class="error"
-                                                               ng-show="templateNameForm.$error.editable" translate>
-                                                            cabinet.validation.wrong-template
-                                                        </small>
-                                                    </ng-form>
-                                                </div>
-
-                                                <div class="time">
-													<span ng-repeat="duration in template.durations">
-														{{duration}}
-                                                           <div class="delete">
-                                                               <a tooltip-animation="false"
-                                                                  tooltip="{{'cabinet.delete-time-length' | translate}}"
-                                                                  tooltip-popup-delay='1000'
-                                                                  ng-click="deleteValue(template.durations, duration)"
-                                                                       >
-                                                                   <i class="icon-trash"></i>
-                                                               </a>
-                                                           </div>
+										</ng-form>
+									</div>
+									<div class="box">
+										<div class="title">
+											<span>Mapa dojazdu</span>
+										</div>
+										<div class="maps">
+											mapa
+										</div>
+									</div>
+									<div class="open-hour">
+										<div class="title">
+											<span>{{'visit.open-hours' | translate}}:</span>
+										</div>
+										<ul>
+											<li ng-repeat="working in location.working_hours">
+												<ng-form name="workingHoursForm">												
+													<span class="day">
+														 <select name="lang"
+																 ng-model="working.day"
+																 ng-change="onWorkingHoursChange(workingHoursForm, working)"
+																 required>
+															 <option ng-repeat="day in days"
+																	 ng-selected="{{day==working.day}}"
+																	 value="{{day}}">
+																 {{'days.' + day | toLowerCase | translate}}
+															 </option>
+														 </select>
 													</span>
-                                                    <ng-form name="templateDurations">
-                                                        <small class="error"
-                                                               ng-hide="isTemplateDurationValid(templateDurations, template)"
-                                                               translate>
-                                                            cabinet.validation.no-time-length
-                                                        </small>
-                                                    </ng-form>
-                                                    <ng-form name="newDurationForm">
-                                                        <input type="number"
-                                                               name="durationTime"
-                                                               ng-model="newDuration"
-                                                               ng-maxlength="3"
-                                                                >
-                                                    </ng-form>
-                                                    <div class="add">
-                                                        <a ng-click="addValue(template.durations, newDuration)"
-                                                           ng-hide="newDurationForm.$invalid">
-                                                            <i class="icon-plus-circled"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="add">
-                                            <a href="#" ng-click="addTemplate(location.templates)">
-                                                <i class="icon-plus-circled"></i>
-                                                {{'cabinet.add-examination' | translate}}
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="add">
-                        <a ng-click="addLocation(doctor.locations)">
-                            <i class="icon-plus-circled"></i>{{'cabinet.add-cabinet' | translate}}
-                        </a>
-                    </div>
+													<span class="hour">
+														<timepicker ng-model="working.startDate"
+															show-meridian="false"
+															hour-step="1"
+															minute-step="15"
+															ng-change="onWorkingHoursChange(workingHoursForm, working)"
+														/>											
+														<timepicker ng-model="working.endDate"
+															show-meridian="false"
+															hour-step="1"
+															minute-step="15"
+															ng-change="onWorkingHoursChange(workingHoursForm, working)"
+														/>
+													</span>
+													<div class="delete">
+														<a tooltip-animation="false"
+														   tooltip="{{'cabinet.delete-hour' | translate}}"
+														   tooltip-popup-delay='1000'
+														   ng-click="deleteValue(location.working_hours, working)">
+															<i class="icon-trash"></i>
+														</a>
+													</div>
+													<small class="error"
+														   ng-show="workingHoursForm.$error.duplicate" translate>
+														cabinet.validation.overlapping-hours
+													</small>
+													<small class="error"
+														   ng-show="workingHoursForm.$error.order" translate>
+														cabinet.validation.start-hour-before-end
+													</small>
+												</ng-form>
+											</li>
+										</ul>
+										<div class="add">
+											<a ng-click="addValue(location.working_hours)">
+												<i class="icon-plus-circled"></i>{{'cabinet.add-hour' | translate}}
+											</a>
+										</div>
+									</div>								
+								</div>
+							</div>
+							<div class="box-right">
+								<div class="treatments add-treatments">
+									<div class="title">
+										<span>{{'cabinet.examination-types' | translate}}:</span>
+									</div>
+									<ul>
+										<li ng-repeat="template in location.templates">
+											<div class="intervention">
+												<ng-form name="templateNameForm">
+													<div class="delete">
+														<a tooltip-animation="false"
+														   tooltip="{{'cabinet.delete-examination' | translate}}"
+														   tooltip-popup-delay='1000'
+														   ng-click="deleteValue(location.templates, template)">
+															<i class="icon-trash"></i>
+														</a>
+													</div>
+													<input type="text"
+														   name="templateName"
+														   ng-model="template.name"
+														   placeholder="{{'cabinet.template-name' | translate}}"
+														   typeahead="template.key as template.value for template in templates"
+														   typeahead-editable="false"
+														   ng-change="onTemplateChange(templateNameForm, location.templates, template)"
+														   label-input
+														   prefix="templates"
+														   required
+															>
+													<small class="error"
+														   ng-show="templateNameForm.$error.required" translate>
+														cabinet.validation.no-template
+													</small>
+													<small class="error"
+														   ng-show="templateNameForm.$error.duplicate" translate>
+														cabinet.validation.duplicate-template
+													</small>
+													<small class="error"
+														   ng-show="templateNameForm.$error.editable" translate>
+														cabinet.validation.wrong-template
+													</small>
+													
+													
+												</ng-form>
+											</div>
+											<div class="time">
+												<span ng-repeat="duration in template.durations">
+													{{duration}}
+													   <div class="delete">
+														   <a tooltip-animation="false"
+															  tooltip="{{'cabinet.delete-time-length' | translate}}"
+															  tooltip-popup-delay='1000'
+															  ng-click="deleteValue(template.durations, duration)"
+																   >
+															   <i class="icon-trash"></i>
+														   </a>
+													   </div>
+												</span>
+												<div class="add-time">
+													<ng-form name="templateDurations">
+														<small class="error"
+															   ng-hide="isTemplateDurationValid(templateDurations, template)"
+															   translate>
+															cabinet.validation.no-time-length
+														</small>
+													</ng-form>
+													<ng-form name="newDurationForm">
+														<input type="number"
+														   name="durationTime"
+														   ng-model="newDuration"
+														   ng-maxlength="3"
+														>
+													</ng-form>
+													<div class="add">
+														<a ng-click="addValue(template.durations, newDuration)"
+														   ng-hide="newDurationForm.$invalid">
+															<i class="icon-plus-circled"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="add">
+										<a href="#" ng-click="addTemplate(location.templates)">
+											<i class="icon-plus-circled"></i>
+											{{'cabinet.add-examination' | translate}}
+										</a>
+									</div>	
+								</div>
+							</div>
+						</div>						
+					</div>
                 </div>
             </form>
             <div class="add">
