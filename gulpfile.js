@@ -162,7 +162,7 @@ gulp.task('serve:dev', ['less'], function () {
         server: {
             baseDir: './app'
         },
-        port: 8000
+        port: 8080
     });
 
 
