@@ -244,7 +244,7 @@
   },
   "degrees": {
     "degree": "Stopien naukowy",
-    "$$degree-1": " ",
+    "$$degree-1": "- Wybierz - ",
     "$$degree-2": "mgr.",
     "$$degree-3": "lekarz",
     "$$degree-4": "dr. n. med.",
