@@ -105,7 +105,7 @@ gulp.task('serve:release', function () {
         server: {
             baseDir: './release'
         },
-        port: 8000
+        port: 8080
     });
 });
 
