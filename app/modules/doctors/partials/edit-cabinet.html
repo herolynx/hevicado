@@ -158,16 +158,17 @@
 											<li ng-repeat="working in location.working_hours">
 												<ng-form name="workingHoursForm">												
 													<span class="day">
-														 <select name="lang"
-																 ng-model="working.day"
-																 ng-change="onWorkingHoursChange(workingHoursForm, working)"
-																 required>
-															 <option ng-repeat="day in days"
-																	 ng-selected="{{day==working.day}}"
-																	 value="{{day}}">
-																 {{'days.' + day | toLowerCase | translate}}
-															 </option>
-														 </select>
+														 <div class="btn-group" dropdown is-open="dropdown.isWorkingHoursOpen">
+															 <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+																 {{'days.' + working.day | toLowerCase | translate}}
+															 </button>
+															 <ul class="dropdown-menu" role="menu">
+																 <li ng-repeat="day in days"
+																	 ng-click="working.day=day">
+																	 {{'days.' + day | toLowerCase | translate}}
+																 </li>
+															 </ul>
+														 </div>
 													</span>
 													<span class="hour">
 														<timepicker ng-model="working.startDate"
