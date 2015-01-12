@@ -2,10 +2,21 @@
 
 var baseServices = angular.module('base.services', []);
 
-//TODO move to config
-baseServices.constant('HTTP_CONFIG', {
-    server: 'http://localhost:8000'
-});
+/**
+ * Service responsible for discovering HTTP back-end configuration
+ * @param $location location manager
+ */
+baseServices.service('HTTP_CONFIG',
+    ['$location',
+        function ($location) {
+
+            return {
+                server: 'http://' + $location.host() + ':8000'
+            };
+        }
+    ]
+);
+
 
 /**
  * Interceptor redirects HTTP requests to back-end if needed
