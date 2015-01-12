@@ -29,13 +29,17 @@
                                     <small class="error" ng-show="visitForm.titleinput.$error.minlength" translate>
                                         generic.validation.3-chars
                                     </small>
-                                    <select name="title" id="titleselect" name="titleselect"
-                                            ng-hide="isOwner"
-                                            ng-model="editedEvent.title"
-                                            ng-change="onTemplateChange()"
-                                            required>
-                                        <option ng-repeat="template in templates">{{template.name}}</option>
-                                    </select>
+                                    <div class="btn-group" dropdown is-open="dropdown.isTileOpen" ng-hide="isOwner">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                                            {{editedEvent.title}}
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="template in templates"
+                                                ng-click="editedEvent.title=template.name;onTemplateChange()">
+                                                {{template.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </fieldset>
                             </li>
                             <li>
@@ -54,14 +58,17 @@
                                     <small class="error" ng-show="visitForm.durationinput.$error.pattern" translate>
                                         visit.validation.wrong-length
                                     </small>
-                                    <select name="term_visit" id="duration-select"
-                                            ng-hide="isOwner"
-                                            ng-model="editedEvent.duration">
-                                        <option
-                                                ng-repeat="duration in durations"
-                                                ng-selected="editedEvent.duration==duration">{{duration}}
-                                        </option>
-                                    </select>
+                                    <div class="btn-group" dropdown is-open="dropdown.isDurationOpen" ng-hide="isOwner">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                                            {{editedEvent.duration}}
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="duration in durations"
+                                                ng-click="editedEvent.duration=duration">
+                                                {{duration}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </fieldset>
                             </li>
                             <li>
