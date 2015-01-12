@@ -4,6 +4,8 @@ describe('commons.users.filters-spec:', function () {
 
     //prepare module for testing
     beforeEach(angular.mock.module('commons.users.filters'));
+    beforeEach(angular.mock.module('commons.labels.filters'));
+    beforeEach(angular.mock.module('pascalprecht.translate'));
 
     describe('userInfo-spec:', function () {
 

@@ -9,6 +9,19 @@ describe('commons.users.utils-spec:', function () {
 
         var utils;
 
+        beforeEach(angular.mock.module(function ($provide) {
+            //mock dependencies
+            var mockCalled = {};
+            var mockFilter = function (name) {
+                mockCalled.filterName = name;
+                return function (value) {
+                    mockCalled.value = value;
+                    return value;
+                }
+            };
+            $provide.value('$filter', mockFilter);
+        }));
+
         beforeEach(inject(function ($injector) {
             utils = $injector.get('UserUtils');
         }));
