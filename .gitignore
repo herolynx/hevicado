@@ -4,6 +4,9 @@ tmp
 **/tmp
 release
 
+#build
+build/pkgs
+
 # JS related
 bower_components
 node_modules
@@ -11,7 +14,6 @@ node_modules
 # IDE related
 .idea
 *.sublime*
-
 
 #project related (auto-generated etc.)
 app/css/base.css
