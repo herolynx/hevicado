@@ -1,193 +1,198 @@
 <div keep-visible>
     <div class="box-fixed" ng-controller="EditEventCtrl">
         <div class="box form">
-            <h2><i class="icon-pencil"></i>Visit:</h2>
+            <h2><i class="icon-pencil"></i>{{'visit.visit' | translate}}</h2>
+
             <div class="notes">
-				<form name="visitForm" novalidate>
-					<div class="left">					
-						<ul>
-							<li ng-show="editedEvent.cancelled != undefined">
-								<div translate>
-									visit.visit-cancelled
-								</div>
-							</li>
-							<li>
-								<label>
-									{{'visit.title' | translate}}:
-								</label>
-								<fieldset>
-									<input type="text" id="titleinput" name="titleinput"
-										   placeholder="{{'visit.title' | translate}}"
-										   ng-show="isOwner"
-										   ng-model="editedEvent.title"
-										   ng-required="true"
-										   ng-minlength="3"
-										   typeahead="template.name for template in templates"
-										   ng-disabled="canEdit==false"
-										   ng-maxlength="255">
-									<small class="error" ng-show="visitForm.titleinput.$error.minlength" translate>
-										generic.validation.3-chars
-									</small>
-									<select name="title" id="titleselect" name="titleselect"
-											ng-hide="isOwner"
-											ng-model="editedEvent.title"
-											ng-change="onTemplateChange()"
-											required>
-										<option ng-repeat="template in templates">{{template.name}}</option>
-									</select>
-								</fieldset>
-							</li>
-							<li>								
-								<label>{{'visit.visit-length' | translate}}:</label>
-								<fieldset>
-									<input type="text" id="durationinput" name="durationinput"
-										   placeholder="{{'visit.minutes-length' | translate}}"
-										   ng-show="isOwner"
-										   ng-model="editedEvent.duration"
-										   ng-required="true"
-										   typeahead="duration for duration in durations"
-										   ng-minlength="2"
-										   ng-maxlength="3"
-										   ng-disabled="canEdit==false"
-										   ng-pattern="/^[1-9]+[0-9]+$/">
-									<small class="error" ng-show="visitForm.durationinput.$error.pattern" translate>
-										visit.validation.wrong-length
-									</small>
-									<select name="term_visit" id="duration-select"
-											ng-hide="isOwner"
-											ng-model="editedEvent.duration">
-										<option
-											ng-repeat="duration in durations"
-											ng-selected="editedEvent.duration==duration">{{duration}}</option>
-									</select>
-								</fieldset>								
-							</li>
-							<li>								
-								<label>{{'visit.visit-date' | translate}}:</label>
-								<fieldset>
-																
-									<timepicker
-											ng-show="isOwner"
-											ng-model="editedEvent.start"
-											hour-step="1"
-											minute-step="15"
-											ng-disabled="canEdit==false"
-											show-meridian="false"/>	
-									<div class="date-event">{{editedEvent.start | date: "dd-MM-yyyy"}}</div>
-									<div ng-hide="isOwner">{{editedEvent.start | date: "HH:mm"}}</div>
-									<small class="error" ng-hide="isDateValid" translate>
-										visit.validation.date-in-future
-									</small>		
-								</fieldset>								
-							</li>	
-							<li>								
-								<label>{{'visit.doctor' | translate}}:</label>
-								<fieldset>
-									<div>
-										{{editedEvent.doctor | userInfo:'withDegree'}}
-									</div>
-									<span><i class="icon-phone"></i> {{editedEvent.doctor.phone}}</span><br/>
+                <form name="visitForm" novalidate>
+                    <div class="left">
+                        <ul>
+                            <li ng-show="editedEvent.cancelled != undefined">
+                                <div translate>
+                                    visit.visit-cancelled
+                                </div>
+                            </li>
+                            <li>
+                                <label>
+                                    {{'visit.title' | translate}}:
+                                </label>
+                                <fieldset>
+                                    <input type="text" id="titleinput" name="titleinput"
+                                           placeholder="{{'visit.title' | translate}}"
+                                           ng-show="isOwner"
+                                           ng-model="editedEvent.title"
+                                           ng-required="true"
+                                           ng-minlength="3"
+                                           typeahead="template.name for template in templates"
+                                           ng-disabled="canEdit==false"
+                                           ng-maxlength="255">
+                                    <small class="error" ng-show="visitForm.titleinput.$error.minlength" translate>
+                                        generic.validation.3-chars
+                                    </small>
+                                    <select name="title" id="titleselect" name="titleselect"
+                                            ng-hide="isOwner"
+                                            ng-model="editedEvent.title"
+                                            ng-change="onTemplateChange()"
+                                            required>
+                                        <option ng-repeat="template in templates">{{template.name}}</option>
+                                    </select>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>{{'visit.visit-length' | translate}}:</label>
+                                <fieldset>
+                                    <input type="text" id="durationinput" name="durationinput"
+                                           placeholder="{{'visit.minutes-length' | translate}}"
+                                           ng-show="isOwner"
+                                           ng-model="editedEvent.duration"
+                                           ng-required="true"
+                                           typeahead="duration for duration in durations"
+                                           ng-minlength="2"
+                                           ng-maxlength="3"
+                                           ng-disabled="canEdit==false"
+                                           ng-pattern="/^[1-9]+[0-9]+$/">
+                                    <small class="error" ng-show="visitForm.durationinput.$error.pattern" translate>
+                                        visit.validation.wrong-length
+                                    </small>
+                                    <select name="term_visit" id="duration-select"
+                                            ng-hide="isOwner"
+                                            ng-model="editedEvent.duration">
+                                        <option
+                                                ng-repeat="duration in durations"
+                                                ng-selected="editedEvent.duration==duration">{{duration}}
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>{{'visit.visit-date' | translate}}:</label>
+                                <fieldset>
+
+                                    <timepicker
+                                            ng-show="isOwner"
+                                            ng-model="editedEvent.start"
+                                            hour-step="1"
+                                            minute-step="15"
+                                            ng-disabled="canEdit==false"
+                                            show-meridian="false"/>
+                                    <div class="date-event">{{editedEvent.start | date: "dd-MM-yyyy"}}</div>
+                                    <div ng-hide="isOwner">{{editedEvent.start | date: "HH:mm"}}</div>
+                                    <small class="error" ng-hide="isDateValid" translate>
+                                        visit.validation.date-in-future
+                                    </small>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label>{{'visit.doctor' | translate}}:</label>
+                                <fieldset>
+                                    <div>
+                                        {{editedEvent.doctor | userInfo:'withDegree'}}
+                                    </div>
+                                    <span><i class="icon-phone"></i> {{editedEvent.doctor.phone}}</span><br/>
 									<span>
 										<a href="mailto:mail@gmail.com">
-											<i class="icon-mail"></i>{{editedEvent.doctor.email}}
-										</a>
+                                            <i class="icon-mail"></i>{{editedEvent.doctor.email}}
+                                        </a>
 									</span>
-								</fieldset>								
-								<div class="data-address">
-									
-								</div>
-							</li>
-							<li>							
-								<label>{{'visit.patient' | translate}}:</label>
-								<fieldset>
-									<input type="text"
-										   placeholder="{{'visit.patient' | translate}}"
-										   typeahead="user for user in findUsers($viewValue)"
-										   typeahead-loading="loadingUsers"
-										   typeahead-min-length="1"
-										   typeahead-editable="false"
-										   typeahead-on-select="onPatientSelected($item, $model, $label)"
-										   ng-model="editedEvent.patient"
-										   ng-show="isOwner"
-										   ng-disabled="canEdit==false"
-										   required>
-									<i ng-show="loadingUsers" class="glyphicon glyphicon-refresh">loading</i>
-									<div ng-hide="isOwner">{{editedEvent.patient | userInfo}}</div>
-									
-									<span><i class="icon-phone"></i>{{editedEvent.patient.phone}}</span><br/>
+                                </fieldset>
+                                <div class="data-address">
+
+                                </div>
+                            </li>
+                            <li>
+                                <label>{{'visit.patient' | translate}}:</label>
+                                <fieldset>
+                                    <input type="text"
+                                           placeholder="{{'visit.patient' | translate}}"
+                                           typeahead="user for user in findUsers($viewValue)"
+                                           typeahead-loading="loadingUsers"
+                                           typeahead-min-length="1"
+                                           typeahead-editable="false"
+                                           typeahead-on-select="onPatientSelected($item, $model, $label)"
+                                           ng-model="editedEvent.patient"
+                                           ng-show="isOwner"
+                                           ng-disabled="canEdit==false"
+                                           required>
+                                    <i ng-show="loadingUsers" class="glyphicon glyphicon-refresh">loading</i>
+
+                                    <div ng-hide="isOwner">{{editedEvent.patient | userInfo}}</div>
+
+                                    <span><i class="icon-phone"></i>{{editedEvent.patient.phone}}</span><br/>
 									<span>
 										<a href="mailto:mail@gmail.com">
-											<i class="icon-mail"></i>{{editedEvent.patient.email}}
-										</a>
+                                            <i class="icon-mail"></i>{{editedEvent.patient.email}}
+                                        </a>
 									</span>
-								</fieldset>													
-							</li>
-							<li>
-								<label class="full top">{{'generic.description' | translate}}:</label>
-								<fieldset>
-									<textarea
-											ng-model="editedEvent.description"
-											placeholder="{{'generic.description' | translate}}"
-											ng-disabled="canEdit==false"/>
-								</fieldset>
-							</li>													
-							<li>
-								<label></label>
-								<fieldset>
-									<button class="btn blue rt" ng-click="cancelVisit()" ng-show="canCancel">
-										{{'visit.cancel-visit' | translate}}
-									</button>
-									<button class="btn blue rt" ng-click="save()" ng-disabled="visitForm.$invalid"
-											ng-show="canEdit">{{'generic.save' | translate}}
-									</button>
-									<button class="btn blue rt" ng-click="cancel()">{{'generic.cancel' | translate}}
-									</button>
-								</fieldset>
-							</li>
-						</ul>
-					</div>
-					<div class="right">					
-						<div class="box maps-address" ng-show="editedEvent.location.id==undefined">
-							{{'visit.no-location' | translate}}
-						</div>
-						<ul>
-							<li ng-show="isOwner">
-								
-									<label>{{'visit.location' | translate}}:</label>
-									<fieldset>
-										<select name="location" id="location-select"
-												ng-options="location.name for location in doctor.locations track by location.id"
-												ng-model="editedEvent.location"
-												ng-disabled="canEdit==false"
-												ng-selected="editedEvent.location.id==location.id"
-												required/>
-									</fieldset>
-								
-							</li>
-						</ul>
-						<div class="address">
-							<h2>{{editedEvent.location.name}}</h2>
-							{{editedEvent.location.address | addressInfo}}
-							<div class="row hour">
-								<h2>{{'visit.open-hours' | translate}}:</h2>
-								<p>
-									<div ng-repeat="working in editedEvent.location.working_hours">
-										<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
-										{{working.start}} - {{working.end}}<br/>
-									</div>
-								</p>
-							</div>
-						</div>
-						
-						<div class="box maps-address" ng-hide="editedEvent.location.id==undefined">
-							<div class="maps">
-								<iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
-										width="100%" height="350" frameborder="0" style="border:0"></iframe>
-							</div>							
-						</div>
-					</div>
-				</form>				
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label class="full top">{{'generic.description' | translate}}:</label>
+                                <fieldset>
+                                    <textarea
+                                            ng-model="editedEvent.description"
+                                            placeholder="{{'generic.description' | translate}}"
+                                            ng-disabled="canEdit==false"/>
+                                </fieldset>
+                            </li>
+                            <li>
+                                <label></label>
+                                <fieldset>
+                                    <button class="btn blue rt" ng-click="cancelVisit()" ng-show="canCancel">
+                                        {{'visit.cancel-visit' | translate}}
+                                    </button>
+                                    <button class="btn blue rt" ng-click="save()" ng-disabled="visitForm.$invalid"
+                                            ng-show="canEdit">{{'generic.save' | translate}}
+                                    </button>
+                                    <button class="btn blue rt" ng-click="cancel()">{{'generic.cancel' | translate}}
+                                    </button>
+                                </fieldset>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <div class="box maps-address" ng-show="editedEvent.location.id==undefined">
+                            {{'visit.no-location' | translate}}
+                        </div>
+                        <ul>
+                            <li ng-show="isOwner">
+
+                                <label>{{'visit.location' | translate}}:</label>
+                                <fieldset>
+                                    <select name="location" id="location-select"
+                                            ng-options="location.name for location in doctor.locations track by location.id"
+                                            ng-model="editedEvent.location"
+                                            ng-disabled="canEdit==false"
+                                            ng-selected="editedEvent.location.id==location.id"
+                                            required/>
+                                </fieldset>
+
+                            </li>
+                        </ul>
+                        <div class="address">
+                            <h2>{{editedEvent.location.name}}</h2>
+                            {{editedEvent.location.address | addressInfo}}
+                            <div class="row hour">
+                                <h2>{{'visit.open-hours' | translate}}:</h2>
+
+                                <p>
+
+                                <div ng-repeat="working in editedEvent.location.working_hours">
+                                    <span>{{'days.' + working.day | toLowerCase | translate}}:</span>
+                                    {{working.start}} - {{working.end}}<br/>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="box maps-address" ng-hide="editedEvent.location.id==undefined">
+                            <div class="maps">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d2504.937763087601!2d17.034928747731566!3d51.10960844526916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e6!4m3!3m2!1d51.110687399999996!2d17.0359627!4m5!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!3m2!1d51.1078852!2d17.038537599999998!5e0!3m2!1spl!2spl!4v1413958784345"
+                                        width="100%" height="350" frameborder="0" style="border:0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
