@@ -23,7 +23,7 @@
                     <a class="link"
                        ui-sref="calendar-day.daily({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })"></a>
                     <div class="date">
-                        {{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
+                        {{day | dateFormat}} ({{day | dateFormat: "ddd" | normalizeText}})
                     </div>
                     <div class="box-event">
                         <div class="box">

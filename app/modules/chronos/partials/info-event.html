@@ -7,8 +7,8 @@
             <div class="box info">
                 <h2>
                     <i class="icon-calendar"></i>
-                    {{event.start | dateFormat}} ({{event.start | dateFormat: "dddd" | normalizeText}})
-              
+                    {{event.start | dateFormat}} ({{event.start | dateFormat: "ddd" | normalizeText}})
+
                     {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                 </h2>
                 <div class="notes">
@@ -28,15 +28,6 @@
                                 <fieldset>
                                     {{event.doctor | userInfo:'withDegree'}}
                                 </fieldset>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'visit.address' | translate}}: </label>
-                                    <fieldset>
-                                        {{event.location.name}} <br/>
-                                        {{event.location.address | addressInfo}}
-                                    </fieldset>
-                                </div>
                             </li>
                             <li>
                                 <div>
@@ -121,10 +112,18 @@
                 </div>
             </div>
 			<div class="box hour">
-				<h2>{{'visit.open-hours' | translate}}:</h2>
+
+				<h2>{{'visit.address' | translate}}:</h2>
 				<div class="notes">
 					<p>
-
+                        <div>
+                            <h3>{{event.location.name}}</h3>
+                            {{event.location.address | addressInfo}}
+                        </div>
+                        <div>
+                            <br/>
+                           <h3>{{'visit.open-hours' | translate}}:</h3>
+                        </div>
 						<div ng-repeat="working in event.location.working_hours">
 							<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
 							{{working.start | toLocalHours}} - {{working.end | toLocalHours}}<br/>
