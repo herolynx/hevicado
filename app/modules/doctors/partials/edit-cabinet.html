@@ -151,11 +151,15 @@
 												   ng-minlength="2"
 												   required>
 											</span>
-											<small class="error" ng-show="cabientAddress.country.$error.minlength"
-												   translate>
+											<small class="error" ng-show="cabientAddress.country.$error.minlength" translate>
 												generic.validation.2-chars
 											</small>
-
+											
+											{{'user-profile.phone' | translate}}: {{doctor.phone}}<br/>	
+											
+									
+											{{'generic.email' | translate}}: <a href="mailto:{{doctor.email}}">{{doctor.email}}</a><br/>	
+											
 										</ng-form>
 									</div>
 									<div class="box">

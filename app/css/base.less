@@ -1004,24 +1004,25 @@ section.calendar {
 		.w;
 		.pp(20px 0 0);
 		.relative;
-		.bb(2px solid #e6e6e6);
+		.bb(0px);
 
 		table {
 			.fl;
 			.w;
 			border-collapse: collapse;
-
+			.br(1px solid #C8C8C8);
+			
 			tr {
 
 				th {
-					.bl(1px solid #e6e6e6);
+					.bl(1px solid #C8C8C8);
 					.h(30px);
-					.bb(1px solid #e6e6e6);
+					.bb(1px solid #C8C8C8);
 					.pb(5px);
 					.w(13.71428%);
 					.normal;
+					.relative;
 					
-
 					&:first-child {
 						.bl(0);
 						.w(4%);
@@ -1036,24 +1037,44 @@ section.calendar {
 
 				td {
 					background:url(../images/table-bg-10.png) repeat;
-					.m(0 10px);
-					.bt(1px solid #C8C8C8);
+					.m(0 10px);		
 					.relative;
-
-					&:first-child {
-						.bl(0);
+					.bb(1px solid transparent);
+					
+					&:before {
+						content:'';
+						.w;
+						.h(1px);
+						.bg(#C8C8C8);
+						bottom:0;
+						left:0;
+						.absolute;
+					}
+					
+					&:after {
+						content:'';
+						.w(1px);
+						.h(100%);
+						.bg(#C8C8C8);
+						bottom:0;
+						left:0;
+						.absolute;
+					}
+					
+					&:first-child {						
 						vertical-align:top;
 						.bg(none)!important;
+						.bb(0);
+						
+						&:after {
+							content:none;
+						}
 					}
 								
 					div {
 						.h(25px);
 						.db;
 					}
-				}
-
-				td:nth-child(2n+1) {
-					background:url(../images/table-bg-20.png) repeat;
 				}
 			}
 		}	
