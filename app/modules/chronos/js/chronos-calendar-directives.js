@@ -90,3 +90,62 @@ chronCalDirectives.directive('calendarTableEvent', ['$window', 'CALENDAR_EVENTS'
     };
 
 }]);
+
+/**
+ * Directive for displaying time-line on the calendar that depicts current time.
+ * Directive refreshes current time periodically.
+ * @param $interval function for refreshing current time
+ */
+chronCalDirectives.directive('calendarTimeLine',
+    ['$interval', '$document',
+        function ($interval, $document) {
+
+            var offset = 50; //position of 0:00 hour
+            var refreshTime = 10 * 1000; //refresh current time every N ms (sec * ms)
+            var minuteSize = 2;
+
+            /**
+             * Init time line by setting offsets, sizes etc.
+             * @param elm time line element to be shifted
+             */
+            var init = function (elm) {
+                elm.addClass('time-line');
+                var hourElm = $document.find('#hour-0');
+                minuteSize = hourElm.height() / 60;
+                offset = hourElm.position().top;
+            };
+
+            /**
+             * Show time line
+             * @param elm elm time line element to be shifted
+             * @param date current date to be shown
+             */
+            var showTimeLine = function (elm, date) {
+                var time = (date.getHours() * 60) + date.getMinutes();
+                elm.css('top', offset + (time * minuteSize));
+                elm.html('<span>' + date.toString('HH:mm') + '</span>');
+            };
+
+            return {
+                restrict: 'A',
+                template: '',
+                scope: {
+                    event: '='
+                },
+                link: function ($scope, elm, attrs) {
+                    //init
+                    $interval(function () {
+                        //wait till table is rendered
+                        init(elm);
+                        showTimeLine(elm, new Date());
+                    }, 1000, 1);
+                    //refresh
+                    $interval(function () {
+                        showTimeLine(elm, new Date());
+                    }, refreshTime);
+                }
+            };
+
+        }
+    ]
+);
