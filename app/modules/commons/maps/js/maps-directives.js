@@ -1,8 +1,8 @@
 'use strict';
 
 var commonsMapsDirectives = angular.module('commons.maps.directives', [
-    'commons.maps.services',
-    'ngMap'
+    'ngMap',
+    'commons.maps.services'
 ]);
 
 /**

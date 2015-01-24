@@ -1,13 +1,13 @@
 'use strict';
 
-var commonsFilters = angular.module('commons.users.filters', [
+var commonsUsersFilters = angular.module('commons.users.filters', [
     'commons.users.utils'
 ]);
 
 /**
  * Filter for displaying info about user
  */
-commonsFilters.filter('userInfo', ['UserUtils', function (UserUtils) {
+commonsUsersFilters.filter('userInfo', ['UserUtils', function (UserUtils) {
 
     return function (text, withDegree, withEmail) {
         return UserUtils.info(text, withDegree, withEmail);
@@ -18,7 +18,7 @@ commonsFilters.filter('userInfo', ['UserUtils', function (UserUtils) {
 /**
  * Filter for displaying full address
  */
-commonsFilters.filter('addressInfo', ['UserUtils', function (UserUtils) {
+commonsUsersFilters.filter('addressInfo', ['UserUtils', function (UserUtils) {
 
     return function (text) {
         return UserUtils.address(text);
@@ -31,7 +31,7 @@ commonsFilters.filter('addressInfo', ['UserUtils', function (UserUtils) {
  * @param text date to be formatted
  * @param format date format
  */
-commonsFilters.filter('dateFormat', function () {
+commonsUsersFilters.filter('dateFormat', function () {
 
     return function (text, format) {
         if (format === undefined) {
@@ -45,7 +45,7 @@ commonsFilters.filter('dateFormat', function () {
 /**
  * Normalize text (first letter capital, rest lower case)
  */
-commonsFilters.filter('normalizeText', function () {
+commonsUsersFilters.filter('normalizeText', function () {
 
     return function (text) {
         if (text === undefined || text === null || text === '') {
@@ -60,7 +60,7 @@ commonsFilters.filter('normalizeText', function () {
  * Filter converts working hours (HH:mm) into local one (based on user browser settings)
  * @param text hours to be converted
  */
-commonsFilters.filter('toLocalHours', function () {
+commonsUsersFilters.filter('toLocalHours', function () {
 
     return function (text) {
         var time = text.split(':');

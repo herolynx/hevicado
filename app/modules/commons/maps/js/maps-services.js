@@ -19,6 +19,7 @@ commonsMapsServices.service('MapService',
                 /**
                  * Find geo location
                  * @param address address with street, city and country
+                 * @param callback callback for receiving found location
                  */
                 find: function (address, callback) {
                     $log.debug('Searching geo-location for: ' + UserUtils.address(address));

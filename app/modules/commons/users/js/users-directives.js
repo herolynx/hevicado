@@ -1,13 +1,13 @@
 'use strict';
 
-var commonsDirectives = angular.module('commons.users.directives', [
+var commonsUsersDirectives = angular.module('commons.users.directives', [
     'commons.users.filters'
 ]);
 
 /**
  * Directive for handling dates according to user's settings
  */
-commonsDirectives.directive('dateInput', ['$filter', function ($filter) {
+commonsUsersDirectives.directive('dateInput', ['$filter', function ($filter) {
     return {
         require: 'ngModel',
         restrict: 'A',
@@ -30,7 +30,7 @@ commonsDirectives.directive('dateInput', ['$filter', function ($filter) {
  * @param AUTH_EVENTS events related with changing user's settings
  * @param Session current user's settings
  */
-commonsDirectives.directive('userTheme', ['AUTH_EVENTS', 'Session', function (AUTH_EVENTS, Session) {
+commonsUsersDirectives.directive('userTheme', ['AUTH_EVENTS', 'Session', function (AUTH_EVENTS, Session) {
 
     var oldProfile = null;
 
