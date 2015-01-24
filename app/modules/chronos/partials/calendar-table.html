@@ -1,15 +1,16 @@
-<div class="time-line"></div>
-<table>
-    <tr>
+<div calendar-time-line></div>
+<table id="calendarTable">
+    <tr id="calendarHeader">
         <th></th>
-        <th ng-repeat="day in days"><i class="icon-calendar"></i> {{day | dateFormat}} ({{day | dateFormat: "dddd" | normalizeText}})
-          <!--   <div>
-                <i class="icon-plus-circled"></i>
-                <i class="icon-comment"></i>
-            </div> -->
+        <th ng-repeat="day in days"><i class="icon-calendar"></i> {{day | dateFormat}} ({{day | dateFormat: "dddd" |
+            normalizeText}})
+            <!--   <div>
+                  <i class="icon-plus-circled"></i>
+                  <i class="icon-comment"></i>
+              </div> -->
         </th>
     </tr>
-    <tr ng-repeat="hour in _.range(0,24)">
+    <tr ng-repeat="hour in _.range(0,24)" id="hour-{{hour}}">
         <td>{{hour}}:00</td>
         <td ng-repeat="day in days" id="{{day.toString('yyyy-MM-dd')}}">
             <div ng-repeat="quarter in [0,15,30,45]"
