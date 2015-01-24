@@ -2159,26 +2159,64 @@ section.cabinet {
 		
 		.cabinet-name {			
 			
+			.btn-group {
+				.fl;
+				.w(55px);
+				
+				
+				.btn-primary {
+					.h(42px);
+					.bg(none)!important;
+					.b(none)!important;
+					.pp(0px);
+				}
+			}
+			
+			ul.dropdown-menu {
+				.b(1px solid #eaeaea)!important;
+				.w(150px)!important;
+				top:85%!important;
+				
+				li {
+					.w!important;
+					.h(39px);
+					.pp(3px 5px)!important;
+					.mb(5px);
+					.box-sizing;
+				}
+			}
+			
 			&:before {
 				content:none;
 			}
 			
 			.color {
-				.fl;
-				.mt(4px);
+				.fl;				
 				.b(1px solid #f5f6f7);
 				.pp(3px);
-
+				.w(auto);
+				.relative!important;
+								
 				span {
 					.w(25px);
 					.h(25px);
 					.fl;
-					.bg(@blue);
 					.pp(5px);
 					.box-sizing;
 				}
 			}
-						
+				
+			.color-name {
+				.fl;
+				.w(auto);
+				.ml(5px);
+				.relative!important;	
+				.b(0)!important;
+				.lh(30px);
+				.h(30px);
+				.bg(none)!important;
+			}
+			
 			.specialization {
 				.fl;
 				.w;
@@ -3137,6 +3175,25 @@ ul.dropdown-menu {
 
 
 //-- COLOR PAGE --//
+
+.color.blue {
+	span {
+		.bg(@blue);
+	}
+}
+
+.color.orange {
+	span {
+		.bg(@orange);
+	}
+}
+
+
+.color.turquoise {
+	span {
+		.bg(@turquoise);
+	}
+}
 
 .turquoise {
   a {
