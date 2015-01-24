@@ -143,7 +143,8 @@ describe('doctors-cabinet-spec:', function () {
                 uiNotification: mockUiNotification,
                 Session: mockSession,
                 $log: mockLog,
-                Labels: mockLabels
+                Labels: mockLabels,
+                CABINET_COLORS: ['blue', 'yellow']
             });
         }));
 
