@@ -63,12 +63,14 @@ doctorsCabinet.controller('CabinetInfoCtrl',
  * @param $log logger
  * @param uiNotification UI notification manager
  * @param Labels labels manager
+ * @param CABINET_COLORS set of available colors for cabinets
  */
 doctorsCabinet.controller('EditCabinetCtrl',
-    ['$scope', 'UsersService', 'Session', '$controller', '$log', 'uiNotification', 'Labels',
-        function ($scope, UsersService, Session, $controller, $log, uiNotification, Labels) {
+    ['$scope', 'UsersService', 'Session', '$controller', '$log', 'uiNotification', 'Labels', 'CABINET_COLORS',
+        function ($scope, UsersService, Session, $controller, $log, uiNotification, Labels, CABINET_COLORS) {
 
             $scope._ = _;
+            $scope.colors = CABINET_COLORS;
             $scope.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
             $scope.specializations = [];
             Labels.getSpecializations()
