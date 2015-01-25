@@ -96,7 +96,7 @@ chronCalDirectives.directive('calendarTableEvent',
 );
 
 /**
- * Directive for displaying time-line on the calendar that depicts current time.
+ * Directive for displaying time-line on the calendar that depicts current time of the current day.
  * Directive refreshes current time periodically.
  * @param $interval function for refreshing current time
  */
@@ -131,12 +131,16 @@ chronCalDirectives.directive('calendarTimeLine',
             };
 
             return {
-                restrict: 'A',
+                restrict: 'E',
                 template: '',
                 scope: {
-                    event: '='
+                    day: '='
                 },
                 link: function ($scope, elm, attrs) {
+                    if (!$scope.day.equals(Date.today())) {
+                        //show only for current day
+                        return;
+                    }
                     //init
                     $interval(function () {
                         //wait till table is rendered

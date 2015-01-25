@@ -1,13 +1,9 @@
-<div calendar-time-line></div>
 <table id="calendarTable">
     <tr id="calendarHeader">
         <th></th>
-        <th ng-repeat="day in days"><i class="icon-calendar"></i> {{day | dateFormat}} ({{day | dateFormat: "ddd" |
-            normalizeText}})
-            <!--   <div>
-                  <i class="icon-plus-circled"></i>
-                  <i class="icon-comment"></i>
-              </div> -->
+        <th ng-repeat="day in days">
+            <i class="icon-calendar"></i> {{day | dateFormat}} ({{day | dateFormat: "ddd" | normalizeText}})
+            <calendar-time-line day="day"/>
         </th>
     </tr>
     <tr ng-repeat="hour in _.range(0,24)" id="hour-{{hour}}">
