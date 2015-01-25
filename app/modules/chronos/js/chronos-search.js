@@ -29,10 +29,11 @@ chronosSearch.controller('SearchDoctorCtrl',
             $scope.start = Date.today();
             $scope.criteria = {
                 name: '',
-                localization: '',
+                location: '',
                 start: null,
                 end: null,
                 specializations: [],
+                roles: ['doctor'],
                 startIndex: 0,
                 count: 10
             };
