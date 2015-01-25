@@ -4,7 +4,8 @@ var doctorsCabinet = angular.module('doctors.cabinet', [
     'users.services',
     'bolt.services',
     'commons.users.filters',
-    'commons.labels.directives'
+    'commons.labels.directives',
+    'commons.maps.directives'
 ]);
 
 /**
