@@ -71,7 +71,9 @@ chronosServices.service('CalendarService', ['Session', '$http', 'EventUtils', '$
         cancel: function (event) {
             return $http.put('/calendar/visit', EventUtils.toJson({
                 id: event.id,
-                cancelled: new Date()
+                cancelled: new Date(),
+                patient: event.patient,
+                doctor: event.doctor
             }));
         },
 

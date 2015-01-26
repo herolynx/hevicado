@@ -101,7 +101,9 @@ describe('chronos-service-spec:', function () {
             expect(calendarService).toBeDefined();
             //and sample event
             var event = {
-                id: 'event-123'
+                id: 'event-123',
+                doctor: 'doctor-123',
+                patient: 'patient-123'
             };
             //when cancelling event
             var promise = calendarService.cancel(event);
@@ -110,7 +112,10 @@ describe('chronos-service-spec:', function () {
             expect(mockHttp.put).toHaveBeenCalled();
             expect(mockHttp.put.mostRecentCall.args[0]).toBe('/calendar/visit');
             expect(mockHttp.put.mostRecentCall.args[1].id).toBe(event.id);
+            expect(mockHttp.put.mostRecentCall.args[1].cancelled).toBeDefined();
             expect(mockHttp.put.mostRecentCall.args[1].cancelled).not.toBeNull();
+            expect(mockHttp.put.mostRecentCall.args[1].patient).toBe('patient-123');
+            expect(mockHttp.put.mostRecentCall.args[1].doctor).toBe('doctor-123');
         });
 
         it('should create event', function () {
