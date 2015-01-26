@@ -8,7 +8,7 @@ describe('bolt-app-spec:', function () {
     describe('check user access rights:', function () {
 
         var spyRootScope;
-        var mockAuthService, mockState, mockAuthEvents, mockLog;
+        var mockAuthService, mockState, mockAuthEvents, mockLog, mockSession;
 
         beforeEach(angular.mock.module(function ($provide) {
             //mock dependencies
@@ -20,7 +20,8 @@ describe('bolt-app-spec:', function () {
             $provide.value('$log', mockLog);
             mockState = jasmine.createSpyObj('$state', ['go']);
             $provide.value('$state', mockState);
-
+            mockSession = jasmine.createSpyObj('Session', ['getUserId']);
+            $provide.value('Session', mockSession);
         }));
 
         beforeEach(inject(function (_$rootScope_) {
@@ -45,7 +46,7 @@ describe('bolt-app-spec:', function () {
                 };
             };
             //when trying to reach private resource
-            var nextResource = { url: 'http://bolt.com/private', data: { access: [ 'ADMIN' ] } };
+            var nextResource = {url: 'http://bolt.com/private', data: {access: ['ADMIN']}};
             var subScope = spyRootScope.$new();
             subScope.$emit('$stateChangeStart', nextResource);
             //then access to resource is prohibited
@@ -73,7 +74,7 @@ describe('bolt-app-spec:', function () {
                 };
             };
             //when trying to reach private resource
-            var nextResource = { url: 'http://bolt.com/private', data: { access: [ 'USER' ] } };
+            var nextResource = {url: 'http://bolt.com/private', data: {access: ['USER']}};
             var subScope = spyRootScope.$new();
             subScope.$emit('$stateChangeStart', nextResource);
             //then access to resource is prohibited
@@ -102,12 +103,98 @@ describe('bolt-app-spec:', function () {
                 };
             };
             //when trying to reach private resource
-            var nextResource = { url: 'http://bolt.com/private', data: { access: [ 'USER' ] } };
+            var nextResource = {url: 'http://bolt.com/private', data: {access: ['USER']}};
             var subScope = spyRootScope.$new();
             subScope.$emit('$stateChangeStart', nextResource);
             //then access to resource is granted
             expect(mockState.go).not.toHaveBeenCalledWith('login');
             expect(spyRootScope.$broadcast).not.toHaveBeenCalled();
+        });
+
+    });
+
+    describe('check user ownership rights:', function () {
+
+        var spyRootScope;
+        var mockStateParams, mockState, mockAuthEvents, mockLog, mockSession;
+
+        beforeEach(angular.mock.module(function ($provide) {
+            //mock dependencies
+            mockAuthEvents = {
+                'USER_NOT_AUTHORIZED': 'auth-not-authorized'
+            };
+            $provide.value('AUTH_EVENTS', mockAuthEvents);
+            mockLog = jasmine.createSpyObj('$log', ['info']);
+            $provide.value('$log', mockLog);
+            mockState = jasmine.createSpyObj('$state', ['go']);
+            $provide.value('$state', mockState);
+            mockStateParams = {};
+            $provide.value('$stateParams', mockStateParams);
+            mockSession = jasmine.createSpyObj('Session', ['getUserId']);
+            $provide.value('Session', mockSession);
+        }));
+
+        beforeEach(inject(function (_$rootScope_) {
+            //prepare root scope for testing
+            spyRootScope = _$rootScope_;
+            spyOn(spyRootScope, '$broadcast');
+        }));
+
+        it('should grant access to resource if no ownership required', function () {
+            //given user is logged in
+
+            //when trying to access resource without ownership rights
+            var nextResource = {url: 'http://bolt.com/resource', data: {access: ['USER']}};
+            var subScope = spyRootScope.$new();
+            subScope.$emit('$stateChangeSuccess', nextResource);
+
+            //then access to resource is granted
+            expect(mockState.go).not.toHaveBeenCalledWith('default');
+            expect(spyRootScope.$broadcast).not.toHaveBeenCalled();
+        });
+
+        it('should grant access to resource to the users with ownership rights', function () {
+            //given user is logged in
+            var userId = "user-123";
+            mockSession.getUserId.andReturn(userId);
+            //and resource is allowed only for user-123
+            mockState.current = {
+                data: {
+                    showToParam: 'ownerId'
+                }
+            };
+            mockStateParams.ownerId = userId;
+
+            //when owner is trying to reach his resource
+            var nextResource = {url: 'http://bolt.com/resource', data: {access: ['USER']}};
+            var subScope = spyRootScope.$new();
+            subScope.$emit('$stateChangeSuccess', nextResource);
+
+            //then access to resource is granted
+            expect(mockState.go).not.toHaveBeenCalledWith('default');
+            expect(spyRootScope.$broadcast).not.toHaveBeenCalled();
+        });
+
+        it('should not grant access to resource to the users without ownership rights', function () {
+            //given user is logged in
+            var userId = "user-123";
+            mockSession.getUserId.andReturn(userId);
+            //and resource is allowed only for user-123
+            mockState.current = {
+                data: {
+                    showToParam: 'ownerId'
+                }
+            };
+            mockStateParams.ownerId = "diff-user-123";
+
+            //when owner is trying to reach his resource
+            var nextResource = {url: 'http://bolt.com/resource', data: {access: ['USER']}};
+            var subScope = spyRootScope.$new();
+            subScope.$emit('$stateChangeSuccess', nextResource);
+
+            //then access to resource is not granted
+            expect(mockState.go).toHaveBeenCalledWith('default');
+            expect(spyRootScope.$broadcast).toHaveBeenCalledWith(mockAuthEvents.USER_NOT_AUTHORIZED);
         });
 
     });

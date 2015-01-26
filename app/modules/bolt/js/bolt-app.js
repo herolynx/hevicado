@@ -60,3 +60,29 @@ var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVEN
 
 // check user access rights when visiting stuff in application
 boltModule.run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', '$log', checkUserAccessRights]);
+
+/**
+ * Check whether resource to be visited can be viewed only by the owner
+ * @param $rootScope Angie's root scope
+ * @param $state state manager that handles navigation between resources
+ * @param $stateParams params of current state
+ * @param Session current user's session
+ * @param AUTH_EVENTS list of authentication events
+ * @param $log Angie's logger
+ */
+var checkUserOwnerShipRights = function ($rootScope, $state, $stateParams, Session, AUTH_EVENTS, $log) {
+    $rootScope.$on('$stateChangeSuccess', function (event, next) {
+        if ($state.current !== undefined && $state.current.data !== undefined && $state.current.data.showToParam !== undefined) {
+            var showTo = $stateParams[$state.current.data.showToParam];
+            if (Session.getUserId() !== showTo) {
+                $log.info('User is not owner of resource ' + next.url + ' - redirecting');
+                event.preventDefault();
+                $state.go('default');
+                $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHORIZED);
+            }
+        }
+    });
+};
+
+// check user ownership rights when visiting stuff in application
+boltModule.run(['$rootScope', '$state', '$stateParams', 'Session', 'AUTH_EVENTS', '$log', checkUserOwnerShipRights]);

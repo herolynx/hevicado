@@ -139,6 +139,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
             templateUrl: "modules/chronos/partials/calendar-day.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
+                showToParam: 'doctorId',
                 addVisitState: 'calendar-day.new-visit',
                 editVisitState: 'calendar-day.edit-visit'
             }
@@ -148,6 +149,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
             templateUrl: "modules/chronos/partials/calendar-week.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
+                showToParam: 'doctorId',
                 addVisitState: 'calendar-day.new-visit',
                 editVisitState: 'calendar-day.edit-visit'
             }
@@ -157,6 +159,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
             templateUrl: "modules/chronos/partials/calendar-month.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
+                showToParam: 'doctorId',
                 addVisitState: 'calendar-day.new-visit',
                 editVisitState: 'calendar-day.edit-visit'
             }
@@ -166,6 +169,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
             templateUrl: "modules/chronos/partials/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
+                showToParam: 'doctorId',
                 addVisitState: 'calendar-day.new-visit',
                 editVisitState: 'calendar-day.edit-visit'
             }
