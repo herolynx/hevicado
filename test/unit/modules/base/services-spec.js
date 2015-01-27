@@ -37,7 +37,7 @@ describe('services-spec:', function () {
             $provide.value('HTTP_CONFIG', mockHttpConfig);
         }));
 
-        beforeEach(inject(function ($injector, $q, _$rootScope_) {
+        beforeEach(inject(function ($injector) {
             httpInterceptor = $injector.get('HttpInterceptor');
         }));
 
