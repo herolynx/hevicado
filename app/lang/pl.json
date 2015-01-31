@@ -4,20 +4,20 @@
   },
   "themes": {
     "turquoise": "Turkosowy",
-    "orange": "Pomaranczowy",
+    "orange": "Pomarańczowy",
     "blue": "Niebieski"
   },
   "days": {
-    "monday": "Poniedzialek",
+    "monday": "Poniedziałek",
     "tuesday": "Wtorek",
-    "wednesday": "Sroda",
+    "wednesday": "Środa",
     "thursday": "Czwartek",
-    "friday": "Piatek",
+    "friday": "Piątek",
     "saturday": "Sobota",
     "sunday": "Niedziela"
   },
   "generic": {
-    "back-to-top": "Poczatek",
+    "back-to-top": "Początek",
     "email": "E-mail",
     "save": "Zapisz",
     "cancel": "Anuluj",
@@ -27,30 +27,30 @@
     "close": "Zamknij",
     "add": "Dodaj",
     "validation": {
-      "2-chars": "Pole musi zawierac co najmniej 2 znaki.",
-      "3-chars": "Pole musi zawierac co najmniej 3 znaki.",
-      "6-chars": "Pole musi zawierac co najmniej 6 znakow."
+      "2-chars": "Pole musi zawierać co najmniej 2 znaki.",
+      "3-chars": "Pole musi zawierać co najmniej 3 znaki.",
+      "6-chars": "Pole musi zawierać co najmniej 6 znaków."
     }
   },
   "menu": {
-    "visits": "Wizity",
+    "visits": "Wizyty",
     "calendar": "Kalendarz",
-    "calendar-daily": "Dzien",
-    "calendar-weekly": "Tydzien",
-    "calendar-monthly": "Miesiac",
+    "calendar-daily": "Dzień",
+    "calendar-weekly": "Tydzień",
+    "calendar-monthly": "Miesiąc",
     "cabinet": "Gabinet",
     "account": "Konto",
     "account-preferences": "Ustawienia",
-    "account-payments": "Platnosci"
+    "account-payments": "Płatności"
   },
   "login": {
     "login": "Logowanie",
     "info-no-account": "Nie masz jeszcze konta?",
     "info-register": "Zarejestruj sie teraz",
     "user-login": "Login",
-    "password": "Haslo",
+    "password": "Hasło",
     "login-in": "Zaloguj",
-    "wrongCredentials": "Zly login i/lub haslo"
+    "wrongCredentials": "Zły login i/lub hasło"
   },
   "registration": {
     "registration": "Rejestracja",
@@ -60,53 +60,53 @@
     "info-before-3": "oraz z naszym",
     "info-before-4": "regulaminem i polityka cookies",
     "account": "Konto",
-    "repeat-email": "Powtorz e-mail",
-    "repeat-password": "Powtorz haslo",
-    "register": "Stworz konto",
-    "accept-rules": "Akceptuje regulamin wraz z polityka cookies",
+    "repeat-email": "Powtórz e-mail",
+    "repeat-password": "Powtórz hasło",
+    "register": "Stwórz konto",
+    "accept-rules": "Akceptuje regulamin wraz z polityką cookies",
     "validation": {
-      "length-email": "E-mail musi zawierac co najmniej 5 znakow.",
+      "length-email": "E-mail musi zawierać co najmniej 5 znaków.",
       "wrong-email": "Podany e-mail jest niepoprawny.",
-      "no-match-email": "Adresy e-mail sa rozne.",
-      "length-password": "Haslo musi zawierac co najmniej 5 znakow.",
-      "no-match-password": "Podane hasla sa rozne."
+      "no-match-email": "Adresy e-mail sa różne.",
+      "length-password": "Hasło musi zawierać co najmniej 5 znaków.",
+      "no-match-password": "Podane hasła sa rożne."
     }
   },
   "user-profile": {
-    "user-account": "Konto uzytkownika",
-    "change-credentials": "Zmien login i/lub haslo",
-    "user-info": "Informacje o uzytkowniku",
+    "user-account": "Konto użytkownika",
+    "change-credentials": "Zmień login i/lub hasło",
+    "user-info": "Informacje o użytkowniku",
     "first-name": "Imie",
     "last-name": "Nazwisko",
     "phone": "Telefon",
     "settings": "Ustawienia",
-    "lang": "Jezyk",
+    "lang": "Język",
     "time-zone": "Strefa czasowa",
     "theme": "Motyw",
     "validation": {
-      "wrong-phone": "Podany telefon jest nieprawidlowy.",
-      "samples": "Przyklady"
+      "wrong-phone": "Podany telefon jest nieprawidłowy.",
+      "samples": "Przykłady"
     }
   },
   "visit": {
     "patient-visits": "Wizyty",
-    "patient-visits-info": "Wizyty pacjenta w kolejnosci chronologicznej",
-    "no-visits": "Nie masz zadnych wizyt",
+    "patient-visits-info": "Wizyty pacjenta w kolejności chronologicznej",
+    "no-visits": "Nie masz żadnych wizyt",
     "state": {
       "event-state-cancelled": "Anulowana",
-      "event-state-closed": "Zamknieta",
+      "event-state-closed": "Zamknięta",
       "event-state-open": "Otwarta"
     },
-    "visit-cancelled": "Wizyta zostala anulowana",
+    "visit-cancelled": "Wizyta została anulowana",
     "visit": "Wizyta",
     "doctor": "Doktor",
-    "full-name": "Imie i nazwisko",
+    "full-name": "Imię i nazwisko",
     "address": "Adres",
     "examination": "Badanie",
-    "title": "Tytul",
+    "title": "Tytuł",
     "patient": "Pacjent",
-    "cancel-visit": "Anuluj wizyte",
-    "add-visit": "Dodaj wizyte",
+    "cancel-visit": "Anuluj wizytę",
+    "add-visit": "Dodaj wizytę",
     "location": "Lokalizacja",
     "open-hours": "Godziny otwarcia",
     "search-doctor": "Wyszukiwanie lekarza",
@@ -114,15 +114,15 @@
     "visit-date": "Termin",
     "begin-date": "Termin od",
     "specialization": "Specializacja",
-    "chose-specialization": "Wybierz specializacje",
+    "chose-specialization": "Wybierz specializację",
     "search-result": "Wynik wyszukiwania",
     "visit-length": "Czas wizyty",
     "minutes-length": "Czas w minutach",
-    "no-location": "Lokazalicja nie zostala wybrana",
-    "patients-quick-contact": "Kontakty do pacjentow",
+    "no-location": "Lokazalicja nie została wybrana",
+    "patients-quick-contact": "Kontakty do pacjentów",
     "validation": {
-      "wrong-length": "Czas musi byc liczba dodatnia (2-3 cyfry)",
-      "date-in-future": "Data musi byc w przyszlosci"
+      "wrong-length": "Czas musi być liczbą dodatnią (2-3 cyfry)",
+      "date-in-future": "Data musi być w przyszłości"
     }
   },
   "calendar": {
@@ -135,13 +135,14 @@
     "delete-cabinet": "Skasuj gabinet",
     "add-cabinet": "Dodaj gabinet",
     "cabinet-name": "Nazwa gabinetu",
-    "delete-specialization": "Skasuj specializacje",
-    "add-specialization": "Dodaj specializacje",
+    "delete-specialization": "Skasuj specializację",
+    "add-specialization": "Dodaj specializację",
     "street": "Ulica",
     "city": "Miasto",
-    "country": "Panstwo",
-    "add-hour": "Dodaj godzine",
-    "delete-hour": "Skasuj godzine",
+    "country": "Państwo",
+    "add-hour": "Dodaj godzinę",
+	"hour-visit": "Godzina wizyty",
+    "delete-hour": "Skasuj godzinę",
     "add-examination": "Dodaj zabieg",
     "delete-examination": "Skasuj zabieg",
     "delete-time-length": "Skasuj czas trwania",
@@ -150,9 +151,9 @@
     "cabinet-address": "Adres gabinetu:",
     "validation": {
       "overlapping-hours": "Godziny otwarcia sie powtarzaja",
-      "start-hour-before-end": "Godzina otwarcia jest wczesniejsza niz godzina zakonczenia",
+      "start-hour-before-end": "Godzina otwarcia jest wcześniejsza niż godzina zakończenia",
       "no-template": "Brak nazwy badania",
-      "duplicate-template": "Nazwa badania juz wystepuje",
+      "duplicate-template": "Nazwa badania już występuje",
       "wrong-template": "Nazwa badania jest niedozwolona",
       "no-time-length": "Brak czasu trwania badania"
     },
@@ -242,12 +243,12 @@
     "$$spec-77": "Epidemiologia"
   },
   "templates": {
-    "$$temp-1": "Badanie ogolne",
+    "$$temp-1": "Badanie ogólne",
     "$$temp-2": "Badania kontrolne",
     "$$temp-3": "Badania okresowe"
   },
   "degrees": {
-    "degree": "Stopien naukowy",
+    "degree": "Stopień naukowy",
     "$$degree-1": "- Wybierz - ",
     "$$degree-2": "mgr.",
     "$$degree-3": "lekarz",

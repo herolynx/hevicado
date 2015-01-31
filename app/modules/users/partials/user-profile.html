@@ -60,7 +60,7 @@
                             </li>
                             <li>
                                 <fieldset>
-                                    <button class="btn blue rt"
+                                    <button class="btn click"
                                             ng-disabled="credentials.$invalid"
                                             ng-click="changeCredentials(user)"
                                             translate>
@@ -176,8 +176,8 @@
                         </ul>
                     </div>
                 </form>
-                <div class="buttons">
-                    <button class="btn blue rt"
+                <div class="action">
+                    <button class="btn click"
                             ng-disabled="userProfile.$invalid"
                             ng-click="save(user)">
                         <i class="icon-upload-cloud"></i>{{'generic.save' | translate}}

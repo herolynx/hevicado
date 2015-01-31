@@ -66,7 +66,7 @@
                         <li>
                             <label></label>
                             <fieldset>
-                                <button ng-click="search()" translate>generic.search</button>
+                                <button class="btn click" ng-click="search()" translate>generic.search</button>
                             </fieldset>
                         </li>
                     </ul>
@@ -83,8 +83,11 @@
                                        typeahead="specialization as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10 "
                                        typeahead-editable="false"
                                         >
-                            </fieldset>
-                            <button ng-click="addSpecialization(newSpecialization)">
+                            </fieldset>                           
+                        </li>
+						<li>
+                            <label></label>                           
+                            <button class="btn click" ng-click="addSpecialization(newSpecialization)">
                                 {{'generic.add' | translate}}
                             </button>
                         </li>
@@ -123,20 +126,20 @@
                         </div>
                         <div ng-repeat="location in doctor.locations" class="info">
                             <div class="address">
-                                <p>
-                                    <span class="color {{location.color}}"></span>
+								<div class="cabinet">
+                                    <div class="color {{location.color}}"><span></span></div>
                                     <a ui-sref="cabinet({ doctorId: doctor.id })">
                                         {{location.name}}<br/>
                                         {{location.address | addressInfo}}
                                     </a>
-                                </p>
+                                </div>
 
-                                <div ng-repeat="specialization in location.specializations">
+                                <div class="specialization" ng-repeat="specialization in location.specializations">
                                     {{ specialization | label:'specializations' | translate}}
                                 </div>
                             </div>
                             <div class="calendar">
-                                <div class="box-event" ng-repeat="(key,value) in location.calendar">
+                                <div class="box-event {{location.color}}" ng-repeat="(key,value) in location.calendar">
                                     <div class="box-count">
                                         <a href="#"
                                            ui-sref="calendar-day.new-visit({ doctorId: doctor.id, currentDate: key.toString('yyyy-MM-dd') })"></a>
@@ -147,7 +150,7 @@
                                         </p>
 
                                         <div class="count-event" ng-class="{red: free(value)==20}">
-                                            <p>Free</p>
+                                            <p>Wolne</p>
                                             <small>
                                                 {{free(value)}} %
                                             </small>

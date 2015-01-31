@@ -34,7 +34,7 @@
                         {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                     </div>
                     <div class="describe" ng-click="editEvent(event)">
-                        <strong>{{event.title | label:'templates' | translate}}</strong><br/>
+                       {{event.title | label:'templates' | translate}}<br/>
                         {{event.description}}
                     </div>
                 </calendar-table-event>

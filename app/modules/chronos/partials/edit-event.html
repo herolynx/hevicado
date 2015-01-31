@@ -2,7 +2,6 @@
     <div class="box-fixed" ng-controller="EditEventCtrl">
         <div class="box form">
             <h2><i class="icon-pencil"></i>{{'visit.visit' | translate}}</h2>
-
             <div class="notes">
                 <form name="visitForm" novalidate>
                     <div class="left">
@@ -144,13 +143,13 @@
                             <li>
                                 <label></label>
                                 <fieldset>
-                                    <button class="btn blue rt" ng-click="cancelVisit()" ng-show="canCancel">
+                                    <button class="btn click" ng-click="cancelVisit()" ng-show="canCancel">
                                         {{'visit.cancel-visit' | translate}}
                                     </button>
-                                    <button class="btn blue rt" ng-click="save()" ng-disabled="visitForm.$invalid"
+                                    <button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid"
                                             ng-show="canEdit">{{'generic.save' | translate}}
                                     </button>
-                                    <button class="btn blue rt" ng-click="cancel()">{{'generic.cancel' | translate}}
+                                    <button class="btn click" ng-click="cancel()">{{'generic.cancel' | translate}}
                                     </button>
                                 </fieldset>
                             </li>
