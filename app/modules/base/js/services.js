@@ -11,7 +11,7 @@ baseServices.service('HTTP_CONFIG',
         function ($location) {
 
             return {
-                server: 'http://dev.hevicado.com:8000'
+                server: 'http://' + $location.host() + ':8000'
             };
         }
     ]
