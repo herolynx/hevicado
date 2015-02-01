@@ -105,7 +105,7 @@ gulp.task('serve:release', function () {
         server: {
             baseDir: './release'
         },
-        port: 8080
+        port: 8444
     });
 });
 
@@ -162,7 +162,7 @@ gulp.task('serve:dev', ['less'], function () {
         server: {
             baseDir: './app'
         },
-        port: 8080
+        port: 8444
     });
 
 

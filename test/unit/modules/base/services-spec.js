@@ -10,17 +10,30 @@ describe('services-spec:', function () {
         var mockLocation;
 
         beforeEach(angular.mock.module(function ($provide) {
-            mockLocation = jasmine.createSpyObj('mockLocation', ['host']);
+            mockLocation = jasmine.createSpyObj('mockLocation', ['host', 'port']);
             $provide.value('$location', mockLocation);
         }));
 
         it('should provide back-end server address', inject(function ($injector) {
             //given current location
             mockLocation.host.andReturn('dev.kunishu.com');
+            //and standard HTTP port
+            mockLocation.port.andReturn(8080);
             //when config of HTTP is taken
             var config = $injector.get('HTTP_CONFIG');
             //then config contains proper back-end address
-            expect(config.server).toBe('http://dev.kunishu.com:8000');
+            expect(config.server).toBe('/be');
+        }));
+
+        it('should provide back-end server address for development environment', inject(function ($injector) {
+            //given current location
+            mockLocation.host.andReturn('localhost');
+            //and dev port
+            mockLocation.port.andReturn(8444);
+            //when config of HTTP is taken
+            var config = $injector.get('HTTP_CONFIG');
+            //then config contains proper back-end address for development environment
+            expect(config.server).toBe('http://localhost:8000');
         }));
 
     });
@@ -32,7 +45,7 @@ describe('services-spec:', function () {
 
         beforeEach(angular.mock.module(function ($provide) {
             mockHttpConfig = {
-                server: 'http://dev.kunishu.com:8000'
+                server: 'http://dev.kunishu.com/be'
             };
             $provide.value('HTTP_CONFIG', mockHttpConfig);
         }));
@@ -55,7 +68,7 @@ describe('services-spec:', function () {
             expect(reqConfig).toEqual(
                 {
                     method: 'POST',
-                    url: 'http://dev.kunishu.com:8000/some/path'
+                    url: 'http://dev.kunishu.com/be/some/path'
                 }
             );
         });
@@ -74,7 +87,7 @@ describe('services-spec:', function () {
             expect(reqConfig).toEqual(
                 {
                     method: 'PUT',
-                    url: 'http://dev.kunishu.com:8000/some/path'
+                    url: 'http://dev.kunishu.com/be/some/path'
                 }
             );
         });
@@ -93,7 +106,7 @@ describe('services-spec:', function () {
             expect(reqConfig).toEqual(
                 {
                     method: 'DELETE',
-                    url: 'http://dev.kunishu.com:8000/some/path'
+                    url: 'http://dev.kunishu.com/be/some/path'
                 }
             );
         });
@@ -112,7 +125,7 @@ describe('services-spec:', function () {
             expect(reqConfig).toEqual(
                 {
                     method: 'GET',
-                    url: 'http://dev.kunishu.com:8000/some/path'
+                    url: 'http://dev.kunishu.com/be/some/path'
                 }
             );
         });
