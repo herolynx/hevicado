@@ -120,6 +120,7 @@
     "minutes-length": "Czas w minutach",
     "no-location": "Lokazalicja nie została wybrana",
     "patients-quick-contact": "Kontakty do pacjentów",
+    "free": "Wolne",
     "validation": {
       "wrong-length": "Czas musi być liczbą dodatnią (2-3 cyfry)",
       "date-in-future": "Data musi być w przyszłości"
