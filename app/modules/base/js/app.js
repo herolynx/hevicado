@@ -39,7 +39,7 @@ var baseModule = angular.module('base',
         $translateProvider.useCookieStorage(); //store lang in cookies
         moment.locale('pl');
     }]).
-    value('version', '1.0.0 - 26.01.2015 12:00');
+    value('version', '1.0.0');
 
 //register authentication interceptor in order to perform
 // default actions related with incoming and outgoing communication
