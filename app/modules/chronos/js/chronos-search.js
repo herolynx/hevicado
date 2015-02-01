@@ -88,6 +88,9 @@ chronosSearch.controller('SearchDoctorCtrl',
              */
             $scope.initTimetable = function (date, daysCount) {
                 $scope.criteria.start = EventUtils.currentMonday(date);
+                //TODO remove tz workaround - normalize results properly
+                var tzOffset = $scope.criteria.start.getTimezoneOffset();
+                $scope.criteria.start = $scope.criteria.start.add(-tzOffset).minutes();
                 $scope.criteria.end = $scope.criteria.start.clone().add(daysCount - 1).days().set({
                     hour: 23,
                     minute: 59,
