@@ -315,7 +315,7 @@
 										</li>
 									</ul>
 									<div class="add">
-										<a href="#" ng-click="addTemplate(location.templates)">
+										<a href="#" ng-click="addTemplate(location.templates);$event.preventDefault();">
 											<i class="icon-plus-circled"></i>
 											{{'cabinet.add-examination' | translate}}
 										</a>
