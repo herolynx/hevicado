@@ -176,15 +176,15 @@
 										</div>
 										<ul>
 											<li ng-repeat="working in location.working_hours">
-												<ng-form name="workingHoursForm">												
+												<ng-form name="workingHoursForm">
 													<span class="day">
-														 <div class="btn-group" dropdown is-open="dropdown.isWorkingHoursOpen">
+														 <div class="btn-group" dropdown is-open="dropdown{{$index}}.isWorkingHoursOpen">
 															 <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
 																 {{'days.' + working.day | toLowerCase | translate}}
 															 </button>
 															 <ul class="dropdown-menu" role="menu">
 																 <li ng-repeat="day in days"
-																	 ng-click="working.day=day">
+																	 ng-click="working.day=day;onWorkingHoursChange(workingHoursForm, working)">
 																	 {{'days.' + day | toLowerCase | translate}}
 																 </li>
 															 </ul>
@@ -224,7 +224,7 @@
 											</li>
 										</ul>
 										<div class="add">
-											<a ng-click="addValue(location.working_hours)">
+											<a ng-click="addValue(location.working_hours,{ day: 'Monday'})">
 												<i class="icon-plus-circled"></i>{{'cabinet.add-hour' | translate}}
 											</a>
 										</div>
