@@ -10,8 +10,10 @@ baseServices.service('HTTP_CONFIG',
     ['$location',
         function ($location) {
 
+            var backendUrl = $location.port() === 8444 ? 'http://' + $location.host() + ':8000' : '/be';
+
             return {
-                server: 'http://' + $location.host() + ':8000'
+                server: backendUrl
             };
         }
     ]
