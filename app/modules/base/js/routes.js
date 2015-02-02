@@ -131,7 +131,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar",
             templateUrl: "modules/chronos/partials/calendar-day-frame.html",
             data: {
-                access: ACCESS_LEVELS.USERS
+                access: ACCESS_LEVELS.DOCTORS
             }
         }).
         state('calendar-day.daily', {
