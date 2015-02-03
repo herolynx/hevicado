@@ -88,9 +88,6 @@ chronosSearch.controller('SearchDoctorCtrl',
              */
             $scope.initTimetable = function (date, daysCount) {
                 $scope.criteria.start = EventUtils.currentMonday(date);
-                //TODO remove tz workaround - normalize results properly
-                var tzOffset = $scope.criteria.start.getTimezoneOffset();
-                $scope.criteria.start = $scope.criteria.start.add(-tzOffset).minutes();
                 $scope.criteria.end = $scope.criteria.start.clone().add(daysCount - 1).days().set({
                     hour: 23,
                     minute: 59,
@@ -148,8 +145,9 @@ chronosSearch.controller('SearchDoctorCtrl',
                 CalendarService.search(normalizedCriteria).
                     success(function (data) {
                         $log.debug('Doctors found - data size: ' + data.length);
-                        $scope.doctors = $scope.doctors.concat(data);
-                        $scope.eof = data.length == 0;
+                        var result = $scope.normalizeDoctors(data, $scope.criteria.start, $scope.criteria.end);
+                        $scope.doctors = $scope.doctors.concat(result);
+                        $scope.eof = result.length == 0;
                         $scope.loading = false;
                     }).
                     error(function (data, status) {
@@ -158,6 +156,61 @@ chronosSearch.controller('SearchDoctorCtrl',
                         $scope.eof = true;
                         $scope.loading = false;
                     });
+            };
+
+            /**
+             * Normalize all date related information in doctors' data.
+             * Some summary info gathered per day must be normalized due to time-zone settings of local user.
+             * @param doctors doctors to be normalized
+             * @param start start date to be displayed in calendar results
+             * @param end end date to be displayed in calendar results
+             * @returns {*} new instance of normalized doctors
+             */
+            $scope.normalizeDoctors = function (doctors, start, end) {
+                return _.map(doctors, function (doctor) {
+                    var normalizedDoctor = angular.copy(doctor);
+                    _.map(normalizedDoctor.locations, function (location) {
+                        var calendar = location.calendar;
+                        //shift days that are shown before start day due to time-zone settings
+                        calendar = $scope.shiftDays(calendar, start, 'isBefore');
+                        //shift days that are shown after end day due to time-zone settings
+                        calendar = $scope.shiftDays(calendar, end, 'isAfter');
+                        location.calendar = calendar;
+                        return location;
+                    });
+                    return normalizedDoctor;
+                });
+            };
+
+            /**
+             * Shift all days that meets criteria to proper day in calendar info
+             * @param calendar calendar info with days and assigned summary info
+             * @param date date boundary
+             * @param type date relation type (isBefore, isAfter)
+             * @returns {*} new instance of calendar info
+             */
+            $scope.shiftDays = function (calendar, date, type) {
+                //check which days must be shifted
+                var toShift = _.filter(Object.keys(calendar), function (day) {
+                    return Date.parse(day)[type](date);
+                });
+                //create calendar with filtered days
+                var normalizedCalendar = {};
+                for (var day in calendar) {
+                    if (!_.contains(toShift, day)) {
+                        normalizedCalendar[day] = calendar[day];
+                    }
+                }
+                //move info between days
+                for (var i = 0; i < toShift.length; i++) {
+                    var day = toShift[i];
+                    var shiftInfo = calendar[day];
+                    var info = normalizedCalendar[date.toString('yyyy-MM-dd HH:mm:ss')];
+                    for (var value in info) {
+                        info[value] += shiftInfo[value];
+                    }
+                }
+                return normalizedCalendar;
             };
 
             /**
