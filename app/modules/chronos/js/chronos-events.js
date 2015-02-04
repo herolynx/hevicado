@@ -129,18 +129,7 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
          * @returns {*} the same instance of event
          */
         toJson: function (event) {
-            var toString = function (value) {
-                return typeof value != 'string' ? toUTCDate(value).toString('yyyy-MM-dd HH:mm:ss') : value;
-            };
-            if (event.start != undefined) {
-                event.start = toString(event.start);
-            }
-            if (event.end != undefined) {
-                event.end = toString(event.end);
-            }
-            if (event.cancelled != undefined) {
-                event.cancelled = toString(event.cancelled);
-            }
+            event.tzOffset = new Date().getTimezoneOffset();
             return event;
         },
 
