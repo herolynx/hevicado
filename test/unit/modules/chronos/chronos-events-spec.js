@@ -357,17 +357,20 @@ describe('chronos-events-spec:', function () {
                         {
                             day: "Monday",
                             start: "08:00",
-                            end: "10:00"
+                            end: "10:00",
+                            tzOffset: 0
                         },
                         {
                             day: "Monday",
                             start: "12:00",
-                            end: "14:00"
+                            end: "14:00",
+                            tzOffset: 0
                         },
                         {
                             day: "Tuesday",
                             start: "08:00",
-                            end: "16:00"
+                            end: "16:00",
+                            tzOffset: 0
                         }
                     ]
                 }

@@ -702,8 +702,8 @@ describe('doctors-cabinet-spec:', function () {
                         address: {street: 'Grabiszynska 8/4', city: 'Wroclaw', country: 'Poland'},
                         color: 'red',
                         working_hours: [
-                            {day: 'Monday', start: '08:00', end: '10:00'},
-                            {day: 'Monday', start: '12:00', end: '14:00'}
+                            {day: 'Monday', start: '08:00', end: '10:00', tzOffset: -new Date().getTimezoneOffset()},
+                            {day: 'Monday', start: '12:00', end: '14:00', tzOffset: -new Date().getTimezoneOffset()}
                         ]
                     }]
                 }
@@ -763,8 +763,8 @@ describe('doctors-cabinet-spec:', function () {
                         address: {street: 'Grabiszynska 8/4', city: 'Wroclaw', country: 'Poland'},
                         color: 'red',
                         working_hours: [
-                            {day: 'Monday', start: '08:00', end: '10:00'},
-                            {day: 'Monday', start: '12:00', end: '14:00'}
+                            {day: 'Monday', start: '08:00', end: '10:00', tzOffset: -new Date().getTimezoneOffset()},
+                            {day: 'Monday', start: '12:00', end: '14:00', tzOffset: -new Date().getTimezoneOffset()}
                         ]
                     }]
                 }

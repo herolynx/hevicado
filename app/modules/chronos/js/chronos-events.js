@@ -158,9 +158,9 @@ chronosEvents.service('EventUtils', ['EVENT_STATE', function (EVENT_STATE) {
             if (locations == undefined) {
                 return null;
             }
-            var utcDate = toUTCDate(startTime);
-            var day = utcDate.toString('dddd');
-            var hour = utcDate.toString('HH:mm');
+            var normalizedDate = toUTCDate(startTime).add(locations[0].working_hours[0].tzOffset).minutes();
+            var day = normalizedDate.toString('dddd');
+            var hour = normalizedDate.toString('HH:mm');
             for (var i = 0; i < locations.length; i++) {
                 var working_hours = locations[i].working_hours;
                 for (var h = 0; h < working_hours.length; h++) {
