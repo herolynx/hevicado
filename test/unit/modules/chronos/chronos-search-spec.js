@@ -104,7 +104,7 @@ describe('chronos-search-spec:', function () {
             ctrlScope.initTimetable(start, daysCount);
             //then new time table is set in search criteria
             expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-07 00:00:00');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-12 23:59:59');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-13 00:00:00');
         });
 
         it('should shift time table', function () {
@@ -122,12 +122,12 @@ describe('chronos-search-spec:', function () {
             var daysCount = 7;
             ctrlScope.initTimetable(start, daysCount);
             expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-07 00:00:00');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-13 23:59:59');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-14 00:00:00');
             //when time table is shifted
             ctrlScope.moveDays(daysCount);
             //then time table is updated in search criteria
             expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-14 00:00:00');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-20 23:59:59');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-21 00:00:00');
         });
 
 
@@ -154,7 +154,7 @@ describe('chronos-search-spec:', function () {
             ctrlScope.search();
             //then new time table is set according to search criteria
             expect(ctrlScope.criteria.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-07 00:00:00');
-            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-13 23:59:59');
+            expect(ctrlScope.criteria.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-07-14 00:00:00');
             //and state is cleared
             expect(ctrlScope.doctors.length).toBe(0);
             expect(ctrlScope.criteria.startIndex).toBe(0);

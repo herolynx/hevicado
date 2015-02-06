@@ -54,13 +54,8 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.events(start, end);
             //then proper communication has place
             expect(promise).not.toBeNull();
-            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/' + userId + '/visit', {
-                params: {
-                    start: '2014-08-12 00:00:00',
-                    end: '2014-08-12 23:59:00',
-                    asDoctor: true
-                }
-            });
+            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/' + userId + '/visit', jasmine.any(Object));
+            expect(mockHttp.get.mostRecentCall.args[1].params.asDoctor).toBe(true);
         });
 
         it('should get user\'s events for patients', function () {
@@ -87,13 +82,8 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.events(start, end, false);
             //then proper communication has place
             expect(promise).not.toBeNull();
-            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/' + userId + '/visit', {
-                params: {
-                    start: '2014-08-12 00:00:00',
-                    end: '2014-08-12 23:59:00',
-                    asDoctor: false
-                }
-            });
+            expect(mockHttp.get).toHaveBeenCalledWith('/calendar/' + userId + '/visit', jasmine.any(Object));
+            expect(mockHttp.get.mostRecentCall.args[1].params.asDoctor).toBe(false);
         });
 
         it('should cancel event', function () {
@@ -129,7 +119,7 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.save(event);
             //then event is created
             expect(promise).not.toBeNull();
-            expect(mockHttp.post).toHaveBeenCalledWith('/calendar/visit', event);
+            expect(mockHttp.post).toHaveBeenCalledWith('/calendar/visit', jasmine.any(Object));
         });
 
         it('should update event', function () {
@@ -144,51 +134,7 @@ describe('chronos-service-spec:', function () {
             var promise = calendarService.save(event);
             //then event is edited
             expect(promise).not.toBeNull();
-            expect(mockHttp.put).toHaveBeenCalledWith('/calendar/visit', event);
-        });
-
-        it('should convert event values to plain JSON during save and update', function () {
-            //given calendar service is initialized
-            expect(calendarService).toBeDefined();
-            //and sample event
-            var event = {
-                title: "sample event",
-                start: Date.today().set({
-                    year: 2014,
-                    month: 11,
-                    day: 5,
-                    hour: 13,
-                    minute: 30,
-                    second: 0
-                }),
-                end: Date.today().set({
-                    year: 2014,
-                    month: 11,
-                    day: 5,
-                    hour: 14,
-                    minute: 0,
-                    second: 0
-                }),
-                cancelled: Date.today().set({
-                    year: 2014,
-                    month: 11,
-                    day: 2,
-                    hour: 9,
-                    minute: 45,
-                    second: 23
-                })
-            };
-            //when saving or updating event
-            var promise = calendarService.save(event);
-            //then event fields are converted to plain JSON
-            expect(promise).not.toBeNull();
-            expect(mockHttp.post).toHaveBeenCalledWith('/calendar/visit', {
-                    title: 'sample event',
-                    start: '2014-12-05 13:30:00',
-                    end: '2014-12-05 14:00:00',
-                    cancelled: '2014-12-02 09:45:23'
-                }
-            );
+            expect(mockHttp.put).toHaveBeenCalledWith('/calendar/visit', jasmine.any(Object));
         });
 
     });

@@ -139,20 +139,20 @@
                                 </div>
                             </div>
                             <div class="calendar">
-                                <div class="box-event {{location.color}}" ng-repeat="(key,value) in location.calendar">
+                                <div class="box-event {{location.color}}" ng-repeat="info in location.calendar">
                                     <div class="box-count">
                                         <a href="#"
-                                           ui-sref="calendar-day.new-visit({ doctorId: doctor.id, currentDate: key.toString('yyyy-MM-dd') })"></a>
+                                           ui-sref="calendar-day.new-visit({ doctorId: doctor.id, currentDate: toDate(info).toString('yyyy-MM-dd') })"></a>
 
                                         <p>
-                                            {{toDate(key) | date: "dd.MM"}}
-                                            ({{toDate(key) | dateFormat: "ddd" | normalizeText}})
+                                            {{toDate(info) | date: "dd.MM"}}
+                                            ({{toDate(info) | dateFormat: "ddd" | normalizeText}})
                                         </p>
 
-                                        <div class="count-event" ng-class="{red: free(value)==20}">
+                                        <div class="count-event">
                                             <p>{{'visit.free' | translate}}</p>
                                             <small>
-                                                {{free(value)}} %
+                                                {{free(info)}} %
                                             </small>
                                         </div>
                                     </div>

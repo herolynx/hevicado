@@ -270,7 +270,7 @@ describe('chronos-events-spec:', function () {
 
         describe('to plain JSON normalization-spec:', function () {
 
-            it('should convert event dates into string', function () {
+            it('should add time zone offset', function () {
                 //given event utils are initialized
                 expect(eventUtils).toBeDefined();
                 //and event with sample dates
@@ -289,10 +289,9 @@ describe('chronos-events-spec:', function () {
                 expect(event.duration).not.toBeDefined();
                 //when converting an event into plain JSON
                 eventUtils.toJson(event);
-                //then dates are converted into strings
-                expect(event.start).toBe('2014-10-13 08:00:00');
-                expect(event.end).toBe('2014-10-13 09:00:00');
-                expect(event.cancelled).toBe('2014-10-13 10:00:00');
+                //then time zone offset is added
+                expect(event.tzOffset).toBeDefined();
+                expect(event.tzOffset).not.toBeNull();
             });
 
         });
@@ -358,17 +357,20 @@ describe('chronos-events-spec:', function () {
                         {
                             day: "Monday",
                             start: "08:00",
-                            end: "10:00"
+                            end: "10:00",
+                            tzOffset: 0
                         },
                         {
                             day: "Monday",
                             start: "12:00",
-                            end: "14:00"
+                            end: "14:00",
+                            tzOffset: 0
                         },
                         {
                             day: "Tuesday",
                             start: "08:00",
-                            end: "16:00"
+                            end: "16:00",
+                            tzOffset: 0
                         }
                     ]
                 }

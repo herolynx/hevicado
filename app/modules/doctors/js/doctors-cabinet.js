@@ -94,8 +94,9 @@ doctorsCabinet.controller('EditCabinetCtrl',
                 var normalizedDoctor = angular.copy(doctor);
                 var workingHours = _.flatten(_.pluck(normalizedDoctor.locations, 'working_hours'));
                 _.map(workingHours, function (elm) {
-                    elm.start = toUTCDate(elm.startDate).toString('HH:mm');
-                    elm.end = toUTCDate(elm.endDate).toString('HH:mm');
+                    elm.start = elm.startDate.toString('HH:mm');
+                    elm.end = elm.endDate.toString('HH:mm');
+                    elm.tzOffset = -elm.startDate.getTimezoneOffset();
                     delete elm.startDate;
                     delete elm.endDate;
                 });
@@ -238,18 +239,10 @@ doctorsCabinet.controller('EditCabinetCtrl',
 
             $scope.init(Session.getUserId(), function () {
                 $log.debug('Denormalizing working hours');
-                var toDate = function (string) {
-                    var time = string.split(':');
-                    return Date.today().set({
-                        hour: Number(time[0]),
-                        minute: Number(time[1]),
-                        second: 0
-                    });
-                };
                 var workingHours = _.flatten(_.pluck($scope.doctor.locations, 'working_hours'));
                 _.map(workingHours, function (elm) {
-                    elm.startDate = toLocalDate(toDate(elm.start));
-                    elm.endDate = toLocalDate(toDate(elm.end));
+                    elm.startDate = hourToDate(elm.start, elm.tzOffset);
+                    elm.endDate = hourToDate(elm.end, elm.tzOffset);
                 });
             });
 

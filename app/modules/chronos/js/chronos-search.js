@@ -88,14 +88,7 @@ chronosSearch.controller('SearchDoctorCtrl',
              */
             $scope.initTimetable = function (date, daysCount) {
                 $scope.criteria.start = EventUtils.currentMonday(date);
-                //TODO remove tz workaround - normalize results properly
-                var tzOffset = $scope.criteria.start.getTimezoneOffset();
-                $scope.criteria.start = $scope.criteria.start.add(-tzOffset).minutes();
-                $scope.criteria.end = $scope.criteria.start.clone().add(daysCount - 1).days().set({
-                    hour: 23,
-                    minute: 59,
-                    second: 59
-                });
+                $scope.criteria.end = $scope.criteria.start.clone().add(daysCount).days();
                 $log.debug('Timetable set - start: ' + $scope.criteria.start + ', end: ' + $scope.criteria.end);
             };
 
@@ -161,12 +154,12 @@ chronosSearch.controller('SearchDoctorCtrl',
             };
 
             /**
-             * Convert string to date
-             * @param string date in string representation
+             * Get date
+             * @param info calendar info
              * @returns {Date} non-nullable instance
              */
-            $scope.toDate = function (string) {
-                return new Date(string);
+            $scope.toDate = function (info) {
+                return new Date(info.period.split('/')[0]);
             };
 
             /**

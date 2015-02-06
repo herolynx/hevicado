@@ -146,7 +146,7 @@
                                     <button class="btn click" ng-click="cancelVisit()" ng-show="canCancel">
                                         {{'visit.cancel-visit' | translate}}
                                     </button>
-                                    <button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid"
+                                    <button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid || editedEvent.location.id==undefined"
                                             ng-show="canEdit">{{'generic.save' | translate}}
                                     </button>
                                     <button class="btn click" ng-click="cancel()">{{'generic.cancel' | translate}}
@@ -164,12 +164,17 @@
 
                                 <label>{{'visit.location' | translate}}:</label>
                                 <fieldset>
-                                    <select name="location" id="location-select"
-                                            ng-options="location.name for location in doctor.locations track by location.id"
-                                            ng-model="editedEvent.location"
-                                            ng-disabled="canEdit==false"
-                                            ng-selected="editedEvent.location.id==location.id"
-                                            required/>
+                                    <div class="btn-group" dropdown is-open="dropdown.isLocationOpen">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                                            {{editedEvent.location.name}}
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="location in doctor.locations"
+                                                ng-click="editedEvent.location=location">
+                                                {{location.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </fieldset>
 
                             </li>
