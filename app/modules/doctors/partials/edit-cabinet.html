@@ -88,7 +88,7 @@
 											 tooltip-animation="false"
 											 tooltip="{{'cabinet.delete-specialization' | translate}}"
 											 tooltip-popup-delay='1000'
-											 ng-click="deleteValue(location.specializations, specialization)">
+											 ng-click="deleteValue(location.specializations, specialization);$event.preventDefault();">
 											<a href="#">
 												<i class="icon-trash"></i>
 											</a>
