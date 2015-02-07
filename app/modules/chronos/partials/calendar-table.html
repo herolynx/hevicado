@@ -6,10 +6,40 @@
             <calendar-time-line day="day"/>
         </th>
     </tr>
-    <tr ng-repeat="hour in _.range(0, 24)" id="hour-{{hour}}">
+    <tr ng-repeat="hour in hours" id="hour-{{hour}}">
         <td>{{hour}}:00</td>
         <td ng-repeat="day in days">
-            <calendar-table-day />
+            <div ng-repeat="quarter in quarters"
+                 drop-channel="dndDayChannel"
+                 ui-on-drop="dndDrop($event, $data, day, hour, quarter*15)"
+                 class="black">
+
+                <calendar-table-event
+                        ng-repeat="event in events[day.getDate()][hour][quarter]"
+                        class="event {{event.location.color}}" style="height:100px"
+                        event="event"
+                        ui-resizable
+                        ui-on-resize="dndChangeTime($event, $ui, event)"
+                        ui-draggable="true"
+                        drag="event"
+                        drag-channel="dndDayChannel"
+                        >
+                    <div class="time">
+                        <div class="action">
+                            <a class="delete" ng-click="cancelEvent(event)" ng-show="actions().canCancel(event)">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </div>
+                        {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
+                    </div>
+                    <div class="describe" ng-click="editEvent(event)">
+                        {{event.title | label:'templates' | translate}}<br/>
+                        {{event.description}}
+                    </div>
+                </calendar-table-event>
+                <div name="newEventContainer" ng-click="addEvent(day, hour, quarter*15)">&nbsp;</div>
+
+            </div>
         </td>
     </tr>
 </table>

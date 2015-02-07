@@ -29,17 +29,6 @@ chronCalDirectives.directive('calendarTable', function () {
 });
 
 /**
- * Directive for displaying single day column in calendar table
- */
-chronCalDirectives.directive('calendarTableDay', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar-table-day.html',
-        scope: false
-    };
-});
-
-/**
  * Directive displayes single event on table based on its timeline settings
  *
  * @param $window browser window

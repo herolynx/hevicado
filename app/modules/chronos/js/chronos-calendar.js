@@ -31,6 +31,9 @@ chronosCalendar.controller('CalendarCtrl',
              * Include underscore
              */
             $scope._ = _;
+            $scope.hours = _.range(0, 24);
+            $scope.quarters = _.range(0, 4);
+            $scope.quarterLength = 60 / $scope.quarters.length;
 
             $scope.beginDate = Date.today();
             $scope.endDate = Date.today();
@@ -41,6 +44,7 @@ chronosCalendar.controller('CalendarCtrl',
 
             $scope.cache = $cacheFactory('cacheCalendar-' + new Date());
             $scope.eventsMap = CalendarCollectionFactory.eventsMap();
+            $scope.events = [];
 
             $scope.filter = {
                 showCancelled: false,
@@ -53,18 +57,20 @@ chronosCalendar.controller('CalendarCtrl',
             };
 
             /**
-             * Set days displayed in chosen time period on calendar
-             * @param startDate first day displayed on calendar
-             * @param endDate last date displayed on calendar
+             * Create days based on given time period
+             * @param startDate begin date
+             * @param endDate end date
+             * @return arrays with days
              */
-            $scope.setDays = function (startDate, endDate) {
+            $scope.createDays = function (startDate, endDate) {
                 $log.debug('Setting time period - startDate: ' + startDate + ", endDate: " + endDate);
                 var currentDate = startDate.clone();
-                $scope.days = [];
+                var days = [];
                 do {
-                    $scope.days.push($scope.eventsMap.dayKey(currentDate));
+                    days.push(currentDate.clone().clearTime());
                     currentDate = currentDate.add(1).days();
                 } while (currentDate.isBefore(endDate));
+                return days;
             };
 
             /**
@@ -84,9 +90,9 @@ chronosCalendar.controller('CalendarCtrl',
                         var events = _.filter(data, function (event) {
                             return $scope.filter.accept(event);
                         });
-                        $scope.eventsMap.clear();
-                        $scope.eventsMap.addAll(events);
-                        $scope.buildTimelines(days);
+                        $scope.events = [];
+                        _.map(events, $scope.attachEvent);
+                        _.map($scope.days, $scope.buildTimeline);
                     }).
                     error(function (data, status) {
                         $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
@@ -95,14 +101,59 @@ chronosCalendar.controller('CalendarCtrl',
             };
 
             /**
-             * Build time lines so events can be displayed on calendar properly
-             * @param days for which time lines should be built
+             * Attach event to calendar grid
+             * @param event event to be attached
              */
-            $scope.buildTimelines = function (days) {
-                for (var i = 0; i < days.length; i++) {
-                    days[i].clearTime();
-                    var dayEvents = $scope.eventsMap.events(days[i]);
-                    CalendarRenderer.attachAll(dayEvents);
+            $scope.attachEvent = function (event) {
+                //get keys
+                var day = event.start.getDate();
+                var hour = event.start.getHours();
+                var quarter = event.start.getMinutes() / $scope.quarterLength;
+                //prepare place
+                var days = $scope.events[day] || [];
+                $scope.events[day] = days;
+                var hours = days[hour] || [];
+                days[hour] = hours;
+                var quarters = hours[quarter] || [];
+                hours[quarter] = quarters;
+                //store event
+                quarters.push(event);
+            };
+
+            /**
+             * Detach event from calendar grid
+             * @param event event to be detached
+             */
+            $scope.detachEvent = function (event) {
+                //get keys
+                var day = event.start.getDate();
+                var hour = event.start.getHours();
+                var quarter = event.start.getMinutes() / $scope.quarterLength;
+                //prepare place
+                var days = $scope.events[day] || [];
+                if (days !== undefined) {
+                    var hours = days[hour] || [];
+                    if (hours != undefined) {
+                        var quarters = hours[quarter] || [];
+                        if (quarters != undefined) {
+                            var index = quarters.indexOf(event);
+                            quarters.splice(index, 1);
+                        }
+                    }
+                }
+            };
+
+            /**
+             * Build time lines so events can be displayed on calendar properly
+             * @param day for which time line should be built
+             */
+            $scope.buildTimeline = function (day) {
+                var dayEvents = $scope.events[day.getDate()];
+                if (dayEvents !== undefined) {
+                    var events = _.filter(_.flatten(dayEvents), function (event) {
+                        return event !== undefined;
+                    });
+                    CalendarRenderer.attachAll(events);
                 }
             };
 
@@ -112,11 +163,7 @@ chronosCalendar.controller('CalendarCtrl',
              * @param endDate end of time window
              */
             $scope.buildTimelineFor = function (startDate, endDate) {
-                var dayKeys = $scope.eventsMap.dayKeys(startDate, endDate);
-                for (var i = 0; i < dayKeys.length; i++) {
-                    var dayEvents = $scope.eventsMap.events(dayKeys[i]);
-                    CalendarRenderer.attachAll(dayEvents);
-                }
+                _.map($scope.createDays(startDate, endDate), $scope.buildTimeline);
             };
 
             /**
@@ -193,7 +240,7 @@ chronosCalendar.controller('CalendarCtrl',
                 var date = newDate || $scope.currentDate;
                 $scope.currentDate = date.add(7 * direction).days();
                 $scope.initTimePeriod($scope.currentDate);
-                $scope.setDays($scope.beginDate, $scope.endDate);
+                $scope.days = $scope.createDays($scope.beginDate, $scope.endDate);
                 $scope.refresh();
             };
 
@@ -207,7 +254,7 @@ chronosCalendar.controller('CalendarCtrl',
                 var date = newDate || $scope.currentDate;
                 $scope.currentDate = date.add(direction).years();
                 $scope.initTimePeriod($scope.currentDate);
-                $scope.setDays($scope.beginDate, $scope.endDate);
+                $scope.days = $scope.createDays($scope.beginDate, $scope.endDate);
                 $scope.refresh();
             };
 
@@ -221,7 +268,7 @@ chronosCalendar.controller('CalendarCtrl',
                 var date = newDate || $scope.currentDate;
                 $scope.currentDate = date.add(direction).month();
                 $scope.initTimePeriod($scope.currentDate);
-                $scope.setDays($scope.beginDate, $scope.endDate);
+                $scope.days = $scope.createDays($scope.beginDate, $scope.endDate);
                 $scope.refresh();
             };
 
@@ -237,7 +284,7 @@ chronosCalendar.controller('CalendarCtrl',
                 });
                 $scope.currentDate = date;
                 $scope.initTimePeriod($scope.currentDate);
-                $scope.setDays($scope.beginDate, $scope.endDate);
+                $scope.days = $scope.createDays($scope.beginDate, $scope.endDate);
                 $scope.refresh();
             };
 
@@ -251,7 +298,7 @@ chronosCalendar.controller('CalendarCtrl',
                 var date = newDate || $scope.currentDate;
                 $scope.currentDate = date.add(direction).days();
                 $scope.initTimePeriod($scope.currentDate);
-                $scope.setDays($scope.beginDate, $scope.endDate);
+                $scope.days = $scope.createDays($scope.beginDate, $scope.endDate);
                 $scope.refresh();
             };
 
@@ -310,28 +357,12 @@ chronosCalendar.controller('CalendarCtrl',
                 if (cached !== undefined) {
                     return cached;
                 }
-                //get events
-                if (!$scope.eventsMap.contains(day)) {
-                    // nothing to do
-                    return [];
-                }
-                var startFrom = day.clone().set({
-                    hour: dayHour,
-                    minute: minutes,
-                    second: 0
-                });
-                var endTo = startFrom.clone().add(15).minutes();
-                var filtered = $scope.eventsMap.filter(function (event) {
-                    return event.start.compareTo(startFrom) >= 0 &&
-                        event.start.compareTo(endTo) < 0;
-                });
-                var keys = Object.keys(filtered);
-                var dayEvents = keys.length == 1 ? filtered[keys[0]] : [];
+                var dayEvents = $scope.eventsMap.events(day);
                 $scope.cache.put(cacheKey, dayEvents);
                 return dayEvents;
             };
 
-            //TODO move to filter
+//TODO move to filter
             /**
              * Get summary info about events for chosen day
              * @param day day which summay info should be taken for
@@ -414,14 +445,14 @@ chronosCalendar.controller('CalendarCtrl',
              * @param oldEndDate old end date for fallback
              */
             $scope.saveEvent = function (event, newStartDate, newEndDate, oldStartDate, oldEndDate) {
-                $scope.eventsMap.remove(event);
+                $scope.detachEvent(event);
                 $scope.buildTimelineFor(oldStartDate, oldEndDate);
                 event.start = newStartDate;
                 event.end = newEndDate;
                 EventUtils.normalize(event);
                 CalendarService.save(event).
                     success(function (response) {
-                        $scope.eventsMap.add(event);
+                        $scope.attachEvent(event);
                         $scope.cache.removeAll();
                         $scope.buildTimelineFor(event.start, event.end);
                         $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
@@ -433,7 +464,7 @@ chronosCalendar.controller('CalendarCtrl',
                         event.start = oldStartDate;
                         event.end = oldEndDate;
                         EventUtils.normalize(event);
-                        $scope.eventsMap.add(event);
+                        $scope.attachEvent(event);
                         $scope.buildTimelineFor(event.start, event.end);
                         $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
                     });
@@ -455,7 +486,7 @@ chronosCalendar.controller('CalendarCtrl',
                     cancel(event).
                     success(function () {
                         $log.debug('Event cancelled successfully');
-                        $scope.eventsMap.remove(event);
+                        $scope.detachEvent(event);
                         event.cancelled = new Date();
                         $scope.cache.removeAll();
                         $scope.buildTimelineFor(event.start, event.end);
@@ -549,7 +580,8 @@ chronosCalendar.controller('CalendarCtrl',
 
         }
     ]
-);
+)
+;
 
 /**
  * Renderer manages displaying of events in the chosen day.
