@@ -138,18 +138,22 @@ chronosCalendar.controller('CalendarCtrl',
                 }
             };
 
+            $scope.flatten = function (events) {
+                if (events === undefined) {
+                    return [];
+                }
+                return _.filter(_.flatten(events), function (event) {
+                    return event !== undefined;
+                });
+            };
+
             /**
              * Build time lines so events can be displayed on calendar properly
              * @param day for which time line should be built
              */
             $scope.buildTimeline = function (day) {
                 var dayEvents = $scope.events[day.getDate()];
-                if (dayEvents !== undefined) {
-                    var events = _.filter(_.flatten(dayEvents), function (event) {
-                        return event !== undefined;
-                    });
-                    CalendarRenderer.attachAll(events);
-                }
+                CalendarRenderer.attachAll($scope.flatten(dayEvents));
             };
 
             /**
@@ -348,7 +352,7 @@ chronosCalendar.controller('CalendarCtrl',
             $scope.dayInfo = function (day, maxCount) {
                 //check cache
                 var cacheKey = day.toString('yyyy-MM-dd') + ' ' + maxCount;
-                var cached = undefined; //$scope.cache.get(cacheKey);
+                var cached = []; //$scope.cache.get(cacheKey);
                 if (cached !== undefined) {
                     return cached;
                 }
@@ -554,8 +558,43 @@ chronosCalendar.controller('CalendarCtrl',
 
         }
     ]
-)
-;
+);
+
+chronosCalendar.filter('dayInfo', ['version', function (version) {
+
+    return function (dayEvents, day) {
+        var info = [];
+        if (dayEvents.length == 0) {
+            info = [
+                {
+                    name: '',
+                    color: 'turquoise',
+                    value: 0
+                }
+            ];
+        } else {
+            info = _.chain(dayEvents).
+                groupBy(function (event) {
+                    return event.location.name;
+                }).
+                map(function (events, location) {
+                    return {
+                        name: location,
+                        color: events.length > 0 ? events[0].location.color : 'turquoise',
+                        value: events.length
+                    };
+                }).
+                sortBy(function (info) {
+                    return info.value;
+                }).
+                reverse().
+                first(maxCount).
+                value();
+        }
+        return info;
+    };
+
+}]);
 
 /**
  * Renderer manages displaying of events in the chosen day.
