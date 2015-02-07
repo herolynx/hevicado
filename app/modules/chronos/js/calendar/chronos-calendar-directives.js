@@ -11,7 +11,7 @@ var chronCalDirectives = angular.module('chronos.calendar.directives', []);
 chronCalDirectives.directive('calendarMenu', function () {
     return {
         restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar-menu.html',
+        templateUrl: 'modules/chronos/partials/calendar/calendar-menu.html',
         scope: false
     };
 });
@@ -23,7 +23,7 @@ chronCalDirectives.directive('calendarMenu', function () {
 chronCalDirectives.directive('calendarTable', function () {
     return {
         restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar-table.html',
+        templateUrl: 'modules/chronos/partials/calendar/calendar-table.html',
         scope: false
     };
 });

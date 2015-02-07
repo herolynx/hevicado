@@ -44,7 +44,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('default-user', {
             url: "/patient/visit",
-            templateUrl: "modules/chronos/partials/calendar-timeline.html",
+            templateUrl: "modules/chronos/partials/timeline/calendar-timeline.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
@@ -106,21 +106,21 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('user-visits', {
             url: "/patient/visit",
-            templateUrl: "modules/chronos/partials/calendar-timeline.html",
+            templateUrl: "modules/chronos/partials/timeline/calendar-timeline.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('user-visit', {
             url: "/patient/visit/{eventId:[0-9a-z]+}",
-            templateUrl: "modules/chronos/partials/info-event.html",
+            templateUrl: "modules/chronos/partials/visit/info-event.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('search-doctor', {
             url: "/doctor",
-            templateUrl: "modules/chronos/partials/chronos-search.html",
+            templateUrl: "modules/chronos/partials/visit/visit-search.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
@@ -129,14 +129,14 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
     $stateProvider.
         state('calendar-day', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar",
-            templateUrl: "modules/chronos/partials/calendar-day-frame.html",
+            templateUrl: "modules/chronos/partials/calendar/calendar-day-frame.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS
             }
         }).
         state('calendar-day.daily', {
             url: "/daily?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
-            templateUrl: "modules/chronos/partials/calendar-day.html",
+            templateUrl: "modules/chronos/partials/calendar/calendar-day.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
@@ -146,7 +146,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('calendar-week', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/weekly",
-            templateUrl: "modules/chronos/partials/calendar-week.html",
+            templateUrl: "modules/chronos/partials/calendar/calendar-week.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
@@ -156,7 +156,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('calendar-month', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/monthly",
-            templateUrl: "modules/chronos/partials/calendar-month.html",
+            templateUrl: "modules/chronos/partials/calendar/calendar-month.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
@@ -166,7 +166,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('calendar-day.edit-visit', {
             url: "/visit/{eventId:[0-9a-z]+}?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
-            templateUrl: "modules/chronos/partials/edit-event.html",
+            templateUrl: "modules/chronos/partials/visit/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
@@ -176,7 +176,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('calendar-day.new-visit', {
             url: "/visit/{startTime:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}}?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
-            templateUrl: "modules/chronos/partials/edit-event.html",
+            templateUrl: "modules/chronos/partials/visit/edit-event.html",
             data: {
                 access: ACCESS_LEVELS.USERS,
                 addVisitState: 'calendar-day.new-visit',
