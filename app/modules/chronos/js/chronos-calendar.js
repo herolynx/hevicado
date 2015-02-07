@@ -12,10 +12,8 @@ var chronosCalendar = angular.module('chronos.calendar', [
  * @param $scope current scope of controller
  * @param @state state manager
  * @param $stateParams current state parameters manager
- * @param $cacheFactory cache provider
  * @param $log logger
  * @param CalendarService service managing calendar data
- * @param CalendarCollectionFactory factory for creating proper event related collections
  * @param CalendarRenderer renderer for attaching events to proper time lines
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param EventActionManager event action validator
@@ -24,8 +22,8 @@ var chronosCalendar = angular.module('chronos.calendar', [
  * @param UsersService service for getting info about calendar owner
  */
 chronosCalendar.controller('CalendarCtrl',
-    ['$rootScope', '$scope', '$state', '$stateParams', '$cacheFactory', '$log', 'CalendarService', 'CalendarCollectionFactory', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
-        function ($rootScope, $scope, $state, $stateParams, $cacheFactory, $log, CalendarService, CalendarCollectionFactory, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
+    ['$rootScope', '$scope', '$state', '$stateParams', '$log', 'CalendarService', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
+        function ($rootScope, $scope, $state, $stateParams, $log, CalendarService, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
 
             /**
              * Include underscore
@@ -42,8 +40,6 @@ chronosCalendar.controller('CalendarCtrl',
             $scope.viewType = 7;
             $scope.days = [];
 
-            $scope.cache = $cacheFactory('cacheCalendar-' + new Date());
-            $scope.eventsMap = CalendarCollectionFactory.eventsMap();
             $scope.events = [];
 
             $scope.filter = {
@@ -85,7 +81,6 @@ chronosCalendar.controller('CalendarCtrl',
                     events(startDate, endDate).
                     success(function (data) {
                         $log.debug('Events loaded - data size: ' + data.length);
-                        $scope.cache.removeAll();
                         _.map(data, EventUtils.normalize);
                         var events = _.filter(data, function (event) {
                             return $scope.filter.accept(event);
@@ -343,25 +338,6 @@ chronosCalendar.controller('CalendarCtrl',
                 });
             };
 
-            /**
-             * Get events in given time period that begins in chosen quarter of an hour.
-             * @param day day without time period
-             * @param dayHour hour when events can begin
-             * @param minutes minutes minutes that set quarter when events can begin
-             * @returns {Array} events
-             */
-            $scope.getEvents = function (day, dayHour, minutes) {
-                //check cache
-                var cacheKey = day.toString('yyyy-MM-dd') + ' ' + dayHour + ':' + minutes;
-                var cached = $scope.cache.get(cacheKey);
-                if (cached !== undefined) {
-                    return cached;
-                }
-                var dayEvents = $scope.eventsMap.events(day);
-                $scope.cache.put(cacheKey, dayEvents);
-                return dayEvents;
-            };
-
 //TODO move to filter
             /**
              * Get summary info about events for chosen day
@@ -372,12 +348,12 @@ chronosCalendar.controller('CalendarCtrl',
             $scope.dayInfo = function (day, maxCount) {
                 //check cache
                 var cacheKey = day.toString('yyyy-MM-dd') + ' ' + maxCount;
-                var cached = $scope.cache.get(cacheKey);
+                var cached = undefined; //$scope.cache.get(cacheKey);
                 if (cached !== undefined) {
                     return cached;
                 }
                 //get info
-                var dayEvents = $scope.eventsMap.events(day);
+                var dayEvents = [];// $scope.eventsMap.events(day);
                 var info = {};
                 if (dayEvents.length == 0) {
                     info = [
@@ -407,7 +383,7 @@ chronosCalendar.controller('CalendarCtrl',
                         value();
                 }
                 info.id = cacheKey;
-                $scope.cache.put(cacheKey, info);
+                //$scope.cache.put(cacheKey, info);
                 return info;
             };
 
@@ -453,7 +429,6 @@ chronosCalendar.controller('CalendarCtrl',
                 CalendarService.save(event).
                     success(function (response) {
                         $scope.attachEvent(event);
-                        $scope.cache.removeAll();
                         $scope.buildTimelineFor(event.start, event.end);
                         $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
                     }).
@@ -488,7 +463,6 @@ chronosCalendar.controller('CalendarCtrl',
                         $log.debug('Event cancelled successfully');
                         $scope.detachEvent(event);
                         event.cancelled = new Date();
-                        $scope.cache.removeAll();
                         $scope.buildTimelineFor(event.start, event.end);
                         $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
                     }).
@@ -564,7 +538,7 @@ chronosCalendar.controller('CalendarCtrl',
                     return defaultLocation;
                 }
                 var cacheKey = 'location' + day.toString('yyyy-MM-dd') + ' ' + dayHour + ':' + minutes;
-                var cached = $scope.cache.get(cacheKey);
+                var cached = undefined; // $scope.cache.get(cacheKey);
                 if (cached !== undefined) {
                     return cached;
                 }
@@ -574,7 +548,7 @@ chronosCalendar.controller('CalendarCtrl',
                     second: 0
                 });
                 var location = EventUtils.findLocation($scope.doctor.locations, dateTime) || defaultLocation;
-                $scope.cache.put(cacheKey, location);
+                //$scope.cache.put(cacheKey, location);
                 return location;
             };
 
