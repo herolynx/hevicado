@@ -6,7 +6,7 @@
             <calendar-time-line day="day"/>
         </th>
     </tr>
-    <tr ng-repeat="hour in _.range(0,12)" id="hour-{{hour}}">
+    <tr ng-repeat="hour in _.range(0, 24)" id="hour-{{hour}}">
         <td>{{hour}}:00</td>
         <td ng-repeat="day in days">
             <calendar-table-day />
