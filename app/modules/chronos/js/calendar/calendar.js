@@ -24,9 +24,9 @@ angular.module('chronos.calendar', [
 angular.module('chronos.calendar').
     controller('CalendarCtrl',
     ['$rootScope', '$scope', '$state', '$stateParams', '$log', '$controller',
-        'CalendarService', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
+        'CalendarService', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
         function ($rootScope, $scope, $state, $stateParams, $log, $controller,
-                  CalendarService, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
+                  CalendarService, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
 
             /**
              * Include underscore
@@ -97,24 +97,6 @@ angular.module('chronos.calendar').
                         $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
                         uiNotification.text('Error', 'Couldn\'t load events').error();
                     });
-            };
-
-            /**
-             * Build time lines so events can be displayed on calendar properly
-             * @param day for which time line should be built
-             */
-            $scope.buildTimeline = function (day) {
-                var dayEvents = $scope.events[day.getDate()];
-                CalendarRenderer.attachAll($scope.allEvents());
-            };
-
-            /**
-             * Build time lines for given time period  so events can be displayed on calendar properly
-             * @param startDate beginning of time window
-             * @param endDate end of time window
-             */
-            $scope.buildTimelineFor = function (startDate, endDate) {
-                _.map($scope.createDays(startDate, endDate), $scope.buildTimeline);
             };
 
             /**

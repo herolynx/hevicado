@@ -5,8 +5,8 @@
  */
 angular.module('chronos.calendar').
     controller('CalendarModel7',
-    ['$scope',
-        function ($scope) {
+    ['$scope', 'CalendarRenderer',
+        function ($scope, CalendarRenderer) {
 
             /**
              * Action performed after events are loaded
@@ -70,6 +70,24 @@ angular.module('chronos.calendar').
                 return _.filter(_.flatten($scope.events), function (event) {
                     return event !== undefined;
                 });
+            };
+
+            /**
+             * Build time lines so events can be displayed on calendar properly
+             * @param day for which time line should be built
+             */
+            $scope.buildTimeline = function (day) {
+                var dayEvents = $scope.events[day.getDate()];
+                CalendarRenderer.attachAll($scope.allEvents());
+            };
+
+            /**
+             * Build time lines for given time period  so events can be displayed on calendar properly
+             * @param startDate beginning of time window
+             * @param endDate end of time window
+             */
+            $scope.buildTimelineFor = function (startDate, endDate) {
+                _.map($scope.createDays(startDate, endDate), $scope.buildTimeline);
             };
 
         }
@@ -136,6 +154,23 @@ angular.module('chronos.calendar').
              * @returns {*} flat array of events
              */
             $scope.allEvents = function () {
+                //empty
+            };
+
+            /**
+             * Build time lines so events can be displayed on calendar properly
+             * @param day for which time line should be built
+             */
+            $scope.buildTimeline = function (day) {
+                //empty
+            };
+
+            /**
+             * Build time lines for given time period  so events can be displayed on calendar properly
+             * @param startDate beginning of time window
+             * @param endDate end of time window
+             */
+            $scope.buildTimelineFor = function (startDate, endDate) {
                 //empty
             };
 
