@@ -1,5 +1,11 @@
 'use strict';
 
+angular.module('chronos.calendar', [
+    'chronos.events.edit',
+    'ui.elements',
+    'commons.users.filters'
+]);
+
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $rootScope root scope for broadcasting calendar related events
@@ -15,11 +21,7 @@
  * @param uiNotifications component managing notifications
  * @param UsersService service for getting info about calendar owner
  */
-angular.module('chronos.calendar', [
-    'chronos.events.edit',
-    'ui.elements',
-    'commons.users.filters'
-]).
+angular.module('chronos.calendar').
     controller('CalendarCtrl',
     ['$rootScope', '$scope', '$state', '$stateParams', '$log', '$controller',
         'CalendarService', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
