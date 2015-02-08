@@ -1,6 +1,6 @@
 'use strict';
 
-var chronCalDirectives = angular.module('chronos.calendar.directives', []);
+angular.module('chronos.calendar.directives', []);
 
 /**
  * Directive displays top menu of the calendar.
@@ -8,25 +8,27 @@ var chronCalDirectives = angular.module('chronos.calendar.directives', []);
  * It also allows switching type of calendar view between day, week and month.
  * Directive uses the parent scope of the controller.
  */
-chronCalDirectives.directive('calendarMenu', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar/calendar-menu.html',
-        scope: false
-    };
-});
+angular.module('chronos.calendar.directives').
+    directive('calendarMenu', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'modules/chronos/partials/calendar/calendar-menu.html',
+            scope: false
+        };
+    });
 
 /**
  * Directive displays chosen days of calendar in table form.
  * Directive uses the parent scope of the controller.
  */
-chronCalDirectives.directive('calendarTable', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar/calendar-table.html',
-        scope: false
-    };
-});
+angular.module('chronos.calendar.directives').
+    directive('calendarTable', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'modules/chronos/partials/calendar/calendar-table.html',
+            scope: false
+        };
+    });
 
 /**
  * Directive displayes single event on table based on its timeline settings
@@ -35,7 +37,8 @@ chronCalDirectives.directive('calendarTable', function () {
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param CALENDAR_SETTINGS settings for calendar rendering
  */
-chronCalDirectives.directive('calendarTableEvent',
+angular.module('chronos.calendar.directives').
+    directive('calendarTableEvent',
     ['$window', 'CALENDAR_EVENTS', 'CALENDAR_SETTINGS',
         function ($window, CALENDAR_EVENTS, CALENDAR_SETTINGS) {
 
@@ -100,7 +103,8 @@ chronCalDirectives.directive('calendarTableEvent',
  * Directive refreshes current time periodically.
  * @param $interval function for refreshing current time
  */
-chronCalDirectives.directive('calendarTimeLine',
+angular.module('chronos.calendar.directives').
+    directive('calendarTimeLine',
     ['$interval', '$document',
         function ($interval, $document) {
 

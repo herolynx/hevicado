@@ -1,11 +1,5 @@
 'use strict';
 
-var chronosCalendar = angular.module('chronos.calendar', [
-    'chronos.events.edit',
-    'ui.elements',
-    'commons.users.filters'
-]);
-
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $rootScope root scope for broadcasting calendar related events
@@ -21,9 +15,16 @@ var chronosCalendar = angular.module('chronos.calendar', [
  * @param uiNotifications component managing notifications
  * @param UsersService service for getting info about calendar owner
  */
-chronosCalendar.controller('CalendarCtrl',
-    ['$rootScope', '$scope', '$state', '$stateParams', '$log', 'CalendarService', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
-        function ($rootScope, $scope, $state, $stateParams, $log, CalendarService, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
+angular.module('chronos.calendar', [
+    'chronos.events.edit',
+    'ui.elements',
+    'commons.users.filters'
+]).
+    controller('CalendarCtrl',
+    ['$rootScope', '$scope', '$state', '$stateParams', '$log', '$controller',
+        'CalendarService', 'CalendarRenderer', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
+        function ($rootScope, $scope, $state, $stateParams, $log, $controller,
+                  CalendarService, CalendarRenderer, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
 
             /**
              * Include underscore
@@ -86,6 +87,7 @@ chronosCalendar.controller('CalendarCtrl',
                             return $scope.filter.accept(event);
                         });
                         $scope.events = [];
+                        $scope.afterEventsLoad(events);
                         _.map(events, $scope.attachEvent);
                         _.map($scope.days, $scope.buildTimeline);
                     }).
@@ -96,64 +98,12 @@ chronosCalendar.controller('CalendarCtrl',
             };
 
             /**
-             * Attach event to calendar grid
-             * @param event event to be attached
-             */
-            $scope.attachEvent = function (event) {
-                //get keys
-                var day = event.start.getDate();
-                var hour = event.start.getHours();
-                var quarter = event.start.getMinutes() / $scope.quarterLength;
-                //prepare place
-                var days = $scope.events[day] || [];
-                $scope.events[day] = days;
-                var hours = days[hour] || [];
-                days[hour] = hours;
-                var quarters = hours[quarter] || [];
-                hours[quarter] = quarters;
-                //store event
-                quarters.push(event);
-            };
-
-            /**
-             * Detach event from calendar grid
-             * @param event event to be detached
-             */
-            $scope.detachEvent = function (event) {
-                //get keys
-                var day = event.start.getDate();
-                var hour = event.start.getHours();
-                var quarter = event.start.getMinutes() / $scope.quarterLength;
-                //prepare place
-                var days = $scope.events[day] || [];
-                if (days !== undefined) {
-                    var hours = days[hour] || [];
-                    if (hours != undefined) {
-                        var quarters = hours[quarter] || [];
-                        if (quarters != undefined) {
-                            var index = quarters.indexOf(event);
-                            quarters.splice(index, 1);
-                        }
-                    }
-                }
-            };
-
-            $scope.flatten = function (events) {
-                if (events === undefined) {
-                    return [];
-                }
-                return _.filter(_.flatten(events), function (event) {
-                    return event !== undefined;
-                });
-            };
-
-            /**
              * Build time lines so events can be displayed on calendar properly
              * @param day for which time line should be built
              */
             $scope.buildTimeline = function (day) {
                 var dayEvents = $scope.events[day.getDate()];
-                CalendarRenderer.attachAll($scope.flatten(dayEvents));
+                CalendarRenderer.attachAll($scope.allEvents());
             };
 
             /**
@@ -211,12 +161,15 @@ chronosCalendar.controller('CalendarCtrl',
              */
             $scope.initTimePeriod = function (currentDate) {
                 if ($scope.viewType == 31) {
+                    $controller('CalendarModel31', {$scope: $scope});
                     $scope.beginDate = EventUtils.currentMonday(currentDate.clone().moveToFirstDayOfMonth());
                     $scope.endDate = currentDate.clone().moveToLastDayOfMonth().next().monday();
                 } else if ($scope.viewType == 7) {
+                    $controller('CalendarModel7', {$scope: $scope});
                     $scope.beginDate = EventUtils.currentMonday(currentDate);
                     $scope.endDate = $scope.beginDate.clone().add(7).days();
                 } else {
+                    $controller('CalendarModel7', {$scope: $scope});
                     $scope.beginDate = currentDate.clone();
                     $scope.endDate = currentDate.clone();
                 }
@@ -342,56 +295,6 @@ chronosCalendar.controller('CalendarCtrl',
                 });
             };
 
-//TODO move to filter
-            /**
-             * Get summary info about events for chosen day
-             * @param day day which summay info should be taken for
-             * @param maxCount max count if elements to be returned
-             * @return {Array} objects with number of events per location
-             */
-            $scope.dayInfo = function (day, maxCount) {
-                //check cache
-                var cacheKey = day.toString('yyyy-MM-dd') + ' ' + maxCount;
-                var cached = []; //$scope.cache.get(cacheKey);
-                if (cached !== undefined) {
-                    return cached;
-                }
-                //get info
-                var dayEvents = [];// $scope.eventsMap.events(day);
-                var info = {};
-                if (dayEvents.length == 0) {
-                    info = [
-                        {
-                            name: '',
-                            color: 'turquoise',
-                            value: 0
-                        }
-                    ];
-                } else {
-                    info = _.chain(dayEvents).
-                        groupBy(function (event) {
-                            return event.location.name;
-                        }).
-                        map(function (events, location) {
-                            return {
-                                name: location,
-                                color: events.length > 0 ? events[0].location.color : 'turquoise',
-                                value: events.length
-                            };
-                        }).
-                        sortBy(function (info) {
-                            return info.value;
-                        }).
-                        reverse().
-                        first(maxCount).
-                        value();
-                }
-                info.id = cacheKey;
-                //$scope.cache.put(cacheKey, info);
-                return info;
-            };
-
-
             /**
              * Handle on drop event
              * @param dndEvent DnD event
@@ -448,7 +351,6 @@ chronosCalendar.controller('CalendarCtrl',
                         $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
                     });
             };
-
 
             /**
              * Cancel event
@@ -560,129 +462,3 @@ chronosCalendar.controller('CalendarCtrl',
     ]
 );
 
-chronosCalendar.filter('dayInfo', ['version', function (version) {
-
-    return function (dayEvents, day) {
-        var info = [];
-        if (dayEvents.length == 0) {
-            info = [
-                {
-                    name: '',
-                    color: 'turquoise',
-                    value: 0
-                }
-            ];
-        } else {
-            info = _.chain(dayEvents).
-                groupBy(function (event) {
-                    return event.location.name;
-                }).
-                map(function (events, location) {
-                    return {
-                        name: location,
-                        color: events.length > 0 ? events[0].location.color : 'turquoise',
-                        value: events.length
-                    };
-                }).
-                sortBy(function (info) {
-                    return info.value;
-                }).
-                reverse().
-                first(maxCount).
-                value();
-        }
-        return info;
-    };
-
-}]);
-
-/**
- * Renderer manages displaying of events in the chosen day.
- * Renderer marks timeline where event should be displayed and number of overlaping events
- * that will be displayed at the same time.
- */
-chronosCalendar.service('CalendarRenderer', function () {
-
-    var t = [];
-    var overlap = {
-        value: 0
-    };
-
-    /**
-     * Check whether all timelines will be done at given point of time
-     * @param date point of time to be checked
-     */
-    var areAfter = function (date) {
-        for (var i = 0; i < t.length; i++) {
-            if (date.isBefore(t[i].end)) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    /**
-     * Clear state of renderer
-     */
-    var clear = function () {
-        t = [];
-        overlap = {
-            value: 0
-        };
-    };
-
-    /**
-     * Get timeline that is free at given point of time
-     * @param date point of time
-     * @return index of existing or newly created timeline
-     */
-    var timeline = function (date) {
-        for (var i = 0; i < t.length; i++) {
-            if (t[i].end.compareTo(date) <= 0) {
-                //ends before or at the same time
-                return i;
-            }
-        }
-        //create new timeline
-        overlap.value++;
-        t.push(new Object());
-        return t.length - 1;
-    };
-
-    return {
-
-        /**
-         * Attach event to next free timeline
-         * @param event event that should be displayed
-         */
-        attach: function (event) {
-            if (areAfter(event.start)) {
-                clear();
-            }
-            var index = timeline(event.start);
-            t[index] = event;
-            event.timeline = index;
-            event.overlap = overlap;
-            event.quarter = event.duration / 15;
-        },
-
-        /**
-         * Attach events to timelines
-         * @param events events that should be displayed in the same day
-         */
-        attachAll: function (events) {
-            clear();
-            //sort events
-            var order = _.chain(events).
-                sortBy('end').
-                reverse().
-                sortBy('start').
-                value();
-            //attach events
-            for (var i = 0; i < order.length; i++) {
-                this.attach(order[i]);
-            }
-        }
-
-    };
-});

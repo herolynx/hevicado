@@ -5,7 +5,7 @@
             <div class="notes">
                
 				<ul>
-					<li ng-repeat="visit in flatten(events)">
+					<li ng-repeat="visit in allEvents()">
 						<div class="describe">
 							<h3>{{visit.patient | userInfo}}</h3>
 							<p>{{'cabinet.hour-visit' | translate}}: <span>{{visit.start.toString('HH:mm')}} - {{visit.end.toString('HH:mm')}}</span></p>
