@@ -284,54 +284,34 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour(),
-                        duration: 120
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour(),
-                        duration: 60
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event can be changed
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canEdit.andReturn(true);
 
                 //when one of events is updated on DnD
                 var dndEvent = {};
-                ctrlScope.dndDrop(dndEvent, events[0], startDate, 8, 0, 0);
+                ctrlScope.dndDrop(dndEvent, event, startDate, 8, 0, 0);
                 //and back-end responded successfully
                 calendarPromise.onSuccess('UPDATED');
                 //then event is updated
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 08:00:00');
-                expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 10:00:00');
-                //and time line is refreshed for proper period of time
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(0);
-                expect(events[0].overlap.value).toBe(1);
-                expect(events[1].overlap.value).toBe(1);
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 08:00:00');
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 10:00:00');
+                //and event is updated
+                expect(ctrlScope.detachedEvent).toBe(event);
+                expect(ctrlScope.attachedEvent).toBe(event);
+                //and time line is refreshed
+                expect(ctrlScope.timeline).toEqual([event.start, event.end]);
+
             });
 
             it('should fallback drag and drop changes when event cannot be saved', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -342,47 +322,28 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour(),
-                        duration: 120
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour(),
-                        duration: 60
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event can be changed
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canEdit.andReturn(true);
 
                 //when one of events is updated on DnD
                 var dndEvent = {};
-                ctrlScope.dndDrop(dndEvent, events[0], startDate, 8, 0, 0);
+                ctrlScope.dndDrop(dndEvent, event, startDate, 8, 0, 0);
                 //and back-end responded with failure
                 calendarPromise.onError('FAILURE');
                 //then old state of event is restored
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
-                expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:00:00');
-                //and time lines are restored
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:00:00');
+                //and event is updated
+                expect(ctrlScope.detachedEvent).toBe(event);
+                expect(ctrlScope.attachedEvent).toBe(event);
+                //and time line is refreshed
+                expect(ctrlScope.timeline).toEqual([event.start, event.end]);
                 //and user is informed about error
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
@@ -392,8 +353,6 @@ describe('calendar-editor-spec:', function () {
             it('should change event duration on resize', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -404,31 +363,13 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour(),
-                        duration: 120
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour(),
-                        duration: 60
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event can be changed
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canEdit.andReturn(true);
 
                 //when duration of event is changed using resizing
@@ -441,26 +382,23 @@ describe('calendar-editor-spec:', function () {
                         height: 120
                     }
                 };
-                ctrlScope.dndChangeTime(dndEvent, ui, events[0]);
+                ctrlScope.dndChangeTime(dndEvent, ui, event);
                 //and back-end responded successfully
                 calendarPromise.onSuccess('UPDATED');
                 //then event is updated
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
-                expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:30:00');
-                expect(events[0].duration).toBe(150);
-                //and time line is refreshed for proper period of time
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:30:00');
+                expect(event.duration).toBe(150);
+                //and event is updated
+                expect(ctrlScope.detachedEvent).toBe(event);
+                expect(ctrlScope.attachedEvent).toBe(event);
+                //and time line is refreshed
+                expect(ctrlScope.timeline).toEqual([event.start, event.end]);
             });
 
             it('should fallback resize change on event', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -471,31 +409,13 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour(),
-                        duration: 120
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour(),
-                        duration: 60
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event can be changed
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canEdit.andReturn(true);
 
                 //when duration of event is changed using resizing
@@ -508,141 +428,22 @@ describe('calendar-editor-spec:', function () {
                         height: 120
                     }
                 };
-                ctrlScope.dndChangeTime(dndEvent, ui, events[0]);
+                ctrlScope.dndChangeTime(dndEvent, ui, event);
                 //and back-end responded with failure
                 calendarPromise.onError('ERROR');
                 //then event is updated
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                expect(events[0].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
-                expect(events[0].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:00:00');
-                expect(events[0].duration).toBe(150);
-                //and time line is refreshed for proper period of time
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
+                expect(event.start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
+                expect(event.end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 05:00:00');
+                expect(event.duration).toBe(150);
+                //and event is updated
+                expect(ctrlScope.detachedEvent).toBe(event);
+                expect(ctrlScope.attachedEvent).toBe(event);
+                //and time line is refreshed
+                expect(ctrlScope.timeline).toEqual([event.start, event.end]);
                 //and user is informed about error
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
                 expect(mockUiNotification.msg).toBe('Couldn\'t save event');
-            });
-
-            it('should change event duration on resize and order of events on time line', function () {
-                //given controller is initialized
-                expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
-                //and current date
-                var startDate = Date.today().set({
-                    year: 2014,
-                    month: 9,
-                    day: 13
-                });
-                ctrlScope.beginDate = startDate;
-                ctrlScope.currentDate = startDate;
-                ctrlScope.endDate = startDate;
-                ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour(),
-                        duration: 120
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour(),
-                        duration: 60
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                //and event can be changed
-                mockEventActionManager.canEdit.andReturn(true);
-
-                //when duration of event is changed using resizing
-                var dndEvent = {};
-                var ui = {
-                    size: {
-                        height: 180
-                    },
-                    originalSize: {
-                        height: 60
-                    }
-                };
-                ctrlScope.dndChangeTime(dndEvent, ui, events[1]);
-                //and back-end responded successfully
-                calendarPromise.onSuccess('UPDATED');
-                //then event is updated
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
-                expect(events[1].start.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 03:00:00');
-                expect(events[1].end.toString('yyyy-MM-dd HH:mm:ss')).toBe('2014-10-13 06:00:00');
-                expect(events[1].duration).toBe(180);
-                //and order of events is changed on time line
-                expect(events[0].timeline).toBe(1);
-                expect(events[1].timeline).toBe(0);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-            });
-
-            it('should clear cache after drag-and-drop or resizing', function () {
-                //given controller is initialized
-                expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
-                //and current date
-                var startDate = Date.today().set({
-                    year: 2014,
-                    month: 9,
-                    day: 13
-                });
-                ctrlScope.beginDate = startDate;
-                ctrlScope.currentDate = startDate;
-                ctrlScope.endDate = startDate;
-                ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour(),
-                        duration: 120
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour(),
-                        duration: 60
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                //and first read has been done
-                expect(ctrlScope.getEvents(startDate, 3, 0).length).toBe(2);
-                //and event can be changed
-                mockEventActionManager.canEdit.andReturn(true);
-
-                //when one of events is updated using DnD or resizing
-                var dndEvent = {};
-                var newDate = startDate.clone().add(1).days();
-                ctrlScope.dndDrop(dndEvent, events[0], newDate, 8, 0, 0);
-                //and back-end responded successfully
-                calendarPromise.onSuccess('UPDATED');
-                //then cache is cleared
-                //and new results are taken
-                expect(ctrlScope.getEvents(startDate, 3, 0).length).toBe(1);
-                expect(ctrlScope.getEvents(newDate, 8, 0).length).toBe(1);
             });
 
         });
