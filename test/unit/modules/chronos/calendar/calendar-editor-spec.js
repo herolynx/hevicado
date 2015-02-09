@@ -8,10 +8,10 @@ describe('calendar-editor-spec:', function () {
     describe('CalendarEditorCtrl-spec:', function () {
 
         var ctrlScope, mockRootScope;
-        var mockCalendarService, mockUsersService;
-        var mockEventActionManager, mockUiNotification, mockModal;
+        var mockCalendarService;
+        var mockEventActionManager, mockUiNotification;
         var mockState, mockStateParams;
-        var calendarPromise, userPromise, calendarEvents;
+        var calendarPromise, calendarEvents;
 
         beforeEach(function () {
             toUTCDate = function (value) {
@@ -43,18 +43,6 @@ describe('calendar-editor-spec:', function () {
             mockCalendarService.events.andReturn(calendarPromise);
             mockCalendarService.cancel.andReturn(calendarPromise);
             mockCalendarService.save.andReturn(calendarPromise);
-            mockUsersService = jasmine.createSpyObj('mockUsersService', ['get']);
-            userPromise = {
-                success: function (f) {
-                    userPromise.onSuccess = f;
-                    return userPromise;
-                },
-                error: function (f) {
-                    userPromise.onError = f;
-                    return userPromise;
-                }
-            };
-            mockUsersService.get.andReturn(userPromise);
             mockEventActionManager = jasmine.createSpyObj('mockEventActionManager', ['canCancel', 'canEdit']);
             //mock others
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
@@ -66,27 +54,37 @@ describe('calendar-editor-spec:', function () {
             var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
             mockState = jasmine.createSpyObj('$state', ['go']);
             mockState.current = {
+                daysAmount: 1,
                 data: {
                     addVisitState: 'mock-state.new-visit',
                     editVisitState: 'mock-state.edit-visit'
                 }
             };
-            mockStateParams = {doctorId: "doctor-123"};
+            mockStateParams = {doctorId: "doctor-123", currentDate: new Date()};
             //inject mocks
-            $controller('CalendarCtrl', {
+            $controller('CalendarEditorCtrl', {
                 $rootScope: mockRootScope,
                 $scope: ctrlScope,
                 $log: mockLog,
                 $state: mockState,
                 $stateParams: mockStateParams,
                 CalendarService: mockCalendarService,
-                CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
-                CalendarRenderer: $injector.get('CalendarRenderer'),
                 EventUtils: $injector.get('EventUtils'),
                 EventActionManager: mockEventActionManager,
-                uiNotification: mockUiNotification,
-                UsersService: mockUsersService
+                uiNotification: mockUiNotification
             });
+            ctrlScope.afterEventsLoad = function () {
+                ctrlScope.eventsLoaded = true;
+            };
+            ctrlScope.attachEvent = function (event) {
+                ctrlScope.attachedEvent = event;
+            };
+            ctrlScope.detachEvent = function (event) {
+                ctrlScope.detachedEvent = event;
+            };
+            ctrlScope.buildTimelineFor = function (start, end) {
+                ctrlScope.timeline = [start, end];
+            };
         }));
 
         describe('events modification-spec:', function () {
@@ -97,10 +95,7 @@ describe('calendar-editor-spec:', function () {
                 //and edition of event has not started
                 mockState.current.name = "mock-state.calendar";
                 //and current user
-                var currentUserId = "doctor-123";
-                //and ctrl is initialized
-                ctrlScope.init(1, Date.today());
-                expect(ctrlScope.doctorId).toBe(currentUserId);
+                ctrlScope.doctorId = "doctor-123";
                 //when starting adding event on chosen time
                 var startDate = Date.today().set({
                     year: 2014,
@@ -111,7 +106,7 @@ describe('calendar-editor-spec:', function () {
                 //then event edition is started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
                 expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.addVisitState, {
-                    doctorId: currentUserId,
+                    doctorId: 'doctor-123',
                     startTime: startTime.toString('yyyy-MM-dd HH:mm'),
                     currentDate: startTime.toString('yyyy-MM-dd')
                 });
@@ -123,11 +118,8 @@ describe('calendar-editor-spec:', function () {
                 //and edition of event has started
                 mockState.current.name = mockState.current.data.addVisitState;
                 //and current user
-                var currentUserId = "doctor-123";
-                //and ctrl is initialized
-                ctrlScope.init(1, Date.today());
-                expect(ctrlScope.doctorId).toBe(currentUserId);
-                //when starting chosing new start date of an edited event
+                ctrlScope.doctorId = "doctor-123";
+                //when starting choosing new start date of an edited event
                 var startDate = Date.today().set({
                     year: 2014,
                     month: 9,
@@ -137,10 +129,10 @@ describe('calendar-editor-spec:', function () {
                 //then event edition is NOT started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
                 expect(mockState.go).not.toHaveBeenCalledWith(mockState.current.data.addVisitState, {
-                    doctorId: currentUserId,
+                    doctorId: 'doctor-123',
                     startTime: startTime.toString('yyyy-MM-dd HH:mm')
                 });
-                //and proper info event about new picked data is broadcasted
+                //and proper info event about new picked data is broad-casted
                 expect(mockRootScope.$broadcast).toHaveBeenCalledWith(calendarEvents.CALENDAR_TIME_PICKED, startTime);
             });
 
@@ -148,9 +140,7 @@ describe('calendar-editor-spec:', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
                 //and current user
-                var currentUserId = "doctor-123";
-                //and ctrl is initialized
-                ctrlScope.init(1, Date.today());
+                ctrlScope.doctorId = "doctor-123";
                 //and existing event to be edited
                 var startDate = Date.today().set({
                     year: 2014,
@@ -167,7 +157,7 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.editEvent(event);
                 //then event edition is started
                 expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.editVisitState, {
-                    doctorId: currentUserId,
+                    doctorId: 'doctor-123',
                     eventId: event.id,
                     currentDate: event.start.toString('yyyy-MM-dd')
                 });
@@ -176,8 +166,6 @@ describe('calendar-editor-spec:', function () {
             it('should cancel event', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -188,47 +176,29 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hours(),
-                        end: startDate.clone().add(5).hours()
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hours(),
-                        end: startDate.clone().add(4).hours()
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event can be cancelled
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canCancel.andReturn(true);
                 //when one of events is cancelled
-                ctrlScope.cancelEvent(events[0]);
+                ctrlScope.cancelEvent(event);
                 //and back-end responded successfully
                 calendarPromise.onSuccess('CANCELLED');
                 //then event is cancelled
-                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(1);
-                //and time line is refreshed for proper period of time
-                expect(events[1].timeline).toBe(0);
-                expect(events[1].overlap.value).toBe(1);
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(event);
+                //and event is detached
+                expect(ctrlScope.detachedEvent).toBe(event);
+                //and time line is refreshed
+                expect(ctrlScope.timeline).toEqual([event.start, event.end]);
             });
 
             it('should block event cancellation', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -239,47 +209,33 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hours(),
-                        end: startDate.clone().add(5).hours()
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hours(),
-                        end: startDate.clone().add(4).hours()
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event cannot be cancelled
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canCancel.andReturn(false);
                 //when one of events is cancelled
-                ctrlScope.cancelEvent(events[0]);
+                ctrlScope.cancelEvent(event);
                 //then event is not cancelled
-                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(event);
                 expect(mockCalendarService.cancel).not.toHaveBeenCalled();
                 //then user is informed properly
-                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(event);
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
                 expect(mockUiNotification.msg).toBe('Event cannot be cancelled');
+                //and event is not detached
+                expect(ctrlScope.detachedEvent).not.toBeDefined();
+                //and time line is not refreshed
+                expect(ctrlScope.timeline).not.toBeDefined();
             });
 
-            it('should inform user when event cannot be cancelled', function () {
+            it('should inform user when event cannot be cancelled due to backend failure', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                //and one day display period time
-                var daysCount = 1;
                 //and current date
                 var startDate = Date.today().set({
                     year: 2014,
@@ -290,39 +246,27 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.currentDate = startDate;
                 ctrlScope.endDate = startDate;
                 ctrlScope.days = [startDate];
-                //and loaded data
-                ctrlScope.init(daysCount, startDate);
-                var events = [
-                    {
-                        id: 1,
-                        title: 'sample-event1',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(5).hour()
-                    },
-                    {
-                        id: 2,
-                        title: 'sample-event2',
-                        start: startDate.clone().add(3).hour(),
-                        end: startDate.clone().add(4).hour()
-                    }
-                ];
-                calendarPromise.onSuccess(events);
-                expect(events[0].timeline).toBe(0);
-                expect(events[1].timeline).toBe(1);
-                expect(events[0].overlap.value).toBe(2);
-                expect(events[1].overlap.value).toBe(2);
-                expect(ctrlScope.eventsMap.events(startDate).length).toBe(2);
                 //and event can be cancelled
+                var event = {
+                    id: 1,
+                    title: 'sample-event1',
+                    start: startDate.clone().add(3).hours(),
+                    end: startDate.clone().add(5).hours()
+                };
                 mockEventActionManager.canCancel.andReturn(true);
                 //when one of events is cancelled
-                ctrlScope.cancelEvent(events[0]);
+                ctrlScope.cancelEvent(event);
                 //and back-end responded with failure
                 calendarPromise.onError('FAILURE');
                 //then user is informed properly
-                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(events[0]);
+                expect(mockEventActionManager.canCancel).toHaveBeenCalledWith(event);
                 expect(mockUiNotification.error).toHaveBeenCalled();
                 expect(mockUiNotification.title).toBe('Error');
                 expect(mockUiNotification.msg).toBe('Couldn\'t cancel event');
+                //and event is not detached
+                expect(ctrlScope.detachedEvent).not.toBeDefined();
+                //and time line is not refreshed
+                expect(ctrlScope.timeline).not.toBeDefined();
             });
 
             it('should change event time period on drag and drop', function () {
