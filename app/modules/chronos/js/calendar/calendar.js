@@ -105,6 +105,14 @@ angular.module('chronos.calendar').
                 $scope.viewType = $state.current.daysAmount;
                 var day = $stateParams.currentDate != undefined ? new Date($stateParams.currentDate) : new Date();
                 $scope.loadDoctorInfo();
+                $scope.initView(day);
+            };
+
+            /**
+             * Initialize view
+             * @param day current day
+             */
+            $scope.initView = function (day) {
                 if ($scope.viewType == 31) {
                     $scope.month(0, day);
                 } else if ($scope.viewType == 7) {
@@ -244,8 +252,7 @@ angular.module('chronos.calendar').
             $scope.onDatePickerDateChange = function () {
                 $log.debug('Date picked date changed to: ' + $scope.currentDate);
                 $scope.datePickerOpened = false;
-                $stateParams.currentDate = null;
-                $scope.init($scope.viewType, $scope.currentDate);
+                $scope.initView($scope.currentDate);
             };
 
             /**
