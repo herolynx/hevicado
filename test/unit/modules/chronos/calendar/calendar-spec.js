@@ -7,11 +7,11 @@ describe('chronos-calendar-spec:', function () {
 
     describe('CalendarCtrl-spec:', function () {
 
-        var ctrlScope, mockRootScope;
+        var ctrlScope;
         var mockCalendarService, mockUsersService;
-        var mockEventActionManager, mockUiNotification, mockModal;
+        var mockUiNotification;
         var mockState, mockStateParams;
-        var calendarPromise, userPromise, calendarEvents;
+        var calendarPromise, userPromise;
 
         beforeEach(function () {
             toUTCDate = function (value) {
@@ -26,8 +26,6 @@ describe('chronos-calendar-spec:', function () {
         beforeEach(inject(function ($controller, $injector, _$rootScope_, CALENDAR_EVENTS) {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
-            mockRootScope = jasmine.createSpyObj('$rootScope', ['$broadcast']);
-            calendarEvents = CALENDAR_EVENTS;
             //mock dependencies
             mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init', 'cancel', 'save']);
             calendarPromise = {
@@ -55,7 +53,6 @@ describe('chronos-calendar-spec:', function () {
                 }
             };
             mockUsersService.get.andReturn(userPromise);
-            mockEventActionManager = jasmine.createSpyObj('mockEventActionManager', ['canCancel', 'canEdit']);
             //mock others
             mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
             mockUiNotification.text = function (title, msg) {
