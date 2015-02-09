@@ -8,25 +8,20 @@ angular.module('chronos.calendar', [
 
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
- * @param $rootScope root scope for broadcasting calendar related events
  * @param $scope current scope of controller
- * @param @state state manager
+ * @param $state current state
  * @param $stateParams current state parameters manager
  * @param $log logger
  * @param CalendarService service managing calendar data
- * @param CalendarRenderer renderer for attaching events to proper time lines
- * @param CALENDAR_EVENTS events used for calendar notifications
- * @param EventActionManager event action validator
+ * @param UsersService service for getting info about calendar owner
  * @param EventUtils generic functionality related with events
  * @param uiNotifications component managing notifications
- * @param UsersService service for getting info about calendar owner
+
  */
 angular.module('chronos.calendar').
     controller('CalendarCtrl',
-    ['$rootScope', '$scope', '$state', '$stateParams', '$log', '$controller',
-        'CalendarService', 'CALENDAR_EVENTS', 'EventActionManager', 'EventUtils', 'uiNotification', 'UsersService',
-        function ($rootScope, $scope, $state, $stateParams, $log, $controller,
-                  CalendarService, CALENDAR_EVENTS, EventActionManager, EventUtils, uiNotification, UsersService) {
+    ['$scope', '$state', '$stateParams', '$log', 'CalendarService', 'UsersService', 'EventUtils', 'uiNotification',
+        function ($scope, $state, $stateParams, $log, CalendarService, UsersService, EventUtils, uiNotification) {
 
             /**
              * Include underscore
@@ -101,17 +96,15 @@ angular.module('chronos.calendar').
 
             /**
              * Initialize calendar with chosen time period to be displayed
-             *
-             * @param daysAmount number of days to be displayed on calendar
-             * @param day optional day that should be used in initialized of calendar
              */
-            $scope.init = function (daysAmount, day) {
+            $scope.init = function () {
                 $log.debug('Initializing calendar for doctor: ' + $stateParams.doctorId + ', param current date: ' + $stateParams.currentDate);
-                day = $stateParams.currentDate != undefined ? new Date($stateParams.currentDate) : day;
                 $scope.doctorId = $stateParams.doctorId;
-                $scope.loadDoctorInfo();
-                $scope.viewType = daysAmount;
                 CalendarService.init($stateParams.doctorId);
+                $log.debug('Initializing calendar - view type: ' + $state.current.daysAmount);
+                $scope.viewType = $state.current.daysAmount;
+                var day = $stateParams.currentDate != undefined ? new Date($stateParams.currentDate) : new Date();
+                $scope.loadDoctorInfo();
                 if ($scope.viewType == 31) {
                     $scope.month(0, day);
                 } else if ($scope.viewType == 7) {
@@ -145,15 +138,12 @@ angular.module('chronos.calendar').
              */
             $scope.initTimePeriod = function (currentDate) {
                 if ($scope.viewType == 31) {
-                    $controller('CalendarModel31', {$scope: $scope});
                     $scope.beginDate = EventUtils.currentMonday(currentDate.clone().moveToFirstDayOfMonth());
                     $scope.endDate = currentDate.clone().moveToLastDayOfMonth().next().monday();
                 } else if ($scope.viewType == 7) {
-                    $controller('CalendarModel7', {$scope: $scope});
                     $scope.beginDate = EventUtils.currentMonday(currentDate);
                     $scope.endDate = $scope.beginDate.clone().add(7).days();
                 } else {
-                    $controller('CalendarModel7', {$scope: $scope});
                     $scope.beginDate = currentDate.clone();
                     $scope.endDate = currentDate.clone();
                 }
@@ -236,162 +226,6 @@ angular.module('chronos.calendar').
                 $scope.initTimePeriod($scope.currentDate);
                 $scope.days = $scope.createDays($scope.beginDate, $scope.endDate);
                 $scope.refresh();
-            };
-
-            /**
-             * Add new event to calendar
-             * @param day day of new event
-             * @param hour optional starting hour of event
-             * @param minute optional minutes of starting time
-             */
-            $scope.addEvent = function (day, hour, minute) {
-                //prepare start date
-                var date = day.clone();
-                date = date.set({
-                    hour: hour || 0,
-                    minute: minute || 0,
-                    second: 0
-                });
-                var visitEditionStates = [$state.current.data.addVisitState, $state.current.data.editVisitState];
-                if (!_.contains(visitEditionStates, $state.current.name)) {
-                    $log.debug('Add new event - start: ' + date);
-                    $state.go($state.current.data.addVisitState, {
-                        doctorId: $scope.doctorId,
-                        startTime: date.toString('yyyy-MM-dd HH:mm'),
-                        currentDate: date.toString('yyyy-MM-dd')
-                    });
-                } else {
-                    $log.debug('Event date clicked - start: ' + date);
-                    $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, date);
-                }
-            };
-
-            /**
-             * Edit event
-             * @param event event to be edited
-             */
-            $scope.editEvent = function (event) {
-                $log.debug('Editing event - id: ' + event.id);
-                $state.go($state.current.data.editVisitState, {
-                    doctorId: $scope.doctorId,
-                    eventId: event.id,
-                    currentDate: event.start.toString('yyyy-MM-dd')
-                });
-            };
-
-            /**
-             * Handle on drop event
-             * @param dndEvent DnD event
-             * @param calendarEvent moved event
-             * @param day new day of event
-             * @param hour new hour of event
-             * @param minute new minute of event
-             */
-            $scope.dndDrop = function (dndEvent, calendarEvent, day, hour, minute) {
-                $log.debug('DnD stop on - day: ' + day + ', hour: ' + hour + ', minutes: ' + minute);
-                $log.debug('DnD event moved - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
-                EventUtils.normalize(calendarEvent);
-                if (!EventActionManager.canEdit(calendarEvent)) {
-                    $log.error('Event cannot be changed as not editable');
-                    return;
-                }
-                var newStartDate = day.clone().set({
-                    hour: hour,
-                    minute: minute
-                });
-                var newEndDate = newStartDate.clone().add(calendarEvent.duration).minute();
-                $scope.saveEvent(calendarEvent, newStartDate, newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
-            };
-
-            /**
-             * Save new time period of an event
-             * @param event event to be saved/modified
-             * @param newStartDate new begin date to be saved
-             * @param newEndDate new end date to be saved
-             * @param oldStartDate old begin date for fallback
-             * @param oldEndDate old end date for fallback
-             */
-            $scope.saveEvent = function (event, newStartDate, newEndDate, oldStartDate, oldEndDate) {
-                $scope.detachEvent(event);
-                $scope.buildTimelineFor(oldStartDate, oldEndDate);
-                event.start = newStartDate;
-                event.end = newEndDate;
-                EventUtils.normalize(event);
-                CalendarService.save(event).
-                    success(function (response) {
-                        $scope.attachEvent(event);
-                        $scope.buildTimelineFor(event.start, event.end);
-                        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
-                    }).
-                    error(function (error) {
-                        $log.error('Couldn\'t save event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                        uiNotification.text('Error', 'Couldn\'t save event').error();
-                        //fallback
-                        event.start = oldStartDate;
-                        event.end = oldEndDate;
-                        EventUtils.normalize(event);
-                        $scope.attachEvent(event);
-                        $scope.buildTimelineFor(event.start, event.end);
-                        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
-                    });
-            };
-
-            /**
-             * Cancel event
-             * @param event event to be cancelled
-             */
-            $scope.cancelEvent = function (event) {
-                $log.debug('Cancelling event - id: ' + event.id + ', start: ' + event.start);
-                if (!EventActionManager.canCancel(event)) {
-                    $log.error('Event cannot be cancelled');
-                    uiNotification.text('Error', 'Event cannot be cancelled').error();
-                    return;
-                }
-                CalendarService.
-                    cancel(event).
-                    success(function () {
-                        $log.debug('Event cancelled successfully');
-                        $scope.detachEvent(event);
-                        event.cancelled = new Date();
-                        $scope.buildTimelineFor(event.start, event.end);
-                        $scope.$broadcast(CALENDAR_EVENTS.CALENDAR_RENDER);
-                    }).
-                    error(function (error) {
-                        $log.error('Couldn\'t cancel event - id: ' + event.id + ', start: ' + event.start + ', error: ' + error);
-                        uiNotification.text('Error', 'Couldn\'t cancel event').error();
-                    });
-            };
-
-            /**
-             * Change event time period based on given UI event
-             * @param event resizable event
-             * @param ui ui element details
-             * @param calendarEvent event to be changed
-             */
-            $scope.dndChangeTime = function (event, ui, calendarEvent) {
-                $log.debug('Changing event time changed - title: ' + calendarEvent.title + ', start: ' + calendarEvent.start + ', duration: ' + calendarEvent.duration);
-                EventUtils.normalize(calendarEvent);
-                if (!EventActionManager.canEdit(calendarEvent)) {
-                    $log.error('Event cannot be changed as not editable');
-                    return;
-                }
-                var deltaHeight = ui.size.height - ui.originalSize.height;
-                var addMinutes = 15 * Math.round(deltaHeight / 15);
-                if (calendarEvent.duration + addMinutes < 15) {
-                    //don't re-size too much
-                    return;
-                }
-                var newEndDate = calendarEvent.end.clone().add(addMinutes).minute();
-                calendarEvent.duration += addMinutes;
-                $scope.saveEvent(calendarEvent, calendarEvent.start.clone(), newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
-            };
-
-            /**
-             * Get controller's action manager
-             * @return non-nullable instance
-             */
-            $scope.actions = function () {
-                return EventActionManager;
             };
 
             /**

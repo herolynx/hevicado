@@ -130,6 +130,8 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         state('calendar-day', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar",
             templateUrl: "modules/chronos/partials/calendar/calendar-day-frame.html",
+            controller: 'WeeklyCalendarCtrl',
+            daysAmount: 1,
             data: {
                 access: ACCESS_LEVELS.DOCTORS
             }
@@ -147,6 +149,8 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         state('calendar-week', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/weekly",
             templateUrl: "modules/chronos/partials/calendar/calendar-week.html",
+            controller: 'WeeklyCalendarCtrl',
+            daysAmount: 7,
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
@@ -157,6 +161,8 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         state('calendar-month', {
             url: "/doctor/{doctorId:[0-9a-z]+}/calendar/monthly",
             templateUrl: "modules/chronos/partials/calendar/calendar-month.html",
+            controller: 'MonthlyCalendarCtrl',
+            daysAmount: 31,
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
