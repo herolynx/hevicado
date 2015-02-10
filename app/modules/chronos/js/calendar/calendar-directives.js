@@ -46,6 +46,8 @@ angular.module('chronos.calendar.directives').
              * Set size of the displayed event element
              * @param elm DOM representation of event
              * @param event event to be displayed
+             * @param quarterAmount number of quarters in an hour
+             * @param quarterLength length of single quarter
              */
             var setEventSize = function (elm, event, quarterAmount, quarterLength) {
                 clear(elm);
