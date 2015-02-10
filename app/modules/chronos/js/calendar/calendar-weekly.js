@@ -59,11 +59,13 @@ angular.module('chronos.calendar').
                 var days = $scope.events[day] || [];
                 if (days !== undefined) {
                     var hours = days[hour] || [];
-                    if (hours != undefined) {
+                    if (hours !== undefined) {
                         var quarters = hours[quarter] || [];
-                        if (quarters != undefined) {
-                            var index = quarters.indexOf(event);
-                            quarters.splice(index, 1);
+                        if (quarters !== undefined) {
+                            var index = _.chain(quarters).pluck("id").indexOf(event.id).value();
+                            if (index != -1) {
+                                quarters.splice(index, 1);
+                            }
                         }
                     }
                 }
