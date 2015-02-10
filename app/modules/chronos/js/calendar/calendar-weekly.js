@@ -34,7 +34,7 @@ angular.module('chronos.calendar').
                 //get keys
                 var day = event.start.getDate();
                 var hour = event.start.getHours();
-                var quarter = event.start.getMinutes() / $scope.quarterLength;
+                var quarter = Math.floor(event.start.getMinutes() / $scope.quarterLength);
                 //prepare place
                 var days = $scope.events[day] || [];
                 $scope.events[day] = days;
@@ -54,7 +54,7 @@ angular.module('chronos.calendar').
                 //get keys
                 var day = event.start.getDate();
                 var hour = event.start.getHours();
-                var quarter = event.start.getMinutes() / $scope.quarterLength;
+                var quarter = Math.floor(event.start.getMinutes() / $scope.quarterLength);
                 //prepare place
                 var days = $scope.events[day] || [];
                 if (days !== undefined) {
@@ -89,7 +89,7 @@ angular.module('chronos.calendar').
              */
             $scope.buildTimeline = function (day) {
                 var dayEvents = $scope.events[day.getDate()];
-                CalendarRenderer.attachAll($scope.flatten(dayEvents));
+                CalendarRenderer.attachAll($scope.flatten(dayEvents), $scope.quarterLength);
             };
 
             /**

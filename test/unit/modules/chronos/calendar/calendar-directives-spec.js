@@ -39,13 +39,14 @@ describe('directives-spec:', function () {
                 overlap: {
                     value: 1
                 },
-                quarter: 1
+                quarter: 1,
+                start: Date.today().set({minute: 15})
             };
             $scope.event = event;
             //when displaying event in calendar table
             var parent = angular.element(
                 '<div">' +
-                '<calendar-table-event event="event" />' +
+                '<calendar-table-event event="event" quarter-length="15" quarter-amount="4" />' +
                 '<div>'
             );
             $compile(parent)($scope);
@@ -71,13 +72,14 @@ describe('directives-spec:', function () {
                 overlap: {
                     value: 1
                 },
-                quarter: 2
+                quarter: 2,
+                start: Date.today().set({minute: 30})
             };
             $scope.event = event;
             //when displaying event in calendar table
             var parent = angular.element(
                 '<div">' +
-                '<calendar-table-event event="event" />' +
+                '<calendar-table-event event="event" quarter-length="15" quarter-amount="4" />' +
                 '<div>'
             );
             $compile(parent)($scope);
@@ -104,13 +106,14 @@ describe('directives-spec:', function () {
                 overlap: {
                     value: 2
                 },
-                quarter: 2
+                quarter: 2,
+                start: Date.today().set({minute: 30})
             };
             $scope.event = event;
             //when displaying event in calendar table
             var parent = angular.element(
                 '<div">' +
-                '<calendar-table-event event="event" />' +
+                '<calendar-table-event event="event" quarter-length="15" quarter-amount="4" />' +
                 '<div>'
             );
             $compile(parent)($scope);
@@ -137,13 +140,14 @@ describe('directives-spec:', function () {
                 overlap: {
                     value: 2
                 },
-                quarter: 2
+                quarter: 2,
+                start: Date.today().set({minute: 30})
             };
             $scope.event = event;
             //when displaying event in calendar table
             var parent = angular.element(
                 '<div">' +
-                '<calendar-table-event event="event" />' +
+                '<calendar-table-event event="event" quarter-length="15" quarter-amount="4" />' +
                 '<div>'
             );
             $compile(parent)($scope);

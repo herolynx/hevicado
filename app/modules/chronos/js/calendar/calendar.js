@@ -29,7 +29,7 @@ angular.module('chronos.calendar').
              */
             $scope._ = _;
             $scope.hours = _.range(0, 24);
-            $scope.quarters = _.range(0, 2);
+            $scope.quarters = _.range(0, 4);
             $scope.quarterLength = 60 / $scope.quarters.length;
 
             $scope.beginDate = Date.today();
@@ -102,6 +102,8 @@ angular.module('chronos.calendar').
                 CalendarService.init($stateParams.doctorId);
                 $log.debug('Initializing calendar - view type: ' + $state.current.daysAmount);
                 $scope.viewType = $state.current.daysAmount;
+                $scope.quarters = $state.current.quarterAmount || _.range(0, 4);
+                $scope.quarterLength = 60 / $scope.quarters.length;
                 var day = $stateParams.currentDate != undefined ? new Date($stateParams.currentDate) : new Date();
                 $scope.loadDoctorInfo();
                 $scope.initView(day);

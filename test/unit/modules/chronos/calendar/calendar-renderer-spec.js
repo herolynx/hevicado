@@ -16,6 +16,8 @@ describe('calendar-renderer-spec:', function () {
 
         it('should create time line for event', function () {
             //given no events are attached yet
+            //and quarter length
+            var quarterLength = 15;
             //when attaching first event
             var event = {
                 start: Date.today().set({
@@ -23,14 +25,16 @@ describe('calendar-renderer-spec:', function () {
                     minute: 0
                 })
             };
-            renderer.attach(event);
+            renderer.attach(event, quarterLength);
             //then event is attach to new time line
             expect(event.timeline).toBe(0);
             expect(event.overlap.value).toBe(1);
         });
 
         it('should attach overlapping event to next time line', function () {
-            //given first event takes one hour
+            //given quarter length
+            var quarterLength = 15;
+            //and first event takes one hour
             var event1 = {
                 start: Date.today().set({
                     hour: 8,
@@ -42,7 +46,7 @@ describe('calendar-renderer-spec:', function () {
                 }),
                 duration: 60
             };
-            renderer.attach(event1);
+            renderer.attach(event1, quarterLength);
             expect(event1.timeline).toBe(0);
             expect(event1.overlap.value).toBe(1);
             expect(event1.quarter).toBe(4);
@@ -58,7 +62,7 @@ describe('calendar-renderer-spec:', function () {
                 }),
                 duration: 30
             };
-            renderer.attach(event2);
+            renderer.attach(event2, quarterLength);
             //then event is attached to new time line
             expect(event2.timeline).toBe(1);
             expect(event2.quarter).toBe(2);
@@ -70,7 +74,9 @@ describe('calendar-renderer-spec:', function () {
         });
 
         it('should attach overlapping event to existing time line', function () {
-            //given first starts at 8 and end at 9
+            //given quarter length
+            var quarterLength = 15;
+            // and first starts at 8 and end at 9
             var event1 = {
                 start: Date.today().set({
                     hour: 8,
@@ -81,7 +87,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 0
                 })
             };
-            renderer.attach(event1);
+            renderer.attach(event1, quarterLength);
             expect(event1.timeline).toBe(0);
             expect(event1.overlap.value).toBe(1);
             //and next event that starts 8 but ends 8:30
@@ -95,7 +101,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 30
                 })
             };
-            renderer.attach(event2);
+            renderer.attach(event2, quarterLength);
             expect(event2.timeline).toBe(1);
             expect(event2.overlap.value).toBe(2);
             //when attaching new event that starts after 8:30
@@ -109,7 +115,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 15
                 })
             };
-            renderer.attach(event3);
+            renderer.attach(event3, quarterLength);
             //then event is attached to second time line
             expect(event3.timeline).toBe(1);
             //and overlapping index is updated
@@ -122,7 +128,9 @@ describe('calendar-renderer-spec:', function () {
         });
 
         it('should dispatch events to keep time lines even', function () {
-            //given first starts at 8 and end at 9
+            //given quarter length
+            var quarterLength = 15;
+            //and first starts at 8 and end at 9
             var event1 = {
                 start: Date.today().set({
                     hour: 8,
@@ -133,7 +141,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 0
                 })
             };
-            renderer.attach(event1);
+            renderer.attach(event1, quarterLength);
             expect(event1.timeline).toBe(0);
             expect(event1.overlap.value).toBe(1);
             //and next event that starts 8 but ends 8:30
@@ -147,7 +155,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 30
                 })
             };
-            renderer.attach(event2);
+            renderer.attach(event2, quarterLength);
             expect(event2.timeline).toBe(1);
             expect(event2.overlap.value).toBe(2);
             //and next event that starts at 8:45 and ends 9:15
@@ -161,7 +169,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 15
                 })
             };
-            renderer.attach(event3);
+            renderer.attach(event3, quarterLength);
             expect(event3.timeline).toBe(1);
             expect(event3.overlap.value).toBe(2);
             //when attaching new event that starts at 9 and ends 9:15
@@ -175,7 +183,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 15
                 })
             };
-            renderer.attach(event4);
+            renderer.attach(event4, quarterLength);
             //then event is attached to first time line
             //in order to keep them even
             expect(event4.timeline).toBe(0);
@@ -191,7 +199,9 @@ describe('calendar-renderer-spec:', function () {
         });
 
         it('should clear time lines when new event starts after attached events', function () {
-            //given first starts at 8 and end at 9
+            //given quarter length
+            var quarterLength = 15;
+            //and first starts at 8 and end at 9
             var event1 = {
                 start: Date.today().set({
                     hour: 8,
@@ -202,7 +212,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 0
                 })
             };
-            renderer.attach(event1);
+            renderer.attach(event1, quarterLength);
             expect(event1.timeline).toBe(0);
             expect(event1.overlap.value).toBe(1);
             //and next event that starts 8 but ends 8:30
@@ -216,7 +226,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 30
                 })
             };
-            renderer.attach(event2);
+            renderer.attach(event2, quarterLength);
             expect(event2.timeline).toBe(1);
             expect(event2.overlap.value).toBe(2);
             //and next event that starts at 8:45 and ends 9:15
@@ -230,7 +240,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 15
                 })
             };
-            renderer.attach(event3);
+            renderer.attach(event3, quarterLength);
             expect(event3.timeline).toBe(1);
             expect(event3.overlap.value).toBe(2);
             //when attaching new event that starts after all attached events
@@ -244,7 +254,7 @@ describe('calendar-renderer-spec:', function () {
                     minute: 30
                 })
             };
-            renderer.attach(event4);
+            renderer.attach(event4, quarterLength);
             //then event is attached to first time line
             expect(event4.timeline).toBe(0);
             //and overlapping index of new event is cleared
@@ -304,8 +314,10 @@ describe('calendar-renderer-spec:', function () {
                     minute: 30
                 })
             };
+            //and quarter length
+            var quarterLength = 15;
             //when attaching all events in random order
-            renderer.attachAll([event4, event3, event2, event1]);
+            renderer.attachAll([event4, event3, event2, event1], quarterLength);
             //then events are sorted and attached to proper time lines
             expect(event1.timeline).toBe(0);
             expect(event2.timeline).toBe(1);

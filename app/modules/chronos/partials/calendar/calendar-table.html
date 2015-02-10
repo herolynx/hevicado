@@ -18,6 +18,8 @@
                         ng-repeat="event in events[day.getDate()][hour][quarter]"
                         class="event {{event.location.color}}" style="height:100px"
                         event="event"
+                        quarter-amount="quarters.length"
+                        quarter-length="quarterLength"
                         ui-resizable
                         ui-on-resize="dndChangeTime($event, $ui, event)"
                         ui-draggable="true"

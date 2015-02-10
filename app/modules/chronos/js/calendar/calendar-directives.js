@@ -47,13 +47,18 @@ angular.module('chronos.calendar.directives').
              * @param elm DOM representation of event
              * @param event event to be displayed
              */
-            var setEventSize = function (elm, event) {
+            var setEventSize = function (elm, event, quarterAmount, quarterLength) {
                 clear(elm);
                 //set height
                 var quarterRoot = elm.parent();
                 var quarterHeight = quarterRoot.height();
                 var height = event.quarter * quarterHeight;
                 elm.height(height - 1);
+                if (event.start.getMinutes() % quarterLength) {
+                    //shift in quarter according to time
+                    var scale = quarterHeight / quarterLength;
+                    elm.css('top', scale * event.start.getMinutes());
+                }
                 //set width
                 if (event.overlap !== undefined && event.overlap.value > 1) {
                     //more then one events overlap at the same time
@@ -79,17 +84,19 @@ angular.module('chronos.calendar.directives').
                 restrict: 'E',
                 template: '',
                 scope: {
-                    event: '='
+                    event: '=',
+                    quarterAmount: '=',
+                    quarterLength: '='
                 },
                 link: function ($scope, elm, attrs) {
-                    setEventSize(elm, $scope.event);
+                    setEventSize(elm, $scope.event, $scope.quarterAmount, $scope.quarterLength);
                     //change event size also when window size changes
                     angular.element($window).bind('resize', function () {
-                        setEventSize(elm, $scope.event);
+                        setEventSize(elm, $scope.event, $scope.quarterAmount, $scope.quarterLength);
                     });
                     //change when events on calendar changes
                     $scope.$on(CALENDAR_EVENTS.CALENDAR_RENDER, function () {
-                        setEventSize(elm, $scope.event);
+                        setEventSize(elm, $scope.event, $scope.quarterAmount, $scope.quarterLength);
                     });
                 }
             };

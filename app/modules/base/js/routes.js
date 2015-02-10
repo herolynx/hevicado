@@ -151,6 +151,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
             templateUrl: "modules/chronos/partials/calendar/calendar-week.html",
             controller: 'WeeklyCalendarCtrl',
             daysAmount: 7,
+            quarterAmount: _.range(0, 2),
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
