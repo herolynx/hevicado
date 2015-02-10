@@ -98,6 +98,33 @@ angular.module('chronos.calendar').
                 _.map($scope.createDays(startDate, endDate), $scope.buildTimeline);
             };
 
+            /**
+             * Prepare frame when doctor is working
+             * @param doctor current doctor
+             */
+            $scope.afterDoctorLoad = function (doctor) {
+                $scope.location = [];
+                _.map(doctor.locations, function (location) {
+                    _.map(location.working_hours, function (wh) {
+                        var day = $scope.dayNameToIndex(wh.day);
+                        var currHour = hourToDate(wh.start, wh.tzOffset);
+                        var endHour = hourToDate(wh.end, wh.tzOffset);
+                        do {
+                            var quarter = currHour.getMinutes() / $scope.quarterLength;
+                            var hours = $scope.location[day] || [];
+                            $scope.location[day] = hours;
+                            var quarters = hours[currHour.getHours()] || [];
+                            hours[currHour.getHours()] = quarters;
+                            quarters[quarter] = location.color;
+                        } while (currHour.add($scope.quarterLength).minutes().compareTo(endHour) < 0);
+                    });
+                });
+            };
+
+            $scope.dayNameToIndex = function (dayName) {
+                return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].indexOf(dayName);
+            };
+
             $scope.init();
 
         }

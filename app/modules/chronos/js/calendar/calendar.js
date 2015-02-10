@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('chronos.calendar', [
+    'chronos.calendar.directives',
     'chronos.events.edit',
     'ui.elements',
     'commons.users.filters'
@@ -132,12 +133,21 @@ angular.module('chronos.calendar').
                     success(function (doctor) {
                         $log.debug('Doctor info loaded successfully');
                         $scope.doctor = doctor;
+                        $scope.afterDoctorLoad(doctor);
                     }).
                     error(function (errResp, errStatus) {
                         $log.error('Couldn\'t load doctor\'s info: ' + errStatus + ', resp: ' + errResp.data);
                         uiNotification.text('Error', 'Doctor\'s info not loaded - part of functionality may not workking properly').error();
                     }
                 );
+            };
+
+            /**
+             * Execution action after doctor load
+             * @param doctor current doctor
+             */
+            $scope.afterDoctorLoad = function (doctor) {
+                //empty
             };
 
             /**

@@ -12,7 +12,7 @@
             <div ng-repeat="quarter in quarters"
                  drop-channel="dndDayChannel"
                  ui-on-drop="dndDrop($event, $data, day, hour, quarter*15)"
-                 class="black">
+                 class="{{location[day.getDay()][hour][quarter] || 'black'}}">
 
                 <calendar-table-event
                         ng-repeat="event in events[day.getDate()][hour][quarter]"
