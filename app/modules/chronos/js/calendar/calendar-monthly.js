@@ -17,7 +17,7 @@ angular.module('chronos.calendar').
              * Action performed after events are loaded
              * @param events new loaded events
              */
-            $scope.afterEventsLoad = function (events) {
+            $scope.onEventsLoad = function (events) {
                 var daysEvents = _.groupBy(events, function (event) {
                     return event.start.getDate();
                 });

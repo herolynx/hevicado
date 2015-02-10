@@ -232,7 +232,7 @@ describe('chronos-calendar-spec:', function () {
             it('should load data for view', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
-                ctrlScope.afterEventsLoad = function () {
+                ctrlScope.onEventsLoad = function () {
                     ctrlScope.eventLoaded = true;
                 };
                 //and one day display period time

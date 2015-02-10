@@ -29,7 +29,7 @@ angular.module('chronos.calendar').
              */
             $scope._ = _;
             $scope.hours = _.range(0, 24);
-            $scope.quarters = _.range(0, 4);
+            $scope.quarters = _.range(0, 2);
             $scope.quarterLength = 60 / $scope.quarters.length;
 
             $scope.beginDate = Date.today();
@@ -84,10 +84,8 @@ angular.module('chronos.calendar').
                         var events = _.filter(data, function (event) {
                             return $scope.filter.accept(event);
                         });
-                        $scope.events = [];
-                        $scope.afterEventsLoad(events);
-                        _.map(events, $scope.attachEvent);
-                        _.map($scope.days, $scope.buildTimeline);
+                        $scope.events.length = 0;
+                        $scope.onEventsLoad(events);
                     }).
                     error(function (data, status) {
                         $log.error('Couldn\'t load events - data: ' + data + ', status: ' + status);
@@ -133,7 +131,7 @@ angular.module('chronos.calendar').
                     success(function (doctor) {
                         $log.debug('Doctor info loaded successfully');
                         $scope.doctor = doctor;
-                        $scope.afterDoctorLoad(doctor);
+                        $scope.onDoctorLoad(doctor);
                     }).
                     error(function (errResp, errStatus) {
                         $log.error('Couldn\'t load doctor\'s info: ' + errStatus + ', resp: ' + errResp.data);
@@ -146,7 +144,7 @@ angular.module('chronos.calendar').
              * Execution action after doctor load
              * @param doctor current doctor
              */
-            $scope.afterDoctorLoad = function (doctor) {
+            $scope.onDoctorLoad = function (doctor) {
                 //empty
             };
 
@@ -263,34 +261,6 @@ angular.module('chronos.calendar').
                 $log.debug('Date picked date changed to: ' + $scope.currentDate);
                 $scope.datePickerOpened = false;
                 $scope.initView($scope.currentDate);
-            };
-
-            /**
-             * Find location available for given time
-             * @param day day without time period
-             * @param dayHour hour when visits can begin
-             * @param minutes minutes minutes that set quarter when visits can begin
-             * @returns {*} non-nullable location
-             */
-            $scope.findLocation = function (day, dayHour, minutes) {
-                //check cache
-                var defaultLocation = {color: 'black'};
-                if ($scope.doctor == undefined) {
-                    return defaultLocation;
-                }
-                var cacheKey = 'location' + day.toString('yyyy-MM-dd') + ' ' + dayHour + ':' + minutes;
-                var cached = undefined; // $scope.cache.get(cacheKey);
-                if (cached !== undefined) {
-                    return cached;
-                }
-                var dateTime = day.clone().set({
-                    hour: dayHour,
-                    minute: minutes,
-                    second: 0
-                });
-                var location = EventUtils.findLocation($scope.doctor.locations, dateTime) || defaultLocation;
-                //$scope.cache.put(cacheKey, location);
-                return location;
             };
 
         }

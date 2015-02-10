@@ -15,12 +15,15 @@ angular.module('chronos.calendar').
             $controller('CalendarCtrl', {$scope: $scope});
             $controller('CalendarEditorCtrl', {$scope: $scope});
 
+            $scope.location = [];
+
             /**
              * Action performed after events are loaded
              * @param events new loaded events
              */
-            $scope.afterEventsLoad = function (events) {
-                //empty
+            $scope.onEventsLoad = function (events) {
+                _.map(events, $scope.attachEvent);
+                _.map($scope.days, $scope.buildTimeline);
             };
 
             /**
@@ -102,8 +105,8 @@ angular.module('chronos.calendar').
              * Prepare frame when doctor is working
              * @param doctor current doctor
              */
-            $scope.afterDoctorLoad = function (doctor) {
-                $scope.location = [];
+            $scope.onDoctorLoad = function (doctor) {
+                $scope.location.length = 0;
                 _.map(doctor.locations, function (location) {
                     _.map(location.working_hours, function (wh) {
                         var day = $scope.dayNameToIndex(wh.day);
