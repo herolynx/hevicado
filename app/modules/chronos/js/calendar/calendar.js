@@ -3,8 +3,11 @@
 angular.module('chronos.calendar', [
     'chronos.calendar.directives',
     'chronos.events.edit',
+    'chronos.commons',
+    'commons.users.filters',
+    'ui.dnd',
     'ui.elements',
-    'commons.users.filters'
+    'ui.notifications'
 ]);
 
 /**

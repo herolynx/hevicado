@@ -28,6 +28,7 @@ module.exports = function (config) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             /* tested components */
             'app/lib/**/*.js',
+            'app/modules/chronos/js/commons/chronos-commons.js',
             'app/modules/chronos/js/calendar/calendar.js',
             'app/modules/**/*.js',
             /* tested templates */

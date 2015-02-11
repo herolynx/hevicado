@@ -6,7 +6,7 @@
 var chronosModule = angular.module('chronos', [
     /*internal modules*/
     'chronos.services',
-    'chronos.events',
+    'chronos.commons',
     'chronos.events.edit',
     'chronos.calendar',
     'chronos.calendar.directives',
