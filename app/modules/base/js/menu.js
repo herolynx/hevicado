@@ -1,8 +1,6 @@
 'use strict';
 
-var baseMenu = angular.module('base.menu', [
-   
-]);
+var baseMenu = angular.module('base.menu', []);
 
 /**
  * Directive responsible for displaying top-menu

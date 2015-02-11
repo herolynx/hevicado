@@ -60,7 +60,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('registration', {
             url: "/registration",
-            templateUrl: "modules/users/partials/registration.html",
+            templateUrl: "modules/users/partials/account/registration.html",
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
@@ -99,7 +99,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
     $stateProvider.
         state('user-profile', {
             url: "/user/profile",
-            templateUrl: "modules/users/partials/user-profile.html",
+            templateUrl: "modules/users/partials/account/user-profile.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
