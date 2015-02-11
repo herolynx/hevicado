@@ -1,17 +1,15 @@
 'use strict';
 
-describe('calendar-monhtly-spec:', function () {
+describe('calendar-monthly-spec:', function () {
 
     //prepare module for testing
     beforeEach(angular.mock.module('chronos'));
 
     describe('MonthlyCalendarCtrl-spec:', function () {
 
-        var ctrlScope, mockRootScope;
-        var mockCalendarService, mockUsersService;
-        var mockEventActionManager, mockUiNotification, mockModal;
-        var mockState, mockStateParams;
-        var calendarPromise, userPromise, calendarEvents;
+        var ctrlScope;
+        var injectedCtrls;
+        var locPulsantis, locLuxMed;
 
         beforeEach(function () {
             toUTCDate = function (value) {
@@ -20,74 +18,175 @@ describe('calendar-monhtly-spec:', function () {
             toLocalDate = function (value) {
                 return typeof value == 'string' ? Date.parse(value) : new Date(value);
             };
+            locPulsantis = {
+                id: "loc-1",
+                name: "Pulsantis",
+                address: {
+                    street: "Grabiszynska 8/4",
+                    city: "Wroclaw",
+                    country: "Poland"
+                },
+                color: "red",
+                working_hours: [
+                    {
+                        day: "Monday",
+                        start: "08:00",
+                        end: "10:00",
+                        tzOffset: 0
+                    },
+                    {
+                        day: "Monday",
+                        start: "12:00",
+                        end: "14:00",
+                        tzOffset: 0
+                    },
+                    {
+                        day: "Tuesday",
+                        start: "08:00",
+                        end: "16:00",
+                        tzOffset: 0
+                    }
+                ]
+            };
+            locLuxMed = {
+                id: "loc-2",
+                name: "LuxMed",
+                address: {
+                    street: "Grabiszynska 8/4",
+                    city: "Wroclaw",
+                    country: "Poland"
+                },
+                color: "blue",
+                working_hours: [
+                    {
+                        day: "Wendesday",
+                        start: "08:00",
+                        end: "10:00",
+                        tzOffset: 0
+                    }
+                ]
+            };
         });
 
         //prepare controller for testing
-        beforeEach(inject(function ($controller, $injector, _$rootScope_, CALENDAR_EVENTS) {
+        beforeEach(inject(function ($controller, _$rootScope_) {
             //prepare controller for testing
             ctrlScope = _$rootScope_.$new();
-            mockRootScope = jasmine.createSpyObj('$rootScope', ['$broadcast']);
-            calendarEvents = CALENDAR_EVENTS;
-            //mock dependencies
-            mockCalendarService = jasmine.createSpyObj('mockCalendarService', ['events', 'init', 'cancel', 'save']);
-            calendarPromise = {
-                success: function (f) {
-                    calendarPromise.onSuccess = f;
-                    return calendarPromise;
-                },
-                error: function (f) {
-                    calendarPromise.onError = f;
-                    return calendarPromise;
-                }
-            };
-            mockCalendarService.events.andReturn(calendarPromise);
-            mockCalendarService.cancel.andReturn(calendarPromise);
-            mockCalendarService.save.andReturn(calendarPromise);
-            mockUsersService = jasmine.createSpyObj('mockUsersService', ['get']);
-            userPromise = {
-                success: function (f) {
-                    userPromise.onSuccess = f;
-                    return userPromise;
-                },
-                error: function (f) {
-                    userPromise.onError = f;
-                    return userPromise;
-                }
-            };
-            mockUsersService.get.andReturn(userPromise);
-            mockEventActionManager = jasmine.createSpyObj('mockEventActionManager', ['canCancel', 'canEdit']);
-            //mock others
-            mockUiNotification = jasmine.createSpyObj('mockUiNotification', ['text', 'error']);
-            mockUiNotification.text = function (title, msg) {
-                mockUiNotification.title = title;
-                mockUiNotification.msg = msg;
-                return mockUiNotification;
-            };
-            var mockLog = jasmine.createSpyObj('mockLog', ['debug', 'info', 'error']);
-            mockState = jasmine.createSpyObj('$state', ['go']);
-            mockState.current = {
-                data: {
-                    addVisitState: 'mock-state.new-visit',
-                    editVisitState: 'mock-state.edit-visit'
-                }
-            };
-            mockStateParams = {doctorId: "doctor-123"};
             //inject mocks
-            $controller('CalendarCtrl', {
-                $rootScope: mockRootScope,
+            injectedCtrls = [];
+            $controller('MonthlyCalendarCtrl', {
                 $scope: ctrlScope,
-                $log: mockLog,
-                $state: mockState,
-                $stateParams: mockStateParams,
-                CalendarService: mockCalendarService,
-                CalendarCollectionFactory: $injector.get('CalendarCollectionFactory'),
-                CalendarRenderer: $injector.get('CalendarRenderer'),
-                EventUtils: $injector.get('EventUtils'),
-                EventActionManager: mockEventActionManager,
-                uiNotification: mockUiNotification,
-                UsersService: mockUsersService
+                $controller: function (ctrlName, params) {
+                    injectedCtrls.push(ctrlName);
+                    params.$scope.init = function () {
+                        //mock
+                    };
+                    params.$scope.days = [];
+                    params.$scope.events = [];
+                    params.$scope.quarterLength = 15;
+                }
             });
         }));
+
+        it('should initialize controller', function () {
+            //given controller is initialized
+            expect(ctrlScope).toBeDefined();
+            //then proper sub-controllers are injected
+            expect(injectedCtrls).toEqual(['CalendarCtrl']);
+        });
+
+        describe('Events management:', function () {
+
+            it('should summarize about events per day and location', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //and sample events
+                var events = [
+                    {
+                        start: Date.today().set({
+                            year: 2015,
+                            month: 2,
+                            day: 11,
+                            hour: 8,
+                            minute: 0
+                        }),
+                        end: Date.today().set({
+                            year: 2015,
+                            month: 2,
+                            day: 11,
+                            hour: 9,
+                            minute: 0
+                        }),
+                        duration: 60,
+                        location: locPulsantis
+
+                    },
+                    {
+                        start: Date.today().set({
+                            year: 2015,
+                            month: 2,
+                            day: 11,
+                            hour: 8,
+                            minute: 0
+                        }),
+                        end: Date.today().set({
+                            year: 2015,
+                            month: 2,
+                            day: 11,
+                            hour: 8,
+                            minute: 30
+                        }),
+                        duration: 45,
+                        location: locPulsantis
+                    },
+                    {
+                        start: Date.today().set({
+                            year: 2015,
+                            month: 2,
+                            day: 11,
+                            hour: 18,
+                            minute: 0
+                        }),
+                        end: Date.today().set({
+                            year: 2015,
+                            month: 2,
+                            day: 11,
+                            hour: 19,
+                            minute: 30
+                        }),
+                        duration: 60,
+                        location: locLuxMed
+                    }
+                ];
+                ctrlScope.days = [Date.today().set({
+                    year: 2015,
+                    month: 2,
+                    day: 11,
+                    hour: 8,
+                    minute: 0
+                })];
+
+                //when attaching all events to calendar
+                ctrlScope.onEventsLoad(events);
+
+                //then info about events is summarized
+                expect(ctrlScope.events[10]).not.toBeDefined();
+                expect(ctrlScope.events[11]).toEqual([
+                    {
+                        name: 'Pulsantis',
+                        color: 'red',
+                        value: 2
+                    },
+                    {
+                        name: 'LuxMed',
+                        color: 'blue',
+                        value: 1
+                    }
+                ]);
+                expect(ctrlScope.events[12]).not.toBeDefined();
+            });
+
+        });
 
     });
 
