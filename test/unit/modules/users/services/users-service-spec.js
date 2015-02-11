@@ -1,6 +1,6 @@
 'use strict';
 
-describe('users-services-spec:', function () {
+describe('users-service-spec:', function () {
 
     //prepare module for testing
     beforeEach(angular.mock.module('users.services'));
