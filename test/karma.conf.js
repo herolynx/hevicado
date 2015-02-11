@@ -30,7 +30,7 @@ module.exports = function (config) {
             'app/modules/chronos/js/commons/chronos-commons.js',
             'app/modules/chronos/js/calendar/chronos-calendar.js',
             'app/modules/chronos/js/timeline/chronos-timeline.js',
-            'app/modules/chronos/js/visit/chronos-events.js',
+            'app/modules/chronos/js/events/chronos-events.js',
             /* module dependencies */
             'app/lib/**/*.js',
             'app/modules/**/*.js',
