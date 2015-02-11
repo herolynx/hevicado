@@ -224,6 +224,75 @@ describe('calendar-weekly-spec:', function () {
 
         });
 
+        describe('Locations management:', function () {
+
+            var doctor;
+
+            beforeEach(function () {
+                doctor = {
+                    id: 'doctor-123',
+                    first_name: 'Zbigniew',
+                    last_name: 'Religa',
+                    locations: [
+                        {
+                            id: "546b8fd1ef680df8426005c2",
+                            name: "Pulsantis",
+                            address: {
+                                street: "Grabiszynska 8/4",
+                                city: "Wroclaw",
+                                country: "Poland"
+                            },
+                            color: "red",
+                            working_hours: [
+                                {
+                                    day: "Monday",
+                                    start: "08:00",
+                                    end: "10:00",
+                                    tzOffset: -new Date().getTimezoneOffset()
+                                },
+                                {
+                                    day: "Monday",
+                                    start: "12:00",
+                                    end: "14:00",
+                                    tzOffset: -new Date().getTimezoneOffset()
+                                },
+                                {
+                                    day: "Tuesday",
+                                    start: "08:00",
+                                    end: "16:00",
+                                    tzOffset: -new Date().getTimezoneOffset()
+                                }
+                            ]
+                        }
+                    ]
+                };
+            });
+
+            it('should display locations on calendar when doctor is working', function () {
+                //given controller is initialized
+                expect(ctrlScope).toBeDefined();
+                //when doctor's data is loaded
+                ctrlScope.onDoctorLoad(doctor);
+                //then locations are displayed on calendar in proper time
+                expect(ctrlScope.location[1][7]).not.toBeDefined();
+                expect(ctrlScope.location[1][8]).toEqual(['red', 'red', 'red', 'red']);
+                expect(ctrlScope.location[1][9]).toEqual(['red', 'red', 'red', 'red']);
+                expect(ctrlScope.location[1][10]).not.toBeDefined();
+
+                expect(ctrlScope.location[1][11]).not.toBeDefined();
+                expect(ctrlScope.location[1][12]).toEqual(['red', 'red', 'red', 'red']);
+                expect(ctrlScope.location[1][13]).toEqual(['red', 'red', 'red', 'red']);
+                expect(ctrlScope.location[1][14]).not.toBeDefined();
+
+                expect(ctrlScope.location[2][7]).not.toBeDefined();
+                expect(ctrlScope.location[2][8]).toEqual(['red', 'red', 'red', 'red']);
+                expect(ctrlScope.location[2][15]).toEqual(['red', 'red', 'red', 'red']);
+                expect(ctrlScope.location[2][16]).not.toBeDefined();
+            });
+
+
+        });
+
     });
 
 });
