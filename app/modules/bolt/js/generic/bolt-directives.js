@@ -1,6 +1,6 @@
 'use strict';
 
-var boltDirectives = angular.module('bolt.directives', []);
+angular.module('bolt.directives', []);
 
 /**
  * Definition of authorized element which visibility is controlled based on user's access rights.
@@ -59,19 +59,20 @@ function AuthorizedElement(element, children, reqRoles, AuthService, attachStrat
 /**
  * Function defines strategy for showing/hiding elements
  */
-boltDirectives.value('attachStrategy', {
-    hide: function (parent, element) {
-        if (element.detach !== undefined) {
-            element.detach();
-        } else {
-            element.remove();
-        }
-    },
+angular.module('bolt.directives').
+    value('attachStrategy', {
+        hide: function (parent, element) {
+            if (element.detach !== undefined) {
+                element.detach();
+            } else {
+                element.remove();
+            }
+        },
 
-    show: function (parent, element) {
-        parent.append(element);
-    }
-});
+        show: function (parent, element) {
+            parent.append(element);
+        }
+    });
 
 /**
  * Directive to wrap chosen element into authorized element that contet visibility
@@ -81,23 +82,27 @@ boltDirectives.value('attachStrategy', {
  * @param AUTH_EVENTS events that will be listened in order to change element's visibility
  * @param attachStrategy strategy for showing/hiding elements
  */
-boltDirectives.directive('permission', ['AuthService', 'AUTH_EVENTS', 'attachStrategy', function (AuthService, AUTH_EVENTS, attachStrategy) {
+angular.module('bolt.directives').
+    directive('permission',
+    ['AuthService', 'AUTH_EVENTS', 'attachStrategy',
+        function (AuthService, AUTH_EVENTS, attachStrategy) {
 
-    return {
-        restrict: 'E',
-        template: '',
-        scope: {
-            roles: '@'
-        },
-        link: function ($scope, elm, attrs) {
-            if ($scope.roles === undefined) {
-                return;
-            }
-            var reqRoles = $scope.roles.split(',');
-            var authElement = new AuthorizedElement(elm, elm.contents(), reqRoles, AuthService, attachStrategy);
-            authElement.attachToEventBus($scope, AUTH_EVENTS);
-            authElement.checkAccessRights();
+            return {
+                restrict: 'E',
+                template: '',
+                scope: {
+                    roles: '@'
+                },
+                link: function ($scope, elm, attrs) {
+                    if ($scope.roles === undefined) {
+                        return;
+                    }
+                    var reqRoles = $scope.roles.split(',');
+                    var authElement = new AuthorizedElement(elm, elm.contents(), reqRoles, AuthService, attachStrategy);
+                    authElement.attachToEventBus($scope, AUTH_EVENTS);
+                    authElement.checkAccessRights();
+                }
+            };
+
         }
-    };
-
-}]);
+    ]);

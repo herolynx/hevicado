@@ -5,8 +5,8 @@
  */
 angular.module('bolt',
     [
-        'bolt.controllers',
         'bolt.services',
+        'bolt.login',
         'bolt.directives',
         'ui.router'
     ]
