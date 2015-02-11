@@ -6,7 +6,7 @@
 var usersModule = angular.module('users', [
 
     /*internal modules*/
-    'users.controllers',
+    'users.account',
     'users.services',
     /*external modules*/
     'bolt',

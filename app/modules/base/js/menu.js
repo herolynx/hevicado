@@ -1,7 +1,7 @@
 'use strict';
 
 var baseMenu = angular.module('base.menu', [
-    'users.controllers'
+   
 ]);
 
 /**
