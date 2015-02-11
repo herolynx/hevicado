@@ -194,14 +194,14 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
     $stateProvider.
         state('cabinet', {
             url: "/doctor/{doctorId:[0-9a-z]+}/office",
-            templateUrl: "modules/doctors/partials/cabinet.html",
+            templateUrl: "modules/users/partials/cabinet/cabinet.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('edit-cabinet', {
             url: "/doctor/edit-office",
-            templateUrl: "modules/doctors/partials/edit-cabinet.html",
+            templateUrl: "modules/users/partials/cabinet/edit-cabinet.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS
             }

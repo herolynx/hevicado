@@ -1,59 +1,5 @@
 'use strict';
 
-var doctorsCabinet = angular.module('doctors.cabinet', [
-    'users.services',
-    'bolt.services',
-    'commons.users.filters',
-    'commons.labels.directives',
-    'commons.maps.directives'
-]);
-
-/**
- * Controller responsible for displaying info about doctor's cabinet
- * @param $scope ctrl's scope
- * @param UsersService service providing doctor's data
- * @param $stateParams parameter manager
- * @param $log logger
- * @param uiNotification UI notification manager
- */
-doctorsCabinet.controller('CabinetInfoCtrl',
-    ['$scope', 'UsersService', '$stateParams', '$log', 'uiNotification',
-        function ($scope, UsersService, $stateParams, $log, uiNotification) {
-
-            $scope.doctor = {};
-
-            /**
-             * Initialize controller
-             * @param doctorId doctor to be displayed
-             * @param afterInit optional after initialization handler
-             */
-            $scope.init = function (doctorId, afterInit) {
-                $scope.doctorId = doctorId;
-                $log.debug('Loading info about doctor: ' + $scope.doctorId);
-                UsersService.
-                    get($scope.doctorId).
-                    success(function (doctor) {
-                        $log.debug('Doctor info loaded successfully');
-                        $scope.doctor = doctor;
-                        if (afterInit !== undefined) {
-                            afterInit();
-                        }
-                    }).
-                    error(function (errResp, errStatus) {
-                        $log.error('Couldn\'t load doctor\'s info: ' + errStatus + ', resp: ' + errResp.data);
-                        uiNotification.text('Error', 'Doctor\'s info not loaded - part of functionality may not workking properly').error();
-                    }
-                );
-            };
-
-            if ($stateParams.doctorId != undefined) {
-                $scope.init($stateParams.doctorId);
-            }
-
-        }
-    ]
-);
-
 /**
  * Controller responsible for editing cabinet related data.
  *
@@ -66,7 +12,8 @@ doctorsCabinet.controller('CabinetInfoCtrl',
  * @param Labels labels manager
  * @param CABINET_COLORS set of available colors for cabinets
  */
-doctorsCabinet.controller('EditCabinetCtrl',
+angular.module('users.cabinet').
+    controller('EditCabinetCtrl',
     ['$scope', 'UsersService', 'Session', '$controller', '$log', 'uiNotification', 'Labels', 'CABINET_COLORS',
         function ($scope, UsersService, Session, $controller, $log, uiNotification, Labels, CABINET_COLORS) {
 
@@ -247,5 +194,4 @@ doctorsCabinet.controller('EditCabinetCtrl',
             });
 
         }
-    ]
-);
+    ]);
