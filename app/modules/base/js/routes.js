@@ -44,7 +44,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('default-user', {
             url: "/patient/visit",
-            templateUrl: "modules/chronos/partials/timeline/calendar-timeline.html",
+            templateUrl: "modules/chronos/partials/timeline/timeline-events.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
@@ -106,21 +106,21 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('user-visits', {
             url: "/patient/visit",
-            templateUrl: "modules/chronos/partials/timeline/calendar-timeline.html",
+            templateUrl: "modules/chronos/partials/timeline/timeline-events.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('user-visit', {
             url: "/patient/visit/{eventId:[0-9a-z]+}",
-            templateUrl: "modules/chronos/partials/visit/info-event.html",
+            templateUrl: "modules/chronos/partials/events/info-visit.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
         }).
         state('search-doctor', {
             url: "/doctor",
-            templateUrl: "modules/chronos/partials/visit/visit-search.html",
+            templateUrl: "modules/chronos/partials/events/search-visit.html",
             data: {
                 access: ACCESS_LEVELS.USERS
             }
@@ -173,7 +173,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('calendar-day.edit-visit', {
             url: "/visit/{eventId:[0-9a-z]+}?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
-            templateUrl: "modules/chronos/partials/visit/edit-event.html",
+            templateUrl: "modules/chronos/partials/events/edit-visit.html",
             data: {
                 access: ACCESS_LEVELS.DOCTORS,
                 showToParam: 'doctorId',
@@ -183,7 +183,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
         }).
         state('calendar-day.new-visit', {
             url: "/visit/{startTime:\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}}?{currentDate:\\d{4}-\\d{2}-\\d{2}}",
-            templateUrl: "modules/chronos/partials/visit/edit-event.html",
+            templateUrl: "modules/chronos/partials/events/edit-visit.html",
             data: {
                 access: ACCESS_LEVELS.USERS,
                 addVisitState: 'calendar-day.new-visit',

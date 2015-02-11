@@ -7,7 +7,7 @@ angular.module('chronos.timeline').
     directive('calendarTimelineEvent', function () {
         return {
             restrict: 'E',
-            templateUrl: 'modules/chronos/partials/timeline/calendar-timeline-event.html',
+            templateUrl: 'modules/chronos/partials/timeline/timeline-event.html',
             scope: {
                 event: '=event'
             }
