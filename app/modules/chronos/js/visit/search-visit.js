@@ -1,14 +1,5 @@
 'use strict';
 
-var chronosSearch = angular.module('chronos.search', [
-    'chronos.services',
-    'commons.users.filters',
-    'commons.users.directives',
-    'commons.labels',
-    'commons.labels.filters',
-    'infinite-scroll'
-]);
-
 /**
  * Controller managing searching of doctors and free visits
  *
@@ -19,7 +10,8 @@ var chronosSearch = angular.module('chronos.search', [
  * @param uiNotification notification service
  * @param Labels labels manager
  */
-chronosSearch.controller('SearchDoctorCtrl',
+angular.module('chronos.events').
+    controller('SearchDoctorCtrl',
     ['$scope', '$log', 'CalendarService', 'EventUtils', 'uiNotification', 'Labels',
         function ($scope, $log, CalendarService, EventUtils, uiNotification, Labels) {
 

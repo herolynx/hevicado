@@ -26,11 +26,13 @@ module.exports = function (config) {
             'app/bower_components/ngmap/build/scripts/ng-map.js',
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
-            /* tested components */
-            'app/lib/**/*.js',
+            /* tested modules */
             'app/modules/chronos/js/commons/chronos-commons.js',
             'app/modules/chronos/js/calendar/chronos-calendar.js',
             'app/modules/chronos/js/timeline/chronos-timeline.js',
+            'app/modules/chronos/js/visit/chronos-events.js',
+            /* module dependencies */
+            'app/lib/**/*.js',
             'app/modules/**/*.js',
             /* tested templates */
             'app/modules/**/*.html',

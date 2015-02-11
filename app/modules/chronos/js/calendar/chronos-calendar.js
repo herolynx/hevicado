@@ -5,7 +5,7 @@
  */
 angular.module('chronos.calendar', [
     'chronos.calendar.directives',
-    'chronos.events.edit',
+    'chronos.events',
     'chronos.commons',
     'commons.users.filters',
     'ui.dnd',

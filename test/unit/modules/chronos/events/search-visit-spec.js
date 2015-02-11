@@ -1,9 +1,9 @@
 'use strict';
 
-describe('chronos-search-spec:', function () {
+describe('search-visit-spec:', function () {
 
     //prepare module for testing
-    beforeEach(angular.mock.module('chronos.search'));
+    beforeEach(angular.mock.module('chronos.events'));
 
     describe('SearchDoctorCtrl-spec:', function () {
 

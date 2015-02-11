@@ -1,6 +1,6 @@
 'use strict';
 
-describe('chronos.events.edit-spec:', function () {
+describe('edit-visit-spec:', function () {
 
     var mockCalendarService, mockEventActionManager;
     var mockUsersService, mockSession;

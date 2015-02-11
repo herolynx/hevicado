@@ -1,6 +1,6 @@
 'use strict';
 
-describe('chronos-service-spec:', function () {
+describe('calendar-service-spec:', function () {
 
     //prepare module for testing
     beforeEach(angular.mock.module('chronos'));

@@ -4,7 +4,7 @@
  * Directive for keeping element visible on the screen all the time,
  * no matter of window scroll position.
  */
-angular.module('chronos.events.edit.directives',
+angular.module('chronos.events.directives',
     []).
     directive('keepVisible', ['$window', function ($window) {
 
