@@ -1,15 +1,5 @@
 'use strict';
 
-angular.module('chronos.calendar', [
-    'chronos.calendar.directives',
-    'chronos.events.edit',
-    'chronos.commons',
-    'commons.users.filters',
-    'ui.dnd',
-    'ui.elements',
-    'ui.notifications'
-]);
-
 /**
  * Controller responsible for displayed calendar that belongs to chosen user.
  * @param $scope current scope of controller
@@ -271,4 +261,3 @@ angular.module('chronos.calendar').
         }
     ]
 );
-

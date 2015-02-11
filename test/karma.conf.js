@@ -29,7 +29,8 @@ module.exports = function (config) {
             /* tested components */
             'app/lib/**/*.js',
             'app/modules/chronos/js/commons/chronos-commons.js',
-            'app/modules/chronos/js/calendar/calendar.js',
+            'app/modules/chronos/js/calendar/chronos-calendar.js',
+            'app/modules/chronos/js/timeline/chronos-timeline.js',
             'app/modules/**/*.js',
             /* tested templates */
             'app/modules/**/*.html',
