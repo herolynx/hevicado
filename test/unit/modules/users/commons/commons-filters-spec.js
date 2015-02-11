@@ -1,9 +1,9 @@
 'use strict';
 
-describe('commons.users.filters-spec:', function () {
+describe('commons-filters-spec:', function () {
 
     //prepare module for testing
-    beforeEach(angular.mock.module('commons.users.filters'));
+    beforeEach(angular.mock.module('users.commons.filters'));
     beforeEach(angular.mock.module('commons.labels.filters'));
     beforeEach(angular.mock.module('pascalprecht.translate'));
 

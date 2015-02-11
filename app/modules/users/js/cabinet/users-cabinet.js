@@ -6,7 +6,7 @@
 angular.module('users.cabinet', [
     'users.services',
     'bolt.services',
-    'commons.users.filters',
+    'users.commons.filters',
     'commons.labels.directives',
     'commons.maps.directives'
 ]);

@@ -1,12 +1,12 @@
 'use strict';
 
-describe('commons.users.directives-spec:', function () {
+describe('commons-directives-spec:', function () {
 
     var $rootScope, $scope, $compile;
     var mockSession, mockAuthEvents;
 
     //prepare module for testing
-    beforeEach(angular.mock.module('commons.users.directives'));
+    beforeEach(angular.mock.module('users.commons.directives'));
 
     beforeEach(angular.mock.module(function ($provide) {
         //mock dependencies

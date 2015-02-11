@@ -5,7 +5,7 @@
  */
 angular.module('chronos.timeline', [
     'chronos.services',
-    'commons.users.filters',
+    'users.commons.filters',
     'ui.notifications',
     'ui.generic',
     'infinite-scroll'

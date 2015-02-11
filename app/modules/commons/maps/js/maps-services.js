@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('commons.maps.services', [
-    'commons.users.utils'
+    'users.commons.utils'
 ]);
 
 /**

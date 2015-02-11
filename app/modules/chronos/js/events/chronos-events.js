@@ -5,9 +5,9 @@
  */
 angular.module('chronos.events', [
     'chronos.events.directives',
-    'commons.users.utils',
-    'commons.users.filters',
-    'commons.users.directives',
+    'users.commons.utils',
+    'users.commons.filters',
+    'users.commons.directives',
     'commons.maps.directives',
     'commons.labels',
     'commons.labels.filters',

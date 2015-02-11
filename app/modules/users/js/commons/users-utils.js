@@ -1,11 +1,13 @@
 'use strict';
 
-var commonsUserUtils = angular.module('commons.users.utils', []);
+angular.module('users.commons.utils', []);
 
 /**
  * User related functionality
  */
-commonsUserUtils.service('UserUtils', ['$filter',
+angular.module('users.commons.utils').
+    service('UserUtils',
+    ['$filter',
         function ($filter) {
 
             return {
@@ -67,5 +69,4 @@ commonsUserUtils.service('UserUtils', ['$filter',
 
             };
         }
-    ]
-);
+    ]);

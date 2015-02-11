@@ -1,9 +1,9 @@
 'use strict';
 
-describe('commons.users.utils-spec:', function () {
+describe('users-utils-spec:', function () {
 
     //prepare module for testing
-    beforeEach(angular.mock.module('commons.users.utils'));
+    beforeEach(angular.mock.module('users.commons.utils'));
 
     describe('UserUtils-spec:', function () {
 

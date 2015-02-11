@@ -7,7 +7,7 @@ angular.module('chronos.calendar', [
     'chronos.calendar.directives',
     'chronos.events',
     'chronos.commons',
-    'commons.users.filters',
+    'users.commons.filters',
     'ui.dnd',
     'ui.elements',
     'ui.notifications'
