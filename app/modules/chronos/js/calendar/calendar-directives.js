@@ -59,7 +59,7 @@ angular.module('chronos.calendar.directives').
                 if (event.start.getMinutes() % quarterLength) {
                     //shift in quarter according to time
                     var scale = quarterHeight / quarterLength;
-                    elm.css('top', scale * event.start.getMinutes());
+                    elm.css('top', Math.floor(scale * event.start.getMinutes()));
                 }
                 //set width
                 if (event.overlap !== undefined && event.overlap.value > 1) {

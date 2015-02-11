@@ -330,6 +330,48 @@ describe('calendar-renderer-spec:', function () {
             expect(event1.overlap.value).toBe(2);
         });
 
+        it('should attach to proper quarter for non-standard quarter length', function () {
+            //given non-standard quarter length
+            var quarterLength = 30;
+            //and first event takes one hour
+            var event1 = {
+                start: Date.today().set({
+                    hour: 8,
+                    minute: 45
+                }),
+                end: Date.today().set({
+                    hour: 9,
+                    minute: 0
+                }),
+                duration: 60
+            };
+            renderer.attach(event1, quarterLength);
+            expect(event1.timeline).toBe(0);
+            expect(event1.overlap.value).toBe(1);
+            expect(event1.quarter).toBe(2);
+            //when attaching new event that's overlapping previous event
+            var event2 = {
+                start: Date.today().set({
+                    hour: 8,
+                    minute: 15
+                }),
+                end: Date.today().set({
+                    hour: 8,
+                    minute: 45
+                }),
+                duration: 30
+            };
+            renderer.attach(event2, quarterLength);
+            //then event is attached to new time line
+            expect(event2.timeline).toBe(1);
+            expect(event2.quarter).toBe(1);
+            //and overlapping index is updated
+            expect(event2.overlap.value).toBe(2);
+            expect(event1.overlap.value).toBe(2);
+            //and time line of previous event is not changed
+            expect(event1.timeline).toBe(0);
+        });
+
 
     });
 
