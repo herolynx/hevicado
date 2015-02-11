@@ -62,14 +62,8 @@ commonsUsersFilters.filter('normalizeText', function () {
  */
 commonsUsersFilters.filter('toLocalHours', function () {
 
-    return function (text) {
-        var time = text.split(':');
-        var date = Date.today().set({
-            hour: Number(time[0]),
-            minute: Number(time[1]),
-            second: 0
-        });
-        return toLocalDate(date).toString('HH:mm');
+    return function (text, offset) {
+        return hourToDate(text, offset).toString('HH:mm');
     };
 
 });
