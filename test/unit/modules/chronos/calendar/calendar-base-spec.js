@@ -1,6 +1,6 @@
 'use strict';
 
-describe('base-calendar-spec:', function () {
+describe('calendar-base-spec:', function () {
 
     //prepare module for testing
     beforeEach(angular.mock.module('chronos'));
