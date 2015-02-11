@@ -3,7 +3,7 @@
 /**
  * Configure module for users
  */
-var usersModule = angular.module('users', [
+angular.module('users', [
 
     /*internal modules*/
     'users.account',
