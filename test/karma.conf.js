@@ -39,6 +39,8 @@ module.exports = function (config) {
             'app/modules/users/js/services/users-service.js',
             'app/modules/users/js/cabinet/users-cabinet.js',
 
+            'app/modules/bolt/js/services/bolt-service.js',
+
             /* module dependencies */
             'app/lib/**/*.js',
             'app/modules/**/*.js',
