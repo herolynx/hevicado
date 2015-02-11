@@ -6,10 +6,8 @@
  * @returns {Date} non-nullable date
  */
 var toLocalDate = function (value) {
-    var date = typeof value != 'string' ? value.toString('yyyy-MM-dd HH:mm:ss') : value;
-    var localTime = moment.utc(date).toDate();
-    localTime = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
-    return new Date(moment(localTime).format('YYYY-MM-DD HH:mm:ss'));
+    var utcTime = moment.utc(value).toDate();
+    return moment(utcTime).toDate();
 };
 
 /**
@@ -19,7 +17,7 @@ var toLocalDate = function (value) {
  */
 var toUTCDate = function (value) {
     var date = typeof value == 'string' ? Date.parse(value) : value;
-    return Date.parse(moment.utc(date).format('YYYY-MM-DD HH:mm:ss'));
+    return moment.utc(date).toDate();
 };
 
 /**

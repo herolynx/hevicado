@@ -6,19 +6,20 @@
             <calendar-time-line day="day"/>
         </th>
     </tr>
-    <tr ng-repeat="hour in _.range(0,24)" id="hour-{{hour}}">
+    <tr ng-repeat="hour in hours" id="hour-{{hour}}">
         <td>{{hour}}:00</td>
-        <td ng-repeat="day in days" id="{{day.toString('yyyy-MM-dd')}}">
-            <div ng-repeat="quarter in [0,15,30,45]"
-                 id="{{day.toString('yyyy-MM-dd')}} {{hour}}:{{quarter}}"
+        <td ng-repeat="day in days">
+            <div ng-repeat="quarter in quarters"
                  drop-channel="dndDayChannel"
-                 ui-on-drop="dndDrop($event, $data, day, hour, quarter)"
-                 class="{{findLocation(day,hour,quarter).color}}"
-                    >
+                 ui-on-drop="dndDrop($event, $data, day, hour, quarter*15)"
+                 class="{{location[day.getDay()][hour][quarter] || 'black'}}">
+
                 <calendar-table-event
-                        ng-repeat="event in getEvents(day,hour, quarter)"
+                        ng-repeat="event in events[day.getDate()][hour][quarter]"
                         class="event {{event.location.color}}" style="height:100px"
                         event="event"
+                        quarter-amount="quarters.length"
+                        quarter-length="quarterLength"
                         ui-resizable
                         ui-on-resize="dndChangeTime($event, $ui, event)"
                         ui-draggable="true"
@@ -34,11 +35,12 @@
                         {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
                     </div>
                     <div class="describe" ng-click="editEvent(event)">
-                       {{event.title | label:'templates' | translate}}<br/>
+                        {{event.title | label:'templates' | translate}}<br/>
                         {{event.description}}
                     </div>
                 </calendar-table-event>
-                <div ng-click="addEvent(day, hour, quarter)">&nbsp;</div>
+                <div name="newEventContainer" ng-click="addEvent(day, hour, quarter*15)">&nbsp;</div>
+
             </div>
         </td>
     </tr>

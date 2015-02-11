@@ -153,7 +153,7 @@ chronosTimeline.controller('TimelineEventCtrl', ['$scope', '$log', 'CalendarServ
 chronosTimeline.directive('calendarTimelineEvent', function () {
     return {
         restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar-timeline-event.html',
+        templateUrl: 'modules/chronos/partials/timeline/calendar-timeline-event.html',
         scope: {
             event: '=event'
         }

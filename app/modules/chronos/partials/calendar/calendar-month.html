@@ -1,10 +1,10 @@
-<section id="main-content" ng-app="chronos" ng-controller="CalendarCtrl">
+<section id="main-content" ng-app="chronos">
     <div class="title-page">
         <h1 translate>menu.calendar</h1>
     </div>
     <!-- Page Title -->
     <div class="content">
-        <section class="calendar" ng-init="init(31)">
+        <section class="calendar">
             <calendar-menu></calendar-menu>
             <!-- Amount Day Calendar-->
             <div class="week-prev">
@@ -28,7 +28,7 @@
                     <div class="box-event">
                         <div class="box">
                             <div
-								ng-repeat="cabinet in dayInfo(day, 4) as cabinets"
+								ng-repeat="cabinet in events[day.getDate()] as cabinets"
 								ng-class="{
 									 'count-event-small': cabinets.length > 1,
 									 'count-event': cabinets.length <= 1

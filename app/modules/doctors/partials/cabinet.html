@@ -81,7 +81,7 @@
 									<ul>
 										<li ng-repeat="working in location.working_hours">
 											<span class="day">{{'days.' + working.day | toLowerCase | translate}}</span>
-											<span class="hour">{{working.start | toLocalHours}} - {{working.end | toLocalHours}}</span>
+											<span class="hour">{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}</span>
 										</li>
 									</ul>
 								</div>

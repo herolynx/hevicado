@@ -1,6 +1,6 @@
 'use strict';
 
-var chronCalDirectives = angular.module('chronos.calendar.directives', []);
+angular.module('chronos.calendar.directives', []);
 
 /**
  * Directive displays top menu of the calendar.
@@ -8,25 +8,27 @@ var chronCalDirectives = angular.module('chronos.calendar.directives', []);
  * It also allows switching type of calendar view between day, week and month.
  * Directive uses the parent scope of the controller.
  */
-chronCalDirectives.directive('calendarMenu', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar-menu.html',
-        scope: false
-    };
-});
+angular.module('chronos.calendar.directives').
+    directive('calendarMenu', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'modules/chronos/partials/calendar/calendar-menu.html',
+            scope: false
+        };
+    });
 
 /**
  * Directive displays chosen days of calendar in table form.
  * Directive uses the parent scope of the controller.
  */
-chronCalDirectives.directive('calendarTable', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'modules/chronos/partials/calendar-table.html',
-        scope: false
-    };
-});
+angular.module('chronos.calendar.directives').
+    directive('calendarTable', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'modules/chronos/partials/calendar/calendar-table.html',
+            scope: false
+        };
+    });
 
 /**
  * Directive displayes single event on table based on its timeline settings
@@ -35,7 +37,8 @@ chronCalDirectives.directive('calendarTable', function () {
  * @param CALENDAR_EVENTS events used for calendar notifications
  * @param CALENDAR_SETTINGS settings for calendar rendering
  */
-chronCalDirectives.directive('calendarTableEvent',
+angular.module('chronos.calendar.directives').
+    directive('calendarTableEvent',
     ['$window', 'CALENDAR_EVENTS', 'CALENDAR_SETTINGS',
         function ($window, CALENDAR_EVENTS, CALENDAR_SETTINGS) {
 
@@ -43,14 +46,21 @@ chronCalDirectives.directive('calendarTableEvent',
              * Set size of the displayed event element
              * @param elm DOM representation of event
              * @param event event to be displayed
+             * @param quarterAmount number of quarters in an hour
+             * @param quarterLength length of single quarter
              */
-            var setEventSize = function (elm, event) {
+            var setEventSize = function (elm, event, quarterAmount, quarterLength) {
                 clear(elm);
                 //set height
                 var quarterRoot = elm.parent();
                 var quarterHeight = quarterRoot.height();
                 var height = event.quarter * quarterHeight;
                 elm.height(height - 1);
+                if (event.start.getMinutes() % quarterLength) {
+                    //shift in quarter according to time
+                    var scale = quarterHeight / quarterLength;
+                    elm.css('top', Math.floor(scale * event.start.getMinutes()));
+                }
                 //set width
                 if (event.overlap !== undefined && event.overlap.value > 1) {
                     //more then one events overlap at the same time
@@ -76,17 +86,19 @@ chronCalDirectives.directive('calendarTableEvent',
                 restrict: 'E',
                 template: '',
                 scope: {
-                    event: '='
+                    event: '=',
+                    quarterAmount: '=',
+                    quarterLength: '='
                 },
                 link: function ($scope, elm, attrs) {
-                    setEventSize(elm, $scope.event);
+                    setEventSize(elm, $scope.event, $scope.quarterAmount, $scope.quarterLength);
                     //change event size also when window size changes
                     angular.element($window).bind('resize', function () {
-                        setEventSize(elm, $scope.event);
+                        setEventSize(elm, $scope.event, $scope.quarterAmount, $scope.quarterLength);
                     });
                     //change when events on calendar changes
                     $scope.$on(CALENDAR_EVENTS.CALENDAR_RENDER, function () {
-                        setEventSize(elm, $scope.event);
+                        setEventSize(elm, $scope.event, $scope.quarterAmount, $scope.quarterLength);
                     });
                 }
             };
@@ -100,7 +112,8 @@ chronCalDirectives.directive('calendarTableEvent',
  * Directive refreshes current time periodically.
  * @param $interval function for refreshing current time
  */
-chronCalDirectives.directive('calendarTimeLine',
+angular.module('chronos.calendar.directives').
+    directive('calendarTimeLine',
     ['$interval', '$document',
         function ($interval, $document) {
 

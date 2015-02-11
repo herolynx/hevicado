@@ -3,9 +3,8 @@
         <div class="box quick-contact">
              <h2 translate>visit.patients-quick-contact</h2>
             <div class="notes">
-               
 				<ul>
-					<li ng-repeat="visit in eventsMap.events(currentDate.clone().set({hour:0, minute:0, second:0})) | orderBy:'start'">
+					<li ng-repeat="visit in flatten(events[currentDate.getDate()])">
 						<div class="describe">
 							<h3>{{visit.patient | userInfo}}</h3>
 							<p>{{'cabinet.hour-visit' | translate}}: <span>{{visit.start.toString('HH:mm')}} - {{visit.end.toString('HH:mm')}}</span></p>

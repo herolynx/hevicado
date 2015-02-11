@@ -4,6 +4,7 @@ var chronosEditEvent = angular.module('chronos.events.edit', [
     'commons.users.utils',
     'commons.users.filters',
     'commons.maps.directives',
+    'chronos.events.edit.directives',
     'users.services',
     'bolt.services'
 ]);
@@ -61,7 +62,7 @@ chronosEditEvent.controller('EditEventCtrl',
                         });
                 } else {
                     $log.debug("Editing new event - start time: " + $stateParams.startTime);
-                    var startDate = $stateParams.startTime != '' ? new Date($stateParams.startTime) : new Date().add(2).hours().set({
+                    var startDate = $stateParams.startTime != '' ? new Date(Date.parse($stateParams.startTime)) : new Date().add(2).hours().set({
                         minute: 0,
                         second: 0
                     });
