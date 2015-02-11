@@ -53,7 +53,7 @@ baseRoutes.config(['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS', func
     $stateProvider.
         state('login', {
             url: "/login",
-            templateUrl: "modules/bolt/partials/login.html",
+            templateUrl: "modules/bolt/partials/generic/login.html",
             data: {
                 access: ACCESS_LEVELS.PUBLIC
             }
