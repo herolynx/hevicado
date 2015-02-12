@@ -16,7 +16,7 @@ describe('spinner-counter-spec:', function () {
             $provide.value('SPINNER_EVENTS', spinnerEvents);
         }));
 
-        beforeEach(inject(function ($injector, _$rootScope_, _$compile_) {
+        beforeEach(inject(function ($injector) {
             counter = $injector.get('SpinnerCounter');
         }));
 
