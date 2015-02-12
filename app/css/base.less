@@ -3938,8 +3938,27 @@ ul.dropdown-menu li:hover {
   margin-bottom: 1px;
 }
 
-
-
 .ui-resizable-resizing {
 	.bg(red)!important;
-}	
+}
+
+.spinner {
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+
+  width: 20px;
+  height: 20px;
+
+  background-color: #aaa;
+  border-radius: 2px;
+  border: 1px solid #999;
+
+  animation:spin 4s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+	transform:rotate(360deg);
+  }
+}
