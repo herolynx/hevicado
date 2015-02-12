@@ -72,9 +72,6 @@ gulp.task('copy:assets', function () {
     gulp.src('./app/lang/**/*')
         .pipe(gulp.dest('release/lang'));
 
-    gulp.src('./app/lib/**/*')
-        .pipe(gulp.dest('release/lib'));
-
 });
 
 // CREATE A RELEASE TO THE RELEASE DIR

@@ -42,13 +42,13 @@ module.exports = function (config) {
             'app/modules/bolt/js/services/bolt-service.js',
 
             /* module dependencies */
-            'app/lib/**/*.js',
             'app/modules/**/*.js',
 
             /* tested templates */
             'app/modules/**/*.html',
 
             /* test cases */
+            'test/lib/**/*.js',
             'test/unit/**/*.js'
         ],
 
