@@ -1,11 +1,11 @@
 'use strict';
 
-describe('spinner-counter-spec:', function () {
+describe('http-progress-watcher-spec:', function () {
 
     //prepare module for testing
     beforeEach(angular.mock.module('commons.spinner'));
 
-    describe('SpinnerCounter-spec:', function () {
+    describe('HttpProgressWatcher-spec:', function () {
 
         var watcher;
         var mockCounter, mockQ;
