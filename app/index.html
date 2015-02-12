@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="base">
+<html lang="en" ng-app="hevicado">
 <head>
     <title>Hevicado</title>
     <meta charset="UTF-8"/>
@@ -86,13 +86,17 @@
 <!-- build:kunishuJs js/kunishu.js -->
 
 <!-- main app scripts -->
-<script src="modules/base/js/app.js"></script>
-<script src="modules/base/js/services.js"></script>
-<script src="modules/base/js/controllers.js"></script>
-<script src="modules/base/js/filters.js"></script>
-<script src="modules/base/js/directives.js"></script>
-<script src="modules/base/js/routes.js"></script>
-<script src="modules/base/js/menu.js"></script>
+<script src="modules/hevicado/js/hevicado-app.js"></script>
+
+<script src="modules/hevicado/js/config/hevicado-config.js"></script>
+<script src="modules/hevicado/js/config/routes.js"></script>
+
+<script src="modules/hevicado/js/services/http-interceptor.js"></script>
+
+<script src="modules/hevicado/js/generic/lang.js"></script>
+<script src="modules/hevicado/js/generic/version.js"></script>
+
+<script src="modules/hevicado/js/ui/menu.js"></script>
 
 <!-- inject:templates:js -->
 <!-- endinject -->

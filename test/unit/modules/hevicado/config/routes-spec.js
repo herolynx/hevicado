@@ -7,7 +7,7 @@ describe('routes-spec:', function () {
         var mockState;
         var $rootScope;
 
-        beforeEach(angular.mock.module('base'));
+        beforeEach(angular.mock.module('hevicado'));
 
         beforeEach(angular.mock.module(function ($provide) {
             //mock dependencies

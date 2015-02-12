@@ -1,9 +1,9 @@
 'use strict';
 
 
-describe('controllers-spec', function () {
+describe('lang-spec:', function () {
 
-    beforeEach(angular.mock.module('base.controllers'));
+    beforeEach(angular.mock.module('hevicado'));
 
     describe('LangCtrl-spec:', function () {
 
