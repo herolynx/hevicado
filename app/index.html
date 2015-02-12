@@ -45,45 +45,47 @@
 
 <script src="//maps.google.com/maps/api/js"></script>
 
-<!-- build:libJs js/lib.js -->
 <!-- generic utils -->
+<!-- build:libJs js/lib-ui.js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-
 <script src="bower_components/toastr/toastr.js"></script>
+<!-- endbuild -->
 
+<!-- build:libJs js/lib.js -->
 <script src="bower_components/underscore/underscore-min.js"></script>
-<script src="bower_components/datejs/build/date.js"></script>
+<!-- endbuild -->
 
+<!-- build:libJs js/lib-dates.js -->
+<script src="bower_components/datejs/build/date.js"></script>
 <script src="bower_components/momentjs/min/moment-with-locales.js"></script>
 <script src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+<!-- endbuild -->
 
-<!-- UI decorators -->
-<script src="lib/jquery.ezmark.min.js"></script>
-<script src="lib/jquery.selectbox.js"></script>
 
+<!-- build:libJs js/framework.js -->
 <!-- angular related stuff -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<!-- endbuild -->
 
+
+<!-- build:libJs js/framework-lib.js -->
 <script src="bower_components/angular-translate/angular-translate.js"></script>
 <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-
-<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-
 <script src="bower_components/angular-ui-sortable/sortable.js"></script>
 <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-
-<!-- maps -->
 <script src="bower_components/ngmap/build/scripts/ng-map.js"></script>
 
 <!-- endbuild -->
 
 
-<!-- build:kunishuJs js/kunishu.js -->
+
+<!-- build:kunishuJs js/hevicado.js -->
 
 <!-- main app scripts -->
 <script src="modules/hevicado/js/hevicado-app.js"></script>
