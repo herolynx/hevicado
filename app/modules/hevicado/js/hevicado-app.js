@@ -11,6 +11,7 @@ angular.module('hevicado',
         'bolt',
         'chronos',
         'users',
+        'commons.spinner',
         /*
          * Internal modules
          */
@@ -27,6 +28,7 @@ angular.module('hevicado').
     config(
     ['$httpProvider',
         function ($httpProvider) {
+            $httpProvider.interceptors.push('HttpProgressWatcher');
             $httpProvider.interceptors.push('HttpInterceptor');
             $httpProvider.interceptors.push('AuthInterceptor');
         }

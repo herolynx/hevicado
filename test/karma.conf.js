@@ -40,6 +40,7 @@ module.exports = function (config) {
             'app/modules/users/js/cabinet/users-cabinet.js',
 
             'app/modules/bolt/js/services/bolt-service.js',
+            'app/modules/commons/spinner/js/spinner.js',
 
             /* module dependencies */
             'app/modules/**/*.js',
