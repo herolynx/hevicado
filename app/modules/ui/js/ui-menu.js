@@ -1,6 +1,6 @@
 'use strict';
 
-var uiMenu = angular.module('ui.menu', []);
+angular.module('ui.menu', []);
 
 /**
  * Minimize menu when window is scrolled down

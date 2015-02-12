@@ -3,10 +3,10 @@
 /**
  * Configure authentication module
  */
-var boltModule = angular.module('bolt',
+angular.module('bolt',
     [
-        'bolt.controllers',
         'bolt.services',
+        'bolt.login',
         'bolt.directives',
         'ui.router'
     ]
@@ -59,7 +59,7 @@ var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVEN
 };
 
 // check user access rights when visiting stuff in application
-boltModule.run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', '$log', checkUserAccessRights]);
+angular.module('bolt').run(['$rootScope', '$state', 'AuthService', 'AUTH_EVENTS', '$log', checkUserAccessRights]);
 
 /**
  * Check whether resource to be visited can be viewed only by the owner
@@ -85,4 +85,4 @@ var checkUserOwnerShipRights = function ($rootScope, $state, $stateParams, Sessi
 };
 
 // check user ownership rights when visiting stuff in application
-boltModule.run(['$rootScope', '$state', '$stateParams', 'Session', 'AUTH_EVENTS', '$log', checkUserOwnerShipRights]);
+angular.module('bolt').run(['$rootScope', '$state', '$stateParams', 'Session', 'AUTH_EVENTS', '$log', checkUserOwnerShipRights]);

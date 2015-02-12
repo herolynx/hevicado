@@ -3,15 +3,17 @@
 /**
  * Configure module for users
  */
-var usersModule = angular.module('users', [
+angular.module('users', [
 
     /*internal modules*/
-    'users.controllers',
+    'users.account',
     'users.services',
+    'users.cabinet',
     /*external modules*/
     'bolt',
     'ui.elements',
     'ui.notifications'
 ]).
     constant('THEMES', ['turquoise', 'orange', 'blue']).
-    constant('LANGS', ['pl']);
+    constant('LANGS', ['pl']).
+    constant('CABINET_COLORS', ['turquoise', 'orange', 'blue']);

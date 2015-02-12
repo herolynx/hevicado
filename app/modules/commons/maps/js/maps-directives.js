@@ -1,6 +1,6 @@
 'use strict';
 
-var commonsMapsDirectives = angular.module('commons.maps.directives', [
+angular.module('commons.maps.directives', [
     'ngMap',
     'commons.maps.services'
 ]);
@@ -50,7 +50,8 @@ GoogleMapCtrl.$inject = ['$scope', '$log', 'MapService'];
  * @param title name of the location
  * @param address location to be displayed
  */
-commonsMapsDirectives.directive('googleMap',
+angular.module('commons.maps.directives').
+    directive('googleMap',
     ['$log',
         function ($log) {
 
@@ -73,6 +74,5 @@ commonsMapsDirectives.directive('googleMap',
             };
 
         }
-    ]
-);
+    ]);
 

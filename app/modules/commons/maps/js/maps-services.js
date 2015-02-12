@@ -1,7 +1,7 @@
 'use strict';
 
-var commonsMapsServices = angular.module('commons.maps.services', [
-    'commons.users.utils'
+angular.module('commons.maps.services', [
+    'users.commons.utils'
 ]);
 
 /**
@@ -10,7 +10,8 @@ var commonsMapsServices = angular.module('commons.maps.services', [
  * @param $log logger
  * @param UserUtils generic user related functions
  */
-commonsMapsServices.service('MapService',
+angular.module('commons.maps.services').
+    service('MapService',
     ['$log', 'UserUtils',
         function ($log, UserUtils) {
 
@@ -33,5 +34,4 @@ commonsMapsServices.service('MapService',
             };
 
         }
-    ]
-);
+    ]);

@@ -24,14 +24,30 @@ module.exports = function (config) {
             'app/bower_components/angular-ui-sortable/sortable.js',
             'app/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
             'app/bower_components/ngmap/build/scripts/ng-map.js',
+
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
-            /* tested components */
+
+            /* tested modules */
+            'app/modules/chronos/js/commons/chronos-commons.js',
+            'app/modules/chronos/js/calendar/chronos-calendar.js',
+            'app/modules/chronos/js/timeline/chronos-timeline.js',
+            'app/modules/chronos/js/services/calendar-service.js',
+            'app/modules/chronos/js/events/chronos-events.js',
+
+            'app/modules/users/js/account/users-account.js',
+            'app/modules/users/js/services/users-service.js',
+            'app/modules/users/js/cabinet/users-cabinet.js',
+
+            'app/modules/bolt/js/services/bolt-service.js',
+
+            /* module dependencies */
             'app/lib/**/*.js',
-            'app/modules/chronos/js/calendar/calendar.js',
             'app/modules/**/*.js',
+
             /* tested templates */
             'app/modules/**/*.html',
+
             /* test cases */
             'test/unit/**/*.js'
         ],

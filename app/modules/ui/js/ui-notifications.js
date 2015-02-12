@@ -3,7 +3,7 @@
 /**
  * Configure module for ui utils
  */
-var uiNotif = angular.module('ui.notifications', [
+angular.module('ui.notifications', [
     'pascalprecht.translate'
 ]);
 
@@ -11,60 +11,64 @@ var uiNotif = angular.module('ui.notifications', [
  * Service manages UI notifications that can pop-up on the screen
  * @param $translate component manging translations
  */
-uiNotif.service('uiNotification', ['$translate', function ($translate) {
+angular.module('ui.notifications').
+    service('uiNotification',
+    ['$translate',
+        function ($translate) {
 
-    var _title, _text;
+            var _title, _text;
 
-    /**
-     * Translate and prepare message to be displayed
-     * @param title key of header of message to be translated
-     * @param text key context of message to be translated
-     * @returns {*} this instance
-     */
-    this.translate = function (title, msg) {
-        _title = $translate.instant(title);
-        _text = $translate.instant(msg);
-        return this;
-    };
-    /**
-     * Prepare message to be displayed
-     * @param title header of message
-     * @param text context of message
-     * @returns {*} this instance
-     */
-    this.text = function (title, text) {
-        _title = title;
-        _text = text;
-        return this;
-    };
-    /**
-     * Show success message
-     */
-    this.success = function () {
-        toastr.success(_text, _title);
-    };
-    /**
-     * Show information message
-     */
-    this.info = function () {
-        toastr.info(_text, _title);
-    };
-    /**
-     * Show warning message
-     */
-    this.warning = function () {
-        toastr.warning(_text, _title);
-    };
-    /**
-     * Show error message
-     */
-    this.error = function () {
-        toastr.error(_text, _title);
-    };
+            /**
+             * Translate and prepare message to be displayed
+             * @param title key of header of message to be translated
+             * @param text key context of message to be translated
+             * @returns {*} this instance
+             */
+            this.translate = function (title, msg) {
+                _title = $translate.instant(title);
+                _text = $translate.instant(msg);
+                return this;
+            };
+            /**
+             * Prepare message to be displayed
+             * @param title header of message
+             * @param text context of message
+             * @returns {*} this instance
+             */
+            this.text = function (title, text) {
+                _title = title;
+                _text = text;
+                return this;
+            };
+            /**
+             * Show success message
+             */
+            this.success = function () {
+                toastr.success(_text, _title);
+            };
+            /**
+             * Show information message
+             */
+            this.info = function () {
+                toastr.info(_text, _title);
+            };
+            /**
+             * Show warning message
+             */
+            this.warning = function () {
+                toastr.warning(_text, _title);
+            };
+            /**
+             * Show error message
+             */
+            this.error = function () {
+                toastr.error(_text, _title);
+            };
 
-    return this;
+            return this;
 
-}]);
+        }
+    ]);
 
 /**
  * Directive displays chosen message when proper event is dispatched.
@@ -74,27 +78,31 @@ uiNotif.service('uiNotification', ['$translate', function ($translate) {
  * message: text to be displayed in notification
  * @param uiNotification component managing notifications on UI
  */
-uiNotif.directive('uiNotify', ['uiNotification', function (uiNotification) {
+angular.module('ui.notifications').
+    directive('uiNotify',
+    ['uiNotification',
+        function (uiNotification) {
 
-    return {
-        restrict: 'E',
-        template: '',
-        scope: {
-            event: '@',
-            type: '@',
-            message: '@'
-        },
-        link: function ($scope, elm, attrs) {
-            $scope.$on($scope.event, function () {
-                //check type of notification to be displayed
-                var notificationType = $scope.type;
-                if (notificationType === undefined) {
-                    notificationType = 'info';
+            return {
+                restrict: 'E',
+                template: '',
+                scope: {
+                    event: '@',
+                    type: '@',
+                    message: '@'
+                },
+                link: function ($scope, elm, attrs) {
+                    $scope.$on($scope.event, function () {
+                        //check type of notification to be displayed
+                        var notificationType = $scope.type;
+                        if (notificationType === undefined) {
+                            notificationType = 'info';
+                        }
+                        //show notification
+                        uiNotification.text('', $scope.message)[notificationType]();
+                    });
                 }
-                //show notification
-                uiNotification.text('', $scope.message)[notificationType]();
-            });
-        }
-    };
+            };
 
-}]);
+        }
+    ]);

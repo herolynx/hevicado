@@ -1,6 +1,6 @@
 'use strict';
 
-var uiGeneric = angular.module('ui.generic', []);
+angular.module('ui.generic', []);
 
 /**
  * Back to top option
@@ -22,28 +22,12 @@ $(document).ready(function () {
 });
 
 /**
- * Decorate proper UI elements
- */
-//uiGeneric.run(function ($rootScope) {
-//    $rootScope.$watch(function () {
-//        // CHECKBOX
-//        if ($('input').length > 0) {
-//            $('input').ezMark();
-//        }
-//
-//        // SELECT BOX
-//        if ($('select').length > 0) {
-//            var selectBox = $("select").selectBoxIt();
-//        }
-//    });
-//});
-
-/**
  * Filter normalizes string to lower case
  */
-uiGeneric.filter('toLowerCase', function () {
-    return function (text) {
-        return text !== null ? text.toLowerCase() : '';
-    };
-});
+angular.module('ui.generic').
+    filter('toLowerCase', function () {
+        return function (text) {
+            return text !== null ? text.toLowerCase() : '';
+        };
+    });
 

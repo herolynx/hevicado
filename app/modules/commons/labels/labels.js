@@ -1,13 +1,14 @@
 'use strict';
 
-var commonsLabels = angular.module('commons.labels', []);
+angular.module('commons.labels', []);
 
 /**
  * Service manages labels for generic dynamic data
  * @param $translate service for translating labels
  * @param $q promise
  */
-commonsLabels.service('Labels',
+angular.module('commons.labels').
+    service('Labels',
     ['$translate', '$q',
         function ($translate, $q) {
 
@@ -74,5 +75,4 @@ commonsLabels.service('Labels',
             };
 
         }
-    ]
-);
+    ]);

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="base">
+<html lang="en" ng-app="hevicado">
 <head>
     <title>Hevicado</title>
     <meta charset="UTF-8"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-	
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans&subset=latin-ext' rel='stylesheet' type='text/css'>
-    
-	<!-- build:css css/style.css -->
-	
+
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans&subset=latin-ext' rel='stylesheet' type='text/css'>
+
+    <!-- build:css css/style.css -->
+
     <link rel="stylesheet" href="css/entypo.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/ezmark.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/jquery.selectbox.css" type="text/css" media="screen"/>
@@ -86,25 +86,30 @@
 <!-- build:kunishuJs js/kunishu.js -->
 
 <!-- main app scripts -->
-<script src="modules/base/js/app.js"></script>
-<script src="modules/base/js/services.js"></script>
-<script src="modules/base/js/controllers.js"></script>
-<script src="modules/base/js/filters.js"></script>
-<script src="modules/base/js/directives.js"></script>
-<script src="modules/base/js/routes.js"></script>
-<script src="modules/base/js/menu.js"></script>
+<script src="modules/hevicado/js/hevicado-app.js"></script>
+
+<script src="modules/hevicado/js/config/hevicado-config.js"></script>
+<script src="modules/hevicado/js/config/routes.js"></script>
+
+<script src="modules/hevicado/js/services/http-interceptor.js"></script>
+
+<script src="modules/hevicado/js/generic/lang.js"></script>
+<script src="modules/hevicado/js/generic/version.js"></script>
+
+<script src="modules/hevicado/js/ui/menu.js"></script>
 
 <!-- inject:templates:js -->
 <!-- endinject -->
 
 <!-- commons -->
-<script src="modules/commons/users/js/users-utils.js"></script>
-<script src="modules/commons/users/js/users-filters.js"></script>
-<script src="modules/commons/users/js/users-directives.js"></script>
 <script src="modules/commons/date/date.js"></script>
+
 <script src="modules/commons/labels/labels.js"></script>
 <script src="modules/commons/labels/labels-filters.js"></script>
 <script src="modules/commons/labels/labels-directives.js"></script>
+
+<script src="modules/commons/maps/js/maps-services.js"></script>
+<script src="modules/commons/maps/js/maps-directives.js"></script>
 
 <!-- ui utils -->
 <script src="modules/ui/js/ui-generic.js"></script>
@@ -113,41 +118,60 @@
 <script src="modules/ui/js/ui-elements.js"></script>
 <script src="modules/ui/js/ui-menu.js"></script>
 
-<!-- maps -->
-<script src="modules/commons/maps/js/maps-services.js"></script>
-<script src="modules/commons/maps/js/maps-directives.js"></script>
-
 <!-- security module -->
 <script src="modules/bolt/js/bolt-app.js"></script>
-<script src="modules/bolt/js/bolt-controller.js"></script>
-<script src="modules/bolt/js/bolt-service.js"></script>
-<script src="modules/bolt/js/bolt-directives.js"></script>
+
+<script src="modules/bolt/js/services/bolt-service.js"></script>
+<script src="modules/bolt/js/services/auth-service.js"></script>
+<script src="modules/bolt/js/services/auth-interceptor.js"></script>
+<script src="modules/bolt/js/services/session.js"></script>
+
+<script src="modules/bolt/js/generic/login.js"></script>
+<script src="modules/bolt/js/generic/bolt-directives.js"></script>
 
 <!-- calendar -->
 <script src="modules/chronos/js/chronos-app.js"></script>
-<script src="modules/chronos/js/chronos-events.js"></script>
-<script src="modules/chronos/js/services/chronos-services.js"></script>
-<script src="modules/chronos/js/timeline/chronos-timeline.js"></script>
+<script src="modules/chronos/js/services/calendar-service.js"></script>
 
-<script src="modules/chronos/js/calendar/calendar.js"></script>
+<script src="modules/chronos/js/commons/chronos-commons.js"></script>
+<script src="modules/chronos/js/commons/event-action-manager.js"></script>
+<script src="modules/chronos/js/commons/event-utils.js"></script>
+
+<script src="modules/chronos/js/timeline/chronos-timeline.js"></script>
+<script src="modules/chronos/js/timeline/timeline-events.js"></script>
+<script src="modules/chronos/js/timeline/timeline-event.js"></script>
+<script src="modules/chronos/js/timeline/timeline-directives.js"></script>
+
+<script src="modules/chronos/js/calendar/chronos-calendar.js"></script>
+<script src="modules/chronos/js/calendar/calendar-base.js"></script>
 <script src="modules/chronos/js/calendar/calendar-renderer.js"></script>
 <script src="modules/chronos/js/calendar/calendar-editor.js"></script>
 <script src="modules/chronos/js/calendar/calendar-directives.js"></script>
 <script src="modules/chronos/js/calendar/calendar-weekly.js"></script>
 <script src="modules/chronos/js/calendar/calendar-monthly.js"></script>
 
-<script src="modules/chronos/js/visit/chronos-edit-event.js"></script>
-<script src="modules/chronos/js/visit/visit-directives.js"></script>
-<script src="modules/chronos/js/visit/chronos-search.js"></script>
+<script src="modules/chronos/js/events/chronos-events.js"></script>
+<script src="modules/chronos/js/events/edit-visit.js"></script>
+<script src="modules/chronos/js/events/info-visit.js"></script>
+<script src="modules/chronos/js/events/search-visit.js"></script>
+<script src="modules/chronos/js/events/events-directives.js"></script>
 
 <!-- users -->
 <script src="modules/users/js/users-app.js"></script>
-<script src="modules/users/js/users-controllers.js"></script>
-<script src="modules/users/js/users-services.js"></script>
+<script src="modules/users/js/services/users-service.js"></script>
 
-<!--doctors -->
-<script src="modules/doctors/js/doctors-app.js"></script>
-<script src="modules/doctors/js/doctors-cabinet.js"></script>
+<script src="modules/users/js/commons/users-utils.js"></script>
+<script src="modules/users/js/commons/commons-filters.js"></script>
+<script src="modules/users/js/commons/commons-directives.js"></script>
+
+<script src="modules/users/js/account/users-account.js"></script>
+<script src="modules/users/js/account/user-registration.js"></script>
+<script src="modules/users/js/account/user-profile.js"></script>
+<script src="modules/users/js/account/info-user.js"></script>
+
+<script src="modules/users/js/cabinet/users-cabinet.js"></script>
+<script src="modules/users/js/cabinet/info-cabinet.js"></script>
+<script src="modules/users/js/cabinet/edit-cabinet.js"></script>
 
 <!-- endbuild -->
 

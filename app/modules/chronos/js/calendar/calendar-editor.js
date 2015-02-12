@@ -137,7 +137,7 @@ angular.module('chronos.calendar').
                     hour: hour,
                     minute: minute
                 });
-                var newEndDate = newStartDate.clone().add(calendarEvent.duration).minute();
+                var newEndDate = newStartDate.clone().add(Number(calendarEvent.duration)).minutes();
                 $scope.saveEvent(calendarEvent, newStartDate, newEndDate, calendarEvent.start.clone(), calendarEvent.end.clone());
             };
 
