@@ -586,7 +586,8 @@ section.calendar {
 		.month {
 
 			span {
-				.size(3.5em);
+				.size(3em);
+				.uppercase;
 			}
 
 			a {
@@ -1971,6 +1972,10 @@ section.cabinet {
 					.b(1px solid #e6e6e6);
 					.pp(5px);
 					.box-sizing;
+					
+					map {
+						.h(100%)!important;
+					}
 				}	
 				
 			}
@@ -2739,7 +2744,6 @@ section.search {
 			.pp(20px 30px 20px 30px);
 			.box-sizing;
 			.relative;
-			.h(300px);
 
 			&:first-child {
 				&:before {
@@ -2752,7 +2756,7 @@ section.search {
 				.w(10px);
 				top:5%;
 				left:-5px;
-				.h(70%);
+				.h(100%);
 				.absolute;
 				background:url(../images/table-bg-20.png);
 			}
@@ -3233,74 +3237,82 @@ ul.dropdown-menu {
 
 
 .widget-min-calendar {
-  .w(auto);
-  .bg(#FFF);
-  .pp(5px);
-  .absolute;
-  left:85px;
-  top:-11px;
-  .box-sizing;
-  z-index:800;
-  .b(1px solid #f0f0f0);
-  .bt(0);
-  .radius(0 0px 5px 5px);
-  .left;
+	.w(auto);
+	.bg(#FFF);
+	.pp(5px);
+	.absolute;
+	left:85px;
+	top:-11px;
+	.box-sizing;
+	z-index:800;
+	.b(1px solid #f0f0f0);
+	.bt(0);
+	.radius(0 0px 5px 5px);
+	.left;
+	
 
-  .calendar {
-    .absolute;
-    top:0px;
-    left:0;
-    .bg(#FFF);
-    .pp(5px);
-    .w(225px);
-    z-index:991;
-    .b(1px solid #f0f0f0);
-    .dn;
+	.ng-isolate-scope {
+		
+		table {
+			.w;
 
-    a.close {
-      .absolute;
-      top:0;
-      right:0;
-    }
+			tr {
 
+				th, td {
+					.center;
+					.relative;
+					.w(25px);
 
-    select {
-      .w(90%);
-      .fl;
-    }
-
-    table {
-      .w;
-
-      tr {
-
-        th, td {
-          .center;
-          .relative;
-          .w(25px);
-
-          a {
-            .relative;
-            .center;
-          }
-        }
-
-        .select {
-          &:before {
-            content:'';
-            .w(25px);
-            .h(25px);
-            .radius(50px);
-            .absolute;
-            top:-3px;
-            left:2px;
-            .b(1px solid #000);
-          }
-        }
-      }
-
-    }
-  }
+					a {
+						.relative;
+						.center;
+					}
+					
+					.btn-default {
+						.b(0);
+						.bg(#FFF);
+						.size(14px);
+						.pp(2px 5px);
+						.box-sizing;
+						.radius(2px);
+						outline:none;
+					}	
+					
+					.pull-right, .pull-left {						
+						.w;
+						.h(100%);
+						top:1px;
+						.relative;
+						.pp(0);
+						
+						&:before {
+							content:'';
+							.absolute;
+							.dib;
+							top:30%;
+							left:49%;
+							width: 0px;
+							height: 0px;
+							border-style: solid;
+							left:40%;
+						}
+					}
+					
+					.pull-right {
+						&:before {
+							border-width: 5px 0 5px 5px;
+						}
+					}
+					
+					.pull-left {
+						&:before {
+							border-width: 5px 5px 5px 0;
+						}
+					}
+				}
+			}
+		}						
+	}	
 }
 
 //-- COLOR --//
@@ -3444,6 +3456,44 @@ ul.dropdown-menu {
 			}
 		}
 	}	
+	
+	.widget-min-calendar {
+		.ng-isolate-scope {
+		
+			table {
+				tr {
+					th, td {
+						.btn-default {
+							&:hover {
+								.bg(@blue);
+								.c(#FFF);
+							}
+						}
+						
+						.pull-right {
+							&:before {
+								border-color: transparent transparent transparent @blue;								
+							}
+							
+							&:hover:before { 
+								border-color: transparent transparent transparent #FFF;
+							}
+						}
+						
+						.pull-left {
+							&:before {
+								border-color: transparent @blue transparent transparent;							
+							}
+							
+							&:hover:before {
+								border-color: transparent #FFF transparent transparent;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 //-- TURQUOISE COLOR ELEMENT --//
