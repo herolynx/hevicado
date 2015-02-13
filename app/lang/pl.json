@@ -26,6 +26,7 @@
     "open": "Otworz",
     "close": "Zamknij",
     "add": "Dodaj",
+    "verification": "Weryfikacja",
     "validation": {
       "2-chars": "Pole musi zawierać co najmniej 2 znaki.",
       "3-chars": "Pole musi zawierać co najmniej 3 znaki.",

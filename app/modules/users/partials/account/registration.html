@@ -58,11 +58,6 @@
                                     </small>
                                 </fieldset>
                             </li>
-                        </ul>
-                    </div>
-                    <div class="box">
-                        <h2><span>2</span>{{'login.password' | translate}}</h2>
-                        <ul>
                             <li>
                                 <fieldset>
                                     <input name="password"
@@ -96,6 +91,14 @@
                         </ul>
                     </div>
                     <div class="box">
+                        <h2><span>2</span>{{'generic.verification' | translate}}</h2>
+                        <ul>
+                            <li>
+                                <div re-captcha ng-model="user.captcha"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box">
                         <h2><span>3</span>{{'registration.registration' | translate}}</h2>
                         <ul>
                             <li>
@@ -107,7 +110,9 @@
 								</span>
                             </li>
                             <li>
-                                <button class="btn click" ng-disabled="userForm.$invalid" translate>registration.register</button>
+                                <button class="btn click" ng-disabled="userForm.$invalid" translate>
+                                    registration.register
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -115,4 +120,4 @@
             </div>
         </section>
     </div>
-</section> 
+</section>
