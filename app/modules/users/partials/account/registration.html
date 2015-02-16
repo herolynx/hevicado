@@ -99,6 +99,12 @@
                         <h2><span>3</span>{{'registration.registration' | translate}}</h2>
                         <ul>
                             <li>
+                                <no-captcha
+                                        g-recaptcha-response="user.captcha.response">
+                                </no-captcha>
+                                <input ng-model="user.captcha.response" style="display:none;" required>
+                            </li>
+                            <li>
 								<span class="checkbox">
 									<input type="checkbox"
                                            ng-model="isAccepted"
@@ -107,7 +113,9 @@
 								</span>
                             </li>
                             <li>
-                                <button class="btn click" ng-disabled="userForm.$invalid" translate>registration.register</button>
+                                <button class="btn click" ng-disabled="userForm.$invalid" translate>
+                                    registration.register
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -115,4 +123,4 @@
             </div>
         </section>
     </div>
-</section> 
+</section>
