@@ -58,6 +58,11 @@
                                     </small>
                                 </fieldset>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <h2><span>2</span>{{'login.password' | translate}}</h2>
+                        <ul>
                             <li>
                                 <fieldset>
                                     <input name="password"
@@ -91,16 +96,14 @@
                         </ul>
                     </div>
                     <div class="box">
-                        <h2><span>2</span>{{'generic.verification' | translate}}</h2>
-                        <ul>
-                            <li>
-                                <div re-captcha ng-model="user.captcha"/>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="box">
                         <h2><span>3</span>{{'registration.registration' | translate}}</h2>
                         <ul>
+                            <li>
+                                <no-captcha
+                                        g-recaptcha-response="user.captcha.response">
+                                </no-captcha>
+                                <input ng-model="user.captcha.response" style="display:none;" required>
+                            </li>
                             <li>
 								<span class="checkbox">
 									<input type="checkbox"

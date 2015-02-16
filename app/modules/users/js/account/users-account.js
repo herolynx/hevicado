@@ -6,19 +6,13 @@
 angular.module('users.account', [
     'users.commons.filters',
     'commons.labels',
-    'reCAPTCHA'
+    'noCAPTCHA'
 ]);
 
 
 angular.module('users.account').
-    config(
-    ['reCAPTCHAProvider',
-        function (reCAPTCHAProvider) {
-
-            reCAPTCHAProvider.setPublicKey('6Ld95gETAAAAANMOdXOqJJJW7tEu2SDTclgWiEoY');
-
-            reCAPTCHAProvider.setOptions({
-                theme: 'clean'
-            });
-        }
+    config(['noCAPTCHAProvider', function (noCaptchaProvider) {
+        noCaptchaProvider.setSiteKey('6Ld95gETAAAAANMOdXOqJJJW7tEu2SDTclgWiEoY');
+        noCaptchaProvider.setTheme('clean');
+    }
     ]);
