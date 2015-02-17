@@ -67,6 +67,13 @@ angular.module('hevicado.config').
                     data: {
                         access: ACCESS_LEVELS.PUBLIC
                     }
+                }).
+                state('lost-password', {
+                    url: "/lost-password",
+                    templateUrl: "modules/users/partials/account/lost-password.html",
+                    data: {
+                        access: ACCESS_LEVELS.PUBLIC
+                    }
                 });
             /************************* PUBLIC PAGES ***************************************/
             $stateProvider.

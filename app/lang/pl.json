@@ -46,11 +46,14 @@
   "login": {
     "login": "Logowanie",
     "info-no-account": "Nie masz jeszcze konta?",
-    "info-register": "Zarejestruj sie teraz",
+    "info-register": "Zarejestruj się teraz",
     "user-login": "Login",
     "password": "Hasło",
     "login-in": "Zaloguj",
-    "wrongCredentials": "Zły login i/lub hasło"
+    "wrongCredentials": "Zły login i/lub hasło",
+    "lost-password-info": "Zapomniałem hasła",
+    "lost-password-desc": "Po potwierdzeniu tożsamości otrzymasz e-mail z tymczasowym tokenem dostępu. <br/> Token jest ważny przez godzinę. <br/> Wykorzystaj token, aby zmienić swoje hasło.",
+    "regain-password": "Odzyskaj hasło"
   },
   "registration": {
     "registration": "Rejestracja",
@@ -76,7 +79,7 @@
     "user-account": "Konto użytkownika",
     "change-credentials": "Zmień login i/lub hasło",
     "user-info": "Informacje o użytkowniku",
-    "first-name": "Imie",
+    "first-name": "Imię",
     "last-name": "Nazwisko",
     "phone": "Telefon",
     "settings": "Ustawienia",
@@ -142,7 +145,7 @@
     "city": "Miasto",
     "country": "Państwo",
     "add-hour": "Dodaj godzinę",
-	"hour-visit": "Godzina wizyty",
+    "hour-visit": "Godzina wizyty",
     "delete-hour": "Skasuj godzinę",
     "add-examination": "Dodaj zabieg",
     "delete-examination": "Skasuj zabieg",
