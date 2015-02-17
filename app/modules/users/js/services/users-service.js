@@ -45,17 +45,8 @@ angular.module('users.services').
                 save: function (user) {
                     $log.debug('Saving user: ' + user.id);
                     return $http[user.id === undefined ? 'post' : 'put']('/user', user);
-                },
-
-                /**
-                 * Regain control over account
-                 * @param user user who's password should be retained
-                 * @returns {*} http promise
-                 */
-                regainPassword: function (user) {
-                    $log.debug('Regaining password of user: ' + user.email);
-                    return $http.post('/lost-password', user);
                 }
+                
             };
 
         }

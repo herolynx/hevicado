@@ -70,7 +70,7 @@ angular.module('hevicado.config').
                 }).
                 state('lost-password', {
                     url: "/lost-password",
-                    templateUrl: "modules/users/partials/account/lost-password.html",
+                    templateUrl: "modules/bolt/partials/generic/lost-password.html",
                     data: {
                         access: ACCESS_LEVELS.PUBLIC
                     }

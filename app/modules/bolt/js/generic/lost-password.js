@@ -7,10 +7,10 @@
  * @param uiNotification component for managing user's notifications
  * @param $log logger component
  */
-angular.module('users.account').
+angular.module('bolt.login').
     controller('LostPasswordCtrl',
-    ['$scope', 'UsersService', 'uiNotification', '$log',
-        function ($scope, UsersService, uiNotification, $log) {
+    ['$scope', 'AuthService', 'uiNotification', '$log',
+        function ($scope, AuthService, uiNotification, $log) {
 
             /**
              * Initialize state
@@ -31,7 +31,7 @@ angular.module('users.account').
              */
             $scope.regain = function (user) {
                 $log.debug('Regaining password for user: ' + user.email);
-                UsersService.
+                AuthService.
                     regainPassword(user).
                     then(function (resp) {
                         $log.debug('Lost password info sent');
