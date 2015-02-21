@@ -5,12 +5,13 @@
     <div class="content" ng-controller="LoginCtrl">
         <section class="login">
             <div class="top-info">
-                <p translate>
-                    login.info-no-account
+                <p>
+                    {{'login.info-no-account' | translate}}
+                    <a href="#" ui-sref="registration" translate>login.info-register</a>
                 </p>
 
                 <p>
-                    <a href="#" ui-sref="registration" translate>login.info-register</a>
+                    <a href="#" ui-sref="lost-password" translate>login.lost-password-info</a>
                 </p>
             </div>
             <div class="box-row">

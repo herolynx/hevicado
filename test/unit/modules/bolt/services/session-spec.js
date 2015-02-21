@@ -52,7 +52,14 @@ describe('session-spec:', function () {
             //given session service is initialized
             expect(session).toBeDefined();
             //when creating new session
-            session.create({token: 'token-123', id: 'user-456', role: 'USER'});
+            session.create(
+                {
+                    token: 'token-123',
+                    user: {
+                        id: 'user-456',
+                        role: 'USER'
+                    }
+                });
             //then cookie is created for current user
             expect(mockCookieStore.put).toHaveBeenCalledWith('currentUser', {
                 token: 'token-123',
@@ -81,16 +88,18 @@ describe('session-spec:', function () {
             session.create(
                 {
                     token: 'token-123',
-                    id: 'user-456',
-                    role: 'ADMIN',
-                    first_name: 'johnny',
-                    last_name: 'bravo',
-                    email: 'johnny.bravo@kunishu.com',
-                    profile: {
-                        lang: 'en',
-                        time_zone: 'CET'
-                    },
-                    not_important: 'value1'
+                    user: {
+                        id: 'user-456',
+                        role: 'ADMIN',
+                        first_name: 'johnny',
+                        last_name: 'bravo',
+                        email: 'johnny.bravo@kunishu.com',
+                        profile: {
+                            lang: 'en',
+                            time_zone: 'CET'
+                        },
+                        not_important: 'value1'
+                    }
                 }
             );
             //then cookie is created for current user

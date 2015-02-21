@@ -65,13 +65,13 @@ angular.module('bolt.services').
 
             /**
              * Create new user's session
-             * @param user user data
+             * @param accessPass user access pass
              */
-            this.create = function (user) {
-                $log.debug('Creating session - user id: ' + user.id + ', role: ' + user.role + ', token: ' + user.token);
-                _currentUser = UserUtils.getContactInfo(user);
-                _currentUser.token = user.token;
-                _currentUser.profile = user.profile;
+            this.create = function (accessPass) {
+                $log.debug('Creating session - user id: ' + accessPass.user.id + ', role: ' + accessPass.user.role + ', token: ' + accessPass.token);
+                _currentUser = UserUtils.getContactInfo(accessPass.user);
+                _currentUser.token = accessPass.token;
+                _currentUser.profile = accessPass.user.profile;
                 $cookieStore.put('currentUser', _currentUser);
             };
 
@@ -81,7 +81,8 @@ angular.module('bolt.services').
              */
             this.refresh = function (user) {
                 $log.debug('Refreshing user session info - user id: ' + user.id + ', role: ' + user.role);
-                var newUserData = angular.copy(user);
+                var newUserData = {};
+                newUserData.user = angular.copy(user);
                 newUserData.token = self.loadUser().token;
                 self.create(newUserData);
             };
