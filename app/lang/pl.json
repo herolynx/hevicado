@@ -52,7 +52,7 @@
     "login-in": "Zaloguj",
     "wrongCredentials": "Zły login i/lub hasło",
     "lost-password-info": "Zapomniałem hasła",
-    "lost-password-desc": "Po potwierdzeniu tożsamości otrzymasz e-mail z tymczasowym tokenem dostępu. <br/> Token jest ważny przez godzinę. <br/> Wykorzystaj token, aby zmienić swoje hasło.",
+    "lost-password-desc": "Po potwierdzeniu tożsamości otrzymasz e-mail z tymczasowym hasłem dostępu. <br/> Hasło jest ważne przez godzinę. <br/> Wykorzystaj tymczasowe hasło, aby zmienić swoje hasło dostępu.",
     "regain-password": "Odzyskaj hasło"
   },
   "registration": {

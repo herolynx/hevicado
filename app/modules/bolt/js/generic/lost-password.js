@@ -6,11 +6,12 @@
  * @param UserService service managing users in app
  * @param uiNotification component for managing user's notifications
  * @param $log logger component
+ * @param $state state manager
  */
 angular.module('bolt.login').
     controller('LostPasswordCtrl',
-    ['$scope', 'AuthService', 'uiNotification', '$log',
-        function ($scope, AuthService, uiNotification, $log) {
+    ['$scope', 'AuthService', 'uiNotification', '$log', '$state',
+        function ($scope, AuthService, uiNotification, $log, $state) {
 
             /**
              * Initialize state
@@ -36,6 +37,7 @@ angular.module('bolt.login').
                     then(function (resp) {
                         $log.debug('Lost password info sent');
                         $scope.init();
+                        $state.go('login');
                     }, function (errResp, errStatus) {
                         $log.error('Lost password info has\'t been sent: status: ' + errStatus + ', resp: ' + errResp.data);
                         uiNotification.text('Error', 'Lost password info has\'t been sent').error();
