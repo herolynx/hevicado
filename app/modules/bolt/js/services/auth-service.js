@@ -11,6 +11,7 @@ angular.module('bolt.services').
     ['$http', 'Session', 'USER_ROLES',
         function ($http, Session, USER_ROLES) {
             return {
+
                 /**
                  * Login user with given credentials
                  * @param credentials user's credentials (login, password etc.)
@@ -23,6 +24,7 @@ angular.module('bolt.services').
                             Session.create(res.data);
                         });
                 },
+
                 /**
                  * Logout current user
                  * @returns {*} promise
@@ -38,6 +40,7 @@ angular.module('bolt.services').
                         destroySession //destroy session when error occurred too
                     );
                 },
+
                 /**
                  * Check whether current user is logged in
                  * @returns {boolean} true is current user is logged in, false otherwise
@@ -45,6 +48,7 @@ angular.module('bolt.services').
                 isAuthenticated: function () {
                     return Session.getToken() !== null;
                 },
+
                 /**
                  * Check whether current user has sufficient privileges
                  * @param authorizedRoles arrays with required roles from the current user
@@ -59,8 +63,18 @@ angular.module('bolt.services').
                     }
                     return (this.isAuthenticated() && authorizedRoles.indexOf(Session.getUserRole()) !== -1);
                 },
+
                 getCurrentSession: function () {
                     return Session;
+                },
+
+                /**
+                 * Regain control over account
+                 * @param user user who's password should be retained
+                 * @returns {*} http promise
+                 */
+                regainPassword: function (user) {
+                    return $http.post('/lost-password', user);
                 }
             };
         }

@@ -14,16 +14,16 @@
  */
 angular.module('users.account').
     controller('RegistrationCtrl',
-    ['$rootScope', '$scope', '$state', 'UsersService', 'AuthService', 'USER_ROLES', 'AUTH_EVENTS', 'uiNotification', '$log',
-        function ($rootScope, $scope, $state, UsersService, AuthService, USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
-
+    ['$rootScope', '$scope', '$state', 'UsersService', 'AuthService',
+        'USER_ROLES', 'AUTH_EVENTS', 'uiNotification', '$log',
+        function ($rootScope, $scope, $state, UsersService, AuthService,
+                  USER_ROLES, AUTH_EVENTS, uiNotification, $log) {
 
             $scope.user = {
                 email: '',
                 password: '',
                 profile: {
                     lang: 'pl',
-                    time_zone: 'CET',
                     theme: 'turquoise'
                 }
             };

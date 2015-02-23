@@ -46,6 +46,7 @@ angular.module('users.services').
                     $log.debug('Saving user: ' + user.id);
                     return $http[user.id === undefined ? 'post' : 'put']('/user', user);
                 }
+                
             };
 
         }
