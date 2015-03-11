@@ -26,8 +26,13 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
-
 <div id="page" user-theme>
+
+    <div ng-controller="CookieCtrl" ng-show="show()">
+        <div translate>generic.cookie-info</div>
+        <a ng-click="accept()" translate>generic.close</a>
+    </div>
+
     <permission roles="user,doctor">
         <top-menu/>
     </permission>
@@ -95,6 +100,7 @@
 <script src="modules/hevicado/js/services/http-interceptor.js"></script>
 
 <script src="modules/hevicado/js/generic/lang.js"></script>
+<script src="modules/hevicado/js/generic/cookies.js"></script>
 <script src="modules/hevicado/js/generic/version.js"></script>
 
 <script src="modules/hevicado/js/ui/menu.js"></script>
