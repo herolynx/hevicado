@@ -42,6 +42,8 @@ module.exports = function (config) {
 
             'app/modules/bolt/js/services/bolt-service.js',
 
+            'app/modules/hevicado/js/generic/lang.js',
+
             'app/modules/commons/spinner/js/spinner.js',
 
             /* module dependencies */

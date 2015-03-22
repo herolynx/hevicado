@@ -1,70 +1,94 @@
 <!-- TOP MENU -->
 <header>
     <div class="content" ng-controller="UserInfoCtrl">
-        <div class="logo">
-            <p>{{info.last_name}}
-            </p> <span>{{info.first_name}}</span>
-        </div>
+        <h2 class="logo">
+            <img src="images/logo.png" alt="Hevicado">
+        </h2>
+
         <!-- Logo -->
+
+        <nav class="product">
+            <permission roles="guest">
+                <ul>
+                    <li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
+                    <li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
+                    <li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
+                    <li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
+                    <li><a href="#main#news" id="-news" translate>menu.news</a></li>
+                    <li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
+                </ul>
+                <ul class="log_reg">
+                    <li><a href="#" ui-sref="login" translate>login.login</a></li>
+                    <li><a href="#" ui-sref="registration" translate>registration.registration</a></li>
+                </ul>
+            </permission>
+        </nav>
+
         <nav>
-            <ul>
-                <li>
-                    <a ui-sref="user-visits">
-                        <i class="icon-newspaper"></i>
-                        {{'menu.visits' | translate}}
-                    </a>
-                </li>
-                <li>
-                    <permission roles="doctor">
-                        <a ui-sref="calendar-week">
-                            <i class="icon-calendar"></i>
-                            {{'menu.calendar' | translate}}
+            <permission roles="user,doctor">
+                <ul>
+                    <li>
+                        <a ui-sref="user-visits">
+                            <i class="icon-newspaper"></i>
+                            {{'menu.visits' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <permission roles="doctor">
+                            <a ui-sref="calendar-week">
+                                <i class="icon-calendar"></i>
+                                {{'menu.calendar' | translate}}
+                            </a>
+                            <ul class="subpage">
+                                <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })" translate>menu.calendar-daily</a>
+                                </li>
+                                <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
+                                </li>
+                                <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })" translate>menu.calendar-monthly</a>
+                                </li>
+                            </ul>
+                        </permission>
+                    </li>
+                    <li>
+                        <permission roles="doctor">
+                            <a ui-sref="edit-cabinet">
+                                <i class="icon-monitor"></i>
+                                {{'menu.cabinet' | translate}}
+                            </a>
+                        </permission>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="icon-tools"></i>
+                            {{'menu.account' | translate}}
                         </a>
                         <ul class="subpage">
-                            <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })" translate>menu.calendar-daily</a>
-                            </li>
-                            <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
-                            </li>
-                            <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })" translate>menu.calendar-monthly</a>
-                            </li>
+                            <li><a href="#" ui-sref="user-profile" translate>menu.account-preferences</a></li>
+                            <li><a href="#" ui-sref="pricing" translate>menu.account-payments</a></li>
                         </ul>
-                    </permission>
-                </li>
-                <li>
-                    <permission roles="doctor">
-                        <a ui-sref="edit-cabinet">
-                            <i class="icon-monitor"></i>
-                            {{'menu.cabinet' | translate}}
+                    </li>
+                    <li>
+                        <a href="#" ui-sref="search-doctor">
+                            <i class="icon-search"></i>
+                            {{'generic.search' | translate}}
                         </a>
-                    </permission>
-                </li>
-                <li>
-                    <a>
-                        <i class="icon-tools"></i>
-                        {{'menu.account' | translate}}
-                    </a>
-                    <ul class="subpage">
-                        <li><a href="#" ui-sref="user-profile" translate>menu.account-preferences</a></li>
-                        <li><a href="#" ui-sref="pricing" translate>menu.account-payments</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" ui-sref="search-doctor">
-                        <i class="icon-search"></i>
-                        {{'generic.search' | translate}}
-                    </a>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </permission>
         </nav>
+
         <!-- Nav -->
 
         <div class="profile">
-            <div class="pic-user">
-                <img src="../../../../images/temp/user-1.jpg" alt="User profile">
-            </div>
-            <div class="action">
-                <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i></a>
-            </div>
+            <permission roles="user,doctor">
+                <div>
+                    <p>{{info.last_name}}
+                    </p> <span>{{info.first_name}}</span>
+                </div>
+                <div class="action">
+                    <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i></a>
+                </div>
+            </permission>
         </div>
         <!-- Profile User -->
     </div>
