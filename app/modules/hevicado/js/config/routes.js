@@ -90,20 +90,6 @@ angular.module('hevicado.config').
                     data: {
                         access: ACCESS_LEVELS.PUBLIC
                     }
-                }).
-                state('features', {
-                    url: "/features",
-                    templateUrl: "modules/hevicado/partials/features.html",
-                    data: {
-                        access: ACCESS_LEVELS.PUBLIC
-                    }
-                }).
-                state('pricing', {
-                    url: "/pricing",
-                    templateUrl: "modules/hevicado/partials/pricing.html",
-                    data: {
-                        access: ACCESS_LEVELS.PUBLIC
-                    }
                 });
             /************************* USER MAIN ***************************************/
             $stateProvider.

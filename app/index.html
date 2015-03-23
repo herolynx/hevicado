@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/ezmark.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/jquery.selectbox.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/base.css" type="text/css">
+    <!--<link rel="stylesheet" href="css/main.css" type="text/css">-->
     <link rel="stylesheet" href="css/resizable.css" type="text/css">
     <!-- endbuild -->
 
@@ -33,9 +34,9 @@
         <a ng-click="accept()" translate>generic.close</a>
     </div>
 
-    <permission roles="user,doctor">
+    <div>
         <top-menu/>
-    </permission>
+    </div>
 
     <section id="main-content">
         <!-- page context -->
@@ -43,9 +44,11 @@
             <div ng-view></div>
             <div ui-view></div>
             <spinner/>
-            <div>Hevicado: <span app-version></span></div>
         </div>
     </section>
+
+    <bottom-menu/>
+
     <a class="back-to-top" translate>generic.back-to-top</a>
 
 </div>
