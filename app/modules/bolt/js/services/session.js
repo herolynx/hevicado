@@ -96,7 +96,7 @@ angular.module('bolt.services').
                 _currentUser = {
                     'token': null,
                     'id': null,
-                    'userRole': USER_ROLES.GUEST,
+                    'role': USER_ROLES.GUEST,
                     'profile': {
                         theme: 'turquoise'
                     }

@@ -17,6 +17,18 @@ angular.module('hevicado.ui').
     });
 
 /**
+ * Directive responsible for displaying bottom-menu
+ */
+angular.module('hevicado.ui').
+    directive('bottomMenu', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'modules/hevicado/partials/ui/bottom-menu.html',
+            scope: false
+        };
+    });
+
+/**
  * Show sub-options for menu items.
  * Note: function must be called directly when whole menu module is loaded.
  */

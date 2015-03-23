@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/ezmark.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/jquery.selectbox.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/base.css" type="text/css">
+    <!--<link rel="stylesheet" href="css/main.css" type="text/css">-->
     <link rel="stylesheet" href="css/resizable.css" type="text/css">
     <!-- endbuild -->
 
@@ -26,11 +27,16 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
-
 <div id="page" user-theme>
-    <permission roles="user,doctor">
+
+    <div ng-controller="CookieCtrl" ng-show="show()">
+        <div translate>generic.cookie-info</div>
+        <a ng-click="accept()" translate>generic.close</a>
+    </div>
+
+    <div>
         <top-menu/>
-    </permission>
+    </div>
 
     <section id="main-content">
         <!-- page context -->
@@ -38,9 +44,11 @@
             <div ng-view></div>
             <div ui-view></div>
             <spinner/>
-            <div>Hevicado: <span app-version></span></div>
         </div>
     </section>
+
+    <bottom-menu/>
+
     <a class="back-to-top" translate>generic.back-to-top</a>
 
 </div>
@@ -95,6 +103,7 @@
 <script src="modules/hevicado/js/services/http-interceptor.js"></script>
 
 <script src="modules/hevicado/js/generic/lang.js"></script>
+<script src="modules/hevicado/js/generic/cookies.js"></script>
 <script src="modules/hevicado/js/generic/version.js"></script>
 
 <script src="modules/hevicado/js/ui/menu.js"></script>

@@ -44,16 +44,10 @@ var checkUserAccessRights = function ($rootScope, $state, AuthService, AUTH_EVEN
         var requiredAccessRoles = next.data.access;
         if (!AuthService.isAuthorized(requiredAccessRoles)) {
             $log.info('User is not allowed to see resource ' + next.url + ' - required roles: ' + requiredAccessRoles);
+            $log.info('User is not allowed to see resource ' + next.url + ' - no sufficient privileges of: ' + AuthService.getCurrentSession().getUserRole());
             event.preventDefault();
             $state.go('login');
-            if (!AuthService.isAuthenticated()) {
-                $log.info('User is not allowed to see resource ' + next.url + ' - user is not logged in');
-                $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHENTICATED);
-            } else {
-                $log.info('User is not allowed to see resource ' + next.url + ' - no sufficient privileges of: ' +
-                AuthService.getCurrentSession().getUserRole());
-                $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHORIZED);
-            }
+            $rootScope.$broadcast(AUTH_EVENTS.USER_NOT_AUTHORIZED);
         }
     });
 };

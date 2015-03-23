@@ -58,10 +58,7 @@ angular.module('bolt.services').
                     if (!angular.isArray(authorizedRoles)) {
                         authorizedRoles = [authorizedRoles];
                     }
-                    if (authorizedRoles.indexOf(USER_ROLES.GUEST) !== -1) {
-                        return true;
-                    }
-                    return (this.isAuthenticated() && authorizedRoles.indexOf(Session.getUserRole()) !== -1);
+                    return authorizedRoles.indexOf(Session.getUserRole()) !== -1;
                 },
 
                 getCurrentSession: function () {

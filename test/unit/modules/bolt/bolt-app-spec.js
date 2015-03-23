@@ -80,10 +80,10 @@ describe('bolt-app-spec:', function () {
             //then access to resource is prohibited
             expect(mockState.go).toHaveBeenCalledWith('login');
             //and proper broadcast message is dispatched
-            expect(spyRootScope.$broadcast).toHaveBeenCalledWith('auth-not-authenticated');
+            expect(spyRootScope.$broadcast).toHaveBeenCalledWith('auth-not-authorized');
             //and proper log info appears
             expect(mockLog.info).toHaveBeenCalledWith('User is not allowed to see resource http://bolt.com/private - required roles: USER');
-            expect(mockLog.info).toHaveBeenCalledWith('User is not allowed to see resource http://bolt.com/private - user is not logged in');
+            expect(mockLog.info).toHaveBeenCalledWith('User is not allowed to see resource http://bolt.com/private - no sufficient privileges of: GUEST');
         });
 
         it('should allow authorized user to see private resource', function () {
