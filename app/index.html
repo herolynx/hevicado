@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/ezmark.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/jquery.selectbox.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="css/base.css" type="text/css">
-    <!--<link rel="stylesheet" href="css/main.css" type="text/css">-->
+    <link rel="stylesheet" href="css/main.css" type="text/css">
     <link rel="stylesheet" href="css/resizable.css" type="text/css">
     <!-- endbuild -->
 
@@ -29,9 +29,11 @@
 <![endif]-->
 <div id="page" user-theme>
 
-    <div ng-controller="CookieCtrl" ng-show="show()">
-        <div translate>generic.cookie-info</div>
-        <a ng-click="accept()" translate>generic.close</a>
+    <div ng-controller="CookieCtrl" ng-show="show()" class="cookies">
+		<div class="content">
+			<div  class="info" translate>generic.cookie-info</div>
+			<a ng-click="accept()" translate>generic.close</a>
+		</div>
     </div>
 
     <div>

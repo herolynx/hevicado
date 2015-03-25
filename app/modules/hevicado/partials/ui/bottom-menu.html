@@ -11,24 +11,82 @@
             <ul>
                 <li><a href="#main#about-us" translate>menu.about-us</a></li>
                 <li><a href="#main#news" translate>menu.news</a></li>
-            </ul>
-        </div>
-        <div class="wrapper">
-            <ul>
-                <li><a href="#main#benefits" translate>menu.benefits</a></li>
+				<li><a href="#main#benefits" translate>menu.benefits</a></li>
                 <li><a href="#main#offer" translate>menu.offer</a></li>
+				<li><a href="#main#payment" translate>menu.prices</a></li> 
+				<li><a href="#main#contact" translate>menu.contact</a></li>
             </ul>
         </div>
         <div class="wrapper">
-            <ul>
-                <li><a href="#main#payment" translate>menu.prices</a></li>
-            </ul>
+            <permission roles="user,doctor">
+                <ul>
+                    <li>
+                        <a ui-sref="user-visits">
+                            <i class="icon-newspaper"></i>
+                            {{'menu.visits' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <permission roles="doctor">
+                            <a ui-sref="calendar-week">                               
+                                {{'menu.calendar' | translate}}
+                            </a>
+                            <ul class="subpage">
+                                <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })" translate>menu.calendar-daily</a>
+                                </li>
+                                <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
+                                </li>
+                                <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })" translate>menu.calendar-monthly</a>
+                                </li>
+                            </ul>
+                        </permission>
+                    </li>
+                    <li>
+                        <permission roles="doctor">
+                            <a ui-sref="edit-cabinet">                              
+                                {{'menu.cabinet' | translate}}
+                            </a>
+                        </permission>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="icon-tools"></i>
+                            {{'menu.account' | translate}}
+                        </a>
+                        <ul class="subpage">
+                            <li><a href="#" ui-sref="user-profile" translate>menu.account-preferences</a></li>
+                            <li><a href="#main#payment" translate>menu.account-payments</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" ui-sref="search-doctor">
+                            <i class="icon-search"></i>
+                            {{'generic.search' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </permission>
         </div>
-        <div class="wrapper">
-            <ul>
-                <li><a href="#main#contact" translate>menu.contact</a></li>
-            </ul>
-        </div>
+		<div class="wrapper">
+			<ul>
+				<permission roles="guest">
+					<li><a href="#">Zaloguj</a></li>
+					<li><a href="#">Rejestracja</a></li>	
+				</permission>
+				<permission roles="user,doctor">					
+					<li><a ng-controller="LoginCtrl" ng-click="logout()">Wyloguj</a></li>
+				</permission>
+			</ul>		
+				
+		</div>
+       <div class="wrapper">
+			<strong>Dane kontaktowe</strong><br>
+			ul. Woronicza 17<br>
+			55-343 Wrocław<br><br>
+			tel: 500 333 444<br>
+			tel: 442 555 233<br>
+			<a href="mailto:biuro@hevicado.pl">biuro@hevicado.pl</a>
+		</div>
         <div class="social">
             <p translate>
                 menu.social-info
