@@ -16,6 +16,7 @@ angular.module('commons.spinner').
                 increment: function () {
                     self.counter += 1;
                     $rootScope.$broadcast(SPINNER_EVENTS.COUNTER_CHANGED, self.counter);
+	
                 },
 
                 decrement: function () {
@@ -25,6 +26,7 @@ angular.module('commons.spinner').
 
                 inProgress: function () {
                     return self.counter > 0;
+					$('.loader').addClass('test');
                 }
 
             };

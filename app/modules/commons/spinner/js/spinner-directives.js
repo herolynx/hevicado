@@ -20,7 +20,7 @@ angular.module('commons.spinner').
 
             return {
                 restrict: 'E',
-                template: '<div />',
+                template: '<div class="loader"/>',
                 scope: {},
                 link: function ($scope, elm, attrs) {
                     update(elm);
