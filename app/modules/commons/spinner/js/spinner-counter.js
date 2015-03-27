@@ -25,8 +25,7 @@ angular.module('commons.spinner').
                 },
 
                 inProgress: function () {
-                    return self.counter > 0;
-					$('.loader').addClass('test');
+                    return self.counter > 0;					
                 }
 
             };
