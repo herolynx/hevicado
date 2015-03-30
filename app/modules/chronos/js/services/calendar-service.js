@@ -76,6 +76,8 @@ angular.module('chronos.services').
                 return $http.put('/calendar/visit', EventUtils.toJson({
                     id: event.id,
                     cancelled: new Date(),
+                    start: event.start,
+                    end: event.end,
                     patient: event.patient,
                     doctor: event.doctor
                 }));
