@@ -100,6 +100,24 @@ describe('calendar-monthly-spec:', function () {
             it('should summarize about events per day and location', function () {
                 //given controller is initialized
                 expect(ctrlScope).toBeDefined();
+                //and displayed days
+                ctrlScope.days = [
+                    Date.today().set({
+                        year: 2015,
+                        month: 2,
+                        day: 10
+                    }),
+                    Date.today().set({
+                        year: 2015,
+                        month: 2,
+                        day: 11
+                    }),
+                    Date.today().set({
+                        year: 2015,
+                        month: 2,
+                        day: 12
+                    })
+                ];
                 //and sample events
                 var events = [
                     {
@@ -158,20 +176,11 @@ describe('calendar-monthly-spec:', function () {
                         location: locLuxMed
                     }
                 ];
-                ctrlScope.days = [Date.today().set({
-                    year: 2015,
-                    month: 2,
-                    day: 11,
-                    hour: 8,
-                    minute: 0
-                })];
-
                 //when attaching all events to calendar
                 ctrlScope.onEventsLoad(events);
 
                 //then info about events is summarized
-                expect(ctrlScope.events[10]).not.toBeDefined();
-                expect(ctrlScope.events[11]).toEqual([
+                expect(ctrlScope.events[11 + '-' + 2]).toEqual([
                     {
                         name: 'Pulsantis',
                         color: 'red',
@@ -183,7 +192,24 @@ describe('calendar-monthly-spec:', function () {
                         value: 1
                     }
                 ]);
-                expect(ctrlScope.events[12]).not.toBeDefined();
+                //and days without events have default info
+                expect(ctrlScope.events[10 + '-' + 2]).toEqual([
+                    {
+                        name: '',
+                        color: '',
+                        value: 0
+                    }
+                ]);
+                expect(ctrlScope.events[12 + '-' + 2]).toEqual([
+                    {
+                        name: '',
+                        color: '',
+                        value: 0
+                    }
+                ]);
+                //and not displayed days are not initialized
+                expect(ctrlScope.events[9 + '-' + 2]).not.toBeDefined();
+                expect(ctrlScope.events[13 + '-' + 2]).not.toBeDefined();
             });
 
         });

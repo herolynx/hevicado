@@ -2,27 +2,34 @@
 <header>
     <div class="content" ng-controller="UserInfoCtrl">
         <h2 class="logo">
-            <img src="images/logo.png" alt="Hevicado">
+			<a href="#">
+				<img src="images/logo.png" alt="Hevicado">
+			</a>
         </h2>
 
         <!-- Logo -->
 
         <nav class="product">
             <permission roles="guest">
-                <ul>
-                    <li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
-                    <li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
-                    <li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
-                    <li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
-                    <li><a href="#main#news" id="-news" translate>menu.news</a></li>
-                    <li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
-                </ul>
+			<ul>
+				<li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
+				<li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
+				<li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
+				<li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
+				<li><a href="#main#news" id="-news" translate>menu.news</a></li>
+				<li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
+			</ul>
+		</nav>
+		</permission>
+		<permission roles="guest">
+		<nav class="log_reg">
                 <ul class="log_reg">
                     <li><a href="#" ui-sref="login" translate>login.login</a></li>
                     <li><a href="#" ui-sref="registration" translate>registration.registration</a></li>
                 </ul>
-            </permission>
-        </nav>
+			</nav>
+		</permission>
+        
 
         <nav>
             <permission roles="user,doctor">

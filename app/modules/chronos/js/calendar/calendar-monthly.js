@@ -18,8 +18,17 @@ angular.module('chronos.calendar').
              * @param events new loaded events
              */
             $scope.onEventsLoad = function (events) {
+                //prepare default data
+                _.map($scope.days, function (day) {
+                    $scope.events[day.getDate() + '-' + day.getMonth()] = [{
+                        name: '',
+                        color: '',
+                        value: 0
+                    }];
+                });
+                //count events per day
                 var daysEvents = _.groupBy(events, function (event) {
-                    return event.start.getDate();
+                    return event.start.getDate() + '-' + event.start.getMonth();
                 });
                 _.map(daysEvents, function (dayEvents, day) {
                     var dayInfo = _.chain(dayEvents).

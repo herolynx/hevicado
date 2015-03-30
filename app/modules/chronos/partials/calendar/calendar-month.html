@@ -28,7 +28,7 @@
                     <div class="box-event">
                         <div class="box">
                             <div
-								ng-repeat="cabinet in events[day.getDate()] as cabinets"
+								ng-repeat="cabinet in events[day.getDate()+'-'+day.getMonth()] as cabinets"
 								ng-class="{
 									 'count-event-small': cabinets.length > 1,
 									 'count-event': cabinets.length <= 1
