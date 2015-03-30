@@ -897,6 +897,7 @@ section.calendar {
 				height: 0px;
 				border-style: solid;
 				border-width: 0 0 10px 10px;
+				border-color: transparent transparent  #4C4C4C transparent;
 			}
 
 			a.link {
@@ -935,7 +936,8 @@ section.calendar {
 				.radius(100%);
 				.center;
 				.relative;
-
+				.b(3px solid @turquoise);
+				
 				&:before {
 					content:'';
 					.absolute;
@@ -950,6 +952,8 @@ section.calendar {
 					-moz-transform: rotate(4deg) ;
 					-o-transform: rotate(4deg) ;
 					-ms-transform: rotate(4deg) ;
+					border-color: transparent transparent @turquoise transparent;
+
 				}
 
 				p {
@@ -968,6 +972,7 @@ section.calendar {
 				  .center;
 				  .c(#00e9ba);
 				  .size(4em);
+				  .c(@turquoise);
 				}
 			}
 
@@ -981,7 +986,8 @@ section.calendar {
 				.center;
 				.relative;
 				.m(0 5px);
-
+				.b(3px solid @turquoise);
+				
 				&:before {
 					content:'';
 					.absolute;
@@ -996,24 +1002,26 @@ section.calendar {
 					-moz-transform: rotate(4deg) ;
 					-o-transform: rotate(4deg) ;
 					-ms-transform: rotate(4deg) ;
+					border-color: transparent transparent @turquoise transparent;
 				}
 
 				p {
-				  .size(12px);
-				  .w;
-				  .fl;
-				  .mt(3px);
+					.size(12px);
+					.w;
+					.fl;
+					.mt(3px);
 				}
 
 				span {
-				  .dib;
-				  .w;
-				  .mt(5px);
-				  .fl;
-				  .pp(0);
-				  .center;
-				  .c(#00e9ba);
-				  .size(2em);
+					.dib;
+					.w;
+					.mt(5px);
+					.fl;
+					.pp(0);
+					.center;
+					.c(#00e9ba);
+					.size(2em);
+					.c(@turquoise);
 				}
 			}
 
@@ -1022,27 +1030,7 @@ section.calendar {
 				.w;
 			}
 
-			.notes {
-				.fl;
-				.w;
-
-				i {
-					.size(3em);
-					.normal;
-					font-style:normal!important;
-
-					&:before {
-						.mr(0em)!important;
-					}
-				}
-
-				span {
-				  .fl;
-				  .w;
-				  .mt(-10px);
-				}
-			}
-
+			
 			.action {
 				.dib;
 				.w;
@@ -1057,7 +1045,9 @@ section.calendar {
 			}
 		}
 	}
-
+	
+	
+	
 	.week, .details-box, .details-info-edit {
 		
 		.event.red {
@@ -3491,6 +3481,27 @@ ul.dropdown-menu {
 
 //-- BLUE COLOR ELEMENT --//
 
+.blue.count-event, .blue.count-event-small {
+	.b(3px solid @blue)!important;
+
+	&:before {
+		border-color: transparent transparent @blue transparent!important;
+	}
+
+	span {
+		.c(@blue)!important;
+	}
+	
+	.action {
+		
+		a {
+			.c(@blue)!important;
+		}
+	}
+	
+}
+
+
 .blue {
 
 	a {
@@ -3521,35 +3532,6 @@ ul.dropdown-menu {
 		text-shadow:none;
 	}
 	
-	section.calendar {
-		
-		.grid {
-			
-			.event {
-				&:before {
-					border-color: transparent transparent  @blue transparent;
-				}
-
-				.count-event {
-					.b(3px solid @blue);
-
-					&:before {
-						border-color: transparent transparent @blue transparent;
-					}
-
-					span {
-						.c(@blue);
-					}
-				}
-
-				.notes {
-					i {
-						.c(@blue);
-					}
-				}
-			}
-		}
-	}
 	
 	section.cabinet {
 		.add {
@@ -3644,6 +3626,26 @@ ul.dropdown-menu {
 
 //-- TURQUOISE COLOR ELEMENT --//
 
+.turquoise.count-event, .turquoise.count-event-small {
+	.b(3px solid @turquoise)!important;
+
+	&:before {
+		border-color: transparent transparent @turquoise transparent!important;
+	}
+
+	span {
+		.c(@turquoise)!important;
+	}
+	
+	.action {
+
+		a {
+			.c(@turquoise)!important;
+		}
+	}
+}
+
+
 .turquoise {
 
 	a {
@@ -3674,36 +3676,7 @@ ul.dropdown-menu {
 		text-shadow:none;
 	}
 		
-	section.calendar {
 		
-		.grid {
-			
-			.event {
-				&:before {
-					border-color: transparent transparent  @turquoise transparent;
-				}
-
-				.count-event {
-					.b(3px solid @turquoise);
-
-					&:before {
-						border-color: transparent transparent @turquoise transparent;
-					}
-
-					span {
-						.c(@turquoise);
-					}
-				}
-
-				.notes {
-					i {
-						.c(@turquoise);
-					}
-				}
-			}
-		}
-	}
-	
 	section.cabinet {
 		.add {
 			
@@ -3800,6 +3773,21 @@ ul.dropdown-menu {
 
 //-- ORANGE COLOR ELEMENT --//
 
+
+.orange.count-event, .orange.count-event-small {
+	.b(3px solid @orange)!important;
+
+	&:before {
+		border-color: transparent transparent @orange transparent!important;
+	}
+
+	span {
+		.c(@orange)!important;
+	}
+}
+	
+
+
 .orange {
 
 	a {
@@ -3828,36 +3816,6 @@ ul.dropdown-menu {
 		.bg(@orange);
 		.c(#FFF);
 		text-shadow:none;
-	}
-	
-	section.calendar {
-		
-		.grid {
-			
-			.event {
-				&:before {
-					border-color: transparent transparent  @orange transparent;
-				}
-
-				.count-event {
-					.b(3px solid @orange);
-
-					&:before {
-						border-color: transparent transparent @orange transparent;
-					}
-
-					span {
-						.c(@orange);
-					}
-				}
-
-				.notes {
-					i {
-						.c(@orange);
-					}
-				}
-			}
-		}
 	}
 	
 	section.cabinet {
