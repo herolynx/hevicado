@@ -11,10 +11,11 @@
             <ul>
                 <li><a href="#main#about-us" translate>menu.about-us</a></li>
                 <li><a href="#main#news" translate>menu.news</a></li>
-				<li><a href="#main#benefits" translate>menu.benefits</a></li>
+                <li><a href="#main#benefits" translate>menu.benefits</a></li>
                 <li><a href="#main#offer" translate>menu.offer</a></li>
-				<li><a href="#main#payment" translate>menu.prices</a></li> 
-				<li><a href="#main#contact" translate>menu.contact</a></li>
+                <li><a href="#main#payment" translate>menu.prices</a></li>
+                <li><a href="#main#contact" translate>menu.contact</a></li>
+                <li><a href="#" ui-sref="regulations" translate>menu.regulations</a></li>
             </ul>
         </div>
         <div class="wrapper">
@@ -28,7 +29,7 @@
                     </li>
                     <li>
                         <permission roles="doctor">
-                            <a ui-sref="calendar-week">                               
+                            <a ui-sref="calendar-week">
                                 {{'menu.calendar' | translate}}
                             </a>
                             <ul class="subpage">
@@ -43,7 +44,7 @@
                     </li>
                     <li>
                         <permission roles="doctor">
-                            <a ui-sref="edit-cabinet">                              
+                            <a ui-sref="edit-cabinet">
                                 {{'menu.cabinet' | translate}}
                             </a>
                         </permission>
@@ -67,26 +68,26 @@
                 </ul>
             </permission>
         </div>
-		<div class="wrapper">
-			<ul>
-				<permission roles="guest">
-					<li><a href="#">Zaloguj</a></li>
-					<li><a href="#">Rejestracja</a></li>	
-				</permission>
-				<permission roles="user,doctor">					
-					<li><a ng-controller="LoginCtrl" ng-click="logout()">Wyloguj</a></li>
-				</permission>
-			</ul>		
-				
-		</div>
-       <div class="wrapper">
-			<strong>Dane kontaktowe</strong><br>
-			ul. Woronicza 17<br>
-			55-343 Wrocław<br><br>
-			tel: 500 333 444<br>
-			tel: 442 555 233<br>
-			<a href="mailto:biuro@hevicado.pl">biuro@hevicado.pl</a>
-		</div>
+        <div class="wrapper">
+            <ul>
+                <permission roles="guest">
+                    <li><a href="#">Zaloguj</a></li>
+                    <li><a href="#">Rejestracja</a></li>
+                </permission>
+                <permission roles="user,doctor">
+                    <li><a ng-controller="LoginCtrl" ng-click="logout()">Wyloguj</a></li>
+                </permission>
+            </ul>
+
+        </div>
+        <div class="wrapper">
+            <strong>Dane kontaktowe</strong><br>
+            ul. Woronicza 17<br>
+            55-343 Wrocław<br><br>
+            tel: 500 333 444<br>
+            tel: 442 555 233<br>
+            <a href="mailto:biuro@hevicado.pl">biuro@hevicado.pl</a>
+        </div>
         <div class="social">
             <p translate>
                 menu.social-info
