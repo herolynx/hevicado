@@ -35,10 +35,14 @@ angular.module('chronos.calendar').
                 if (!_.contains(visitEditionStates, $state.current.name)) {
                     $log.debug('Add new event - start: ' + date);
                     $state.go($state.current.data.addVisitState, {
-                        doctorId: $scope.doctorId,
-                        startTime: date.toString('yyyy-MM-dd HH:mm'),
-                        currentDate: date.toString('yyyy-MM-dd')
-                    });
+                            doctorId: $scope.doctorId,
+                            startTime: date.toString('yyyy-MM-dd HH:mm'),
+                            currentDate: date.toString('yyyy-MM-dd')
+                        },
+                        {
+                            reload: true
+                        }
+                    );
                 } else {
                     $log.debug('Event date clicked - start: ' + date);
                     $rootScope.$broadcast(CALENDAR_EVENTS.CALENDAR_TIME_PICKED, date);
@@ -52,10 +56,14 @@ angular.module('chronos.calendar').
             $scope.editEvent = function (event) {
                 $log.debug('Editing event - id: ' + event.id);
                 $state.go($state.current.data.editVisitState, {
-                    doctorId: $scope.doctorId,
-                    eventId: event.id,
-                    currentDate: event.start.toString('yyyy-MM-dd')
-                });
+                        doctorId: $scope.doctorId,
+                        eventId: event.id,
+                        currentDate: event.start.toString('yyyy-MM-dd')
+                    },
+                    {
+                        reload: true
+                    }
+                );
             };
 
             /**

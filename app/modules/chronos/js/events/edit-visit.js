@@ -246,7 +246,7 @@ angular.module('chronos.events').
                     save(event).
                     success(function (resp) {
                         $log.debug('Event saved successfully: event id: ' + resp.id);
-                        $state.go($state.previous.state.name, $state.previous.params);
+                        $state.go($state.previous.state.name, $state.previous.params, {reload: true});
                     }).
                     error(function (errResp, errStatus) {
                         $log.error('Event hasn\'t been saved: status: ' + errStatus + ', resp: ' + errResp);
@@ -268,7 +268,7 @@ angular.module('chronos.events').
                     cancel($scope.editedEvent).
                     success(function (resp) {
                         $log.debug('Event cancelled successfully: event id: ' + $scope.editedEvent.id);
-                        $state.go($state.previous.state.name, $state.previous.params);
+                        $state.go($state.previous.state.name, $state.previous.params, {reload: true});
                     }).
                     error(function (errResp, errStatus) {
                         $log.error('Event hasn\'t been cancelled: status: ' + errStatus + ', resp: ' + errResp.data);
