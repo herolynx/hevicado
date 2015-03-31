@@ -105,11 +105,16 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
-                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.addVisitState, {
-                    doctorId: 'doctor-123',
-                    startTime: startTime.toString('yyyy-MM-dd HH:mm'),
-                    currentDate: startTime.toString('yyyy-MM-dd')
-                });
+                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.addVisitState,
+                    {
+                        doctorId: 'doctor-123',
+                        startTime: startTime.toString('yyyy-MM-dd HH:mm'),
+                        currentDate: startTime.toString('yyyy-MM-dd')
+                    },
+                    {
+                        reload: true
+                    }
+                );
             });
 
             it('should change date of edited event', function () {
@@ -128,10 +133,15 @@ describe('calendar-editor-spec:', function () {
                 ctrlScope.addEvent(startDate, 13, 30);
                 //then event edition is NOT started
                 var startTime = startDate.clone().set({hour: 13, minute: 30, second: 0});
-                expect(mockState.go).not.toHaveBeenCalledWith(mockState.current.data.addVisitState, {
-                    doctorId: 'doctor-123',
-                    startTime: startTime.toString('yyyy-MM-dd HH:mm')
-                });
+                expect(mockState.go).not.toHaveBeenCalledWith(mockState.current.data.addVisitState,
+                    {
+                        doctorId: 'doctor-123',
+                        startTime: startTime.toString('yyyy-MM-dd HH:mm')
+                    },
+                    {
+                        reload: true
+                    }
+                );
                 //and proper info event about new picked data is broad-casted
                 expect(mockRootScope.$broadcast).toHaveBeenCalledWith(calendarEvents.CALENDAR_TIME_PICKED, startTime);
             });
@@ -156,11 +166,16 @@ describe('calendar-editor-spec:', function () {
                 //when starting editing event
                 ctrlScope.editEvent(event);
                 //then event edition is started
-                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.editVisitState, {
-                    doctorId: 'doctor-123',
-                    eventId: event.id,
-                    currentDate: event.start.toString('yyyy-MM-dd')
-                });
+                expect(mockState.go).toHaveBeenCalledWith(mockState.current.data.editVisitState,
+                    {
+                        doctorId: 'doctor-123',
+                        eventId: event.id,
+                        currentDate: event.start.toString('yyyy-MM-dd')
+                    },
+                    {
+                        reload: true
+                    }
+                );
             });
 
             it('should cancel event', function () {
