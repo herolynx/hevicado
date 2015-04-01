@@ -19,7 +19,7 @@ angular.module('commons.labels.directives')
                 link: function (scope, element, attr, ngModel) {
 
                     ngModel.$parsers.push(function (viewValue) {
-                        throw new Exception('From view conversion not supported - value: ' + viewValue);
+                        return viewValue;
                     });
 
                     ngModel.$formatters.push(function (modelValue) {
