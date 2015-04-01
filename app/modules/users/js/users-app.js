@@ -14,6 +14,6 @@ angular.module('users', [
     'ui.elements',
     'ui.notifications'
 ]).
-    constant('THEMES', ['turquoise', 'orange', 'blue']).
+    constant('THEMES', ['turquoise']).
     constant('LANGS', ['pl']).
-    constant('CABINET_COLORS', ['turquoise', 'orange', 'blue']);
+    constant('CABINET_COLORS', ['orange', 'blue']);
