@@ -18,6 +18,9 @@ describe('edit-visit-spec:', function () {
         toLocalDate = function (value) {
             return typeof value == 'string' ? Date.parse(value) : new Date(value);
         };
+        toTZDate = function (date, tzOffset) {
+            return date;
+        };
     });
 
     describe('EditEventCtrl-spec:', function () {
@@ -1092,7 +1095,10 @@ describe('edit-visit-spec:', function () {
                 expect(mockCalendarService.save).toHaveBeenCalledWith(ctrlScope.editedEvent);
                 calendarPromise.onSuccess('SAVED');
                 //and user is redirected to previous page after save confirmation
-                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'}, {reload:true});
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {
+                    id: '123',
+                    criteria: 'name'
+                }, {reload: true});
             });
 
             it('should inform user when changes couldn\'t be saved', function () {
@@ -1160,7 +1166,10 @@ describe('edit-visit-spec:', function () {
                 expect(mockCalendarService.cancel).toHaveBeenCalledWith(ctrlScope.editedEvent);
                 calendarPromise.onSuccess('CANCELLED');
                 //and user is redirected to previous page after cancel confirmation
-                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'}, {reload:true});
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {
+                    id: '123',
+                    criteria: 'name'
+                }, {reload: true});
             });
 
             it('should inform user when event couldn\'t be cancelled', function () {
@@ -1396,7 +1405,10 @@ describe('edit-visit-spec:', function () {
                 //and changes are saved
                 calendarPromise.onSuccess('SAVED');
                 //and user is redirected to previous page after save confirmation
-                expect(mockState.go).toHaveBeenCalledWith('visit-search', {id: '123', criteria: 'name'}, {reload:true});
+                expect(mockState.go).toHaveBeenCalledWith('visit-search', {
+                    id: '123',
+                    criteria: 'name'
+                }, {reload: true});
             });
 
         });

@@ -35,3 +35,14 @@ var hourToDate = function (string, tzOffset) {
         second: 0
     }).add(offset).minutes();
 };
+
+/**
+ * Convert local date to date in chosen TZ
+ * @param localDate local date
+ * @param offsetFromUTC time zone offset from UTC
+ * @returns {*} new date
+ */
+var toTZDate = function (localDate, offsetFromUTC) {
+    var destTZOffset = offsetFromUTC + new Date().getTimezoneOffset();
+    return localDate.clone().add(destTZOffset).minutes();
+};

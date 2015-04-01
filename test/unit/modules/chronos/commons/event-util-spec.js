@@ -12,6 +12,9 @@ describe('event-util-spec:', function () {
         toLocalDate = function (value) {
             return typeof value == 'string' ? Date.parse(value) : new Date(value);
         };
+        toTZDate = function (date, tzOffset) {
+            return date;
+        };
     });
 
     describe('EventUtils-spec:', function () {

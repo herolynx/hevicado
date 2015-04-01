@@ -71,7 +71,7 @@ angular.module('chronos.commons').
              * @returns {*} the same instance of event
              */
             toJson: function (event) {
-                event.tzOffset = new Date().getTimezoneOffset();
+                event.tzOffset = -new Date().getTimezoneOffset();
                 return event;
             },
 
@@ -100,7 +100,7 @@ angular.module('chronos.commons').
                 if (locations == undefined) {
                     return null;
                 }
-                var normalizedDate = toUTCDate(startTime).add(locations[0].working_hours[0].tzOffset).minutes();
+                var normalizedDate = toTZDate(startTime, locations[0].working_hours[0].tzOffset);
                 var day = normalizedDate.toString('dddd');
                 var hour = normalizedDate.toString('HH:mm');
                 for (var i = 0; i < locations.length; i++) {
