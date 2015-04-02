@@ -179,13 +179,13 @@
 					</p>
 				</div>
 			</div>
-			<div class="row boxes">
-				<div class="box red">
+			<div class="row boxes" ng-controller="UserPaymentPlanCtrl">
+				<div class="box blue">
 					<div class="number">
 						1
 					</div>
 					<div class="name">
-						Darmowy
+						Pacjent
 					</div>
 					<div class="price">
 						0 zł
@@ -196,29 +196,29 @@
 					<div class="describe">
 						<ul>
 							<li>
-								Strona lekarza
+								Terminarz pacjenta
 							</li>
 							<li>
-								Kalendarz lekarza
+								Wyszukiwanie lekarzy
 							</li>
 							<li>
-								Dowolna ilość gabinetów
+								Umawianie wizyt
 							</li>
 							<li>
-								Ilość wizyt: 10
+								Dane kontaktowe
 							</li>
 						</ul>
-						<a href="#">
+						<a ng-show="user.id && !isFreePlan()" ng-click="freePlan()">
 							Wybierz pakiet <span></span>
 						</a>
 					</div>
 				</div>
-				<div class="box violet">
+				<div class="box green">
 					<div class="number">
 						2
 					</div>
 					<div class="name">
-						Mały
+						Lekarz
 					</div>
 					<div class="price">
 						50 zł
@@ -238,76 +238,10 @@
 								Dowolna ilość gabinetów
 							</li>
 							<li>
-								Ilość wizyt: 50
+								Dowolna ilość wizyt
 							</li>
 						</ul>
-						<a href="#">
-							Wybierz pakiet <span></span>
-						</a>
-					</div>
-				</div>
-				<div class="box blue">
-					<div class="number">
-						3
-					</div>
-					<div class="name">
-						Średni
-					</div>
-					<div class="price">
-						100 zł
-					</div>
-					<div class="time">
-						miesięcznie
-					</div>
-					<div class="describe">
-						<ul>
-							<li>
-								Strona lekarza
-							</li>
-							<li>
-								Kalendarz lekarza
-							</li>
-							<li>
-								Dowolna ilość gabinetów
-							</li>
-							<li>
-								Ilość wizyt: 150
-							</li>
-						</ul>
-						<a href="#">
-							Wybierz pakiet <span></span>
-						</a>
-					</div>
-				</div>
-				<div class="box green">
-					<div class="number">
-						4
-					</div>
-					<div class="name">
-						Premium
-					</div>
-					<div class="price">
-						150 zł
-					</div>
-					<div class="time">
-						miesięcznie
-					</div>
-					<div class="describe">
-						<ul>
-							<li>
-								Strona lekarza
-							</li>
-							<li>
-								Kalendarz lekarza
-							</li>
-							<li>
-								Dowolna ilość gabinetów
-							</li>
-							<li>
-								Ilość wizyt: bez limitów
-							</li>
-						</ul>
-						<a href="#">
+						<a ng-show="user.id && !isDoctorPlan()" ng-click="doctorPlan()">
 							Wybierz pakiet <span></span>
 						</a>
 					</div>
