@@ -152,6 +152,7 @@
     "delete-specialization": "Skasuj specializację",
     "add-specialization": "Dodaj specializację",
     "street": "Ulica",
+	"street_short": "ul. ",
     "city": "Miasto",
     "country": "Państwo",
     "add-hour": "Dodaj godzinę",

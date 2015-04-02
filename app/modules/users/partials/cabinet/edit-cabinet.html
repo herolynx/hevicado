@@ -31,7 +31,7 @@
 						<i class="icon-plus-circled"></i>{{'cabinet.add-cabinet' | translate}}
 					</a>
 				</div>
-			   <div class="box-row" ng-repeat="location in doctor.locations">
+			    <div class="box-row" ng-repeat="location in doctor.locations">
 					<div class="box cabinet-name">
 						<div class="row">							
 							<div class="btn-group" dropdown is-open="dropdown.isColorOpen">
@@ -279,8 +279,6 @@
 														   ng-show="templateNameForm.$error.editable" translate>
 														cabinet.validation.wrong-template
 													</small>
-													
-													
 												</ng-form>
 											</div>
 											<div class="time">
@@ -332,14 +330,14 @@
 							</div>
 						</div>						
 					</div>
+					 <div class="add cabinet">
+						<a ng-hide="cabinet.$invalid"
+						   ng-click="save(doctor)">
+							<i class="icon-plus-circled"></i>{{'generic.save' | translate}}
+						</a>
+					</div>
                 </div>
-            </form>
-            <div class="add">
-                <a ng-hide="cabinet.$invalid"
-                   ng-click="save(doctor)">
-                    <i class="icon-plus-circled"></i>{{'generic.save' | translate}}
-                </a>
-            </div>
+            </form>          
         </section>
         <!-- Section Page (calendar, members, ...) -->
     </div>

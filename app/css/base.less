@@ -469,6 +469,15 @@ header {
 header.small {
 	.h(65px);
 	
+	&:before {
+		content:'';
+		.absolute;
+		bottom:-3px;
+		left:0;
+		.w;
+		.bb(3px solid rgba(0,0,0,0.1));		
+	}
+	
 	.logo {
 		.mt(9px);
 
@@ -677,7 +686,7 @@ section#main-content {
 	.fl;
 	.w;
 	.m(40px 0);
-	.size(1.5em);
+	.size(2em);
 }
 
 section.calendar {
@@ -872,7 +881,7 @@ section.calendar {
 		.w;
 
 		.event {
-			.w(13.4%);
+			.w(13.6%);
 			.dib;
 			.h(185px);
 			.bg(#FFF);
@@ -1085,7 +1094,7 @@ section.calendar {
 			text-shadow:none!important;
 
 			&:before {
-				content:'';
+				content:none;
 				.absolute;
 				bottom:3px;
 				right:3px;
@@ -1274,12 +1283,21 @@ section.calendar {
 					top:3px;
 				}
 
-				p {
+				.info {
 					.fl;
 					.w;
-					.mt(5px);
-				}
-			
+					.mt(20px);
+					.lh(24px);
+					
+					&:first-child {
+						.mt(0);
+					}
+					
+					h3 {
+						.mb(5px);
+					}
+				}	
+				
 				ul {
 					.fl;
 					.w;
@@ -1291,6 +1309,9 @@ section.calendar {
 						.w;
 						.mb(10px)!important;
 						
+						&:last-child {
+							.mt(20px);
+						}	
 						
 						label {
 							.w(28%);
@@ -1664,7 +1685,8 @@ section.registration {
 	.w;
 	.relative;
 	.center;
-
+	.mt(40px);
+	
 	.box-row {
 		.w;
 		.bg(#FFF);
@@ -1938,6 +1960,23 @@ section.cabinet {
 				opacity:1;
 			}
 		}
+	}
+	
+	.add.cabinet {
+		.center;
+		.pt(25px);
+		.relative;
+		
+		&:before {
+			content:'';
+			.absolute;
+			top:0;
+			left:0;
+			.w;
+			.h(10px);
+			background:url(../images/table-bg-20.png);
+		}	
+		
 	}
 	
 	.doctor-info {
@@ -2347,6 +2386,7 @@ section.cabinet {
 								
 								input {
 									.w(50px);
+									.center;
 								}
 								
 								.add {
@@ -4344,6 +4384,10 @@ section#product-page {
 	}
 	
 	section {
+		.content {
+			.w(1170px);
+		}
+	
 		row {
 			.fl;
 			.w;
@@ -4400,7 +4444,7 @@ section#product-page {
 	section#offer {
 		.fl;
 		.w;
-		background:url(../images/bg-offer.jpg) no-repeat;
+		background:url(../images/bg-offer.jpg);
 		box-shadow:inset 0 4px 2px rgba(0,0,0, 0.25);
 		.c(#FFF);
 		.pp(50px 0 0);
@@ -4836,7 +4880,7 @@ section#product-page {
 	section#news {
 		.fl;
 		.w;
-		background:url(../images/bg-news.jpg) no-repeat;
+		background:url(../images/bg-news.jpg);
 		.pp(30px 0);
 		
 		.content {		
@@ -5080,7 +5124,7 @@ section#product-page {
 				}
 				
 				input {
-					.w(32.5%);	
+					.w(32.4%);	
 					.h(50px);
 					.ml(1%);
 					
@@ -5090,7 +5134,7 @@ section#product-page {
 				}
 				
 				textarea {
-					.w;
+					.w(99.6%);
 					.h(230px);
 					resize:none;
 					.pp(15px);

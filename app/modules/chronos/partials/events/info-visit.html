@@ -102,7 +102,7 @@
                                             ng-show="options.actions().canCancel(event)"
                                             ng-click="options.cancel(event)"
                                             translate>
-                                        visit.cancel-visit
+	                                        visit.cancel-visit
                                     </button>
                                 </fieldset>
                             </li>
@@ -115,20 +115,20 @@
 
 				<h2>{{'visit.address' | translate}}:</h2>
 				<div class="notes">
-					<p>
-                        <div>
+					
+                        <div class="info">
                             <h3>{{event.location.name}}</h3>
-                            {{event.location.address | addressInfo}}
+                             {{'cabinet.street_short' | translate}}{{event.location.address | addressInfo}}
                         </div>
-                        <div>
-                            <br/>
+                        <div class="info">                        
                            <h3>{{'visit.open-hours' | translate}}:</h3>
-                        </div>
-						<div ng-repeat="working in event.location.working_hours">
-							<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
-							{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
+                        
+							<div ng-repeat="working in event.location.working_hours">
+								<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
+								{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
+							</div>
 						</div>
-					</p>
+					
 				</div>
 			</div>			
             <div class="box maps-address">
