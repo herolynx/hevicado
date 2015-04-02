@@ -280,6 +280,9 @@ a {
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
 }
 
+.error {
+	.c(red);
+}
 
 
 h1, h2, h3 {
@@ -307,7 +310,7 @@ h3 {
 }
 
 .content {
-  .w(98%);
+  .w(1260px);
   .m(auto);
 }
 
@@ -387,8 +390,6 @@ header {
 			}
 
 			ul.subpage {
-				.fl;
-				.w;
 				.absolute;
 				left:0;
 				.bg(#FFF);
@@ -424,7 +425,7 @@ header {
 	
 	.profile {
 		.fr;
-		.w(70px);
+		.w(auto);
 		.center;
 		.mt(12px);
 
@@ -452,7 +453,7 @@ header {
 			.m(auto);
 			top:-5px;
 			.relative;
-
+			.mt(10px);
 			a {
 				.dib;
 				.size(14px);
@@ -497,10 +498,10 @@ header.small {
 				}
 
 				ul.subpage {
-					top:15px!important;
+					top:16px!important;
 
 					li:first-child {
-						.pt(13px)!important;
+						.pt(10px)!important;
 					}
 				}	
 			}
@@ -519,10 +520,6 @@ header.small {
 	.profile {
 		.pic-user {
 			.dn;
-		}
-
-		.action {
-			top:15px;
 		}
 	}
 }
@@ -1638,6 +1635,25 @@ section.calendar {
 					}	
 				}
 			}	
+			
+			.action {
+				.fl;
+				.w;
+				.mt(10px);
+				
+				button {
+					.m(auto);
+					.dib;
+					.radius(5px);
+					.pp(7px 10px);
+					background: url(../images/title-bg.png) #00d6ab;
+					.b(0);
+					.c(#FFF);
+					.fr;
+					.bb(2px solid #009375);
+					
+				}
+			}
 		}
 	}
 }
@@ -1873,7 +1889,35 @@ section.cabinet {
 	.w;
 	.relative;
 	.center;
+	
+	.tooltip {
+		.absolute;	
+		.bg(red);
+		.radius(5px);
+		.pp(5px);
+		.c(#FFF);
+		text-shadow:none;
+		min-width:100px;
+		max-width:250px;
+		.center;
+		z-index:888;
+		
+		&:before {
+			content:'';
+			.dib;
+			.absolute;
+			width: 0px;
+			height: 0px;
+			border-style: solid;
+			border-width: 5px 4px 0 4px;
+			border-color: red transparent transparent transparent;
+			bottom:-5px;
+			left:45%;
+			
+		}
+	}
 
+	
 	.add {
 		.fl;
 		.w;
@@ -2079,6 +2123,36 @@ section.cabinet {
 					.pp(0 2% 0 0);
 					.box-sizing;
 					
+					ul {
+						.fl;
+						.w;
+
+						li {
+							.fl;
+							.w;
+							.dib;
+							.pp(5px 0);
+							
+							label {
+								.fl;
+								.w;
+								.mb(5px);
+							}
+							
+							fieldset {
+								.fl;
+								.w;
+								
+								span {
+									.fl;
+									.w;
+									.mt(5px);
+								}	
+							}
+							
+						}
+					}
+					
 				}
 				
 				span {
@@ -2106,7 +2180,7 @@ section.cabinet {
 				.w;
 				.relative;
 				.box-sizing;
-				.mt(15px);
+				.mt(25px);
 				
 				.add {
 					.w(auto);
@@ -2152,6 +2226,17 @@ section.cabinet {
 							table {
 								.fl;
 								.mr(10px);
+								.relative;
+								
+								&:first-child {
+									&:before {
+										content:'-';
+										.dib;
+										.absolute;
+										right:-9px;
+										top:10px;
+									}
+								}
 								
 								tr:first-child, tr:last-child {
 									.dn;
@@ -2161,6 +2246,17 @@ section.cabinet {
 									.center;
 								}
 							}	
+						}
+						
+						.delete {
+							.mt(10px);
+							.relative;
+							
+							
+							.tooltip {							
+								top:-20px;
+								left:-4px;
+							}
 						}
 					}
 				}
@@ -2184,7 +2280,7 @@ section.cabinet {
 						display:table;
 						vertical-align:middle;
 						.relative;
-						.bb(1px solid #e6e6e6);
+						
 
 						&:before {
 							content:'';
@@ -2204,6 +2300,14 @@ section.cabinet {
 							display:table-cell;
 							vertical-align:middle;
 							.h(100%);
+							
+							.error {
+								.fl;
+								.w;
+								.ml(32px);
+								top:40px;
+								.absolute;
+							}
 						}
 
 						.time {
@@ -2263,11 +2367,18 @@ section.cabinet {
 							.w(20px);
 							vertical-align:middle;
 							.center;
+							
 
 							a {
+								.relative;
+								
 								i:before {
 									.mr(0);
 								}
+							}
+							
+							.tooltip {								
+								left:-5px;								
 							}
 						}
 					}
@@ -2315,7 +2426,8 @@ section.cabinet {
 							.fl;
 							.w;
 							.ml(0);
-
+							.h(45px);
+							
 							.add-time {
 								float:none;
 								.w(auto);
@@ -2335,6 +2447,13 @@ section.cabinet {
 										.b(0);
 										.pp(4px 10px 5px 10px);
 									}
+								}
+								
+								small {
+									.absolute;
+									left:-78%;
+									.w(179%);
+									bottom:-17px;
 								}
 							}
 						}

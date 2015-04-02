@@ -88,12 +88,11 @@
 
         <div class="profile">
             <permission roles="user,doctor">
-                <div>
-                    <p>{{info.last_name}}
-                    </p> <span>{{info.first_name}}</span>
-                </div>
+				<p>{{info.last_name}}
+                {{info.first_name}}</p>
+           
                 <div class="action">
-                    <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i></a>
+                    <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i>{{'generic.logout' | translate}}</a>
                 </div>
             </permission>
         </div>

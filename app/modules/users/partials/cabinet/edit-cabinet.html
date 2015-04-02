@@ -123,48 +123,57 @@
 									<div class="box">
 										<div class="title">
 											<span>{{"cabinet.cabinet-address" | translate}}</span>
-										</div>
-										
+										</div>										
 										<ng-form id="cabientAddress-{{$index}}" name="cabientAddress">
-
-											<div>{{'cabinet.street' | translate}}:</div>
-											<input name="street"
-												   ng-model="location.address.street"
-												   ng-minlength="2"
-												   required>
-											<small class="error" ng-show="cabientAddress.street.$error.minlength" translate>
-												generic.validation.2-chars
-											</small>
-
-											<div>{{'cabinet.city' | translate}}:</div>
-											<input name="city"
-												   ng-model="location.address.city"
-												   ng-minlength="2"
-												   required>
-											<small class="error" ng-show="cabientAddress.city.$error.minlength" translate>
-												generic.validation.2-chars
-											</small>
-
-											<div>{{'cabinet.country' | translate}}:</div>
-											<input name="country"
-												   ng-model="location.address.country"
-												   ng-minlength="2"
-												   required>
-											</span>
-											<small class="error" ng-show="cabientAddress.country.$error.minlength" translate>
-												generic.validation.2-chars
-											</small>
-											
-											{{'user-profile.phone' | translate}}: {{doctor.phone}}<br/>	
-											
-									
-											{{'generic.email' | translate}}: <a href="mailto:{{doctor.email}}">{{doctor.email}}</a><br/>	
-											
+											<ul>
+												<li>
+													<label>{{'cabinet.street' | translate}}:</label>
+													<fieldset>
+														<input name="street"
+															   ng-model="location.address.street"
+															   ng-minlength="2"
+															   required>
+														<small class="error" ng-show="cabientAddress.street.$error.minlength" translate>
+															generic.validation.2-chars
+														</small>
+													</fieldset>
+												</li>
+												<li>
+													<label>{{'cabinet.city' | translate}}:</label>
+													<fieldset>
+														<input name="city"
+															   ng-model="location.address.city"
+															   ng-minlength="2"
+															   required>													
+														<small class="error" ng-show="cabientAddress.city.$error.minlength" translate>
+															generic.validation.2-chars
+														</small>
+													</fieldset>
+												</li>
+												<li>
+													<label>{{'cabinet.country' | translate}}:</label>
+													<fieldset>
+														<input name="country"
+														   ng-model="location.address.country"
+														   ng-minlength="2"
+														   required>
+														<small class="error" ng-show="cabientAddress.country.$error.minlength" translate>
+														generic.validation.2-chars
+														</small>
+													</fieldset>													
+												</li>
+												<li>
+													{{'user-profile.phone' | translate}}: {{doctor.phone}}
+												</li>
+												<li>
+													{{'generic.email' | translate}}: <a href="mailto:{{doctor.email}}">{{doctor.email}}</a>
+												</li>											
+											</ul>
 										</ng-form>
 									</div>
 									<div class="box">
 										<div class="title">
-											<span>{{'visit.location' | translate}}</span>
+											<span>{{'visit.location' | translate}}:</span>
 										</div>
 										<div class="maps">
 											<google-map address="location.address" title="event.location.name"/>
@@ -196,7 +205,7 @@
 															hour-step="1"
 															minute-step="15"
 															ng-change="onWorkingHoursChange(workingHoursForm, working)"
-														/>											
+														/>	
 														<timepicker ng-model="working.endDate"
 															show-meridian="false"
 															hour-step="1"
