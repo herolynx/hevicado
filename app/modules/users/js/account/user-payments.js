@@ -18,7 +18,7 @@ angular.module('users.account').
              * Refresh state
              */
             $scope.refresh = function () {
-                if (Session.getUserId() !== null) {
+                if (Session.getUserId() != null) {
                     $log.debug("Payments - refreshing info about user: " + Session.getUserId() + ', role: ' + Session.getUserRole());
                     $scope.loadProfile();
                 } else {
