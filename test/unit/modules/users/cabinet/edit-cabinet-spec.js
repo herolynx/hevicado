@@ -145,7 +145,7 @@ describe('edit-cabinet-spec:', function () {
                         city: "",
                         country: ""
                     },
-                    color: "turquoise",
+                    color: "blue",
                     working_hours: [],
                     templates: [],
                     specializations: []

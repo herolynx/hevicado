@@ -106,7 +106,7 @@ angular.module('users.cabinet').
                             city: "",
                             country: ""
                         },
-                        color: "turquoise",
+                        color: "blue",
                         working_hours: [],
                         templates: [],
                         specializations: []

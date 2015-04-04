@@ -14,7 +14,7 @@ describe('bolt-directives-spec:', function () {
             mockElement = jasmine.createSpyObj('element', ['show', 'hide', 'empty', 'append']);
             mockAttachStrategy = jasmine.createSpyObj('attachStrategy', ['show', 'hide']);
             mockChildren = ['1', '2'];
-            mockAuthEvents = jasmine.createSpyObj('AUTH_EVENTS', ['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'SESSION_TIMEOUT']);
+            mockAuthEvents = jasmine.createSpyObj('AUTH_EVENTS', ['USER_LOGGED_IN', 'USER_LOGGED_OUT', 'SESSION_TIMEOUT', 'SESSION_REFRESH']);
             mockAuthService = jasmine.createSpyObj('AuthService', ['isAuthorized']);
             //prepapre event-bus
             mockEventBus = {
@@ -66,6 +66,7 @@ describe('bolt-directives-spec:', function () {
             expect(mockEventBus.handlers[mockAuthEvents.USER_LOGGED_IN]).not.toBeNull();
             expect(mockEventBus.handlers[mockAuthEvents.USER_LOGGED_OUT]).not.toBeNull();
             expect(mockEventBus.handlers[mockAuthEvents.SESSION_TIMEOUT]).not.toBeNull();
+            expect(mockEventBus.handlers[mockAuthEvents.SESSION_REFRESH]).not.toBeNull();
         });
 
         it('should authorize user when user is logged in', function () {
