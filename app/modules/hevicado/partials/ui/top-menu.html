@@ -2,34 +2,34 @@
 <header>
     <div class="content" ng-controller="UserInfoCtrl">
         <h2 class="logo">
-			<a href="#">
-				<img src="images/logo.png" alt="Hevicado">
-			</a>
+            <a href="#">
+                <img src="images/logo.png" alt="Hevicado">
+            </a>
         </h2>
 
         <!-- Logo -->
 
         <nav class="product">
             <permission roles="guest">
-			<ul>
-				<li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
-				<li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
-				<li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
-				<li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
-				<li><a href="#main#news" id="-news" translate>menu.news</a></li>
-				<li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
-			</ul>
-		</nav>
-		</permission>
-		<permission roles="guest">
-		<nav class="log_reg">
+                <ul>
+                    <li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
+                    <li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
+                    <li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
+                    <li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
+                    <li><a href="#main#news" id="-news" translate>menu.news</a></li>
+                    <li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
+                </ul>
+        </nav>
+        </permission>
+        <permission roles="guest">
+            <nav class="log_reg">
                 <ul class="log_reg">
                     <li><a href="#" ui-sref="login" translate>login.login</a></li>
                     <li><a href="#" ui-sref="registration" translate>registration.registration</a></li>
                 </ul>
-			</nav>
-		</permission>
-        
+            </nav>
+        </permission>
+
 
         <nav>
             <permission roles="user,doctor">
@@ -62,6 +62,18 @@
                                 <i class="icon-monitor"></i>
                                 {{'menu.cabinet' | translate}}
                             </a>
+                            <ul class="subpage">
+                                <li>
+                                    <a ui-sref="cabinet({ doctorId: info.id })">
+                                        {{'menu.cabinet-preview' | translate}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ui-sref="edit-cabinet">
+                                        {{'generic.change' | translate}}
+                                    </a>
+                                </li>
+                            </ul>
                         </permission>
                     </li>
                     <li>
@@ -88,11 +100,12 @@
 
         <div class="profile">
             <permission roles="user,doctor">
-				<p>{{info.last_name}}
-                {{info.first_name}}</p>
-           
+                <p>{{info.last_name}}
+                    {{info.first_name}}</p>
+
                 <div class="action">
-                    <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i>{{'generic.logout' | translate}}</a>
+                    <a ng-controller="LoginCtrl" ng-click="logout()"><i class="icon-logout"></i>{{'generic.logout' |
+                        translate}}</a>
                 </div>
             </permission>
         </div>

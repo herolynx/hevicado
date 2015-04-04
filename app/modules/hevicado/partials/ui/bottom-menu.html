@@ -1,5 +1,5 @@
 <footer>
-    <div class="content">
+    <div class="content" ng-controller="UserInfoCtrl">
         <a href="/" class="logo">
             <img src="images/logo-footer.png" alt="Hevicado">
             <br/>
@@ -47,6 +47,18 @@
                             <a ui-sref="edit-cabinet">
                                 {{'menu.cabinet' | translate}}
                             </a>
+                            <ul class="subpage">
+                                <li>
+                                    <a ui-sref="cabinet({ doctorId: info.id })">
+                                        {{'menu.cabinet-preview' | translate}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ui-sref="edit-cabinet">
+                                        {{'generic.change' | translate}}
+                                    </a>
+                                </li>
+                            </ul>
                         </permission>
                     </li>
                     <li>
