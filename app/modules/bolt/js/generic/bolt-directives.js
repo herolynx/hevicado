@@ -52,6 +52,9 @@ function AuthorizedElement(element, children, reqRoles, AuthService, attachStrat
         eventBus.$on(AUTH_EVENTS.SESSION_TIMEOUT, function () {
             checkAccessRights();
         });
+        eventBus.$on(AUTH_EVENTS.SESSION_REFRESH, function () {
+            checkAccessRights();
+        });
     };
 
 }
