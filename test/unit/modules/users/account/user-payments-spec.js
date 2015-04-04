@@ -143,6 +143,83 @@ describe('user-payments-spec:', function () {
 
         });
 
+        describe('payment plans management', function () {
+
+            it('should switch to free plan', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and user has doctor plan
+                mockSession.getUserId.andReturn('user-123');
+                ctrlScope.user.role = mockRoles.DOCTOR;
+                expect(ctrlScope.isFreePlan()).toBe(false);
+                expect(ctrlScope.isDoctorPlan()).toBe(true);
+
+                //when changing plan
+                ctrlScope.freePlan();
+
+                //then user changes are saved
+                expect(mockCtrl.savedUser).toEqual({role: mockRoles.USER});
+                //and plan is changed
+                expect(ctrlScope.isFreePlan()).toBe(true);
+                expect(ctrlScope.isDoctorPlan()).toBe(false);
+            });
+
+            it('should switch to doctor plan', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and user has free plan
+                mockSession.getUserId.andReturn('user-123');
+                ctrlScope.user.role = mockRoles.USER;
+                expect(ctrlScope.isFreePlan()).toBe(true);
+                expect(ctrlScope.isDoctorPlan()).toBe(false);
+
+                //when changing plan
+                ctrlScope.doctorPlan();
+
+                //then user changes are saved
+                //and default info is set
+                expect(mockCtrl.savedUser).toEqual(
+                    {
+                        role: 'doctor',
+                        degree: '$$degree-1',
+                        locations: []
+                    }
+                );
+                //and plan is changed
+                expect(ctrlScope.isFreePlan()).toBe(false);
+                expect(ctrlScope.isDoctorPlan()).toBe(true);
+            });
+
+            it('should not overwrite old data while switching to doctor plan', function () {
+                //given controller is defined
+                expect(ctrlScope).toBeDefined();
+                //and user has free plan
+                mockSession.getUserId.andReturn('user-123');
+                ctrlScope.user.role = mockRoles.USER;
+                expect(ctrlScope.isFreePlan()).toBe(true);
+                expect(ctrlScope.isDoctorPlan()).toBe(false);
+                //and user has doctor planned activated in the past
+                ctrlScope.user.degree = "old-degree";
+                ctrlScope.user.locations = [{id: 'old-location'}];
+
+                //when changing plan
+                ctrlScope.doctorPlan();
+
+                //then user changes are saved
+                //and old info is not overwritten
+                expect(mockCtrl.savedUser).toEqual(
+                    {
+                        role: 'doctor',
+                        degree: 'old-degree',
+                        locations: [{id: 'old-location'}]
+                    }
+                );
+                //and plan is changed
+                expect(ctrlScope.isFreePlan()).toBe(false);
+                expect(ctrlScope.isDoctorPlan()).toBe(true);
+            });
+
+        });
 
     });
 
