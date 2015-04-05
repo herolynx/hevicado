@@ -1,21 +1,28 @@
 <div keep-visible>
     <div class="box-fixed">
         <div class="box quick-contact">
-             <h2 translate>visit.patients-quick-contact</h2>
+            <h2 translate>visit.patients-quick-contact</h2>
+
             <div class="notes">
-				<ul>
-					<li ng-repeat="visit in flatten(events[currentDate.getDate()])">
-						<div class="describe">
-							<h3>{{visit.patient | userInfo}}</h3>
-							<p>{{'cabinet.hour-visit' | translate}}: <span>{{visit.start.toString('HH:mm')}} - {{visit.end.toString('HH:mm')}}</span></p>
-							<p>{{'user-profile.phone' | translate}}: {{visit.patient.phone}}</p>
-							<p>{{'generic.email' | translate}}: {{visit.patient.email}}</p>
-						</div>
-						<div class="action">
-							<button><i class="icon-trash"></i>{{'visit.cancel-visit' | translate}}</button>
-						</div>
-					</li>
-				</ul>
+                <ul>
+                    <li ng-repeat="visit in flatten(events[currentDate.getDate()])">
+                        <div class="describe">
+                            <h3>{{visit.patient | userInfo}}</h3>
+
+                            <p>{{'cabinet.hour-visit' | translate}}: <span>{{visit.start.toString('HH:mm')}} - {{visit.end.toString('HH:mm')}}</span>
+                            </p>
+
+                            <p>{{'user-profile.phone' | translate}}: {{visit.patient.phone}}</p>
+
+                            <p>{{'generic.email' | translate}}: {{visit.patient.email}}</p>
+                        </div>
+                        <div class="action">
+                            <button ng-click="cancelEvent(visit)" ng-show="actions().canCancel(visit)">
+                                <i class="icon-trash"></i>{{'visit.cancel-visit' | translate}}
+                            </button>
+                        </div>
+                    </li>
+                </ul>
 
             </div>
         </div>
