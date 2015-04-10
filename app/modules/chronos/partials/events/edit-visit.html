@@ -72,7 +72,7 @@
                             </li>
                             <li>
                                 <label>{{'visit.visit-date' | translate}}:</label>
-                                <fieldset>
+                                <fieldset ng-class="{'no-margin': !isOwner}">
 
                                     <timepicker
                                             ng-show="isOwner"
