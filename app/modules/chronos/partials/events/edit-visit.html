@@ -190,17 +190,11 @@
 										{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
 									</div>
 								</div>
-								<div class="box">
-									<div ng-repeat="working in editedEvent.location.working_hours">
-										<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
-										{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
-									</div>
-								</div>
                             </div>
                         </div>
 
-                        <div class="box maps-address" ng-hide="editedEvent.location.id==undefined">
-                            <div class="maps">
+                        <div class="box maps-address">
+                            <div class="maps" ng-hide="editedEvent.location.id==undefined">
                                 <google-map address="editedEvent.location.address" title="editedEvent.location.name"/>
                             </div>
                         </div>
