@@ -1,7 +1,8 @@
 kunishu
 =======
 
-Cloud management of the business 
+Kunishu is a coding name of Hevicado.
+Hevicado is an application for office and schedule management for doctors and small organizations.
 
 ## Tasks
 
@@ -68,3 +69,32 @@ c) package.json
 ```shell
    $gulp serve:release
 ```
+
+##### Deploy
+
+All deploy script are kept in *build* directory at the moment
+
+1) Building package with current version
+
+```shell
+build.sh
+```
+
+2) Building package with current version
+
+```shell
+deploy.sh <env> <version>
+```
+
+For instance:
+
+```shell
+deploy.sh kunishu-dev 1.2.0
+```
+
+***Note***: 
+
+It's assumed that you have your environemts defined in SSH configuration. 
+
+You have to have access granted (via public key) to environment too.
+
