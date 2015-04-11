@@ -14,7 +14,7 @@
 
                             <p>{{'user-profile.phone' | translate}}: {{visit.patient.phone}}</p>
 
-                            <p>{{'generic.email' | translate}}: {{visit.patient.email}}</p>
+                            <p>{{'generic.email' | translate}}: <a href="{{visit.patient.email}}">{{visit.patient.email}}</a></p>
                         </div>
                         <div class="action">
                             <button ng-click="cancelEvent(visit)" ng-show="actions().canCancel(visit)">
