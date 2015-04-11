@@ -70,7 +70,7 @@ c) package.json
    $gulp serve:release
 ```
 
-##### Deploy
+## Deploy
 
 All deploy script are kept in *build* directory at the moment
 
