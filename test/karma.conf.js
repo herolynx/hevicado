@@ -78,12 +78,12 @@ module.exports = function (config) {
 
         plugins: [
             'karma-junit-reporter',
+            'karma-coverage',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
             'karma-phantomjs-launcher',
-            'karma-ng-html2js-preprocessor',
-            'karma-coverage'
+            'karma-ng-html2js-preprocessor'
         ],
 
         reporters: ['progress', 'junit', 'coverage'],
