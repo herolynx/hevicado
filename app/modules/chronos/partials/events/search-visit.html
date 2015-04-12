@@ -93,12 +93,13 @@
                         </li>
                         <li>
                             <div class="tag">
-                                <a ng-repeat="specialization in criteria.specializations"
+                                <a ng-repeat="specialization in criteria.specializations | limitTo:10"
                                    ng-click="deleteSpecialization(specialization)"
                                         >
                                     {{specialization.value}}
                                     <div class="delete"><i class="icon-minus-circled"></i></div>
                                 </a>
+                                <div ng-show="criteria.specializations.length>10">...</div>
                             </div>
                         </li>
                     </ul>

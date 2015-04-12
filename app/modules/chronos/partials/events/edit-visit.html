@@ -72,8 +72,7 @@
                             </li>
                             <li>
                                 <label>{{'visit.visit-date' | translate}}:</label>
-                                <fieldset>
-
+                                <fieldset ng-class="{'no-margin': !isOwner}">
                                     <timepicker
                                             ng-show="isOwner"
                                             ng-model="editedEvent.start"
@@ -185,17 +184,16 @@
                             <div class="row hour">
                                 <h2>{{'visit.open-hours' | translate}}:</h2>
 
-                                <p>
-
-                                <div ng-repeat="working in editedEvent.location.working_hours">
-                                    <span>{{'days.' + working.day | toLowerCase | translate}}:</span>
-                                    {{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
-                                </div>
-                                </p>
+								<div class="box">
+									<div ng-repeat="working in editedEvent.location.working_hours">
+										<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
+										{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
+									</div>
+								</div>
                             </div>
                         </div>
 
-                        <div class="box maps-address" ng-hide="editedEvent.location.id==undefined">
+                        <div class="box maps-address">
                             <div class="maps">
                                 <google-map address="editedEvent.location.address" title="editedEvent.location.name"/>
                             </div>

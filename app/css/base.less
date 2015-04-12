@@ -1277,6 +1277,7 @@ section.calendar {
 				.relative;
 				.radius(5px);
 				.w;
+				z-index:666;
 				
 				.delete {
 					right:3px;
@@ -1308,11 +1309,7 @@ section.calendar {
 						.b(0px);
 						.w;
 						.mb(10px)!important;
-						
-						&:last-child {
-							.mt(20px);
-						}	
-						
+																	
 						label {
 							.w(28%);
 							.b(0px);
@@ -1353,7 +1350,13 @@ section.calendar {
 							}
 						}
 					}
-
+					
+					.dropdown-menu {
+						li {
+							.m(0 5px)!important;
+						}
+					}
+					
 					.top {
 						vertical-align:top;
 					}
@@ -1524,6 +1527,12 @@ section.calendar {
 						.fl;
 						.w;
 						.mt(20px);
+						
+						.box {
+							.fl;
+							.w(50%);
+							
+						}
 					}
 				}
 				
@@ -1562,6 +1571,10 @@ section.calendar {
 							.m(30px 0 0 20px);
 						}
 						
+						fieldset.no-margin > .date-event {
+							.m(0 10px 0 0);
+							
+						}
 						
 						table {
 							.fl;
@@ -1685,7 +1698,6 @@ section.registration {
 	.w;
 	.relative;
 	.center;
-	.mt(40px);
 	
 	.box-row {
 		.w;
@@ -1707,7 +1719,7 @@ section.registration {
 				.w(10px);
 				top:10%;
 				left:-5px;
-				.h(90%);
+				.h(85%);
 				.absolute;
 				background:url(../images/table-bg-20.png);
 			}
@@ -1737,7 +1749,7 @@ section.registration {
 					.w;
 					.dib;
 					.mb(10px);
-
+					
 					label, fieldset {
 						.fl;
 						.w;
@@ -2624,9 +2636,19 @@ section.cabinet {
 					.w;
 					.mt(20px);
 					.w(250px);
+					.relative;
 					
 					input {
 						.pp(7px 6px 8px);
+					}
+					
+					ul.dropdown-menu {
+						.w(99.5%)!important;
+						left:0!important;
+						
+						li {
+							.bg(none);
+						}
 					}
 				}
 			}				
@@ -3036,7 +3058,7 @@ section.search {
 				.w(10px);
 				top:5%;
 				left:-5px;
-				.h(100%);
+				.h(88%);
 				.absolute;
 				background:url(../images/table-bg-20.png);
 			}
@@ -3067,8 +3089,16 @@ section.search {
 					.fl;
 					.w;
 					.dib;
-					.mb(10px);
-
+					.mt(10px);
+					
+					&:first-child {
+						.mt(0);
+					}
+					
+					&:last-child {
+						.mb(0);
+					}
+					
 					label, fieldset {
 						.fl;
 						.w;
@@ -3100,11 +3130,27 @@ section.search {
 						.fl;
 						.w;
 						.left;
-						.mt(20px);
+						.mt(10px);
 
 						a {
 							.relative;
-
+							.mr(8px);
+							
+							&:first-child {
+								&:before {
+									content:none;
+								}
+							}
+							
+							
+							&:before {
+								content:'|';
+								.absolute;
+								top:0;
+								left:-8px;
+								
+							}
+							
 							.delete {
 								.dn;
 							}
@@ -3113,7 +3159,7 @@ section.search {
 							
 								.delete {
 									.dib;
-									.ml(1px);
+									.ml(-2px);
 									.relative;
 								}
 							}
@@ -4169,6 +4215,7 @@ ul.dropdown-menu {
   font-weight: normal;
   line-height: 1.42857143;
   color: #333;
+  .left;
   white-space: nowrap;
 }
 
@@ -4678,6 +4725,8 @@ section#product-page {
 			.b(1px solid #dedede);
 			.relative;
 			.m(0 15px);
+			vertical-align:top;
+			
 			
 			.number {
 				.absolute;
@@ -4728,6 +4777,7 @@ section#product-page {
 				.w;
 				.mt(30px);
 				.center;
+				.minh(229px);
 				
 				ul {
 					.fl;
@@ -4741,6 +4791,7 @@ section#product-page {
 						.pp(7px 0 7px 30px);
 						.relative;
 						.left;
+						text-shadow:1px 1px 0 rgba(0,0,0,0.5);
 						
 						&:before {
 							content:'';
@@ -4913,10 +4964,9 @@ section#product-page {
 			.pp(5px);
 			.box-sizing;
 			.w(125px);
-			.h(125px);
-			.mt(8%);
+			.h(125px);			
 			.absolute;
-			top:20%;
+			top:46%;
 			
 			p {
 				.w;
@@ -4981,7 +5031,7 @@ section#product-page {
 					content:'';
 					.absolute;
 					top:50%;
-					left:-16%;
+					left:-18%;
 					width: 0px;
 					height: 0px;
 					border-style: solid;
@@ -5157,4 +5207,56 @@ section#product-page {
 	}
 }
 
+section#regulations {
+	.fl;
+	.w;
+	.mt(70px);
+	
+	h2 {
+		font-weight:600;
+		.mb(20px);
+		.uppercase;
+	}
+	
+	p {
+		.fl;
+		.left;
+		.mb(20px);
+		.lh(24px);
+	}
+	
+	ol {
+		.fl;
+		.w;
+		.left;
+		list-style-position:inside;
+		list-style-type: upper-roman;
+
+		li {
+			.fl;
+			.w;
+			.pp(5px 0);
+			font-weight:600;
+			
+			ol {		
+				font-weight:normal;
+				.ml(20px);		
+				list-style-type:lower-alpha;
+				.mb(10);
+				
+				li {
+					font-weight:normal;
+					
+					ol {
+						list-style-type: lower-roman;
+						.ml(20px);
+					}
+				}
+			}
+		}		
+	}
+	
+	
+	
+}
 
