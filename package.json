@@ -8,6 +8,7 @@
   "devDependencies": {
     "karma": "~0.10",
     "karma-ng-html2js-preprocessor": "0.1.x",
+    "karma-js-coverage": "~0.2.0",
     "protractor": "~0.20.1",
     "http-server": "^0.6.1",
     "bower": "^1.3.1",

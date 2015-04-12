@@ -82,19 +82,26 @@ module.exports = function (config) {
             'karma-firefox-launcher',
             'karma-jasmine',
             'karma-phantomjs-launcher',
-            'karma-ng-html2js-preprocessor'
+            'karma-ng-html2js-preprocessor',
+            'karma-coverage'
         ],
 
-        reporters: ['progress', 'junit'],
+        reporters: ['progress', 'junit', 'coverage'],
 
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
         },
 
+        coverageReporter: {
+            type : 'html',
+            dir : 'coverage/'
+        },
+
         // generate js files from html templates to expose them during testing.
         preprocessors: {
-            'app/modules/**/*.html': ['html2js']
+            'app/modules/**/*.html': ['html2js'],
+            'app/modules/**/*.js': ['coverage']
         },
 
         // Continuous Integration mode

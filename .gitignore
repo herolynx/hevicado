@@ -4,6 +4,7 @@ tmp
 **/tmp
 release
 test_out
+coverage
 
 #build
 build/pkgs
