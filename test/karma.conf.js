@@ -85,6 +85,8 @@ module.exports = function (config) {
             'karma-ng-html2js-preprocessor'
         ],
 
+        reporters: ['progress', 'junit'],
+
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
