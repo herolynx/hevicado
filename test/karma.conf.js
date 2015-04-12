@@ -94,8 +94,11 @@ module.exports = function (config) {
         },
 
         coverageReporter: {
-            type : 'html',
-            dir : 'coverage/'
+            reporters:[
+                {type: 'html', dir:'coverage/'},
+                {type: 'cobertura'},
+                {type: 'text-summary'}
+            ]
         },
 
         // generate js files from html templates to expose them during testing.
