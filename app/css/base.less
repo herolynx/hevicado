@@ -1277,6 +1277,7 @@ section.calendar {
 				.relative;
 				.radius(5px);
 				.w;
+				z-index:666;
 				
 				.delete {
 					right:3px;
@@ -1349,7 +1350,13 @@ section.calendar {
 							}
 						}
 					}
-
+					
+					.dropdown-menu {
+						li {
+							.m(0 5px)!important;
+						}
+					}
+					
 					.top {
 						vertical-align:top;
 					}
@@ -1691,7 +1698,6 @@ section.registration {
 	.w;
 	.relative;
 	.center;
-	.mt(40px);
 	
 	.box-row {
 		.w;
@@ -1713,7 +1719,7 @@ section.registration {
 				.w(10px);
 				top:10%;
 				left:-5px;
-				.h(90%);
+				.h(85%);
 				.absolute;
 				background:url(../images/table-bg-20.png);
 			}
@@ -4708,6 +4714,8 @@ section#product-page {
 			.b(1px solid #dedede);
 			.relative;
 			.m(0 15px);
+			vertical-align:top;
+			
 			
 			.number {
 				.absolute;
@@ -4758,6 +4766,7 @@ section#product-page {
 				.w;
 				.mt(30px);
 				.center;
+				.minh(229px);
 				
 				ul {
 					.fl;
@@ -4771,6 +4780,7 @@ section#product-page {
 						.pp(7px 0 7px 30px);
 						.relative;
 						.left;
+						text-shadow:1px 1px 0 rgba(0,0,0,0.5);
 						
 						&:before {
 							content:'';
@@ -4943,10 +4953,9 @@ section#product-page {
 			.pp(5px);
 			.box-sizing;
 			.w(125px);
-			.h(125px);
-			.mt(8%);
+			.h(125px);			
 			.absolute;
-			top:20%;
+			top:46%;
 			
 			p {
 				.w;
@@ -5011,7 +5020,7 @@ section#product-page {
 					content:'';
 					.absolute;
 					top:50%;
-					left:-16%;
+					left:-18%;
 					width: 0px;
 					height: 0px;
 					border-style: solid;
@@ -5187,4 +5196,56 @@ section#product-page {
 	}
 }
 
+section#regulations {
+	.fl;
+	.w;
+	.mt(70px);
+	
+	h2 {
+		font-weight:600;
+		.mb(20px);
+		.uppercase;
+	}
+	
+	p {
+		.fl;
+		.left;
+		.mb(20px);
+		.lh(24px);
+	}
+	
+	ol {
+		.fl;
+		.w;
+		.left;
+		list-style-position:inside;
+		list-style-type: upper-roman;
+
+		li {
+			.fl;
+			.w;
+			.pp(5px 0);
+			font-weight:600;
+			
+			ol {		
+				font-weight:normal;
+				.ml(20px);		
+				list-style-type:lower-alpha;
+				.mb(10);
+				
+				li {
+					font-weight:normal;
+					
+					ol {
+						list-style-type: lower-roman;
+						.ml(20px);
+					}
+				}
+			}
+		}		
+	}
+	
+	
+	
+}
 
