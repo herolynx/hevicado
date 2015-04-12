@@ -1,4 +1,4 @@
-kunishu
+kunishu ![build](https://circleci.com/gh/m-wrona/kunishu-server.svg?style=svg&circle-token=56943cf387202a237dbed64a5f11c89e7d9a6ca7)
 =======
 
 Kunishu is a coding name of Hevicado.
