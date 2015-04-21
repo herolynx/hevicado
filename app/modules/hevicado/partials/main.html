@@ -1,36 +1,6 @@
-<script type="text/javascript" class="ng-scope">
-	$(document).ready(function() {
-		$('#wrapper-page').fullpage({
-			verticalCentered: false,
-			
-			 scrollBar:false,
-			onLeave: function(index, nextIndex, direction){
-				//leaving 1st section
-				if(index == 1){
-				   $('header').addClass('hide-menu');
-				}
-				//back .to the 1st section
-				if(nextIndex == 1){
-					$('header').removeClass('hide-menu');
-				}
-			},
-			
-			afterResize: function(){
-				windowsHeight = $(window).height();
-			}
-		});
-
-		$('.bxslider').bxSlider({
-		  mode: 'fade',
-		  captions: true,
-		  auto:true
-		});
-	});		
-</script>	
-	
-<div id="wrapper-page">
+<div id="wrapper-page" main-page>
 	<section id="product-page">
-		<section class="slider section" id="section0">			
+		<section class="slider section" id="top">
 			<ul class="bxslider">
 				<li style="background:#00d6ab">
 					<div class="content">
@@ -61,7 +31,7 @@
 				</li>						
 			</ul>
 		</section>
-		<section class="about-us section" id="section1">
+		<section class="about-us section" id="about-us">
 			<div class="content">
 				<div class="middle">
 					<div class="box health">
@@ -79,7 +49,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="offer section" id="section2">
+		<section class="offer section" id="offer">
 			<div class="content">
 				<div class="middle">
 					<div class="row">
@@ -91,11 +61,13 @@
 						<div class="wrapper">
 							<h3><span>Jak to działa?</span></h3>
 							<p>
-								Rejestrują się w naszym serwisie dajemy ci możliwość założenia elektronicznego gabinetu. Ilość gabinetów zależy tylko od Ciebie.<br/>
-								Po rejestracji, uzupełnij dane gabinetu, lokalizację, godziny pracy oraz specjalizację. Dzięki tym danym potencjalni pacjęci będą mogli 
-								znaleźć Cię w prosty sposób i umówić się w dogodnym dla nich terminie, ale na Twoich zasadamch.<br/>
-								Dajemy również możliwość ustalenia świadczonych przez Ciebie typach zabiegów, na które pacjenci będą się zapisywać.
-								Określając czas danego zabiegu, Twój teminarz będzie bardziej dokładny a pacjenci bardziej zadowoleni, bo nie będą musieli czekać w kolejce.
+								Rejestrując się w naszym serwisie, dajemy Ci możliwość założenia elektronicznego gabinetu.
+								Ilość gabinetów zależy tylko od Ciebie.<br/>
+								Po rejestracji uzupełnij dane gabinetu, lokalizację, godziny pracy oraz specjalizację.
+								Umożliwi to pacjentom odnalezienię Cię w prosty sposób i umówienie się w dogodnym dla nich terminie,
+								ale na Twoich zasadamch.<br/>
+								Ustal świadczone usługi i czas ich trwania.
+								Dzięki temu Twój teminarz będzie bardziej dokładny, a pacjenci nie będą musieli czekać w kolejce.
 							</p>
 						</div>
 						<div class="row icons">
@@ -138,7 +110,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="benefits section" id="section3">
+		<section class="benefits section" id="benefits">
 			<div class="content">
 				<div class="middle">
 					<div class="row">
@@ -178,7 +150,7 @@
 			</div>
 		</section>
 
-		<section class="payment section" id="section4">
+		<section class="payment section" id="payment">
 			<div class="content">
 				<div class="middle">
 					<div class="row">
@@ -267,7 +239,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="news section" id="section5">
+		<section class="news section" id="news">
 			<div class="content">
 				<div class="middle">
 					<h2>
@@ -316,7 +288,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="contact section" id="section6">
+		<section class="contact section" id="contact">
 			<div class="content">
 				<div class="middle">
 					<h2>

@@ -25,6 +25,8 @@ module.exports = function (config) {
             'app/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
             'app/bower_components/ngmap/build/scripts/ng-map.js',
             'app/bower_components/angular-no-captcha/src/angular-no-captcha.js',
+            'app/bower_components/bolster.bxSlider/jquery.bxslider.js',
+            'app/bower_components/fullpage/jquery.fullPage.js',
 
             /* test dependencies */
             'app/bower_components/angular-mocks/angular-mocks.js',
@@ -43,6 +45,7 @@ module.exports = function (config) {
             'app/modules/bolt/js/services/bolt-service.js',
 
             'app/modules/hevicado/js/generic/lang.js',
+            'app/modules/hevicado/js/ui/menu.js',
 
             'app/modules/commons/spinner/js/spinner.js',
 

@@ -23,7 +23,9 @@
     "moment-timezone": "0.2.x",
     "ngInfiniteScroll": "1.1.x",
     "underscore": "1.7.x",
-    "angular-no-captcha": "0.3.x"
+    "angular-no-captcha": "0.3.x",
+    "bolster.bxSlider": "0.1.x",
+    "fullpage": "2.2.x"
   },
   "devDependencies": {
     "angular-mocks": "1.3.x"
