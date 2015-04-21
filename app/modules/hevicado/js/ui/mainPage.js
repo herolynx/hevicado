@@ -36,3 +36,28 @@ angular.module('hevicado.ui')
             };
         }
     ]);
+
+/**
+ * Directive animates scrolling between sections.
+ * It reads hash from given location and tries to find proper section with '-' ID prefix.
+ * If found proper animation takes place.
+ */
+angular.module('hevicado.ui')
+    .directive('animateScroll',
+    ['$log', '$location',
+        function ($log, $location) {
+            return {
+                restrict: 'A',
+                link: function (scope, elm, attrs) {
+                    var id = $location.hash();
+                    try {
+                        var section = $("#-" + id);
+                        $log.debug('Animating scroll to section: ' + id);
+                        $('html,body').animate({scrollTop: section.offset().top}, 300);
+                    } catch (e) {
+                        $log.warn('Animating scroll - section not found: ' + section + ', error: ' + e);
+                    }
+                }
+            };
+        }
+    ]);
