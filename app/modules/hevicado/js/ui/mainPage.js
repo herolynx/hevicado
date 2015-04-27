@@ -17,20 +17,20 @@ angular.module('hevicado.ui')
                             scrollBar: false,
                             autoScrolling: false
                         });
-                    });
-                    //attach slider to main section
-                    $('.bxslider').bxSlider({
-                        mode: 'fade',
-                        captions: true,
-                        auto: true
-                    });
-                    //restore old global settings before leaving full page view
-                    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                        try {
-                            elm.fullpage.destroy('all');
-                        } catch (e) {
-                            $log.warn('Cleaning after full main page ended with error: ' + e);
-                        }
+                        //attach slider to main section
+                        $('.bxslider').bxSlider({
+                            mode: 'fade',
+                            captions: true,
+                            auto: true
+                        });
+                        //restore old global settings before leaving full page view
+                        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                            try {
+                                elm.fullpage.destroy();
+                            } catch (e) {
+                                $log.warn('Cleaning after full main page ended with error: ' + e);
+                            }
+                        });
                     });
                 }
             };
