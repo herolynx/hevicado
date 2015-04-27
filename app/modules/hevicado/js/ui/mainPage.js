@@ -53,7 +53,7 @@ angular.module('hevicado.ui')
                     try {
                         var section = $("#-" + id);
                         $log.debug('Animating scroll to section: ' + id);
-                        $('html,body').animate({scrollTop: section.offset().top}, 300);
+                        $('html,body').animate({scrollTop: section.offset().top - 25}, 300);
                     } catch (e) {
                         $log.warn('Animating scroll - section not found: ' + section + ', error: ' + e);
                     }
