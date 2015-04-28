@@ -122,8 +122,11 @@
 
                                     <div ng-hide="isOwner">{{editedEvent.patient | userInfo}}</div>
 
-                                    <span><i class="icon-phone"></i>{{editedEvent.patient.phone}}</span><br/>
-									<span>
+                                    <span ng-show="editedEvent.patient.id">
+                                        <i class="icon-phone"></i>{{editedEvent.patient.phone}}
+                                    </span>
+                                    <br/>
+									<span ng-show="editedEvent.patient.id">
 										<a href="mailto:{{editedEvent.patient.email}}">
                                             <i class="icon-mail"></i>{{editedEvent.patient.email}}
                                         </a>
