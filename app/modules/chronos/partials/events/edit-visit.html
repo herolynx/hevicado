@@ -124,7 +124,7 @@
 
                                     <span><i class="icon-phone"></i>{{editedEvent.patient.phone}}</span><br/>
 									<span>
-										<a href="mailto:mail@gmail.com">
+										<a href="mailto:{{editedEvent.patient.email}}">
                                             <i class="icon-mail"></i>{{editedEvent.patient.email}}
                                         </a>
 									</span>
@@ -143,10 +143,10 @@
                                 <label></label>
                                 <fieldset>
                                     <button class="btn click" ng-click="cancelVisit()" ng-show="canCancel">
-                                        {{'visit.cancel-visit' | translate}}
+                                        <i class="icon-upload-cloud"></i> {{'visit.cancel-visit' | translate}}
                                     </button>
                                     <button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid || editedEvent.location.id==undefined"
-                                            ng-show="canEdit">{{'generic.save' | translate}}
+                                            ng-show="canEdit"><i class="icon-upload-cloud"></i> {{'generic.save' | translate}}
                                     </button>
                                     <button class="btn click" ng-click="cancel()">{{'generic.cancel' | translate}}
                                     </button>
