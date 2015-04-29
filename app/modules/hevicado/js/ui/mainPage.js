@@ -79,3 +79,28 @@ angular.module('hevicado.ui')
             };
         }
     ]);
+
+/**
+ * Controller for wrapping send e-mail while HTTPS is used.
+ * It prevents displaying of SSL warning due to 'mailto' that's not secured.
+ */
+angular.module('hevicado.ui')
+    .controller('MailCtrl',
+    ['$scope',
+        function ($scope) {
+
+            /**
+             * Send e-mail
+             */
+            $scope.send = function () {
+                window.location.href = 'mailto:hevicado@gmail.com' +
+                '?subject=Issue' +
+                '&body=Name: ' + ($scope.name || '') +
+                '&body=E-mail: ' + ($scope.email || '') +
+                '&body=Phone: ' + ($scope.phone || '') +
+                '&body=Details: ' + ($scope.details || '');
+            };
+
+        }
+    ]);
+

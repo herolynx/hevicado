@@ -310,18 +310,18 @@
 							Skontaktuj się z nami
 						</span>
 					</h2>
-					<div class="form">
-						<form action="mailto:hevicado@gmail.com?subject=Pytanie" method="post" enctype="text/plain" class="ng-pristine ng-valid">
+					<div class="form" ng-controller="MailCtrl">
+						<form class="ng-pristine ng-valid">
 							<div class="row">
-								<input type="text" name="Name" placeholder="Imię i nazwisko">
-								<input type="text" name="Email" placeholder="Adres e-mail">
-								<input type="text" name="Phone" placeholder="Telefon">
+								<input type="text" ng-model="name" placeholder="Imię i nazwisko">
+								<input type="text" ng-model="email"placeholder="Adres e-mail">
+								<input type="text" ng-model="phone" placeholder="Telefon">
 							</div>
 							<div class="row">
-								<textarea placeholder="Wiadomość" name="Details"></textarea>
+								<textarea placeholder="Wiadomość" ng-model="details"></textarea>
 							</div>
 							<div class="row">
-								<input type="submit" value="Wyślij wiadomość">
+								<a ng-click="send()">Wyślij wiadomość</a>
 							</div>
 						</form>
 					</div>
