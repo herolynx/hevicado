@@ -5,6 +5,7 @@ angular.module('ui.menu', []);
 /**
  * Minimize menu when window is scrolled down
  */
+ 
 $(document).ready(function () {
     $(window).scroll(function () {
         if ($(this).scrollTop() > 48) {
