@@ -46,17 +46,35 @@ angular.module('hevicado.ui')
     .directive('animateScroll',
     ['$log', '$location',
         function ($log, $location) {
+
+            /**
+             * Show section selected by URL hash
+             */
+            var showSection = function () {
+                var id = $location.hash();
+                $log.debug('Animating scroll to section: ' + id);
+                var sectionMap = {
+                    'about-us': 2,
+                    'offer': 3,
+                    'benefits': 4,
+                    'payment': 5,
+                    'news': 6,
+                    'contact': 7
+                };
+                $.fn.fullpage.moveTo(sectionMap[id]);
+            };
+
             return {
                 restrict: 'A',
                 link: function (scope, elm, attrs) {
-                    var id = $location.hash();
-                    try {
-                        var section = $("#-" + id);
-                        $log.debug('Animating scroll to section: ' + id);
-                        $('html,body').animate({scrollTop: section.offset().top - 25}, 300);
-                    } catch (e) {
-                        $log.warn('Animating scroll - section not found: ' + section + ', error: ' + e);
-                    }
+                    showSection();
+                    //refresh section when URL changes
+                    scope.$watch(function () {
+                        return $location.hash();
+                    }, function (value) {
+                        $log.debug('Section changed - refreshing position');
+                        showSection();
+                    });
                 }
             };
         }
