@@ -11,7 +11,7 @@ angular.module('hevicado.config', [
  * Application version
  */
 angular.module('hevicado.config').
-    value('version', '1.1.6');
+    value('version', '1.2.0');
 
 /**
  * Service responsible for discovering HTTP back-end configuration
