@@ -33,8 +33,8 @@ angular.module('hevicado.config').
     ['$stateProvider', '$urlRouterProvider', 'ACCESS_LEVELS',
         function ($stateProvider, $urlRouterProvider, ACCESS_LEVELS) {
             //
-            // for any unmatched url, redirect to /login
-            $urlRouterProvider.otherwise("/login");
+            // for any unmatched url, redirect to main page
+            $urlRouterProvider.otherwise("/main");
 
             /************************* DEFAULT PAGES ***************************************/
             $stateProvider.
