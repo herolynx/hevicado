@@ -14,6 +14,17 @@ angular.module('hevicado.config').
     value('version', '1.2.0');
 
 /**
+ * Generic configuration
+ */
+angular.module('hevicado.config')
+    .config(['$logProvider',
+        function ($logProvider) {
+            //TODO should be auto-detected based on environment or URL settings
+            $logProvider.debugEnabled(false);
+        }
+    ]);
+
+/**
  * Service responsible for discovering HTTP back-end configuration
  * @param $location location manager
  */
