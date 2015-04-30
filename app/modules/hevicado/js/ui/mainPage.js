@@ -16,7 +16,8 @@ angular.module('hevicado.ui')
                             verticalCentered: false,
                             scrollBar: false,
                             autoScrolling: false,
-                            fitToSection: false
+                            fitToSection: false,
+                            paddingTop: '4em'
                         });
                         //attach slider to main section
                         $('.bxslider').bxSlider({
