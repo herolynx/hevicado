@@ -317,6 +317,30 @@ h3 {
   .m(auto);
 }
 
+.message {
+	.absolute;
+	bottom:250px;
+	right:1%;
+	.radius(10px);
+	.bg(#797979);
+	.pp(10px);
+	.c(#FFF);
+	text-shadow:none;
+	
+	&:before {
+		content:'';
+		.absolute;
+		top:4px;
+		left:-30px;
+		width: 0px;
+		height: 0px;
+		border-style: solid;
+		border-width: 10px 40px 10px 0;
+		border-color: transparent #797979 transparent transparent;
+		-webkit-transform:rotate(10deg);
+
+	}
+}
 
 header {	
 	.fl;
@@ -1760,13 +1784,14 @@ section.registration {
 			ul {
 				.fl;
 				.w;
-				.mt(20px);
+				.mt(0px);
 
 				li {
 					.fl;
 					.w;
 					.dib;
-					.mb(10px);
+					.mt(20px);
+					.relative;
 					
 					label, fieldset {
 						.fl;
@@ -1780,39 +1805,48 @@ section.registration {
 
 					fieldset {
 						.relative;
-				
-					input {
-						.w;
-						.h(35px);
-						.lh(35px);
-						.bg(#f5f6f7);
-						.radius(5px);
-						.b(0);
-						.box-sizing;
-						.pp(0 20px);
-						outline:none;
-						.b(1px solid #e6e6e6);
+						
+						.error {
+							.absolute;
+							bottom:-15px;							
+						}
+						
+						input {
+							.w;
+							.h(35px);
+							.lh(35px);
+							.bg(#f5f6f7);
+							.radius(5px);
+							.b(0);
+							.box-sizing;
+							.pp(0 20px);
+							outline:none;
+							.b(1px solid #e6e6e6);
+						}
 					}
 				}
 			}
-		}
 
-		span.checkbox {
-			.fl;
-			.w;
-			.lh(18px);
-			.m(10px 0 0);
+			span.checkbox {
+				.fl;
+				.w;
+				.lh(18px);
+				.m(10px 0 0);
 
-			input {
+				input {
 					.mt(2px);
 				}
 			}
-			
+				
 			.change {
 				text-decoration: underline;
 			}
 		}
-
+		
+		button {
+			.mb(20px);
+		}
+		
 		.action {
 			.fl;
 			.w;
@@ -1834,106 +1868,104 @@ section.login {
   .relative;
   .center;
 
-  .box-row {
-    .w;
-    .bg(#FFF);
-    .radius(5px);
-    .bt(1px solid #e6e6e6);
-    .fl;
-	.pb(10px);
+	.box-row {
+		.w;
+		.bg(#FFF);
+		.radius(5px);
+		.bt(1px solid #e6e6e6);
+		.fl;
+		.pb(10px);
 
-    .box {
-      .fl;
-      .w(33.3333%);
-      .left;
-      .pp(20px 30px 20px 30px);
-      .box-sizing;
-      .relative;
+		.box {
+			.fl;
+			.w(33.3333%);
+			.left;
+			.pp(20px 30px 20px 30px);
+			.box-sizing;
+			.relative;
 
-      &:before {
-        content:'';
-        .w(10px);
-        top:10%;
-        left:-5px;
-        .h(90%);
-        .absolute;
-        background:url(../images/table-bg-20.png);
-      }
+			&:before {
+				content:'';
+				.w(10px);
+				top:10%;
+				left:-5px;
+				.h(90%);
+				.absolute;
+				background:url(../images/table-bg-20.png);
+			}
 
-      h2 {
-        span {
-          .w(30px);
-          .dib;
-          .h(30px);
-          .bg(#656565);
-          .c(#FFF);
-          .center;
-          .radius(100%);
-          text-shadow:none;
-          .lh(30px);
-          .mr(10px);
-        }
-      }
+			h2 {
+				span {
+					.w(30px);
+					.dib;
+					.h(30px);
+					.bg(#656565);
+					.c(#FFF);
+					.center;
+					.radius(100%);
+					text-shadow:none;
+					.lh(30px);
+					.mr(10px);
+				}
+			}
 
-      ul {
-        .fl;
-        .w;
-        .mt(20px);
+			ul {
+				.fl;
+				.w;
+				.mt(20px);
 
-        li {
-          .fl;
-          .w;
-          .dib;
+				li {
+					.fl;
+					.w;
+					.dib;
+					.mb(10px);
 
-          .mb(10px);
+					label, fieldset {
+						.fl;
+						.w;
+					}
 
-          label, fieldset {
-            .fl;
-            .w;
-          }
+					label {
+						.mb(5px);
+						.w;
+					}
+		
+					fieldset {
 
-          label {
-            .mb(5px);
-            .w;
-          }
+						input {
+							.w;
+							.h(35px);
+							.lh(35px);
+							.bg(#f5f6f7);
+							.radius(5px);
+							.b(0);
+							.box-sizing;
+							.pp(0 20px);
+							outline: none;
+							.b(1px solid #e6e6e6);
+						}
 
-          fieldset {
-
-            input {
-              .w;
-              .h(35px);
-              .lh(35px);
-              .bg(#f5f6f7);
-              .radius(5px);
-              .b(0);
-              .box-sizing;
-              .pp(0 20px);
-              outline: none;
-              .b(1px solid #e6e6e6);
-            }
-
-            button {
-              .m(auto);
-              .dib;
-              .radius(5px);
-              .pp(10px 15px);
-              background: url(../images/title-bg.png) #00d6ab;
-
-              .b(0);
-              .c(#FFF);
-              text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
-            }
-          }
-        }
-      }
-    }
-
-    .box.none {
-      &:before {
-        content:none;
-      }
-    }
-  }
+						button {
+							.m(auto);
+							.dib;
+							.radius(5px);
+							.pp(10px 15px);
+							background: url(../images/title-bg.png) #00d6ab;
+							.b(0);
+							.c(#FFF);
+							text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+						}
+					}
+				}
+			}
+		}		
+		
+		.box.none {
+			&:before {
+				content:none;
+			}
+		}
+	}
 }
 
 section.cabinet {
@@ -4475,6 +4507,7 @@ section#product-page {
 			display:table-cell;
 			.w;
 			.box-sizing;
+			vertical-align:middle;
 		}	
 	}
 	
@@ -4532,7 +4565,7 @@ section#product-page {
 	section.about-us {
 		.fl;
 		.w;
-		.pp(40px 0);
+		.pp(0)!important;
 		background:url(../images/bg-about.jpg) center center no-repeat;
 		background-size:cover;
 		
@@ -4602,21 +4635,10 @@ section#product-page {
 		background:url(../images/bg-offer.jpg);
 		box-shadow:inset 0 4px 2px rgba(0,0,0, 0.25);
 		.c(#FFF);
-		.pp(50px 0 0);
+		.pp(0)!important;
 		
 		.content {
-			.relative;
-			
-			&:before {
-				content:'';
-				.w(498px);
-				.h(492px);
-				background:url(../images/img-screen.png);
-				.absolute;
-				top:4%;
-				right:0;
-				background-size:cover;
-			}
+			.relative;		
 		}
 		
 		span {
@@ -4638,6 +4660,7 @@ section#product-page {
 			.fl;
 			.w;
 			.mb(10px);
+			.relative;			
 		}
 		
 		.icons {
@@ -4651,7 +4674,15 @@ section#product-page {
 			.w(56%);
 			.justify;
 		}
-				
+
+		.screen {
+			.absolute;
+			top:-10%;
+			right:0;
+			.w(498px);
+			.h(492px);
+		}		
+		
 		.box {
 			.dib;
 			.w(136px);
@@ -4717,8 +4748,8 @@ section#product-page {
 		.fl;
 		.w;
 		background:url(../images/bg-benefits.jpg);
-		.pp(40px 0);
 		.c(#FFF);
+		.pp(0)!important;
 		
 		.row {
 			.fl;
@@ -4774,7 +4805,7 @@ section#product-page {
 	section.payment {
 		.fl;
 		.w;
-		.pp(30px 0 50px);
+		.pp(0)!important;
 		background:url(../images/bg-payment.jpg);
 		box-shadow:inset 0 4px 2px rgba(0,0,0, 0.15);
 		
@@ -5047,7 +5078,7 @@ section#product-page {
 			.absolute;
 			top:36px;
 			left:0;
-			z-index:999;
+			z-index:555;
 			.size(30px);
 			.c(red);
 			.uppercase;
@@ -5150,7 +5181,7 @@ section#product-page {
 			}
 			
 			p {
-				.mb(20px);
+				.fl;
 			}		
 		}
 		
@@ -5228,7 +5259,7 @@ section#product-page {
 		.social {
 			.w(auto);
 			.absolute;
-			bottom:-25px;
+			bottom:10px;
 			right:0;
 			
 			p {
