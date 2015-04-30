@@ -42,7 +42,7 @@ angular.module('chronos.events').
                 var loadDoctorPromise = UsersService.
                     get($stateParams.doctorId).
                     error(function (errResp, errStatus) {
-                        $log.info('Couldn\'t load doctor: status: ' + errStatus + ', resp: ' + errResp.data);
+                        $log.error('Couldn\'t load doctor: status: ' + errStatus + ', resp: ' + errResp.data);
                     });
 
                 //load event
@@ -169,7 +169,7 @@ angular.module('chronos.events').
              * @returns {*} HTTP promise
              */
             $scope.findUsers = function (text) {
-                $log.info("Searching users: " + text);
+                $log.debug("Searching users: " + text);
                 return UsersService.
                     search(text).
                     then(function (resp) {
