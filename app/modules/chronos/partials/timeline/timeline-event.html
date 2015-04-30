@@ -31,7 +31,7 @@
         </div>
         <div class="date-address">
             <span><i class="icon-phone"></i>{{event.doctor.phone}}</span>
-            <span><a href="mailto:mail@gmail.com"><i class="icon-mail"></i>{{event.doctor.email}}</a></span>
+            <span><a href="mailto:{{event.doctor.email}}"><i class="icon-mail"></i>{{event.doctor.email}}</a></span>
         </div>
         <div class="action">
             <a class="edit" ui-sref="user-visit({ eventId: event.id })"><i class="icon-cog"></i></a>
