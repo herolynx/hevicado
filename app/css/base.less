@@ -211,6 +211,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 }
 
+i:before, i:after {
+	opacity:1!important;
+}
 
 
 
@@ -1973,8 +1976,7 @@ section.cabinet {
 			border-bottom-width:2px;
 			border-style:solid;
 			.radius(5px);
-			.c(#FFF);
-			.size(1.2em);
+			.c(#FFF);			
 			text-shadow:none;
 			font-weight:500;
 
@@ -2507,7 +2509,9 @@ section.cabinet {
 									
 									a {
 										.b(0);
-										.pp(4px 10px 5px 10px);
+										.pp(7px 10px 7px 10px);
+										.relative;
+										top:3px;
 									}
 								}
 								
@@ -2608,11 +2612,15 @@ section.cabinet {
 				.mt(20px);	
 				
 				.add {
-					top:25px;
+					top:28px;
 					left:-7px;
 					.w(auto);
 					.fl;
 					.relative;
+					
+					a {
+						.pp(8px 10px);
+					}
 				}
 				
 				.option {
@@ -2835,7 +2843,7 @@ section.visit-timeline {
 				a {
 					.w;
 					.db;
-					.size(1.2em);
+					.size(1.2em1.2em);
 				}
 
 				.img {
@@ -5311,7 +5319,7 @@ section#product-page {
 					.pp(15px);
 				}
 				
-				input[type=submit] {
+				.send {
 					.fl;
 					.pp(15px 30px);
 					.box-sizing;
