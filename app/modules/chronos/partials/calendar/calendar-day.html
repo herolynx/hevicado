@@ -5,6 +5,9 @@
 
             <div class="notes">
                 <ul>
+                    <div ng-show="flatten(events[currentDate.getDate()]).length==0">
+                        {{'calendar.daily-no-visits' | translate}}
+                    </div>
                     <li ng-repeat="visit in flatten(events[currentDate.getDate()])">
                         <div class="describe">
                             <h3>{{visit.patient | userInfo}}</h3>

@@ -142,7 +142,8 @@
     }
   },
   "calendar": {
-    "legend": "Legenda"
+    "legend": "Legenda",
+    "daily-no-visits": "W tej chwili nie masz żadnych umówionych wizyt"
   },
   "cabinet": {
     "doctors-cabinet": "Gabinet lekarza",
