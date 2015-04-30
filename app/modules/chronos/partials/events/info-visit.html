@@ -1,144 +1,146 @@
-<div class="content">
+<section id="main-content">
     <div class="title-page">
         <h1 translate>visit.visit</h1>
     </div>
-    <section class="calendar">
-        <div class="details-info-event" ng-controller="DisplayEventCtrl">
-            <div class="box info">
-                <h2>
-                    <i class="icon-calendar"></i>
-                    {{event.start | dateFormat}} ({{event.start | dateFormat: "ddd" | normalizeText}})
+		<div class="content">
+		<section class="calendar">
+			<div class="details-info-event" ng-controller="DisplayEventCtrl">
+				<div class="box info">
+					<h2>
+						<i class="icon-calendar"></i>
+						{{event.start | dateFormat}} ({{event.start | dateFormat: "ddd" | normalizeText}})
 
-                    {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
-                </h2>
-                <div class="notes">
-                    <form>
-                        <ul>
-                            <li ng-show="event.cancelled != undefined">
-                                <div translate>
-                                    visit.visit-cancelled
-                                </div>
-                            </li>
-                            <li>
-                                <label><b>{{'visit.doctor' | translate}}:</b></label>
+						{{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
+					</h2>
+					<div class="notes">
+						<form>
+							<ul>
+								<li ng-show="event.cancelled != undefined">
+									<div translate>
+										visit.visit-cancelled
+									</div>
+								</li>
+								<li>
+									<label><b>{{'visit.doctor' | translate}}:</b></label>
 
-                            </li>
-                            <li>
-                                <label>{{'visit.full-name' | translate}}:</b></label>
-                                <fieldset>
-                                    {{event.doctor | userInfo:'withDegree'}}
-                                </fieldset>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'user-profile.phone' | translate}}</label>
-                                    <fieldset>
-                                        {{event.doctor.phone}}
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'generic.email' | translate}}:</label>
-                                    <fieldset>
-                                        <a href="mailto:{{event.doctor.email}}">{{event.doctor.email}}</a>
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label><b>{{'visit.examination' | translate}}:</b></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'visit.title' | translate}}:</label>
-                                    <fieldset>
-                                        {{event.title | label:'templates' | translate}}
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label class="full top">{{'generic.description' | translate}}:</label>
-                                    <fieldset>
-                                        {{event.description}}
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label><b>{{'visit.patient' | translate}}:</b></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'visit.full-name' | translate}}:</label>
-                                    <fieldset>
-                                        {{event.patient | userInfo}}
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'user-profile.phone' | translate}}:</label>
-                                    <fieldset>
-                                        {{event.patient.phone}}
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <label>{{'generic.email' | translate}}:</label>
-                                    <fieldset>
-                                        <a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a>
-                                    </fieldset>
-                                </div>
-                            </li>
-                            <li>
-                                <label></label>
-                                <fieldset>
-                                    <button class="btn click"
-                                            ng-show="options.actions().canCancel(event)"
-                                            ng-click="options.cancel(event)"
-                                            translate>
-	                                        visit.cancel-visit
-                                    </button>
-                                </fieldset>
-                            </li>
-                            <!--TODO add colors, -->
-                        </ul>
-                    </form>
-                </div>
-            </div>
-			<div class="box hour">
+								</li>
+								<li>
+									<label>{{'visit.full-name' | translate}}:</b></label>
+									<fieldset>
+										{{event.doctor | userInfo:'withDegree'}}
+									</fieldset>
+								</li>
+								<li>
+									<div>
+										<label>{{'user-profile.phone' | translate}}</label>
+										<fieldset>
+											{{event.doctor.phone}}
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label>{{'generic.email' | translate}}:</label>
+										<fieldset>
+											<a href="mailto:{{event.doctor.email}}">{{event.doctor.email}}</a>
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label><b>{{'visit.examination' | translate}}:</b></label>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label>{{'visit.title' | translate}}:</label>
+										<fieldset>
+											{{event.title | label:'templates' | translate}}
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label class="full top">{{'generic.description' | translate}}:</label>
+										<fieldset>
+											{{event.description}}
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label><b>{{'visit.patient' | translate}}:</b></label>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label>{{'visit.full-name' | translate}}:</label>
+										<fieldset>
+											{{event.patient | userInfo}}
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label>{{'user-profile.phone' | translate}}:</label>
+										<fieldset>
+											{{event.patient.phone}}
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<div>
+										<label>{{'generic.email' | translate}}:</label>
+										<fieldset>
+											<a href="mailto:{{event.patient.email}}">{{event.patient.email}}</a>
+										</fieldset>
+									</div>
+								</li>
+								<li>
+									<label></label>
+									<fieldset>
+										<button class="btn click"
+												ng-show="options.actions().canCancel(event)"
+												ng-click="options.cancel(event)"
+												translate>
+												visit.cancel-visit
+										</button>
+									</fieldset>
+								</li>
+								<!--TODO add colors, -->
+							</ul>
+						</form>
+					</div>
+				</div>
+				<div class="box hour">
 
-				<h2>{{'visit.address' | translate}}:</h2>
-				<div class="notes">
-					
-                        <div class="info">
-                            <h3>{{event.location.name}}</h3>
-                             {{'cabinet.street_short' | translate}}{{event.location.address | addressInfo}}
-                        </div>
-                        <div class="info">                        
-                           <h3>{{'visit.open-hours' | translate}}:</h3>
-                        
-							<div ng-repeat="working in event.location.working_hours">
-								<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
-								{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
+					<h2>{{'visit.address' | translate}}:</h2>
+					<div class="notes">
+						
+							<div class="info">
+								<h3>{{event.location.name}}</h3>
+								 {{'cabinet.street_short' | translate}}{{event.location.address | addressInfo}}
 							</div>
-						</div>
+							<div class="info">                        
+							   <h3>{{'visit.open-hours' | translate}}:</h3>
+							
+								<div ng-repeat="working in event.location.working_hours">
+									<span>{{'days.' + working.day | toLowerCase | translate}}:</span>
+									{{working.start | toLocalHours:working.tzOffset}} - {{working.end | toLocalHours:working.tzOffset}}<br/>
+								</div>
+							</div>
+						
+					</div>
+				</div>			
+				<div class="box maps-address">
+					<h2><i class="icon-map"></i> {{'visit.location' | translate}}</h2>
+
+					<div class="maps">					
+						<google-map address="event.location.address" title="event.location.name"/>
+					</div>
 					
 				</div>
-			</div>			
-            <div class="box maps-address">
-                <h2><i class="icon-map"></i> {{'visit.location' | translate}}</h2>
-
-                <div class="maps">					
-					<google-map address="event.location.address" title="event.location.name"/>
-                </div>
-                
-            </div>
-        </div>
-    </section>
+			</div>
+		</section>
+	</div>
 </div>
