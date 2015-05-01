@@ -16,6 +16,10 @@ angular.module('ui.notifications').
     ['$translate',
         function ($translate) {
 
+            toastr.options = {
+                "positionClass": "toast-bottom-left"
+            };
+
             var _title, _text;
 
             /**
