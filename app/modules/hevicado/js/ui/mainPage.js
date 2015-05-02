@@ -63,7 +63,9 @@ angular.module('hevicado.ui')
                     'news': 6,
                     'contact': 7
                 };
-                $.fn.fullpage.moveTo(sectionMap[id]);
+                if (sectionMap[id]) {
+                    $.fn.fullpage.moveTo(sectionMap[id]);
+                }
             };
 
             return {
