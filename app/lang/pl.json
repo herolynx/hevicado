@@ -33,7 +33,8 @@
       "2-chars": "Pole musi zawierać co najmniej 2 znaki.",
       "3-chars": "Pole musi zawierać co najmniej 3 znaki.",
       "6-chars": "Pole musi zawierać co najmniej 6 znaków."
-    }
+    },
+    "responsive-warning": "Responsive Web Desing: już wkrótce"
   },
   "menu": {
     "visits": "Wizyty",
