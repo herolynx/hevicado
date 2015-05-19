@@ -37,7 +37,7 @@ angular.module('hevicado.ui').
     ['$rootScope',
         function ($rootScope) {
             $rootScope.$watch(function () {
-				if($(window).width() < 746) {
+				if($(window).width() > 1025) {
 					$("nav li, footer li").hover(
 						function () {
 							$(this).find('ul.subpage').stop(true, true).animate({
@@ -66,7 +66,7 @@ angular.module('hevicado.ui').
     ['$rootScope',
         function ($rootScope) {
             $rootScope.$watch(function () {	
-			if ( $(window).width() > 768 && $(window).width() < 1025) {
+			if ( $(window).width() > 768 && $(window).width() < 1024) {
 				function explode(){
 					$("nav.product li.parrent").each(function() {
 							$(this).find('a.test').filter(":first").removeAttr('href');
@@ -80,8 +80,33 @@ angular.module('hevicado.ui').
 					$(this).toggleClass('active');
 					$(this).siblings().find('ul').slideUp(200);
 					$(this).siblings('.active').toggleClass('active');
-				});	
+				});
 			}
+			
+			if( $(window).width() <= 767 ){
+					$('.open-menu').click(function (e) {
+					e.stopPropagation();
+						if($('.open-menu').hasClass('small-opened')) {
+							$('.product').animate({right: 0}, "slow");
+							$('#page').animate({right: 140}, "slow").addClass('disable');
+							$('header').animate({right: 140}, "slow");
+							$(this).removeClass('small-opened');
+							$(this).addClass('close-menu');
+						}
+					});
+				}
+				
+				$('html, body').click(function () {
+					if($('.open-menu').hasClass('close-menu')) {
+						$('.product').animate({right: -140}, "slow");
+						$('#page').animate({right: 0}, "slow").removeClass('disable');
+						$('header').animate({right: 0}, "slow");
+						$('.open-menu').addClass('small-opened');
+						$('.open-menu').removeClass('close-menu');
+					}
+				});
+			
+			
 		});
 	}
 ]);

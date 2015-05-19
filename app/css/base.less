@@ -321,7 +321,7 @@ h3 {
 		right:0;
 		.bg(rgba(0,0,0,0.5));
 		.absolute;
-		z-index:1;
+		z-index:999;
 	}
 }
 
@@ -3701,7 +3701,6 @@ ul.dropdown-menu {
 	top:-11px;
 	.box-sizing;
 	z-index:800;
-	.b(1px solid #f0f0f0);
 	.bt(0);
 	.radius(0 0px 5px 5px);
 	.left;
@@ -5862,8 +5861,12 @@ section#regulations {
 		overflow:hidden!important;
 	}
 	
+	h1 {
+		.size(3em);
+	}
+	
 	h2 {
-		.size(34px);
+		.size(26px);
 	}
 	
 	h3 {
@@ -5901,6 +5904,7 @@ section#regulations {
 					.relative;
 					opacity:1!important;		
 					.bg(none);
+					top:0!important;
 					
 					li {
 						.b(0);				
@@ -6016,7 +6020,7 @@ section#regulations {
 	}	
 	
 	.title-page {
-		.m(78px 0 0px);
+		.m(78px 0 20px);
 		.pp(5px 0px);		
 	}
 	
@@ -6060,14 +6064,7 @@ section#regulations {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	footer {
 		.content {
 			.relative;
@@ -6103,6 +6100,543 @@ section#regulations {
 			}
 		}
 	}
+	
+	
+	section.cabinet {
+		.box-row {
+			.cabinet-name {
+				.specialization {
+					.add {
+						left:0;
+					}
+				}
+			}
+		
+			.box {
+				.pp(15px);
+				
+				.box-left { 
+					.w;
+					.mt(-30px);
+				}
+				
+				.box-right {
+					.pl(0);
+					.minh(0);
+					.w;
+					.h(auto);
+					.ml(0);
+					
+					&:before {
+						content:none;
+					}
+				}
+				
+				.address {
+					.box {
+						.w;
+						.pp(0);
+						.mb(20px);
+					}
+				}
+				
+				.name-company {
+					.fl;
+					.ml(10px);
+					.w(73%);
+					
+					span{
+						.w(88%);
+					}
+										
+					.delete {
+						float:none;
+						.dib;
+						top:2px;
+					}	
+				}
+				
+				.info-doctor {
+					.name-company {
+						.w;
+						
+						span {
+							.w;
+						}
+					}
+				}
+				
+				.open-hour {
+					ul {
+						li {
+							span.day {
+								.w;
+							}
+							
+							span.hour {
+								.w(93%);
+								.mt(5px);
+								.ml(0);
+								
+								 table {
+									.w(45%);
+								}
+							}
+							
+							.delete {
+								.mt(15px);
+							}
+						}
+						
+						span.hour { 
+						
+						}					
+					}				
+				}
+				
+				.treatments {
+					ul {
+						li {
+							.intervention {
+								
+								.delete {
+									.w(9%);									
+								}
+								
+								input {
+									.w(90%);
+								}
+							}
+						}
+					}				
+				}				
+			}
+		}	
+	}
+	
+	
+	section.calendar {
+		
+		.week-next, .week-prev {
+			.dn;
+		}	
+		
+		.top-info {
+			.mt(-21px);
+			
+			.date {
+				.mt(60px);
+			}
+		}
+		.grid {
+			.event {
+				.w(24%);
+			}
+		}
+		
+		.amount {
+			ul {
+				.w;
+			}
+		}
+		.details-info-event, .details-info-edit {
+			.dib;
+			.w;
+			.pp(20px 0 0);
+			.relative;
+			
+			.box {		
+				.mb(20px);
+				
+				.notes {
+					.fl;
+					.b(1px solid #e6e6e6);
+					.bg(#FFF);
+					.left;
+					.pp(15px);
+					.box-sizing;
+					.mt(10px);
+					.relative;
+					.radius(5px);
+					.w;
+					z-index:666;
+					
+					.delete {
+						right:3px;
+						top:3px;
+					}
+
+					.info {
+						.fl;
+						.w;
+						.mt(20px);
+						.lh(24px);
+						
+						&:first-child {
+							.mt(0);
+						}
+						
+						h3 {
+							.mb(5px);
+						}
+					}	
+					
+					ul {
+						.fl;
+						.w;
+
+						li {
+							.dib;
+							.fl;
+							.b(0px);
+							.w;
+							.mb(10px)!important;
+																		
+							label {
+								.w(28%);
+								.b(0px);
+								vertical-align:middle;
+								.dib;
+							}
+
+							fieldset {
+								.w(69%);
+								.ml(1%);
+								.b(0px);
+								.dib;
+								vertical-align:middle;
+								
+								input {
+									.w;
+									.h(35px);
+									.lh(35px);
+									.bg(#f5f6f7);
+									.radius(5px);
+									.b(0);
+									.box-sizing;
+									.pp(0 10px);
+									outline:none;
+									.b(1px solid #e6e6e6);
+								}
+
+								textarea {
+									resize:none;
+									.w;
+									.h(100px);
+									.bg(#f5f6f7);
+									.radius(5px);
+									.b(1px solid #e6e6e6);
+									.pp(5px);
+									.box-sizing;
+									outline:none;
+								}
+							}
+						}
+						
+						.dropdown-menu {
+							li {
+								.m(0 5px)!important;
+							}
+						}
+						
+						.top {
+							vertical-align:top;
+						}
+					}		
+				}
+			}		
+			
+			.box.info {				
+				.w;
+			}
+			
+			.box.hour {
+				.w;
+				.ml(0);
+			}
+			
+			.box.maps-address {
+				.w;
+				.ml(0);				
+			}	
+		}
+		
+		.details-info-edit {
+			.box.quick-contact{
+				.w;
+				
+			}	
+			
+			.box.day {
+				.h(343px);
+				overflow:auto;
+				.w;
+			}
+					
+			.details-box {				
+				.w;
+				
+				div:first-child {
+					top:0!important;
+					.relative;
+				}
+			}
+			
+			.box.form {
+				.ml(0)!important;
+				
+				.notes {
+					.left, .right {
+						.w;
+					}
+					
+					.right {
+						.mt(20px);
+						.ml(0);
+					}
+				}
+			}		
+		}
+	}
+	
+	
+	section.login, section.registration {
+		
+		.box-row {
+			
+			.box {
+				.w;
+				.bt(0px solid #e6e6e6);
+				.h(auto)!important;
+				.pp(15px 15px);
+				
+				h2 {	
+					span {
+						.w(25px);
+						.h(25px);
+						.lh(25px);
+						.size(20px);
+					}
+				}
+								
+				&:first-child {
+					.bt(0);
+				}
+				
+				&:last-child {
+					.b(0);
+					.pt(0);
+					.pb(0);
+					.center;
+					
+					h2 {
+						.dn;
+					}
+					
+					ul {
+						.m(0);
+					}					
+				}
+				
+				&:before {
+					content:none;
+				}			
+			}
+		}		
+	}
+	
+	section.search {
+	
+		.week-next, week-prev {
+			.dn;
+		}
+		
+		.box-row {
+			.mb(20px);
+			
+			.box {
+				.w;
+				.pp(10px 15px);
+				.h(auto)!important;
+				
+				&:before {
+					content:none;
+				}	
+				
+				h2 {
+					.desktop {
+						.dn;
+					}	
+					
+					.mobile {
+						.dib;
+					}
+				}
+			}			
+			
+			.box.mobile {
+				.dib;
+			}
+			
+			.box.desktop {
+				.dn;
+			}			
+		
+			.results {
+				.pp(10px);
+				
+				.box {				
+					.person {
+						.w;
+						.pp(0);
+						
+						.name {
+							.w;
+							.pl(0);						
+						}
+					}
+					
+					.info {
+						.fl;
+						.w;
+						.mb(20px);
+						.pb(20px);
+						.bb(1px solid #e6e6e6);
+						
+						&:last-child {
+							.bb(0);
+						}	
+						
+						.address, .specialization, .calendar {
+							.pl(0);
+							
+							&:before {
+								content:none;
+							}	
+						}
+						
+						.address {
+							.dib;
+							.w;
+							
+							.cabinet {		
+								.w;									
+							}
+							
+							.specialization {
+								.pp(10px);
+								.bg(#FAFAFA);
+							}
+						}
+						
+						 .calendar {
+							.center;
+							.w;
+							
+							.box-event {
+								.pp(0 8px 5px 8px);
+							}
+						 }
+					}								
+				}			
+			}
+		}		
+	}
+	
+	
+	section.visit-timeline {
+		
+		.box-row {
+			
+			ul {	
+				.w;
+				.ml(0);
+				
+				li {
+					border-left-width:0;				
+					.pl(0px);
+					.pp(10px 0 15px 00px);
+				}
+			}
+
+			.date {
+				.absolute;
+				top:0;
+				left:0px;
+				.size(1.1em);
+				.w;
+				.pp(0);
+
+				.status {
+					.w(100px);
+					.fl;
+					.mb(0);
+					.center;
+				}
+
+				.day {
+					.size(2.5em);					
+					.ml(20px);
+				}
+
+				.month {
+					.dib;
+					.size(0.875em);
+
+					span {
+						.lh(15px);
+					}
+				}
+			}
+
+			.circle {
+				.dn;
+			}
+
+			.box {
+				.pp(15px);
+				.mt(40px);
+				
+				&:before, &:after {
+					content:none;					
+				}
+			
+				.address {
+					.db;
+					.w(90%);
+
+					a {
+						.size(2em);
+						.db;
+					}
+
+					p {
+						.db;
+						.w;
+						.mt(10px);
+					}
+				}
+				
+				.action {
+					top:0;
+					right:0px;
+					.w(auto);
+					.pp(4px 8px 4px 4px);
+					.radius(0px 6px 0px 5px)!important;
+				}
+			}
+		}
+	}
+	.widget-legend, .widget-min-calendar {
+		top:0;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	section#product-page {	
 		.size(14px);
@@ -6315,10 +6849,8 @@ section#regulations {
 }
 
 
-@media only screen and (min-width: 320px) and (max-width: 479px) {
-	body {
-		overflow:hidden!important;
-	}
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+
 	
 	.content {
 		.w(95%);
@@ -6329,7 +6861,8 @@ section#regulations {
 	}
 	
 	h2 {
-		.size(1.5em);
+		.size(1.4em);
+		font-weight:600;
 	}
 	
 	header {
@@ -6465,8 +6998,16 @@ section#regulations {
 	
 	section.cabinet {
 		.box-row {
+			.cabinet-name {
+				.specialization {
+					.add {
+						left:0;
+					}
+				}
+			}
+		
 			.box {
-				.pp(20px);
+				.pp(15px);
 				
 				.box-left { 
 					.w;
@@ -6492,9 +7033,79 @@ section#regulations {
 						.mb(20px);
 					}
 				}
+				
+				.name-company {
+					.fl;
+					.ml(10px);
+					.w(85%);
+					
+					span{
+						.w(88%);
+					}
+										
+					.delete {
+						float:none;
+						.dib;
+						top:2px;
+					}	
+				}
+				
+				.info-doctor {
+					.name-company {
+						.w;
+						
+						span {
+							.w;
+						}
+					}
+				}
+				
+				.open-hour {
+					ul {
+						li {
+							span.day {
+								.w;
+							}
+							
+							span.hour {
+								.w(93%);
+								.mt(5px);
+								.ml(0);
+								
+								 table {
+									.w(45%);
+								}
+							}
+							
+							.delete {
+								.mt(15px);
+							}
+						}
+						
+						span.hour { 
+						
+						}					
+					}				
+				}
+				
+				.treatments {
+					ul {
+						li {
+							.intervention {
+								
+								.delete {
+									.w(9%);									
+								}
+								
+								input {
+									.w(90%);
+								}
+							}
+						}
+					}				
+				}				
 			}
-		}
-	
+		}	
 	}
 	
 	
@@ -6505,11 +7116,23 @@ section#regulations {
 		}	
 		
 		.top-info {
+			.mt(-21px);
+			
 			.date {
 				.mt(60px);
 			}
 		}
+		.grid {
+			.event {
+				.w(49%);
+			}
+		}
 		
+		.amount {
+			ul {
+				.w;
+			}
+		}
 		.details-info-event, .details-info-edit {
 			.dib;
 			.w;
@@ -6524,7 +7147,7 @@ section#regulations {
 					.b(1px solid #e6e6e6);
 					.bg(#FFF);
 					.left;
-					.pp(20px);
+					.pp(15px);
 					.box-sizing;
 					.mt(10px);
 					.relative;
@@ -6633,13 +7256,17 @@ section#regulations {
 		}
 		
 		.details-info-edit {
+			.box.quick-contact{
+				.w;
+				
+			}	
 			
 			.box.day {
 				.h(343px);
 				overflow:auto;
 				.w;
 			}
-			
+					
 			.details-box {				
 				.w;
 				
@@ -6675,7 +7302,7 @@ section#regulations {
 				.w;
 				.bt(0px solid #e6e6e6);
 				.h(auto)!important;
-				.pp(10px 20px);
+				.pp(10px 15px);
 				
 				h2 {	
 					span {
@@ -6723,7 +7350,7 @@ section#regulations {
 			
 			.box {
 				.w;
-				.pp(10px 20px);
+				.pp(10px 15px);
 				.h(auto)!important;
 				
 				&:before {
@@ -6801,7 +7428,7 @@ section#regulations {
 							.w;
 							
 							.box-event {
-								.pp(0 10px 5px 10px);
+								.pp(0 8px 5px 8px);
 							}
 						 }
 					}								
@@ -6894,9 +7521,6 @@ section#regulations {
 			}
 		}
 	}
-	
-	
-	
 	
 	footer {
 		.content {
@@ -7143,9 +7767,7 @@ section#regulations {
 					}
 				}
 			}			
-		}
-		
+		}		
 	}
-
 }
 
