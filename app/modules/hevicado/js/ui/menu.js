@@ -29,7 +29,7 @@ angular.module('hevicado.ui').
     });
 
 /**
- * Show sub-options for menu items.
+ * Prepare main menu of the application
  * Note: function must be called directly when whole menu module is loaded.
  */
 angular.module('hevicado.ui').
@@ -110,5 +110,6 @@ angular.module('hevicado.ui').
 		});
 	}
 ]);
+
 
 
