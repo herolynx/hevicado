@@ -76,7 +76,7 @@ angular.module('hevicado.ui').
                         $(this).siblings().find('ul.subpage').slideUp(200);
                         $(this).siblings('.active').toggleClass('active');
                     });
-                } else if ($(window).width() > 1024) {
+                } else if ($(window).width() > 1025) {
                     $log.debug('Preparing menu for: desktop');
                     console.info('desktop menu')
                     $("nav li, footer li").hover(
