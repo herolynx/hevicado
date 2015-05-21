@@ -44,7 +44,7 @@ angular.module('hevicado.ui').
                     $('.open-menu').click(function (e) {
                         e.stopPropagation();
                         if ($('.open-menu').hasClass('small-opened')) {
-                            $('.product').animate({right: 0}, "slow");
+                            $('nav').animate({right: 0}, "slow");
                             $('#page').animate({right: 140}, "slow").addClass('disable');
                             $('header').animate({right: 140}, "slow");
                             $(this).removeClass('small-opened');
@@ -53,30 +53,30 @@ angular.module('hevicado.ui').
                     });
                     $('html, body').click(function () {
                         if ($('.open-menu').hasClass('close-menu')) {
-                            $('.product').animate({right: -140}, "slow");
+                            $('nav').animate({right: -140}, "slow");
                             $('#page').animate({right: 0}, "slow").removeClass('disable');
                             $('header').animate({right: 0}, "slow");
                             $('.open-menu').addClass('small-opened');
                             $('.open-menu').removeClass('close-menu');
                         }
                     });
-                } else if ($(window).width() > 768 && $(window).width() < 1024) {
+                } else if ($(window).width() <= 768 && $(window).width() < 1024) {
                     $log.debug('Preparing menu for: tablet');
                     console.info('tablet menu')
                     $timeout(function () {
-                        $("nav.product li.parrent").each(function () {
-                            $(this).find('a.test').filter(":first").removeAttr('href');
+                        $("nav li.parrent").each(function () {
+                            $(this).find('a.url').filter(":first").removeAttr('href');
                         });
                     }, 2000);
 
-                    $('nav.product li.parrent').on('click.a', function (e) {
+                    $('nav li.parrent').on('click.a', function (e) {
                         e.preventDefault();
-                        $(this).find('ul').slideToggle(200);
+                        $(this).find('ul.subpage').slideToggle(200);
                         $(this).toggleClass('active');
-                        $(this).siblings().find('ul').slideUp(200);
+                        $(this).siblings().find('ul.subpage').slideUp(200);
                         $(this).siblings('.active').toggleClass('active');
                     });
-                } else if ($(window).width() > 1025) {
+                } else if ($(window).width() > 1024) {
                     $log.debug('Preparing menu for: desktop');
                     console.info('desktop menu')
                     $("nav li, footer li").hover(

@@ -6,10 +6,6 @@
                 <img src="images/logo.png" alt="Hevicado">
 				<div class="beta">Beta</div>
             </a>
-			
-			<div class="rwd">
-				{{'generic.responsive-warning' | translate}}
-			</div>
         </h2>
 		
 		<div class="open-menu small-opened">
@@ -29,8 +25,8 @@
         </permission>
 
 
-        <nav class="product">
-			 <permission roles="guest">
+        <nav>
+			 <permission roles="guest" class="nav-main">
 			<ul>
 				<li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
 				<li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
@@ -41,7 +37,7 @@
 			</ul>
 
 			</permission>
-            <permission roles="user,doctor">
+            <permission roles="user,doctor" class="nav-doctor">
                 <ul>
                     <li>
                         <a ui-sref="user-visits">
@@ -51,7 +47,7 @@
                     </li>
                     <li class="parrent">
                         <permission roles="doctor">
-                            <a ui-sref="calendar-week" class="test">
+                            <a ui-sref="calendar-week" class="url">
                                 <i class="icon-calendar"></i>
                                 {{'menu.calendar' | translate}}
                             </a>
