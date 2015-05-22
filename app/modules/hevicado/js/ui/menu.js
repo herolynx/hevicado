@@ -44,7 +44,7 @@ angular.module('hevicado.ui').
                     $('.open-menu').click(function (e) {
                         e.stopPropagation();
                         if ($('.open-menu').hasClass('small-opened')) {
-                            $('nav').animate({right: 0}, "slow");
+                            $('nav.nav').animate({right: 0}, "slow");
                             $('#page').animate({right: 140}, "slow").addClass('disable');
                             $('header').animate({right: 140}, "slow");
                             $(this).removeClass('small-opened');
@@ -53,7 +53,7 @@ angular.module('hevicado.ui').
                     });
                     $('html, body').click(function () {
                         if ($('.open-menu').hasClass('close-menu')) {
-                            $('nav').animate({right: -140}, "slow");
+                            $('nav.nav').animate({right: -140}, "slow");
                             $('#page').animate({right: 0}, "slow").removeClass('disable');
                             $('header').animate({right: 0}, "slow");
                             $('.open-menu').addClass('small-opened');
