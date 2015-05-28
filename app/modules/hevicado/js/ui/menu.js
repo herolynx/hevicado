@@ -39,6 +39,7 @@ angular.module('hevicado.ui').
 
             var prepareMenu = function () {
                 $log.debug('Windows width: ' + $(window).width());
+                console.info('Windows width: ' + $(window).width());
                 var mobileMaxWidth = 767;
                 var tabletMaxWidth = 1024;
                 if ($(window).width() <= mobileMaxWidth) {
@@ -66,10 +67,12 @@ angular.module('hevicado.ui').
                 } else if ($(window).width() > mobileMaxWidth && $(window).width() <= tabletMaxWidth) {
                     $log.debug('Preparing menu for: tablet');
                     console.info('tablet menu')
-                    $timeout(function () {
+                    var removeFirstPromise = $timeout(function () {
                         $("nav li.parrent").each(function () {
                             $(this).find('a.url').filter(":first").removeAttr('href');
                         });
+                        $timeout.cancel(removeFirstPromise);
+                        removeFirstPromise == undefined;
                     }, 2000);
 
                     $('nav li.parrent').on('click.a', function (e) {
