@@ -38,7 +38,10 @@ angular.module('hevicado.ui').
         function ($rootScope, $timeout, $log) {
 
             var prepareMenu = function () {
-                if ($(window).width() <= 767) {
+                $log.debug('Windows width: ' + $(window).width());
+                var mobileMaxWidth = 767;
+                var tabletMaxWidth = 1024;
+                if ($(window).width() <= mobileMaxWidth) {
                     $log.debug('Preparing menu for: mobile');
                     console.info('mobile menu')
                     $('.open-menu').click(function (e) {
@@ -60,7 +63,7 @@ angular.module('hevicado.ui').
                             $('.open-menu').removeClass('close-menu');
                         }
                     });
-                } else if ($(window).width() <= 768 && $(window).width() < 1024) {
+                } else if ($(window).width() > mobileMaxWidth && $(window).width() <= tabletMaxWidth) {
                     $log.debug('Preparing menu for: tablet');
                     console.info('tablet menu')
                     $timeout(function () {
@@ -76,7 +79,7 @@ angular.module('hevicado.ui').
                         $(this).siblings().find('ul.subpage').slideUp(200);
                         $(this).siblings('.active').toggleClass('active');
                     });
-                } else if ($(window).width() > 1025) {
+                } else if ($(window).width() > tabletMaxWidth) {
                     $log.debug('Preparing menu for: desktop');
                     console.info('desktop menu')
                     $("nav li, footer li").hover(
