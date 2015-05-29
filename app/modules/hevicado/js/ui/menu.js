@@ -127,12 +127,12 @@ angular.module('hevicado.ui')
 
                 init: function () {
                     if (MenuConfig.isTablet() && !this.active) {
-                        $log.info('Activating tablet menu');
+                        $log.debug('Activating tablet menu');
                         $('nav li.parrent').on('click', this.openSubMenu);
                         this.active = true;
                     }
                     if (!MenuConfig.isTablet() && this.active) {
-                        $log.info('Deactivating tablet menu');
+                        $log.debug('Deactivating tablet menu');
                         $('nav li.parrent').off('click', this.openSubMenu);
                         this.active = false;
                     }
@@ -166,12 +166,12 @@ angular.module('hevicado.ui')
 
                 init: function () {
                     if (MenuConfig.isDesktop() && !this.active) {
-                        $log.info('Activating desktop menu');
+                        $log.debug('Activating desktop menu');
                         $('nav li.parrent').on('click', this.openSubMenu);
                         this.active = true;
                     }
                     if (!MenuConfig.isDesktop() && this.active) {
-                        $log.info('Deactivating desktop menu');
+                        $log.debug('Deactivating desktop menu');
                         $('nav li.parrent').off('click', this.openSubMenu);
                         this.active = false;
                     }
@@ -183,14 +183,6 @@ angular.module('hevicado.ui')
                     $(this).toggleClass('active');
                     $(this).siblings().find('ul.subpage').slideUp(200);
                     $(this).siblings('.active').toggleClass('active');
-                },
-
-                closeSubMenu: function () {
-                    $(this).find('ul.subpage').stop(true, true).animate({
-                        left: '0px',
-                        opacity: '0',
-                        top: '0px'
-                    }, 800);
                 }
 
             };
