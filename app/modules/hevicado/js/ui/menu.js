@@ -29,83 +29,192 @@ angular.module('hevicado.ui').
     });
 
 /**
- * Prepare main menu of the application
+ * Menu configuration that decides what type of menu should be served for what type of resolutions
+ */
+angular.module('hevicado.ui')
+    .service('MenuConfig', function () {
+
+        return {
+
+            mobileMaxWidth: 767,
+
+            tabletMaxWidth: 1024,
+
+            isMobile: function () {
+                return $(window).width() <= this.mobileMaxWidth;
+            },
+
+            isTablet: function () {
+                return $(window).width() > this.mobileMaxWidth && $(window).width() <= this.tabletMaxWidth;
+            },
+
+            isDesktop: function () {
+                return $(window).width() > this.tabletMaxWidth;
+            }
+
+        };
+
+    });
+
+/**
+ * Controller of mobile menu that will be activated/deactivated
+ * based on provided menu configuration
+ */
+angular.module('hevicado.ui')
+    .service('MobileMenu',
+    ['MenuConfig', '$log',
+        function (MenuConfig, $log) {
+
+            return {
+
+                active: false,
+
+                init: function () {
+                    if (MenuConfig.isMobile() && !this.active) {
+                        $log.debug('Activating mobile menu');
+                        $('.open-menu').on('click', this.openMenu);
+                        $('html, body').on('click', this.closeMenu);
+                        this.active = true;
+                    }
+                    if (!MenuConfig.isMobile() && this.active) {
+                        $log.debug('Deactivating mobile menu');
+                        $('.open-menu').off('click', this.openMenu);
+                        $('html, body').off('click', this.closeMenu);
+                        //close in case when mobile-menu is still opened
+                        this.closeMenu();
+                        this.active = false;
+                    }
+                },
+
+                openMenu: function (e) {
+                    e.stopPropagation();
+                    if ($('.open-menu').hasClass('small-opened')) {
+                        $('nav.nav').animate({right: 0}, "slow");
+                        $('#page').animate({right: 140}, "slow").addClass('disable');
+                        $('header').animate({right: 140}, "slow");
+                        $(this).removeClass('small-opened');
+                        $(this).addClass('close-menu');
+                    }
+                },
+
+                closeMenu: function () {
+                    if ($('.open-menu').hasClass('close-menu')) {
+                        $('nav.nav').animate({right: -140}, "slow");
+                        $('#page').animate({right: 0}, "slow").removeClass('disable');
+                        $('header').animate({right: 0}, "slow");
+                        $('.open-menu').addClass('small-opened');
+                        $('.open-menu').removeClass('close-menu');
+                    }
+                }
+
+            };
+
+        }
+    ]);
+
+/**
+ * Controller of tablet menu that will be activated/deactivated
+ * based on provided menu configuration
+ */
+angular.module('hevicado.ui')
+    .service('TabletMenu',
+    ['MenuConfig', '$log', '$timeout',
+        function (MenuConfig, $log, $timeout) {
+
+            return {
+
+                active: false,
+
+                init: function () {
+                    if (MenuConfig.isTablet() && !this.active) {
+                        $log.info('Activating tablet menu');
+                        $('nav li.parrent').on('click', this.openSubMenu);
+                        this.active = true;
+                    }
+                    if (!MenuConfig.isTablet() && this.active) {
+                        $log.info('Deactivating tablet menu');
+                        $('nav li.parrent').off('click', this.openSubMenu);
+                        this.active = false;
+                    }
+                },
+
+                openSubMenu: function (e) {
+                    e.preventDefault();
+                    $(this).find('ul.subpage').slideToggle(200);
+                    $(this).toggleClass('active');
+                    $(this).siblings().find('ul.subpage').slideUp(200);
+                    $(this).siblings('.active').toggleClass('active');
+                }
+
+            };
+
+        }
+    ]);
+
+/**
+ * Controller of desktop menu that will be activated/deactivated
+ * based on provided menu configuration
+ */
+angular.module('hevicado.ui')
+    .service('DesktopMenu',
+    ['MenuConfig', '$log',
+        function (MenuConfig, $log) {
+
+            return {
+
+                active: false,
+
+                init: function () {
+                    if (MenuConfig.isDesktop() && !this.active) {
+                        $log.info('Activating desktop menu');
+                        $("nav li, footer li").hover(this.openSubMenu, this.closeSubMenu);
+                        this.active = true;
+                    }
+                    if (!MenuConfig.isDesktop() && this.active) {
+                        $log.info('Deactivating desktop menu');
+                        $("nav li, footer li").unbind('mouseenter mouseleave');
+                        this.active = false;
+                    }
+                },
+
+                openSubMenu: function () {
+                    $(this).find('ul.subpage').stop(true, true).animate({
+                        left: '0px',
+                        opacity: '1',
+                        top: '0px'
+                    }, 800);
+                },
+
+                closeSubMenu: function () {
+                    $(this).find('ul.subpage').stop(true, true).animate({
+                        left: '0px',
+                        opacity: '0',
+                        top: '0px'
+                    }, 800);
+                }
+
+            };
+
+        }
+    ]);
+
+
+/**
+ * Logic controls initialization of menu for proper device.
  * Note: function must be called directly when whole menu module is loaded.
  */
 angular.module('hevicado.ui').
     run(
-    ['$rootScope', '$timeout', '$log',
-        function ($rootScope, $timeout, $log) {
+    ['$rootScope', '$timeout', '$log', 'MenuConfig', 'DesktopMenu', 'TabletMenu', 'MobileMenu',
+        function ($rootScope, $timeout, $log, MenuConfig, DesktopMenu, TabletMenu, MobileMenu) {
 
-            var prepareMenu = function () {
-                $log.debug('Windows width: ' + $(window).width());
-                console.info('Windows width: ' + $(window).width());
-                var mobileMaxWidth = 767;
-                var tabletMaxWidth = 1024;
-                if ($(window).width() <= mobileMaxWidth) {
-                    $log.debug('Preparing menu for: mobile');
-                    console.info('mobile menu')
-                    $('.open-menu').click(function (e) {
-                        e.stopPropagation();
-                        if ($('.open-menu').hasClass('small-opened')) {
-                            $('nav.nav').animate({right: 0}, "slow");
-                            $('#page').animate({right: 140}, "slow").addClass('disable');
-                            $('header').animate({right: 140}, "slow");
-                            $(this).removeClass('small-opened');
-                            $(this).addClass('close-menu');
-                        }
-                    });
-                    $('html, body').click(function () {
-                        if ($('.open-menu').hasClass('close-menu')) {
-                            $('nav.nav').animate({right: -140}, "slow");
-                            $('#page').animate({right: 0}, "slow").removeClass('disable');
-                            $('header').animate({right: 0}, "slow");
-                            $('.open-menu').addClass('small-opened');
-                            $('.open-menu').removeClass('close-menu');
-                        }
-                    });
-                } else if ($(window).width() > mobileMaxWidth && $(window).width() <= tabletMaxWidth) {
-                    $log.debug('Preparing menu for: tablet');
-                    console.info('tablet menu')
-                    var removeFirstPromise = $timeout(function () {
-                        $("nav li.parrent").each(function () {
-                            $(this).find('a.url').filter(":first").removeAttr('href');
-                        });
-                        $timeout.cancel(removeFirstPromise);
-                        removeFirstPromise == undefined;
-                    }, 2000);
+            var devices = [MobileMenu, DesktopMenu, TabletMenu];
 
-                    $('nav li.parrent').on('click.a', function (e) {
-                        e.preventDefault();
-                        $(this).find('ul.subpage').slideToggle(200);
-                        $(this).toggleClass('active');
-                        $(this).siblings().find('ul.subpage').slideUp(200);
-                        $(this).siblings('.active').toggleClass('active');
-                    });
-                } else if ($(window).width() > tabletMaxWidth) {
-                    $log.debug('Preparing menu for: desktop');
-                    console.info('desktop menu')
-                    $("nav li, footer li").hover(
-                        function () {
-                            $(this).find('ul.subpage').stop(true, true).animate({
-                                left: '0px',
-                                opacity: '1',
-                                top: '0px'
-                            }, 800);
-                        }, function () {
-                            $(this).find('ul.subpage').stop(true, true).animate({
-                                left: '0px',
-                                opacity: '0',
-                                top: '0px'
-                            }, 800);
-                        }
-                    );
-                }
-            };
-
-            //show menu once page is loaded
+            // show menu
             var showMenuPromise = $timeout(function () {
-                prepareMenu();
+                _.map(devices, function (device) {
+                    device.init();
+                });
                 if (showMenuPromise !== undefined) {
                     $timeout.cancel(showMenuPromise);
                     showMenuPromise == undefined;
@@ -114,9 +223,12 @@ angular.module('hevicado.ui').
 
             //refresh menu
             $(window).resize(function () {
-                prepareMenu();
+                _.map(devices, function (device) {
+                    device.init();
+                });
             });
         }
+
     ]);
 
 
