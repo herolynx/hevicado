@@ -20,8 +20,6 @@
                         event="event"
                         quarter-amount="quarters.length"
                         quarter-length="quarterLength"
-                        ui-resizable
-                        ui-on-resize="dndChangeTime($event, $ui, event)"
                         ui-draggable="true"
                         drag="event"
                         drag-channel="dndDayChannel"
@@ -32,10 +30,9 @@
                                 <i class="icon-trash"></i>
                             </a>
                         </div>
-                        {{event.start | date: "HH:mm"}} - {{event.end | date: "HH:mm"}}
+                        <div ng-click="editEvent(event)">{{event.title | label:'templates' | translate}}</div>
                     </div>
                     <div class="describe" ng-click="editEvent(event)">
-                        {{event.title | label:'templates' | translate}}<br/>
                         {{event.description}}
                     </div>
                 </calendar-table-event>
