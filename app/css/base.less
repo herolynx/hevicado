@@ -1417,6 +1417,7 @@ section.calendar {
 							.ml(1%);
 							.b(0px);
 							.dib;
+							.relative;
 							vertical-align:middle;
 							
 							input {
@@ -1650,7 +1651,8 @@ section.calendar {
 						}
 
 						fieldset {
-						
+							.relative;
+							
 							textarea {
 								resize:none;
 								.w;
@@ -1848,6 +1850,7 @@ section.registration {
 					label, fieldset {
 						.fl;
 						.w;
+						.relative;
 					}
 
 					label {
@@ -1975,6 +1978,7 @@ section.login {
 					label, fieldset {
 						.fl;
 						.w;
+						.relative;
 					}
 
 					label {
@@ -1983,7 +1987,7 @@ section.login {
 					}
 		
 					fieldset {
-
+						
 						input {
 							.w;
 							.h(35px);
@@ -2296,6 +2300,7 @@ section.cabinet {
 							fieldset {
 								.fl;
 								.w;
+								.relative;
 								
 								span {
 									.fl;
@@ -2672,11 +2677,12 @@ section.cabinet {
 			
 			.color {
 				.fl;				
-				.b(1px solid #f5f6f7);
 				.pp(3px);
 				.w(auto);
 				.relative!important;
-								
+				.bg(none);
+				.b(0);
+				
 				span {
 					.w(25px);
 					.h(25px);
@@ -3214,6 +3220,7 @@ section.search {
 					label, fieldset {
 						.fl;
 						.w;
+						.relative;
 					}
 
 					label {
@@ -4310,6 +4317,7 @@ ul.dropdown-menu {
 	.radius(5px);	
 	.mb(0);
 	top:35px;
+	.mt(0)!important;
 	
 	li {
 		.m(0)!important;
@@ -4347,14 +4355,16 @@ ul.dropdown-menu {
   white-space: nowrap;
 }
 
-
+.dropdown-menu > li:hover {
+	.c(#FFF);
+}
 .dropdown-menu > li > a:hover {	
 	-webkit-transition: all 0ms ease-in-out;
 	-moz-transition: all 0ms ease-in-out;
 	-ms-transition: all 0ms ease-in-out;
 	-o-transition: all 0ms ease-in-out;
 	transition: all 0ms ease-in-out;
-	.bg(red);
+	.c(#FFF);
 }
 .dropdown-menu > li > a:focus {
   color: #000;
@@ -4426,7 +4436,7 @@ ul.dropdown-menu {
 }
 
 ul.dropdown-menu.ng-valid.ng-valid-date.ng-valid-date-disabled {
-	top:117px!important;
+	top:41px!important;
 	.b(0);
 	
 	li {
