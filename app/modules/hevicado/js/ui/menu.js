@@ -36,7 +36,7 @@ angular.module('hevicado.ui')
 
         return {
 
-            mobileMaxWidth: 767,
+            mobileMaxWidth: 750,
 
             tabletMaxWidth: 1024,
 
