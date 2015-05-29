@@ -167,22 +167,22 @@ angular.module('hevicado.ui')
                 init: function () {
                     if (MenuConfig.isDesktop() && !this.active) {
                         $log.info('Activating desktop menu');
-                        $("nav li, footer li").hover(this.openSubMenu, this.closeSubMenu);
+                        $('nav li.parrent').on('click', this.openSubMenu);
                         this.active = true;
                     }
                     if (!MenuConfig.isDesktop() && this.active) {
                         $log.info('Deactivating desktop menu');
-                        $("nav li, footer li").unbind('mouseenter mouseleave');
+                        $('nav li.parrent').off('click', this.openSubMenu);
                         this.active = false;
                     }
                 },
 
-                openSubMenu: function () {
-                    $(this).find('ul.subpage').stop(true, true).animate({
-                        left: '0px',
-                        opacity: '1',
-                        top: '0px'
-                    }, 800);
+                openSubMenu: function (e) {
+                    e.preventDefault();
+                    $(this).find('ul.subpage').slideToggle(200);
+                    $(this).toggleClass('active');
+                    $(this).siblings().find('ul.subpage').slideUp(200);
+                    $(this).siblings('.active').toggleClass('active');
                 },
 
                 closeSubMenu: function () {

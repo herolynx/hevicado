@@ -467,8 +467,9 @@ header {
 				.absolute;
 				left:0;
 				.bg(#FFF);
-				opacity:0;
 				z-index:2;
+				.dn;
+				.pt(10px);
 				
 				li {
 					.dib;
@@ -5519,7 +5520,6 @@ section#regulations {
 				}
 				
 				ul.subpage {
-					opacity:1;
 					.dn;
 					.pt(10px);
 				}
@@ -5759,7 +5759,6 @@ section#regulations {
 				
 				ul.subpage {
 					.dn;
-					opacity:1;
 					.pt(10px);
 				}
 			}
@@ -6272,9 +6271,10 @@ section#regulations {
 				ul.subpage {
 					.mt(5px);
 					.relative;
-					opacity:1!important;		
+					.dib;
 					.bg(none);
 					top:0!important;
+					.pt(5px);
 					
 					li {
 						.b(0);				
@@ -6343,10 +6343,20 @@ section#regulations {
 		.open-menu {
 			top:26px;
 		}	
+
+		nav { 
+			ul {
+				li { 
+					ul.subpage {
+						top:0!important; 
+							li:first-child {
+								.pt(0)!important;
+						}
+					}
+				}
+			}
+		}
 		
-		nav.product {
-			.mt(0);
-		}	
 		
 		nav.log_reg {	
 			top:0px;
