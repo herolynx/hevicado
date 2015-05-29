@@ -211,14 +211,10 @@ angular.module('hevicado.ui').
             var devices = [MobileMenu, DesktopMenu, TabletMenu];
 
             // show menu
-            var showMenuPromise = $timeout(function () {
+            $timeout(function () {
                 _.map(devices, function (device) {
                     device.init();
                 });
-                if (showMenuPromise !== undefined) {
-                    $timeout.cancel(showMenuPromise);
-                    showMenuPromise == undefined;
-                }
             }, 500);
 
             //refresh menu
