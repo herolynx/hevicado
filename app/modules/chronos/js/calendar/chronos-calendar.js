@@ -10,7 +10,8 @@ angular.module('chronos.calendar', [
     'users.commons.filters',
     'ui.dnd',
     'ui.elements',
-    'ui.notifications'
+    'ui.notifications',
+    'ngTouch'
 ]);
 
 
