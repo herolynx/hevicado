@@ -18,7 +18,7 @@
                 </a>
             </div>
             <!-- Pagination Calendar Next, Prev -->
-            <div class="grid">
+            <div class="grid" ng-swipe-right="swipe(-1)" ng-swipe-left="swipe(1)">
                 <div ng-repeat="day in days" class="event">
                     <a class="link"
                        ui-sref="calendar-day.daily({ doctorId: doctorId, currentDate: day.toString('yyyy-MM-dd') })"></a>

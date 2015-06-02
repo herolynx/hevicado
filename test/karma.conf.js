@@ -22,6 +22,7 @@ module.exports = function (config) {
             'app/bower_components/angular-bootstrap/ui-bootstrap.js',
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/bower_components/angular-ui-sortable/sortable.js',
+            'app/bower_components/angular-touch/angular-touch.js',
             'app/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
             'app/bower_components/ngmap/build/scripts/ng-map.js',
             'app/bower_components/angular-no-captcha/src/angular-no-captcha.js',

@@ -240,6 +240,21 @@ angular.module('chronos.calendar').
             };
 
             /**
+             * Handle swipe gesture on touch device and change time period accordingly
+             * @param direction shift direction (1 next, -1 prev, 0 current)
+             */
+            $scope.swipe = function (direction) {
+                $log.debug('Swipe - direction: ' + direction + ', view type: ' + $scope.viewType);
+                if ($scope.viewType == 31) {
+                    $scope.month(direction);
+                } else if ($scope.viewType == 7) {
+                    $scope.week(direction);
+                } else {
+                    $scope.day(direction);
+                }
+            };
+
+            /**
              * Open/close date-picker
              */
             $scope.showDatePicker = function ($event) {
