@@ -54,7 +54,8 @@
                             <ul class="subpage">
                                 <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })" translate>menu.calendar-daily</a>
                                 </li>
-                                <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
+                                <li show-on-device mobile='false'>
+                                    <a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
                                 </li>
                                 <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })" translate>menu.calendar-monthly</a>
                                 </li>

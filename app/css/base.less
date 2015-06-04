@@ -1509,7 +1509,11 @@ section.calendar {
 					.mt(20px);
 				}
 			}
-		}	
+		}
+
+		.right-action {
+			.dn;
+		}
 	}
 	
 	.details-info-edit {
@@ -1862,8 +1866,8 @@ section.registration {
 						.relative;
 						
 						.error {
-							.absolute;
-							bottom:-15px;							
+							.relative;
+							.dib;					
 						}
 						
 						input {
@@ -2368,6 +2372,10 @@ section.cabinet {
 							}
 						}
 						
+						.error {
+							.fl;
+							.w;
+						}
 						
 						.delete {
 							.fl;
@@ -2484,6 +2492,8 @@ section.cabinet {
 								text-shadow:none;
 								.m(0 2px);
 								.dib;
+								.relative;
+								top:-12px;
 								
 								.delete {
 									.dib;
@@ -2586,14 +2596,13 @@ section.cabinet {
 							.fl;
 							.w;
 							.ml(0);
-							.h(45px);
+							.h(55px);
 							
 							.add-time {
 								float:none;
 								.w(auto);
-								.dib;
-								.relative;
-								top:11px;
+								.dib;							
+								.mt(10px);
 								
 								input {
 									.w(50px);
@@ -2613,9 +2622,9 @@ section.cabinet {
 								
 								small {
 									.absolute;
-									left:-78%;
-									.w(179%);
-									bottom:-17px;
+									left:0;
+									.w;
+									bottom:0px;
 								}
 							}
 						}
@@ -2835,14 +2844,14 @@ section.visit-timeline {
 			}
 
 			.month {
-				.dib;
-				.size(12px);
+				.dib;				
 
 				span {
 					.w;
 					.db;
 					.c(#000);
 					font-weight:600;
+					.size(15px);
 				}
 			}
 		}
@@ -4326,6 +4335,7 @@ ul.dropdown-menu {
 		.db!important;
 		float:none!important;
 		.pp(4px 10px)!important;
+		.left;
 		
 		&:hover {
 			.bg(@turquoise);
@@ -4519,6 +4529,7 @@ ul.dropdown-menu.ng-valid.ng-valid-date.ng-valid-date-disabled {
 		.mb(10px);
 		.fl;
 		.w;
+		.size(14px);
 	}
 	
 	a {
@@ -5497,7 +5508,7 @@ section#regulations {
 	}
 }
 
-@media (min-width: 992px)  and (max-width: 1024px) {
+@media screen and (min-width: 992px)  and (max-width: 1024px) {
 
 	h2 {
 		.size(23px);
@@ -5728,7 +5739,7 @@ section#regulations {
 }
 
 
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+@media screen and(min-width: 768px) and (max-width: 991px) {
 
 	h1 {
 		.size(44px);
@@ -6218,8 +6229,10 @@ section#regulations {
 
 
 
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-
+@media screen and (min-width: 320px) and (max-width: 767px) {
+	body {
+		.size(15px)!important;
+	}
 	
 	.content {
 		.minw(270px);
@@ -6234,6 +6247,10 @@ section#regulations {
 	h2 {
 		.size(20px);
 		font-weight:600;
+	}
+	
+	input, textarea, .btn-primary {
+		.size(15px);
 	}
 	
 	header {
@@ -6431,7 +6448,7 @@ section#regulations {
 		.size(21px);
 		.lh(33px);
 	}
-		
+
 	section.cabinet {
 		.box-row {
 			.cabinet-name {
@@ -6484,7 +6501,7 @@ section#regulations {
 					.w(74%);
 					
 					span{
-						.w(89%);
+						.w(88%);
 					}
 										
 					.delete {
@@ -6501,7 +6518,7 @@ section#regulations {
 						span {
 							.w;
 						}
-					}
+					}					
 				}
 				
 				.open-hour {
@@ -6512,14 +6529,13 @@ section#regulations {
 						
 						li {
 							span.day {
-								.w;
+								.w(auto);
 							}
 							
 							span.hour {
-								.w(93%);
-								.mt(5px);
-								.ml(0);
-								
+								.w(auto);
+								.m(0 0 0 10px);
+									
 								 table {
 									.w(45%);
 								}
@@ -6531,7 +6547,7 @@ section#regulations {
 						}										
 					}				
 				}
-				
+
 				.treatments {
 					ul {
 						li {
@@ -6543,6 +6559,12 @@ section#regulations {
 								
 								input {
 									.w(90%);
+								}
+							}
+							
+							.time {
+								span {
+									top:0;
 								}
 							}
 						}
@@ -6645,19 +6667,22 @@ section#regulations {
 							.w;
 							.mb(10px)!important;
 																		
-							label {
-								.w(28%);
+							label {	
+								.w;
 								.b(0px);
 								vertical-align:middle;
 								.dib;
+								.bold;
+								.mb(8px);
 							}
 
 							fieldset {
-								.w(69%);
-								.ml(1%);
+								.w;
+								.ml(0);
 								.b(0px);
 								.dib;
 								vertical-align:middle;
+								.lh(24px);
 								
 								input {
 									.w;
@@ -6739,12 +6764,19 @@ section#regulations {
 				.ml(0)!important;
 				
 				.notes {
+					
+					ul {
+						li {
+							.m(0);
+						}
+					}
+				
 					.left, .right {
 						.w;
 					}
 					
 					.right {
-						.mt(20px);
+						.mt(-45px);
 						.ml(0);
 					}
 					
@@ -6754,6 +6786,17 @@ section#regulations {
 								.w;
 							}
 						}	
+					}
+					
+					.buttons {
+						.dn;
+					}
+					
+					.right-action {
+						.dib;
+						.w;
+						.center;
+						.mt(20px);
 					}
 				}
 			}		
@@ -6933,6 +6976,7 @@ section#regulations {
 					.fl;
 					.mb(0);
 					.center;
+					.size(14px);
 				}
 
 				.day {
@@ -6942,7 +6986,7 @@ section#regulations {
 
 				.month {
 					.dib;
-					.size(12px);
+					.size(15px);
 
 					span {
 						.lh(15px);

@@ -219,5 +219,28 @@ angular.module('hevicado.ui').
 
     ]);
 
+/**
+ * Directive controls displaying of an element on chosen devices.
+ * Note: refresh is not supported at the moment.
+ */
+angular.module('hevicado.ui')
+    .directive('showOnDevice',
+    ['MenuConfig', '$log',
+        function (MenuConfig, $log) {
 
+            return {
+                restrict: 'A',
+                template: '',
+                scope: {
+                    mobile: '='
+                },
+                link: function ($scope, elm, attrs) {
+                    if (MenuConfig.isMobile() && !$scope.mobile) {
+                        elm.detach();
+                    }
+                }
+            };
+
+        }
+    ]);
 

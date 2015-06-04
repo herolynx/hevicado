@@ -29,14 +29,15 @@
                                            placeholder="{{'generic.email' | translate}}"
                                            ng-model="user.email"
                                            ng-minlength="5"
-                                           required>
+                                           required>										   
+										<small class="error" ng-show="userForm.email.$error.minlength" translate>
+											registration.validation.length-email
+										</small>
+										<small class="error" ng-show="userForm.email.$error.email" translate>
+											registration.validation.wrong-email
+										</small>
                                 </fieldset>
-                                <small class="error" ng-show="userForm.email.$error.minlength" translate>
-                                    registration.validation.length-email
-                                </small>
-                                <small class="error" ng-show="userForm.email.$error.email" translate>
-                                    registration.validation.wrong-email
-                                </small>
+                               
                             </li>
                             <li>
                                 <fieldset>

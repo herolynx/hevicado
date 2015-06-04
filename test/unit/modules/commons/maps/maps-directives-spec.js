@@ -59,8 +59,8 @@ describe('commons.maps.directives-spec:', function () {
                 {
                     geometry: {
                         location: {
-                            k: 666.66,
-                            D: 69.69
+                            A: 666.66,
+                            F: 69.69
                         }
                     }
                 }
