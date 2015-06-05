@@ -1,0 +1,9 @@
+[hevi-local]
+vm1 ansible_ssh_host=192.168.1.101  ansible_connection=ssh  ansible_ssh_user=root
+#vm1 ansible_ssh_host=192.168.0.104  ansible_connection=ssh  ansible_ssh_user=user
+
+[all:children]
+hevi-local
+
+[hevi-local:vars]
+env=dev

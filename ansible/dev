@@ -1,0 +1,8 @@
+[hevi-dev]
+hevi-dev-fr-1  ansible_connection=ssh  ansible_ssh_user=root
+
+[all:children]
+hevi-dev
+
+[hevi-dev:vars]
+env=dev

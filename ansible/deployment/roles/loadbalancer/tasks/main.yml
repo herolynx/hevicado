@@ -1,0 +1,93 @@
+---
+
+- name: Create loadbalancer html directory
+  file: path={{ html_dir }} state=directory mode="u=rwx,g=xr,o=x"
+  tags:
+    - loadbalancer
+    - deploy
+
+- name: Create loadbalancer config directory
+  file: path={{ config_dir }} state=directory mode="u=rwx,g=xr,o=x"
+  tags:
+    - loadbalancer
+    - deploy
+
+- name: Create loadbalancer log directory
+  file: path={{ log_dir }} state=directory mode="u=rwx,g=rwx,o=rx"
+  tags:
+    - loadbalancer
+    - deploy
+
+- name: Create loadbalancer SSL directory
+  file: path={{ cert_dir }} state=directory mode="u=rx,g=r,o=r"
+  tags:
+    - loadbalancer
+    - deploy
+
+- name: Copy loadbalancer error page for unhandled 40x errors
+  template: src=40x.html dest={{ html_dir }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer error page for unhandled 50x errors
+  template: src=50x.html dest={{ html_dir }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer configuration
+  template: src=default.conf dest={{ config_dir }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer SSL certificate
+  copy: src={{ env }}.crt dest={{ cert_dir }}/{{ app_name }}.crt mode="u=rx,g=rx,o=rx"
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer SSL public key
+  copy: src={{ env }}.key dest={{ cert_dir }}/{{ app_name }}.key mode="u=rx,g=rx,o=rx"
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Stop loadbalancer docker containers
+  tags:
+    - loadbalancer
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ nginx_image }}"
+    state: stopped
+  with_items: lb_instances
+
+- name: Start loadbalancer using docker
+  tags:
+    - loadbalancer
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item[0].name }}"
+    image: "{{ nginx_image }}"
+    state: reloaded
+    restart_policy: always
+    links:
+    - "{{ item[1].name }}:{{ item[1].name }}"
+    - "{{ item[2].name }}:{{ item[2].name }}"
+    ports:
+    - "{{ item[0].http_port }}:{{ http_port }}"
+    - "{{ item[0].https_port }}:{{ https_port }}"
+    volumes:
+    - "{{ html_dir }}:{{ nginx_html_dir }}"
+    - "{{ config_dir }}:{{ nginx_config_dir }}"
+    - "{{ log_dir }}:/var/log/nginx"
+    - "{{ cert_dir }}:{{ cert_dir }}"
+  with_nested: 
+  - lb_instances
+  - fe_instances
+  - be_instances

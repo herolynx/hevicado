@@ -1,0 +1,4 @@
+---
+
+local_docker_dir: ../../../../../docker/
+remote_docker_dir: /root/docker

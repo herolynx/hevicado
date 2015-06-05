@@ -1,0 +1,117 @@
+{
+  "id": "b88214e5-a137-5caa-6f5d-17132240c0af",
+  "name": "Generic",
+  "timestamp": 1415120209674,
+  "order": [
+    "b5dfd261-d076-f15e-c0bd-b5e9c20660fe",
+    "7bb7c43f-f75d-bbf4-286c-795450196a4d",
+    "a0f8f5aa-684b-95ea-d0be-f3ca9fbd3596",
+    "ef0784cd-6f52-1119-8883-13671117e020",
+    "ff4630ff-90cc-7ef5-3634-191ac7f74c96"
+  ],
+  "requests": [
+    {
+      "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+      "id": "7bb7c43f-f75d-bbf4-286c-795450196a4d",
+      "name": "Login as patient",
+      "description": "",
+      "url": "{{server}}/login",
+      "method": "POST",
+      "headers": "",
+      "data": [
+        {
+          "key": "login",
+          "value": "johnny.bravo@kunishu.com",
+          "type": "text"
+        },
+        {
+          "key": "password",
+          "value": "kunishu",
+          "type": "text"
+        }
+      ],
+      "dataMode": "params",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1424266671616
+    },
+    {
+      "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+      "id": "a0f8f5aa-684b-95ea-d0be-f3ca9fbd3596",
+      "name": "Login as doctor",
+      "description": "",
+      "url": "{{server}}/login",
+      "method": "POST",
+      "headers": "",
+      "data": [
+        {
+          "key": "login",
+          "value": "zbigniew.religa@kunishu.com",
+          "type": "text"
+        },
+        {
+          "key": "password",
+          "value": "kunishu",
+          "type": "text"
+        }
+      ],
+      "dataMode": "params",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1424265516541
+    },
+    {
+      "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+      "id": "b5dfd261-d076-f15e-c0bd-b5e9c20660fe",
+      "name": "CORS check",
+      "description": "",
+      "url": "{{server}}/login",
+      "method": "OPTIONS",
+      "headers": "",
+      "data": [
+        {
+          "key": "login",
+          "value": "wrona",
+          "type": "text"
+        },
+        {
+          "key": "password",
+          "value": "wrona-pass",
+          "type": "text"
+        }
+      ],
+      "dataMode": "params",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1415615067820
+    },
+    {
+      "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+      "id": "ef0784cd-6f52-1119-8883-13671117e020",
+      "name": "Logout",
+      "description": "",
+      "url": "{{server}}/logout/9bd5c8763ed85b03d0040ce581948374cd8c6da54a190394bf0c2f0310ce3f8d",
+      "method": "POST",
+      "headers": "Authorization: {{token}}\n",
+      "data": [],
+      "dataMode": "params",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1421130763469
+    },
+    {
+      "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+      "id": "ff4630ff-90cc-7ef5-3634-191ac7f74c96",
+      "name": "Ping",
+      "description": "",
+      "url": "{{server}}/ping",
+      "method": "GET",
+      "headers": "",
+      "data": [],
+      "dataMode": "params",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1415609262017
+    }
+  ]
+}

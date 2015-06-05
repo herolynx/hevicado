@@ -1,0 +1,93 @@
+---
+# This task build the package jar
+- name: Create backend remote package directory
+  file: path={{ remote_pkg_dir }} state=directory
+  tags:
+    - backend
+    - deploy
+
+- name: Create backend log remote directory
+  file: path={{ remote_log_dir }} state=directory mode="u=rwx,g=rwx,o=rx"
+  tags:
+    - backend
+    - deploy
+
+- name: Create log remote directories for backend containers
+  file: path="{{ remote_log_dir }}/{{ item.name }}" state=directory mode="u=rwx,g=rwx,o=rx"
+  tags:
+     - backend
+     - deploy
+  with_items: be_instances
+
+- name: Copy backend Dockerfile and docker-entrypoint.sh file
+  copy: src="{{ local_docker_be_dir }}/" dest={{ remote_docker_dir }} mode="u=rw,g=r,o=r"
+  tags:
+      - backend
+      - deploy
+
+- name: Build backend docker image
+  docker_image: path="{{ remote_docker_dir }}" name="{{ be_server_image }}" state=build
+  tags:
+    - backend
+    - deploy
+
+- name: Copy backend jar file
+  unarchive: src={{ pkg_dir }}/{{ be_pkg }} dest={{ remote_pkg_dir }} mode="u=rw,g=r,o=r" copy=yes
+  tags:
+    - backend
+    - deploy
+
+- name: Copy backend configuration file
+  template: src="hevicado.conf" dest={{ remote_pkg_dir }} mode="u=rw,g=r,o=r"
+  tags:
+    - backend
+    - deploy
+
+- name: Copy backend log configuration file
+  template: src="logback.xml" dest={{ remote_pkg_dir }} mode="u=rw,g=r,o=r"
+  tags:
+    - backend
+    - deploy
+
+- name: Create mails directory in remote package directory
+  file: path="{{ mails_remote_dir_name }}" state=directory
+  tags:
+    - backend
+    - deploy
+
+- name: Copy mail templates
+  copy: src="{{ mails_dir_name }}/" dest="{{ mails_remote_dir_name }}" mode="u=rw,g=r,o=r"
+  tags:
+    - backend
+    - deploy
+
+- name: Stop backend docker containers
+  tags: 
+    - backend
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ be_server_image }}"
+    state: stopped
+  with_items: be_instances
+
+- name: Start backend using docker
+  tags:
+    - backend
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ be_server_image }}"
+    state: reloaded
+    restart_policy: always
+    links:
+    - "{{ mongo_name }}:{{ mongo_name }}"
+    ports:
+    - "{{ item.url }}:{{ item.http_port }}:{{ be_http }}"
+    volumes:
+    - "{{ remote_pkg_dir }}:{{ home_dir }}"
+    - "{{ remote_log_dir }}/{{ item.name }}:{{ log_dir }}"
+  with_items: be_instances
