@@ -1,0 +1,4 @@
+---
+
+remote_mongodb_dir: "{{ app_root_dir }}/mongo"
+log_dir: "{{ log_root_dir }}/mongo"

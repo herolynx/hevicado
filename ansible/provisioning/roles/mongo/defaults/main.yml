@@ -1,0 +1,4 @@
+---
+mongodb: mongodb
+remote_mongodb_dir: /var/lib/mongodb
+mongo_container_name: mongodb01

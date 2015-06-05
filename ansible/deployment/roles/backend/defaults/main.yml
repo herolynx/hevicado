@@ -1,0 +1,16 @@
+---
+# home 
+remote_pkg_dir: "{{ app_root_dir }}/be"
+home_dir: /usr/share/hevicado
+
+# logs
+log_dir: /var/log/hevicado
+remote_log_dir: "{{ log_root_dir }}/be"
+
+# external resources
+mails_dir_name: mails
+mails_remote_dir_name: "{{ remote_pkg_dir }}/templates/{{ mails_dir_name }}"
+
+# docker
+local_docker_be_dir: ../../../../../docker/be
+remote_docker_dir: /root/docker/hevicado-be

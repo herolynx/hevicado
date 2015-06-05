@@ -1,0 +1,13 @@
+---
+
+- name: Configure ufw
+  copy: src="ufw" dest="/etc/default/" mode="u=rw,g=r,o=r"
+  tags:
+    - ufw
+    - provision
+
+- name: Reload ufw
+  ufw: state=reloaded
+  tags:
+    - ufw
+    - provision

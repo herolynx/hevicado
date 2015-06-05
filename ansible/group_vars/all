@@ -1,0 +1,20 @@
+---
+
+app_name: hevicado
+
+# app directory structure
+app_root_dir: "/usr/share/lynx/{{ env }}/hevicado"
+cert_dir: "{{ app_root_dir }}/ssl"
+log_root_dir: "/var/log/lynx/{{ env }}/hevicado"
+
+# packages
+pkg_dir: "../../../../pkgs"
+fe_pkg: "frontend.tar.gz"
+be_pkg: "backend.tar.gz"
+
+# docker generic images
+nginx_image: nginx
+mongo_image: mongo
+
+# docker app specific images
+be_server_image: hevicado-be

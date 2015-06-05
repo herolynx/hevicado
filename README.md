@@ -1,18 +1,79 @@
-kunishu [![Circle CI](https://circleci.com/gh/m-wrona/kunishu.svg?style=svg&circle-token=84be672fc11e78f986d3d14439eac2ddc9cfc8cd)](https://circleci.com/gh/m-wrona/kunishu)
-=======
+Hevicado [![Circle CI](https://circleci.com/gh/m-wrona/kunishu-server.svg?style=svg&circle-token=56943cf387202a237dbed64a5f11c89e7d9a6ca7)](https://circleci.com/gh/m-wrona/kunishu-server)
+==============
 
-Kunishu is a coding name of Hevicado.
 Hevicado is an application for office and schedule management for doctors and small organizations.
 
-## Tasks
 
-#### Install dependencies
+## Required
+
+Generic:
+
+* Docker: 1.6.0 or newer
+* Ansible: 1.9.0.1 or newer
+
+Backend: 
+
+* Scala: 2.10.3
+* Sbt: 0.13:6
+* MongoDB: 3.0.0 or newer
+
+Frontend:
+
+* npm
+* bower
+* gulp
+
+## Backend
+
+1) Run sbt
+
+```scala
+    sbt
+```
+
+Once it's up, similar message will be displayed:
+
+```scala
+hevicado:master...origin/master:1.0.0>
+```
+
+2) Chose web project
+
+```scala
+hevicado:master...origin/master:1.0.0> project io-web
+```
+
+3) Run web project locally
+
+```scala
+web:master...origin/master:1.0.0> run
+```
+
+or for running with auto-refresh mode:
+
+```scala
+web:master...origin/master:1.0.0> ~re-start
+```
+
+After that server will be run at port 8000
+
+4*) Demo data usage
+
+*Demo* directory of project contains:
+
+a) Project for Postman plugin (postman.json) which holds API with sample calls that can be made to back-end
+
+b) Sample data that can be imported into hevicadoDB 
+
+## Frontend
+
+1) Install dependencies
 
 ```shell
    $npm install
 ```
 
-#### Run unit tests
+2) Run unit tests
 
 ```shell
    $npm test
@@ -24,14 +85,14 @@ or
    gulp test
 ```
 
-#### Run e2e tests
+3) Run e2e tests
 
 ```shell
    $npm start
    $npm run protractor
 ```
 
-#### Run application locally
+4) Run application locally
 
 ```shell
    $npm start
@@ -43,58 +104,179 @@ or run using gulp for browser auto-refreshing:
    $gulp
 ```
 
-## Release build
+## Build & deployment
 
-1) Change application version
+Hevicado's environments are managed using Ansible. All tasks are automated and can be run at any time.
 
-a) 'version' value in app/modules/base/js/app.js
-
-b) bower.json
-
-c) package.json
-
-2) Clean your current build
+1) Provision server with needed packages:
 
 ```shell
-   $gulp clean
+ansible-playbook -i {{env}} provisioning/site.yml
 ```
-3) Create new release build
+
+2) Build packages:
 
 ```shell
-   $gulp release
+sudo build.sh
 ```
 
-4) Check locally whether release build is OK
+***Note: since build prepares Docker images, root privileges are required***
+
+3) Deploy all:
 
 ```shell
-   $gulp serve:release
+ansible-playbook -i {{env}} deployment/site.yml
 ```
 
-## Deploy
+##### Ansible - common commands
 
-All deploy script are kept in *build* directory at the moment
-
-1) Building package with current version
+1) Ping
 
 ```shell
-build.sh
+ansible all -i {{env}} -m ping
 ```
 
-2) Building package with current version
+2) Run a command on all servers
 
 ```shell
-deploy.sh <env> <version>
+ansible all -i {{env}} -a "whoami"
+ansible all -i {{env}} -a "uptime"
+ansible all -i {{env}} -a "date"
+ansible all -i {{env}} -a "cat /etc/issue"
+ansible all -i {{env}} -l hevi-dev -a "docker ps"
 ```
 
-For instance:
+3) Show memory, cpu and other config options on all servers
 
 ```shell
-deploy.sh kunishu-dev 1.2.0
+ansible all -i {{env}} -m setup
+ansible all -i {{env}} -m setup -a "filter=ansible_*_mb"
+ansible all -i {{env}} -m setup -a "filter=ansible_processor*"
+ansible all -i {{env}} -m setup -a "filter=ansible_all_ipv4_addresses"
+ansible all -i {{env}} -m setup -a "filter=ansible_bios_*"
 ```
 
-***Note***: 
+4) Run playbook
 
-It's assumed that you have your environemts defined in SSH configuration. 
+```shell
+ansible-playbook -i {{env}} deployment.yml --ask-sudo-pass
+ansible-playbook -i {{env}} deployment.yml --tags backend --ask-sudo-pass
+```
 
-You have to have access granted (via public key) to environment too.
+5) Dry-run, i.e. only check and report what changes should be made without actually executing them
 
+```shell
+ansible-playbook -i {{env}} deployment.yml --tags "mongo" --ask-sudo-pass --check
+ansible-playbook -i {{env}} deployment.yml --tags "backend" --ask-sudo-pass --check --diff
+```
+## Docker
+
+Hevicado server works in a Docker container, in order to run hevicado on Docker one needs to:
+
+***Note: CM is automated using Ansible. You don't have to run docker manually. See Ansible section for more details.***
+
+##### Docker - common commands
+
+1) List local docker images, the output should contain mongo and hevicado/server images:
+
+```shell
+docker images
+```
+
+2) List runnning containers:
+
+```shell
+docker ps
+```
+
+Congratulations, after those steps hevicado/server works in a dockerized environment.
+
+3) Stop a container:
+
+```shell
+docker stop CONTAINER_ID / CONTAINER_NAME
+```
+
+4) Remove all stopped containers:
+
+```shell
+docker rm $(docker ps -a -q)
+```
+
+5) Remove all images issue:
+
+```shell
+docker rmi $(docker images -q)
+```
+
+6) Attach to a running container
+
+```shell
+docker exec -it CONTAINER_NAME bash
+```
+
+##### Docker - Hevicado
+
+1) Build hevicado-server docker image:
+
+***Note: hevicado package must be built first***
+
+```shell
+docker build -t hevicado-be .
+```
+
+2) Run hevicado/server container in detached mode using docker, set the name of the container to webXX,
+link hevicado/server to mongodb01 container, map port 8000 to local port 80XX, map ./docker/workdir docker volume:
+
+```shell
+cd ./docker/workdir
+```
+
+```shell
+docker run -d -P --name web01 --link mongodb01:mongodb01 -p 8001:8000 -v $PWD:/usr/share/hevicado -t hevicado/server:latest
+docker run -d -P --name web02 --link mongodb01:mongodb01 -p 8002:8000 -v $PWD:/usr/share/hevicado -t hevicado/server:latest
+..
+docker run -d -P --name webXX --link mongodb01:mongodb01 -p 80XX:8000 -v $PWD:/usr/share/hevicado -t hevicado/server:latest
+```
+
+##### Docker - MongoDB
+
+1) Download official MongoDB docker image:
+
+```shell
+docker pull mongo:latest
+```
+
+2) Run MongoDB container in detached mode using docker, set the name of the container to: mongodb01, define mongo db directory (here we map the current directory), map port 27017 locally
+
+```shell
+docker run -d --name mongodb01 -v $PWD:/data/db -p 27017:27017 -t mongo
+```
+
+##### Docker - Exim4
+
+1) Build Exim4 docker image
+
+```shell
+docker build -t hevicado-exim4 .
+```
+
+2) Run Exim4 in a docker container
+
+```shell
+docker run -d --name exim4 -p 25:25 -v /var/log/exim4:/var/log/exim4 -t hevicado-exim4
+```
+
+##### Docker - Nginx
+
+1) Download official Nginx docker image:
+
+```shell
+docker pull nginx:latest
+```
+
+2) Run Nginx in a docker container
+
+```shell
+docker run -d --name nginx -p 80:80 -p 443:443 -v /usr/share/nginx/html:/usr/share/nginx/html:ro -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro -t nginx
+```
