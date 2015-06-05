@@ -6,26 +6,15 @@
                 <img src="images/logo.png" alt="Hevicado">
 				<div class="beta">Beta</div>
             </a>
-			
-			<div class="rwd">
-				{{'generic.responsive-warning' | translate}}
-			</div>
         </h2>
-
+		
+		<div class="open-menu small-opened">
+			<img src="images/open-menu.png" alt="Open">
+		</div>
         <!-- Logo -->
 
-        <nav class="product">
-            <permission roles="guest">
-                <ul>
-                    <li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
-                    <li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
-                    <li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
-                    <li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
-                    <li><a href="#main#news" id="-news" translate>menu.news</a></li>
-                    <li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
-                </ul>
-        </nav>
-        </permission>
+       
+           
         <permission roles="guest">
             <nav class="log_reg">
                 <ul class="log_reg">
@@ -36,8 +25,19 @@
         </permission>
 
 
-        <nav>
-            <permission roles="user,doctor">
+        <nav class="nav">
+			<permission roles="guest" class="nav-main">
+			<ul>
+				<li><a href="#main#about-us" id="-about-us" translate>menu.about-us</a></li>
+				<li><a href="#main#benefits" id="-benefits" translate>menu.benefits</a></li>
+				<li><a href="#main#offer" id="-offer" translate>menu.offer</a></li>
+				<li><a href="#main#payment" id="-payment" translate>menu.prices</a></li>
+				<li><a href="#main#news" id="-news" translate>menu.news</a></li>
+				<li><a href="#main#contact" id="-contact" translate>menu.contact</a></li>
+			</ul>
+			</permission>
+			
+            <permission roles="user,doctor" class="nav-doctor">
                 <ul>
                     <li>
                         <a ui-sref="user-visits">
@@ -45,25 +45,26 @@
                             {{'menu.visits' | translate}}
                         </a>
                     </li>
-                    <li>
+                    <li class="parrent">
                         <permission roles="doctor">
-                            <a ui-sref="calendar-week">
+                            <a class="url">
                                 <i class="icon-calendar"></i>
                                 {{'menu.calendar' | translate}}
                             </a>
                             <ul class="subpage">
                                 <li><a href="#" ui-sref="calendar-day.daily({ doctorId: info.id })" translate>menu.calendar-daily</a>
                                 </li>
-                                <li><a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
+                                <li show-on-device mobile='false'>
+                                    <a href="#" ui-sref="calendar-week({ doctorId: info.id })" translate>menu.calendar-weekly</a>
                                 </li>
                                 <li><a href="#" ui-sref="calendar-month({ doctorId: info.id })" translate>menu.calendar-monthly</a>
                                 </li>
                             </ul>
                         </permission>
                     </li>
-                    <li>
+                    <li class="parrent">
                         <permission roles="doctor">
-                            <a ui-sref="edit-cabinet">
+                            <a>
                                 <i class="icon-monitor"></i>
                                 {{'menu.cabinet' | translate}}
                             </a>
@@ -81,7 +82,7 @@
                             </ul>
                         </permission>
                     </li>
-                    <li>
+                    <li class="parrent">
                         <a>
                             <i class="icon-tools"></i>
                             {{'menu.account' | translate}}

@@ -31,8 +31,8 @@ function GoogleMapCtrl($scope, $log, MapService) {
         MapService.
             find(address, function (response) {
                 if (response !== null && response.length > 0) {
-                    $scope.position.center.latitude = response[0].geometry.location.k;
-                    $scope.position.center.longitude = response[0].geometry.location.D;
+                    $scope.position.center.latitude = response[0].geometry.location.A;
+                    $scope.position.center.longitude = response[0].geometry.location.F;
                     $scope.$digest();
                 }
                 else {

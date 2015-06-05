@@ -145,14 +145,16 @@
                             <li>
                                 <label></label>
                                 <fieldset>
-                                    <button class="btn click" ng-click="cancelVisit()" ng-show="canCancel">
-                                        <i class="icon-upload-cloud"></i> {{'visit.cancel-visit' | translate}}
-                                    </button>
-                                    <button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid || editedEvent.location.id==undefined"
-                                            ng-show="canEdit"><i class="icon-upload-cloud"></i> {{'generic.save' | translate}}
-                                    </button>
-                                    <button class="btn click" ng-click="cancel()">{{'generic.cancel' | translate}}
-                                    </button>
+									<div class="buttons">
+										<button class="btn click" ng-click="cancelVisit()" ng-show="canCancel">
+											<i class="icon-upload-cloud"></i> {{'visit.cancel-visit' | translate}}
+										</button>
+										<button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid || editedEvent.location.id==undefined"
+												ng-show="canEdit"><i class="icon-upload-cloud"></i> {{'generic.save' | translate}}
+										</button>
+										<button class="btn click" ng-click="cancel()">{{'generic.cancel' | translate}}
+										</button>
+									</div>
                                 </fieldset>
                             </li>
                         </ul>
@@ -201,6 +203,20 @@
                                 <google-map address="editedEvent.location.address" title="editedEvent.location.name"/>
                             </div>
                         </div>
+						
+						
+						<div class="right-action">
+							<button class="btn click" ng-click="cancelVisit()" ng-show="canCancel">
+								<i class="icon-upload-cloud"></i> {{'visit.cancel-visit' | translate}}
+							</button>
+							<button class="btn click" ng-click="save()" ng-disabled="visitForm.$invalid || editedEvent.location.id==undefined"
+									ng-show="canEdit"><i class="icon-upload-cloud"></i> {{'generic.save' | translate}}
+							</button>
+							<button class="btn click" ng-click="cancel()">{{'generic.cancel' | translate}}
+							</button>
+						</div>
+                
+						
                     </div>
                 </form>
             </div>

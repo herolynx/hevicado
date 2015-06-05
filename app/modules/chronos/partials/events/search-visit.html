@@ -42,8 +42,42 @@
                         </li>
                     </ul>
                 </div>
-                <div class="box" align-in-row>
-                    <h2><span>2</span>{{'visit.visit-date' | translate}}</h2>
+				
+				<div class="box mobile" align-in-row>
+                    <h2><span class="desktop">3</span><span class="mobile">2</span>{{'visit.specialization' | translate}}</h2>
+                    <ul>
+                        <li>
+                            <label>{{'visit.chose-specialization' | translate}}:</label>
+                            <fieldset>
+                                <input type="text"
+                                       ng-model="newSpecialization"
+                                       placeholder="{{'visit.chose-specialization' | translate}}"
+                                       typeahead="specialization as specialization.value for specialization in specializations | filter:{value:$viewValue} | orderBy:'value' | limitTo:10 "
+                                       typeahead-editable="false"
+                                        >
+                            </fieldset>                           
+                        </li>
+						<li>
+                            <label></label>                           
+                            <button class="btn click" ng-click="addSpecialization(newSpecialization)">
+                               <i class="icon-plus-circled"></i> {{'generic.add' | translate}}
+                            </button>
+                        </li>
+                        <li>
+                            <div class="tag">
+                                <a ng-repeat="specialization in criteria.specializations | limitTo:10"
+                                   ng-click="deleteSpecialization(specialization)"
+                                        >
+                                    {{specialization.value}}
+                                    <div class="delete"><i class="icon-minus-circled"></i></div>
+                                </a>
+                                <div ng-show="criteria.specializations.length>10">...</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>				
+				<div class="box" align-in-row>
+                    <h2><span class="desktop">2</span><span class="mobile">3</span>{{'visit.visit-date' | translate}}</h2>
                     <ul>
                         <li>
                             <label>{{'visit.begin-date' | translate}}:</label>
@@ -72,8 +106,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="box" align-in-row>
-                    <h2><span>3</span>{{'visit.specialization' | translate}}</h2>
+                <div class="box desktop" align-in-row>
+                    <h2><span class="desktop">3</span><span class="mobile">2</span>{{'visit.specialization' | translate}}</h2>
                     <ul>
                         <li>
                             <label>{{'visit.chose-specialization' | translate}}:</label>
