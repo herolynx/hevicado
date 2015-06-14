@@ -197,24 +197,32 @@ angular.module('hevicado.ui')
  */
 angular.module('hevicado.ui').
     run(
-    ['$rootScope', '$timeout', '$log', 'MenuConfig', 'DesktopMenu', 'TabletMenu', 'MobileMenu',
-        function ($rootScope, $timeout, $log, MenuConfig, DesktopMenu, TabletMenu, MobileMenu) {
+    ['$rootScope', '$timeout', '$log', 'MenuConfig', 'DesktopMenu', 'TabletMenu', 'MobileMenu', 'AUTH_EVENTS',
+        function ($rootScope, $timeout, $log, MenuConfig, DesktopMenu, TabletMenu, MobileMenu, AUTH_EVENTS) {
 
             var devices = [MobileMenu, DesktopMenu, TabletMenu];
 
             // show menu
-            $timeout(function () {
+            var refresh = function () {
                 _.map(devices, function (device) {
                     device.init();
                 });
-            }, 500);
+            };
+            $timeout(refresh, 500);
+            $(window).resize(refresh);
 
-            //refresh menu
-            $(window).resize(function () {
-                _.map(devices, function (device) {
-                    device.init();
-                });
-            });
+            // re-init on authentication events
+            var reinit = function () {
+                $timeout(function () {
+                    _.map(devices, function (device) {
+                        device.active = false;
+                        device.init();
+                    })
+                }, 500);
+            };
+            $rootScope.$on(AUTH_EVENTS.USER_LOGGED_IN, reinit);
+            $rootScope.$on(AUTH_EVENTS.USER_LOGGED_OUT, reinit);
+            $rootScope.$on(AUTH_EVENTS.SESSION_REFRESH, reinit);
         }
 
     ]);
