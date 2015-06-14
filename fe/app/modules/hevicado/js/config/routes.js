@@ -100,6 +100,13 @@ angular.module('hevicado.config').
                         access: ACCESS_LEVELS.USERS
                     }
                 }).
+                state('user-payments', {
+                    url: "/main#payment",
+                    templateUrl: "modules/hevicado/partials/main.html",
+                    data: {
+                        access: ACCESS_LEVELS.PUBLIC
+                    }
+                }).
                 state('user-visits', {
                     url: "/patient/visit",
                     templateUrl: "modules/chronos/partials/timeline/timeline-events.html",
