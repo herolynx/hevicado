@@ -1,0 +1,121 @@
+{
+  "id": "894950ee-d275-47e5-fb73-3f9e32fab877",
+  "name": "Users",
+  "timestamp": 1417357520041,
+  "order": [
+    "a705eda2-26f3-6955-8711-01cf3e182f99",
+    "eee7e871-0847-3875-428d-361e873318cd",
+    "8862f1b0-89b6-eb59-021e-60fdeb747dfe",
+    "2a3b82c3-aca9-6f7e-60e2-82b8aabbb24d",
+    "8b94058b-cd96-8161-2613-d646a5238301",
+    "34fa74ee-5ef3-7fad-7606-85dfb367b05a"
+  ],
+  "requests": [
+    {
+      "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "id": "2a3b82c3-aca9-6f7e-60e2-82b8aabbb24d",
+      "name": "Get user",
+      "description": "",
+      "url": "{{server}}/user/546b8fd1ef660df8426005b7",
+      "method": "GET",
+      "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+      "data": [
+        {
+          "key": "login",
+          "value": "johnny.bravo@kunishu.com",
+          "type": "text"
+        },
+        {
+          "key": "password",
+          "value": "kunishu",
+          "type": "text"
+        }
+      ],
+      "dataMode": "params",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1417631159894
+    },
+    {
+      "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "id": "34fa74ee-5ef3-7fad-7606-85dfb367b05a",
+      "name": "Search users",
+      "description": "",
+      "url": "{{server}}/user?text=",
+      "method": "GET",
+      "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+      "data": " {\n    \"doctor\" : {\n        \"id\" : \"546b8fd1ef660df8426005b6\",\n        \"first_name\" : \"Zbigniew\",\n        \"last_name\" : \"Religa\",\n        \"degree\": \"prof\",\n        \"email\" : \"zbigniew.religa@kunishu.com\",\n        \"phone\" : \"+48 792-321-654\"\n    },\n    \"title\" : \"Wizyta stworzona przez innego lekarza\",\n    \"description\" : \"Nowe badanie doktora/pacjenta\",\n    \"start\" : \"2015-01-27 10:00:00\",\n    \"end\" : \"2015-01-27 10:30:00\",\n    \"patient\" : {\n            \"id\" : \"546b8fd1ef660ff8426005b6\",\n            \"first_name\" : \"Michaela\",\n            \"last_name\" : \"Quin\",\n            \"email\" : \"michaela.quin@kunishu.com\",\n            \"phone\" : \"+48 792 123 456\"\n    },\n    \"location\" : {\n        \"id\" : \"546b8fd1ef660df8426005b8\",\n        \"name\" : \"Pulsantis\",\n        \"address\" : {\n            \"street\" : \"Grabiszynska 8/4\",\n            \"city\" : \"WrocÅ‚aw\",\n            \"country\" : \"Poland\"\n        },\n        \"color\" : \"blue\",\n        \"working_hours\" : [\n            {\n                \"day\" : \"Monday\",\n                \"start\" : \"8:00\",\n                \"end\" : \"14:00\"\n            },\n            {\n                \"day\" : \"Tuesday\",\n                \"start\" : \"10:00\",\n                \"end\" : \"16:00\"\n            }\n        ]\n    }\n  }",
+      "dataMode": "raw",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1422268943737
+    },
+    {
+      "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "id": "8862f1b0-89b6-eb59-021e-60fdeb747dfe",
+      "name": "Update user's account",
+      "description": "",
+      "url": "{{server}}/user",
+      "method": "PUT",
+      "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+      "data": "{  \n  \"id\": \"546b8fd1ef660df8426005b7\",\n  \"first_name\": \"Johnny\",  \n  \"last_name\": \"Bravo\",  \n  \"email\": \"johnny.bravo@kunishu.com\",\n  \"phone\": \"+48 792 123 456\",\n  \"profile\": {  \n    \"lang\": \"pl\",  \n    \"theme\": \"orange\"  \n  }\n}  ",
+      "dataMode": "raw",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1423125392567
+    },
+    {
+      "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "id": "8b94058b-cd96-8161-2613-d646a5238301",
+      "name": "Get doctor's info",
+      "description": "",
+      "url": "{{server}}/user/546b8fd1ef660df8426005b6",
+      "method": "GET",
+      "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+      "data": [
+        {
+          "key": "login",
+          "value": "zbigniew.religa@kunishu.com",
+          "type": "text"
+        },
+        {
+          "key": "password",
+          "value": "kunishu",
+          "type": "text"
+        }
+      ],
+      "dataMode": "params",
+      "timestamp": 0,
+      "responses": [],
+      "version": 2
+    },
+    {
+      "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "id": "a705eda2-26f3-6955-8711-01cf3e182f99",
+      "name": "Register",
+      "description": "",
+      "url": "{{server}}/user",
+      "method": "POST",
+      "headers": "Content-Type: application/json\n",
+      "data": "{  \n  \"first_name\": \"Johnny\",  \n  \"last_name\": \"Bravo\",  \n  \"email\": \"johnny.bravo2@kunishu.com\",\n  \"phone\": \"+48 792 123 456\",\n  \"password\": \"kunishu\", \n  \"profile\": {  \n    \"lang\": \"pl\",  \n    \"theme\": \"orange\"  \n  },\n  \"captcha\": { \n    \"response\": \"03AHJ_VuvmCIRDNUFmD2SJvR9lRo5vuNaZXfSKoIJ4vfNXxdP9yA5XcawhOiJS5zLr9FQ_Fx0ZmSLrq1fqLX8eytH7cfrscN_a9aCgMvCM7SPtVmuRpR_roVE6cTjCDejdupFciFmvULbQHurdMdjUwiE8JDlTNE6t62312rq-gddxp7ZJ3l_4MYprL09_A4duQ1ccLWb_9bMSiGEjbsugRJVDC80XNBTZFRcG0ZQtukV69oMBpWF-aF6UqE7yX0mgGbtYyvB5EsD2\"\n  }\n}  ",
+      "dataMode": "raw",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1424081994508
+    },
+    {
+      "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "id": "eee7e871-0847-3875-428d-361e873318cd",
+      "name": "Reset password",
+      "description": "",
+      "url": "{{server}}/lost-password",
+      "method": "POST",
+      "headers": "Content-Type: application/json\n",
+      "data": "{  \n  \"email\": \"johnny.bravo@kunishu.com\",\n  \"captcha\": { \n    \"response\": \"03AHJ_VuvmCIRDNUFmD2SJvR9lRo5vuNaZXfSKoIJ4vfNXxdP9yA5XcawhOiJS5zLr9FQ_Fx0ZmSLrq1fqLX8eytH7cfrscN_a9aCgMvCM7SPtVmuRpR_roVE6cTjCDejdupFciFmvULbQHurdMdjUwiE8JDlTNE6t62312rq-gddxp7ZJ3l_4MYprL09_A4duQ1ccLWb_9bMSiGEjbsugRJVDC80XNBTZFRcG0ZQtukV69oMBpWF-aF6UqE7yX0mgGbtYyvB5EsD2\"\n  }\n}  ",
+      "dataMode": "raw",
+      "timestamp": 0,
+      "version": 2,
+      "time": 1424329530736
+    }
+  ]
+}

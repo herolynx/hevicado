@@ -1,0 +1,6 @@
+Demo folder contains sample usages.
+
+Files:
+postman.json: project for Postman (Chrome plugin) that allows calling back-end services
+calendar.sh: sample calendar data for MongoDB
+users.sh: sample users for MongoDB

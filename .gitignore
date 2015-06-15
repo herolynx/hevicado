@@ -1,21 +1,49 @@
-# generic
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+*.iml
+.idea
+*.sublime*
+
+# commons 
 *.log
 tmp
 **/tmp
+
+# ###################################### FE #############################################
+# generic
 release
 test_out
 coverage
-
-#build
-build/pkgs
 
 # JS related
 bower_components
 node_modules
 
-# IDE related
-.idea
-*.sublime*
-
 #project related (auto-generated etc.)
-app/css/base.css
+fe/app/css/base.css
+
+# ###################################### BE #############################################
+*.class
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# ###################################### BUILD #############################################
+ansible/pkgs
+
+docker/workdir
+
+ansible/local
+ansible/group_vars/*-local
+
+# OS X specific
+*.DS_Store

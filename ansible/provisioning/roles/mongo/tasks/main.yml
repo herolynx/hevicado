@@ -1,0 +1,33 @@
+---
+
+- name: Ensure that mongodb group exists
+  group: name={{ mongodb }} state=present
+  tags:
+    - mongo
+    - provision
+
+- name: Ensure that user mongodb exists
+  user: name={{ mongodb }} group={{ mongodb }} state=present
+  tags:
+    - mongo
+    - provision
+
+- name: Create mongo directory
+  file: path={{ remote_mongodb_dir }} state=directory mode="u=rwx,g=xr,o=x" owner=mongodb group=mongodb
+  tags:
+    - mongo
+    - provision
+
+- name: Check if mongo docker image is present
+  shell: "docker images -q {{ mongo_image }}"
+  register: is_mongo_image_present
+  tags:
+    - mongo
+    - provision
+
+- name: Download mongo image if it's not present
+  shell: "docker pull {{ mongo_image }}"
+  tags:
+    - mongo
+    - provision
+  when: is_mongo_image_present.stdout == ""

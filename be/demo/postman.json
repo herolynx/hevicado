@@ -1,0 +1,444 @@
+{
+  "version": 1,
+  "collections": [
+    {
+      "id": "0706578f-d824-fa0d-9630-7de836c85ce3",
+      "name": "Calendar",
+      "timestamp": 1415120502548,
+      "order": [
+        "c0ea027c-8ac6-7fb7-4c08-2aa4b95766da",
+        "11c439ab-4bbf-bc73-61b1-4f9c8959cfeb",
+        "e53459fc-3c64-b6fb-02f1-2756c2688c5f",
+        "dab94f06-d842-550a-3b16-950cde05ac73",
+        "86b8448b-ab3b-5177-0ed5-c86ce90e682f",
+        "02c05c58-661c-8e5b-49f3-91c4abe2f746",
+        "96df2d7e-58cf-1c1e-1221-0d587b660f5e",
+        "d71169c6-39fd-415b-10a6-6b1f34636c61"
+      ],
+      "requests": [
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "02c05c58-661c-8e5b-49f3-91c4abe2f746",
+          "name": "Get doctor's visits",
+          "description": "",
+          "url": "{{server}}/calendar/546b8fd1ef660df8426005b6/visit?start=2015-03-01T00:00:00.000Z&end=2015-03-31T23:59:59.000Z&asDoctor=true",
+          "method": "GET",
+          "headers": "Authorization: {{token}}\n",
+          "data": "{\n   \"name\": \"Zbi\",\n   \"location\": \"\",\n   \"specializations\": [],\n   \"start\" : \"2015-02-02T00:00:00.000Z\",\n   \"end\" : \"2015-02-07T00:00:00.000Z\",\n   \"startIndex\": 0,\n   \"count\": 10\n}",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1427352206099
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "11c439ab-4bbf-bc73-61b1-4f9c8959cfeb",
+          "name": "Create visit as doctor to other doctor",
+          "description": "",
+          "url": "{{server}}/calendar/visit",
+          "method": "POST",
+          "headers": "Authorization: {{token}}\n",
+          "data": " {\n    \"doctor\" : {\n        \"id\" : \"546b8fd1ef660df8426005b6\",\n        \"first_name\" : \"Zbigniew\",\n        \"last_name\" : \"Religa\",\n        \"degree\": \"prof\",\n        \"email\" : \"zbigniew.religa@kunishu.com\",\n        \"phone\" : \"+48 792-321-654\"\n    },\n    \"title\" : \"Wizyta stworzona przez innego lekarza\",\n    \"description\" : \"Nowe badanie doktora/pacjenta\",\n    \"start\" : \"2015-02-02T10:00:00.000Z\",\n    \"end\" : \"2015-02-02T10:30:00.000Z\",\n    \"patient\" : {\n            \"id\" : \"546b8fd1ef660ff8426005b6\",\n            \"first_name\" : \"Michaela\",\n            \"last_name\" : \"Quin\",\n            \"email\" : \"michaela.quin@kunishu.com\",\n            \"phone\" : \"+48 792 123 456\"\n    },\n    \"location\" : {\n        \"id\" : \"546b8fd1ef660df8426005b8\",\n        \"name\" : \"Pulsantis\",\n        \"address\" : {\n            \"street\" : \"Grabiszynska 8/4\",\n            \"city\" : \"WrocÅ‚aw\",\n            \"country\" : \"Poland\"\n        },\n        \"color\" : \"blue\",\n        \"working_hours\" : [\n            {\n                \"day\" : \"Monday\",\n                \"start\" : \"09:00\",\n                \"end\" : \"15:00\",\n                \"tzOffset\": 60\n            },\n            {\n                \"day\" : \"Tuesday\",\n                \"start\" : \"10:00\",\n                \"end\" : \"16:00\",\n                \"tzOffset\": 60\n            }\n        ]\n    }\n  }",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1423127804890
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "86b8448b-ab3b-5177-0ed5-c86ce90e682f",
+          "name": "Get patient's visits",
+          "description": "",
+          "url": "{{server}}/calendar/546b8fd1ef660df8426005b6/visit?start=2015-01-01T00:00:00.000Z&end=2015-01-31T23:59:59.000Z&asDoctor=false",
+          "method": "GET",
+          "headers": "Authorization: {{token}}\n",
+          "data": "{\n   \"name\": \"Zbi\",\n   \"location\": \"\",\n   \"specializations\": [],\n   \"start\" : \"2015-02-02T00:00:00.000Z\",\n   \"end\" : \"2015-02-06T23:59:59.000Z\",\n   \"startIndex\": 0,\n   \"count\": 10\n}",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1423125329147
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "96df2d7e-58cf-1c1e-1221-0d587b660f5e",
+          "name": "Get event",
+          "description": "",
+          "url": "{{server}}/calendar/visit/546b8fd1ef660df8426005c0",
+          "method": "GET",
+          "headers": "Authorization: {{token}}\n",
+          "data": "{  \n  \"first_name\": \"Johnny\",  \n  \"last_name\": \"Bravo\",  \n  \"email\": \"johnny.bravo@kunishu.com\",\n  \"phone\": \"+48 792 123 456\",\n  \"password\": \"kunishu\",  \n  \"profile\": {  \n    \"lang\": \"pl\",  \n    \"time_zone\": \"CET\",  \n    \"theme\": \"orange\"  \n  }\n}  ",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1417625788483
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "c0ea027c-8ac6-7fb7-4c08-2aa4b95766da",
+          "name": "Create visit",
+          "description": "",
+          "url": "{{server}}/calendar/visit",
+          "method": "POST",
+          "headers": "Authorization: {{token}}\n",
+          "data": " {\n    \"doctor\" : {\n        \"id\" : \"546b8fd1ef660df8426005b6\",\n        \"first_name\" : \"Zbigniew\",\n        \"last_name\" : \"Religa\",\n        \"degree\": \"$$degree-6\",\n        \"email\" : \"zbigniew.religa@kunishu.com\",\n        \"phone\" : \"+48 792-321-654\"\n    },\n    \"title\" : \"$$temp-1\",\n    \"description\" : \"Nowe badanie pacjenta\",\n    \"start\" : \"2015-03-30T09:00:00.000Z\",\n    \"end\" : \"2015-03-30T09:30:00.000Z\",\n    \"patient\" : {\n            \"id\" : \"546b8fd1ef660df8426005b7\",\n            \"first_name\" : \"Johnny\",\n            \"last_name\" : \"Bravo\",\n            \"email\" : \"johnny.bravo@kunishu.com\",\n            \"phone\" : \"+48 792 123 456\"\n    },\n    \"location\" : {\n        \"id\" : \"546b8fd1ef660df8426005b8\",\n        \"name\" : \"Pulsantis\",\n        \"address\" : {\n            \"street\" : \"Grabiszynska 8/4\",\n            \"city\" : \"WrocÅ‚aw\",\n            \"country\" : \"Poland\"\n        },\n        \"color\" : \"blue\",\n        \"working_hours\" : [\n            {\n                \"day\" : \"Monday\",\n                \"start\" : \"09:00\",\n                \"end\" : \"15:00\",\n                \"tzOffset\": 60\n            },\n            {\n                \"day\" : \"Tuesday\",\n                \"start\" : \"10:00\",\n                \"end\" : \"16:00\",\n                \"tzOffset\" : 60\n            }\n        ]\n    }\n  }",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1427701789346
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "d71169c6-39fd-415b-10a6-6b1f34636c61",
+          "name": "Search doctors",
+          "description": "",
+          "url": "{{server}}/calendar",
+          "method": "POST",
+          "headers": "Authorization: {{token}}\n",
+          "data": "{\n   \"name\": \"Zbi\",\n   \"location\": \"\",\n   \"specializations\": [],\n   \"start\" : \"2015-02-02T00:00:00.000Z\",\n   \"end\" : \"2015-02-07T00:00:00.000Z\",\n   \"startIndex\": 0,\n   \"count\": 10\n}",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1423204538496
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "dab94f06-d842-550a-3b16-950cde05ac73",
+          "name": "Update doctor's visits",
+          "description": "",
+          "url": "{{server}}/calendar/visit",
+          "method": "PUT",
+          "headers": "Authorization: {{token}}\n",
+          "data": " {\n    \"id\": \"54d3349844ae793fbcf589e1\",\n    \"doctor\" : {\n        \"id\" : \"546b8fd1ef660df8426005b6\",\n        \"first_name\" : \"Zbigniew\",\n        \"last_name\" : \"Religa\",\n        \"degree\": \"prof\",\n        \"email\" : \"zbigniew.religa@kunishu.com\",\n        \"phone\" : \"+48 792-321-654\"\n    },\n    \"title\" : \"Wizyta stworzona przez lekarza\",\n    \"description\" : \"Nowe badanie pacjenta\",\n    \"start\" : \"2015-02-26T09:00:00.000Z\",\n    \"end\" : \"2015-02-02T09:30:00.000Z\",\n    \"patient\" : {\n            \"id\" : \"546b8fd1ef660df8426005b7\",\n            \"first_name\" : \"Johnny\",\n            \"last_name\" : \"Bravo\",\n            \"email\" : \"johnny.bravo@kunishu.com\",\n            \"phone\" : \"+48 792 123 456\"\n    },\n    \"location\" : {\n        \"id\" : \"546b8fd1ef660df8426005b8\",\n        \"name\" : \"Pulsantis\",\n        \"address\" : {\n            \"street\" : \"Grabiszynska 8/4\",\n            \"city\" : \"WrocÅ‚aw\",\n            \"country\" : \"Poland\"\n        },\n        \"color\" : \"blue\",\n        \"working_hours\" : [\n            {\n                \"day\" : \"Monday\",\n                \"start\" : \"09:00\",\n                \"end\" : \"15:00\",\n                \"tzOffset\": 60\n            },\n            {\n                \"day\" : \"Tuesday\",\n                \"start\" : \"10:00\",\n                \"end\" : \"16:00\",\n                \"tzOffset\" : 60\n            }\n        ]\n    }\n  }",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1423127721954
+        },
+        {
+          "collectionId": "0706578f-d824-fa0d-9630-7de836c85ce3",
+          "id": "e53459fc-3c64-b6fb-02f1-2756c2688c5f",
+          "name": "Cancel visit by patient",
+          "description": "",
+          "url": "{{server}}/calendar/visit",
+          "method": "PUT",
+          "headers": "Authorization: {{token}}\n",
+          "data": "{\n    \"id\" : \"54d3349844ae793fbcf589e1\",\n    \"cancelled\" : \"2014-01-13T11:26:00.000Z\",\n    \"doctor\" : {\n        \"id\" : \"546b8fd1ef660df8426005b6\",\n        \"first_name\" : \"Zbigniew\",\n        \"last_name\" : \"Religa\",\n        \"degree\": \"prof\",\n        \"email\" : \"zbigniew.religa@kunishu.com\",\n        \"phone\" : \"+48 792-321-654\"\n    }\n}",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1423127741260
+        }
+      ]
+    },
+    {
+      "id": "894950ee-d275-47e5-fb73-3f9e32fab877",
+      "name": "Users",
+      "timestamp": 1417357520041,
+      "order": [
+        "a705eda2-26f3-6955-8711-01cf3e182f99",
+        "eee7e871-0847-3875-428d-361e873318cd",
+        "8862f1b0-89b6-eb59-021e-60fdeb747dfe",
+        "2a3b82c3-aca9-6f7e-60e2-82b8aabbb24d",
+        "8b94058b-cd96-8161-2613-d646a5238301",
+        "34fa74ee-5ef3-7fad-7606-85dfb367b05a"
+      ],
+      "requests": [
+        {
+          "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+          "id": "2a3b82c3-aca9-6f7e-60e2-82b8aabbb24d",
+          "name": "Get user",
+          "description": "",
+          "url": "{{server}}/user/546b8fd1ef660df8426005b7",
+          "method": "GET",
+          "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+          "data": [
+            {
+              "key": "login",
+              "value": "johnny.bravo@kunishu.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "kunishu",
+              "type": "text"
+            }
+          ],
+          "dataMode": "params",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1417631159894
+        },
+        {
+          "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+          "id": "34fa74ee-5ef3-7fad-7606-85dfb367b05a",
+          "name": "Search users",
+          "description": "",
+          "url": "{{server}}/user?text=",
+          "method": "GET",
+          "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+          "data": " {\n    \"doctor\" : {\n        \"id\" : \"546b8fd1ef660df8426005b6\",\n        \"first_name\" : \"Zbigniew\",\n        \"last_name\" : \"Religa\",\n        \"degree\": \"prof\",\n        \"email\" : \"zbigniew.religa@kunishu.com\",\n        \"phone\" : \"+48 792-321-654\"\n    },\n    \"title\" : \"Wizyta stworzona przez innego lekarza\",\n    \"description\" : \"Nowe badanie doktora/pacjenta\",\n    \"start\" : \"2015-01-27 10:00:00\",\n    \"end\" : \"2015-01-27 10:30:00\",\n    \"patient\" : {\n            \"id\" : \"546b8fd1ef660ff8426005b6\",\n            \"first_name\" : \"Michaela\",\n            \"last_name\" : \"Quin\",\n            \"email\" : \"michaela.quin@kunishu.com\",\n            \"phone\" : \"+48 792 123 456\"\n    },\n    \"location\" : {\n        \"id\" : \"546b8fd1ef660df8426005b8\",\n        \"name\" : \"Pulsantis\",\n        \"address\" : {\n            \"street\" : \"Grabiszynska 8/4\",\n            \"city\" : \"WrocÅ‚aw\",\n            \"country\" : \"Poland\"\n        },\n        \"color\" : \"blue\",\n        \"working_hours\" : [\n            {\n                \"day\" : \"Monday\",\n                \"start\" : \"8:00\",\n                \"end\" : \"14:00\"\n            },\n            {\n                \"day\" : \"Tuesday\",\n                \"start\" : \"10:00\",\n                \"end\" : \"16:00\"\n            }\n        ]\n    }\n  }",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1422268943737
+        },
+        {
+          "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+          "id": "8862f1b0-89b6-eb59-021e-60fdeb747dfe",
+          "name": "Update user's account",
+          "description": "",
+          "url": "{{server}}/user",
+          "method": "PUT",
+          "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+          "data": "{  \n  \"id\": \"546b8fd1ef660df8426005b7\",\n  \"first_name\": \"Johnny\",  \n  \"last_name\": \"Bravo\",  \n  \"email\": \"johnny.bravo@kunishu.com\",\n  \"phone\": \"+48 792 123 456\",\n  \"profile\": {  \n    \"lang\": \"pl\",  \n    \"theme\": \"orange\"  \n  }\n}  ",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1423125392567
+        },
+        {
+          "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+          "id": "8b94058b-cd96-8161-2613-d646a5238301",
+          "name": "Get doctor's info",
+          "description": "",
+          "url": "{{server}}/user/546b8fd1ef660df8426005b6",
+          "method": "GET",
+          "headers": "Content-Type: application/json\nAuthorization: {{token}}\n",
+          "data": [
+            {
+              "key": "login",
+              "value": "zbigniew.religa@kunishu.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "kunishu",
+              "type": "text"
+            }
+          ],
+          "dataMode": "params",
+          "timestamp": 0,
+          "responses": [],
+          "version": 2
+        },
+        {
+          "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+          "id": "a705eda2-26f3-6955-8711-01cf3e182f99",
+          "name": "Register",
+          "description": "",
+          "url": "{{server}}/user",
+          "method": "POST",
+          "headers": "Content-Type: application/json\n",
+          "data": "{  \n  \"first_name\": \"Johnny\",  \n  \"last_name\": \"Bravo\",  \n  \"email\": \"johnny.bravo2@kunishu.com\",\n  \"phone\": \"+48 792 123 456\",\n  \"password\": \"kunishu\", \n  \"profile\": {  \n    \"lang\": \"pl\",  \n    \"theme\": \"orange\"  \n  },\n  \"captcha\": { \n    \"response\": \"03AHJ_VuvmCIRDNUFmD2SJvR9lRo5vuNaZXfSKoIJ4vfNXxdP9yA5XcawhOiJS5zLr9FQ_Fx0ZmSLrq1fqLX8eytH7cfrscN_a9aCgMvCM7SPtVmuRpR_roVE6cTjCDejdupFciFmvULbQHurdMdjUwiE8JDlTNE6t62312rq-gddxp7ZJ3l_4MYprL09_A4duQ1ccLWb_9bMSiGEjbsugRJVDC80XNBTZFRcG0ZQtukV69oMBpWF-aF6UqE7yX0mgGbtYyvB5EsD2\"\n  }\n}  ",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1424081994508
+        },
+        {
+          "collectionId": "894950ee-d275-47e5-fb73-3f9e32fab877",
+          "id": "eee7e871-0847-3875-428d-361e873318cd",
+          "name": "Reset password",
+          "description": "",
+          "url": "{{server}}/lost-password",
+          "method": "POST",
+          "headers": "Content-Type: application/json\n",
+          "data": "{  \n  \"email\": \"johnny.bravo@kunishu.com\",\n  \"captcha\": { \n    \"response\": \"03AHJ_VuvmCIRDNUFmD2SJvR9lRo5vuNaZXfSKoIJ4vfNXxdP9yA5XcawhOiJS5zLr9FQ_Fx0ZmSLrq1fqLX8eytH7cfrscN_a9aCgMvCM7SPtVmuRpR_roVE6cTjCDejdupFciFmvULbQHurdMdjUwiE8JDlTNE6t62312rq-gddxp7ZJ3l_4MYprL09_A4duQ1ccLWb_9bMSiGEjbsugRJVDC80XNBTZFRcG0ZQtukV69oMBpWF-aF6UqE7yX0mgGbtYyvB5EsD2\"\n  }\n}  ",
+          "dataMode": "raw",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1424329530736
+        }
+      ]
+    },
+    {
+      "id": "b88214e5-a137-5caa-6f5d-17132240c0af",
+      "name": "Generic",
+      "timestamp": 1415120209674,
+      "order": [
+        "b5dfd261-d076-f15e-c0bd-b5e9c20660fe",
+        "7bb7c43f-f75d-bbf4-286c-795450196a4d",
+        "a0f8f5aa-684b-95ea-d0be-f3ca9fbd3596",
+        "ef0784cd-6f52-1119-8883-13671117e020",
+        "ff4630ff-90cc-7ef5-3634-191ac7f74c96"
+      ],
+      "requests": [
+        {
+          "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+          "id": "7bb7c43f-f75d-bbf4-286c-795450196a4d",
+          "name": "Login as patient",
+          "description": "",
+          "url": "{{server}}/login",
+          "method": "POST",
+          "headers": "",
+          "data": [
+            {
+              "key": "login",
+              "value": "johnny.bravo@kunishu.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "kunishu",
+              "type": "text"
+            }
+          ],
+          "dataMode": "params",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1424266671616
+        },
+        {
+          "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+          "id": "a0f8f5aa-684b-95ea-d0be-f3ca9fbd3596",
+          "name": "Login as doctor",
+          "description": "",
+          "url": "{{server}}/login",
+          "method": "POST",
+          "headers": "",
+          "data": [
+            {
+              "key": "login",
+              "value": "zbigniew.religa@kunishu.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "kunishu",
+              "type": "text"
+            }
+          ],
+          "dataMode": "params",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1424265516541
+        },
+        {
+          "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+          "id": "b5dfd261-d076-f15e-c0bd-b5e9c20660fe",
+          "name": "CORS check",
+          "description": "",
+          "url": "{{server}}/login",
+          "method": "OPTIONS",
+          "headers": "",
+          "data": [
+            {
+              "key": "login",
+              "value": "wrona",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "wrona-pass",
+              "type": "text"
+            }
+          ],
+          "dataMode": "params",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1415615067820
+        },
+        {
+          "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+          "id": "ef0784cd-6f52-1119-8883-13671117e020",
+          "name": "Logout",
+          "description": "",
+          "url": "{{server}}/logout/9bd5c8763ed85b03d0040ce581948374cd8c6da54a190394bf0c2f0310ce3f8d",
+          "method": "POST",
+          "headers": "Authorization: {{token}}\n",
+          "data": [],
+          "dataMode": "params",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1421130763469
+        },
+        {
+          "collectionId": "b88214e5-a137-5caa-6f5d-17132240c0af",
+          "id": "ff4630ff-90cc-7ef5-3634-191ac7f74c96",
+          "name": "Ping",
+          "description": "",
+          "url": "{{server}}/ping",
+          "method": "GET",
+          "headers": "",
+          "data": [],
+          "dataMode": "params",
+          "timestamp": 0,
+          "version": 2,
+          "time": 1415609262017
+        }
+      ]
+    }
+  ],
+  "environments": [
+    {
+      "id": "31baa8d4-d231-6aa3-d75e-ca5996c5fc10",
+      "name": "DEV",
+      "values": [
+        {
+          "key": "server",
+          "value": "https://dev.hevicado.com/be",
+          "type": "text"
+        },
+        {
+          "key": "token",
+          "value": "995021a6848ccb9b1e22555a4b8e8af700ed11f9400f4d80e1bc149dcbf87d18",
+          "type": "text"
+        }
+      ],
+      "timestamp": 1422860531181
+    },
+    {
+      "id": "8daddfb7-acd7-5cd7-fea8-2f8a904b86ac",
+      "name": "DEV - directly",
+      "values": [
+        {
+          "key": "server",
+          "value": "http://dev.hevicado.com:8000",
+          "type": "text"
+        },
+        {
+          "key": "token",
+          "value": "995021a6848ccb9b1e22555a4b8e8af700ed11f9400f4d80e1bc149dcbf87d18",
+          "type": "text"
+        }
+      ],
+      "timestamp": 1422860707564
+    },
+    {
+      "id": "f5b1686d-10ce-9d2c-c65b-914da07b141e",
+      "name": "Local - SSH",
+      "values": [
+        {
+          "key": "server",
+          "value": "https://localhost/be",
+          "type": "text"
+        },
+        {
+          "key": "token",
+          "value": "38a843db6082b3e58c66cd3930da54da39a99f751088cde6b8735aaa297d772b",
+          "type": "text"
+        }
+      ],
+      "timestamp": 1422861453354
+    },
+    {
+      "id": "921d8360-901d-ca9e-c00c-510ab056c12e",
+      "name": "Local",
+      "values": [
+        {
+          "key": "server",
+          "value": "http://localhost:8000",
+          "type": "text"
+        },
+        {
+          "key": "token",
+          "value": "d235407a82d228eb6480fbe81bbfb65185c54ba2f7b327bc3db998f68582fd8d",
+          "type": "text"
+        }
+      ],
+      "timestamp": 1427697568560
+    }
+  ],
+  "headerPresets": [],
+  "globals": []
+}
