@@ -21,6 +21,9 @@ fe_instances:
     https_port: 10201
     url: 127.0.0.1
 
+# ports for inter-container communication
+lb_http: 80
+lb_https: 443
 # load balancer docker instances with ports for outside world
 lb_instances:
   - name: "{{ app_name }}-{{ env }}-lb-1"
