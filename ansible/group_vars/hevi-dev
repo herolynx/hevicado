@@ -1,8 +1,4 @@
 
-# ports available for the public (main cluster IO point)
-http_port: 20000
-https_port: 20001
-
 # ports for inter-container communication
 be_http: 8000
 # nginx docker instances with ports for outside world
@@ -24,11 +20,7 @@ fe_instances:
 # ports for inter-container communication
 lb_http: 80
 lb_https: 443
-# load balancer docker instances with ports for outside world
-lb_instances:
-  - name: "{{ app_name }}-{{ env }}-lb-1"
-    http_port: "{{ http_port }}"
-    https_port: "{{ https_port }}"
+app_url: "{{ env }}.hevicado.com"
 
 # mongo docker instance with ports for outside world
 mongo_name: "{{ app_name }}-{{ env }}-mongo-1"

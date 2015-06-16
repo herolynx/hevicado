@@ -3,7 +3,6 @@
 html_dir: "{{ app_root_dir }}/lb/html"
 nginx_html_dir: /usr/share/nginx/html
 
-config_dir: "{{ app_root_dir }}/lb/conf"
-nginx_config_dir: /etc/nginx/conf.d
-
-log_dir: "{{ log_root_dir }}/lb"
+nginx_site_available: /etc/nginx/sites-available
+nginx_site_enabled: /etc/nginx/sites-enabled
+site_config_name: "{{ app_name }}-{{ env }}"
