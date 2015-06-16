@@ -222,7 +222,6 @@ angular.module('hevicado.ui').
             };
             $rootScope.$on(AUTH_EVENTS.USER_LOGGED_IN, reinit);
             $rootScope.$on(AUTH_EVENTS.USER_LOGGED_OUT, reinit);
-            $rootScope.$on(AUTH_EVENTS.SESSION_REFRESH, reinit);
         }
 
     ]);
