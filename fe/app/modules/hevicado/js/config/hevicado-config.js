@@ -11,7 +11,7 @@ angular.module('hevicado.config', [
  * Application version
  */
 angular.module('hevicado.config').
-    value('version', '1.3.x.1');
+    value('version', '1.3.0-alpha');
 
 /**
  * Generic configuration

@@ -8,7 +8,7 @@ import sbtassembly.AssemblyKeys._
 object BuildSettings {
 
   val buildOrganization = "com.kunishu"
-  val buildVersion = "1.2.2"
+  val buildVersion = "1.3.0"
   val buildScalaVersion = "2.10.4"
 
   /**
