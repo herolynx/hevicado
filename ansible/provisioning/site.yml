@@ -9,3 +9,4 @@
     - mongo
     - nginx
     - ufw
+    - loadbalancer
