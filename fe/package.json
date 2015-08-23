@@ -1,7 +1,7 @@
 {
   "name": "hevicado",
   "private": true,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Hevicado application",
   "repository": "https://github.com/m-wrona/hevicado",
   "license": "MIT",
