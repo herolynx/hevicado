@@ -1,0 +1,69 @@
+---
+
+- name: Create loadbalancer html directory
+  file: path={{ html_dir }} state=directory mode="u=rwx,g=xr,o=x"
+  tags:
+    - loadbalancer
+    - deploy
+
+- name: Create loadbalancer SSL directory
+  file: path={{ cert_dir }} state=directory mode="u=rx,g=r,o=r"
+  tags:
+    - loadbalancer
+    - deploy
+
+- name: Copy loadbalancer error page for unhandled 40x errors
+  template: src=40x.html dest={{ html_dir }} mode="u=rx,g=rx,o=rx"
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer error page for unhandled 50x errors
+  template: src=50x.html dest={{ html_dir }} mode="u=rx,g=rx,o=rx"
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Delete default loadbalancer configuration
+  file: path={{ nginx_site_available }}/default state=absent
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Disable default loadbalancer configuration
+  file: path={{ nginx_site_enabled }}/default state=absent
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer configuration
+  template: src=default.conf dest={{ nginx_site_available }}/{{ site_config_name }} mode="u=rx,g=rx,o=rx"
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Enable loadbalancer configuration
+  file: src={{ nginx_site_available }}/{{ site_config_name }} dest={{ nginx_site_enabled }}/{{ site_config_name }} state=link
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer SSL certificate
+  copy: src={{ env }}.crt dest={{ cert_dir }}/{{ app_name }}.crt mode="u=rx,g=rx,o=rx"
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
+
+- name: Copy loadbalancer SSL public key
+  copy: src={{ env }}.key dest={{ cert_dir }}/{{ app_name }}.key mode="u=rx,g=rx,o=rx"
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy

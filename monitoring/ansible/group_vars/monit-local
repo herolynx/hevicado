@@ -1,0 +1,28 @@
+# logstash
+logstash_port: 5000
+logstash_instances:
+  - name: "{{ app_name }}-{{ env }}-logstash-1"
+    url: 0.0.0.0
+    port: 5000
+
+# elasticsearch
+elastic_port_1: 9200
+elastic_port_2: 9300
+elastic_instances:
+  - name: "{{ app_name }}-{{ env }}-elasticsearch-1"
+    url: 0.0.0.0
+    port_1: 9200
+    port_2: 9300
+
+# kibana
+kibana_port: 5601
+kibana_instances:
+  - name: "{{ app_name }}-{{ env }}-kibana-1"
+    url: 127.0.0.1
+    port: 5601
+
+# ports for inter-container communication
+lb_http: 80
+lb_https: 443
+app_url: "{{ env }}mon.hevicado.com"
+domain_prio: 3

@@ -10,3 +10,4 @@
     - nginx
     - ufw
     - loadbalancer
+    - logstash-fwd

@@ -1,0 +1,8 @@
+---
+
+html_dir: "{{ app_root_dir }}/lb/html"
+nginx_html_dir: /usr/share/nginx/html
+
+nginx_site_available: /etc/nginx/sites-available
+nginx_site_enabled: /etc/nginx/sites-enabled
+site_config_name: "{{ domain_prio }}-{{ app_name }}-{{ env }}"

@@ -128,6 +128,57 @@ sudo build.sh
 ansible-playbook -i {{env}} deployment/site.yml
 ```
 
+## Monitoring
+
+Hevicado has monitoring prepared that is tracing:
+
+* access logs
+
+* loadbalancer
+
+* hevicado modules: mongo, backend, frontend
+
+Monitoring is done using ELK stack: elasticsearch-logstash-kibana.
+
+All trafic between hevicado and monitoring is done using SSL.
+
+##### Monitoring build & deployment
+
+1) Go to monitoring project
+
+```shell
+cd monitoring/anible
+```
+
+2) Provision monitoring with needed packages:
+
+```shell
+ansible-playbook -i {{env}} provisioning/site.yml
+```
+
+3) Deploy all to monitoring cluster:
+
+```shell
+ansible-playbook -i {{env}} deployment/site.yml
+```
+
+##### Generating self-signed certificate:
+
+***Note:*** Project contains all needed certificates. This section is valid in case some certificate expires. 
+
+1) Set up IP in v3_ca in /etc/ssl/openssl.cnf or provide separate config where it's set
+
+```
+[ v3_ca ]
+subjectAltName = IP:{ node_ip }
+```
+
+2) Generate certificate
+
+openssl req -x509 -batch -nodes -newkey rsa:2048 -keyout dev.key -out dev.crt -days 999
+
+## Other
+
 ##### Ansible - common commands
 
 1) Ping

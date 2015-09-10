@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  sudo: yes
+  roles:
+    - base
+    - docker
+    - logstash
+    - elasticsearch
+    - kibana
+    - loadbalancer

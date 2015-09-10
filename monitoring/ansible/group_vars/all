@@ -1,0 +1,13 @@
+---
+
+app_name: hevicado-monitoring
+
+# app directory structure
+app_root_dir: "/usr/share/lynx/{{ env }}/{{ app_name }}"
+cert_dir: "{{ app_root_dir }}/ssl"
+log_root_dir: "/var/log/lynx/{{ env }}/{{ app_name }}"
+
+# docker images
+logstash_image: logstash
+elasticsearch_image: elasticsearch
+kibana_image: kibana

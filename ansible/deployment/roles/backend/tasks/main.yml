@@ -36,6 +36,7 @@
   tags:
     - backend
     - deploy
+    - package
 
 - name: Copy backend configuration file
   template: src="hevicado.conf" dest={{ remote_pkg_dir }} mode="u=rw,g=r,o=r"

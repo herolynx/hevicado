@@ -1,4 +1,9 @@
 ---
 
 remote_mongodb_dir: "{{ app_root_dir }}/mongo"
+data_dir: "/data/db"
+
+mongo_config: "{{ remote_mongodb_dir }}/config"
+
 log_dir: "{{ log_root_dir }}/mongo"
+log_file_name: "mongodb.log"

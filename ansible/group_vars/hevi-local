@@ -30,3 +30,12 @@ mongo_port: 10050
 mongo_db_name: hevicadoDB
 # port for inter-container communication
 mongo_db_port: 27017
+
+# logstash forward docker instances with ports for outside world
+logstash_fwd_port: 5000
+logstash_fwd_instances:
+  - name: "{{ app_name }}-{{ env }}-logstash_fwd-1"
+    port: 5000
+
+monitoring_nodes: 
+  - "10.10.2.30:{{ logstash_fwd_port }}"
