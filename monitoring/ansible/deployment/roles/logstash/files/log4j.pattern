@@ -1,0 +1,3 @@
+LOG4J %{TIMESTAMP_ISO8601:logdate} %{LOGLEVEL:level} %{BE_TEXT:host} %{BE_TEXT:classname} \s*-\s* %{BE_ANY:details}
+BE_TEXT ([a-zA-Z0-9.-]+)
+BE_ANY .*

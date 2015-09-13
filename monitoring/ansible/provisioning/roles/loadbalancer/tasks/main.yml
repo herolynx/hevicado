@@ -1,0 +1,6 @@
+---
+- name: Install loadbalancer
+  apt: name=nginx state=present
+  tags:
+    - loadbalancer
+    - provision

@@ -1,5 +1,23 @@
 ---
 
+- name: Create mongo config directory
+  file: path={{ mongo_config }} state=directory mode="u=rwx,g=rwx,o=rx"
+  tags:
+    - mongo
+    - deploy
+
+- name: Copy mongo configuration
+  template: src=mongodb.conf dest="{{ mongo_config }}/" mode="u=rx,g=rx,o=rx"
+  tags:
+      - mongo
+      - deploy
+
+- name: Create mongo log file
+  file: path={{ log_dir }}/{{ log_file_name }} state=touch mode="u=rwx,g=rwx,o=rwx"
+  tags:
+    - mongo
+    - deploy
+
 - name: Create mongo log directory
   file: path={{ log_dir }} state=directory mode="u=rwx,g=rwx,o=rx"
   tags:
@@ -32,9 +50,10 @@
     name: "{{ mongo_name }}"
     image: "{{ mongo_image }}"
     state: reloaded
-    pull: missing
     ports:
     - "{{ mongo_url }}:{{ mongo_port }}:{{ mongo_db_port }}"
+    command: "mongod --config {{ mongo_config }}/mongodb.conf"
     volumes:
-    - "{{ remote_mongodb_dir }}:/data/db"
-    - "{{ log_dir }}:/var/log/mongodb"
+    - "{{ mongo_config }}:{{ mongo_config }}"
+    - "{{ remote_mongodb_dir }}:{{ data_dir }}"
+    - "{{ log_dir }}:{{ log_dir }}"

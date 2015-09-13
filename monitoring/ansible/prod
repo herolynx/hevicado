@@ -1,0 +1,5 @@
+[monit-prod]
+takamori ansible_connection=ssh ansible_ssh_host=46.101.239.127 ansible_ssh_user=root
+
+[monit-prod:vars]
+env=prod

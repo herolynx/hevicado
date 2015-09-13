@@ -1,6 +1,9 @@
 ---
 
 # Base packages
+
+- apt: update_cache=yes
+
 - name: Install pip
   apt: name=python-pip state=present
   tags:

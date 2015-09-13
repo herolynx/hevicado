@@ -1,0 +1,5 @@
+[monit-local]
+monitoring-node1 ansible_connection=ssh ansible_ssh_host=10.10.2.30 ansible_ssh_user=vagrant
+
+[monit-local:vars]
+env=local

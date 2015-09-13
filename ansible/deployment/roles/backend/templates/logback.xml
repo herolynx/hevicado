@@ -6,7 +6,7 @@
         <file>{{ log_dir }}/{{ app_name }}.log</file>
         <append>true</append>
         <encoder>
-            <pattern>[%X{sourceThread}] [%X{akkaSource}] [%t] [%4p] [%d{ISO8601}] %c{1}: %m%n</pattern>
+            <pattern>%date{ISO8601} %-5level ${HOSTNAME} %logger{36} - [%X{sourceThread}][%X{akkaSource}] %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>{{ log_dir }}/{{ app_name }}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>

@@ -15,6 +15,7 @@ be_pkg: "backend.tar.gz"
 # docker generic images
 nginx_image: nginx
 mongo_image: mongo
+logstash_fwd_image: logstash-forward
 
 # docker app specific images
 be_server_image: hevicado-be

@@ -8,3 +8,4 @@
     - backend
     - frontend
     - loadbalancer
+    - logstash-fwd

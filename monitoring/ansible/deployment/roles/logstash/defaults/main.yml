@@ -1,0 +1,13 @@
+---
+
+# conf
+logstash_conf: /etc/logstash/conf.d
+remote_conf: "{{ app_root_dir }}/logstash/conf.d"
+
+# patterns
+logstash_patterns: /etc/logstash/patterns.d
+remote_patterns: "{{ app_root_dir }}/logstash/patterns"
+
+# logs
+log_dir: /var/log/logstash
+remote_log_dir: "{{ log_root_dir }}/logstash"

@@ -1,0 +1,22 @@
+---
+
+logstash_cert: "{{ app_root_dir }}/logstash-fwd/ssl"
+
+config_dir: "{{ app_root_dir }}/logstash-fwd/conf"
+remote_config_dir: /etc/logstash-forwarder
+
+log_dir: "{{ log_root_dir }}/logstash-fwd"
+
+hevicado_log: "/var/log/lynx/{{ env }}/hevicado"
+
+lb_log: "/var/log/nginx"
+
+nginx_log_dirs:
+  - "{{ hevicado_log }}/fe/*.log"
+  - "{{ lb_log }}/*.log"
+
+be_log_dirs:
+ - "{{ hevicado_log }}/be/**/*.log"
+
+mongo_log_dirs:
+  - "{{ hevicado_log }}/mongo/*.log"

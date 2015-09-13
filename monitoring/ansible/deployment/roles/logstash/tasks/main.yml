@@ -1,0 +1,139 @@
+---
+
+- name: Create logstash conf directory
+  file: path={{ remote_conf }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - logstash
+    - deploy
+
+- name: Create logstash pattern directory
+  file: path={{ remote_patterns }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - logstash
+    - deploy
+
+- name: Create logstash remote log directory
+  file: path={{ remote_log_dir }} state=directory mode="u=rwx,g=rwx,o=rwx"
+  tags:
+    - logstash
+    - deploy
+
+- name: Create logstash cert directory
+  file: path={{ cert_dir }} state=directory mode="u=rwx,g=xr,o=rx"
+  tags:
+    - logstash
+    - deploy    
+
+- name: Copy logstash lumberjack input conf
+  template: src=01-lumberjack-input.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash syslog conf
+  template: src=10-syslog.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash nginx conf
+  template: src=11-nginx.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash log4j conf
+  template: src=12-log4j.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy      
+
+- name: Copy logstash mongo conf
+  template: src=13-mongo.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy 
+
+- name: Copy logstash lumberjack output conf
+  template: src=30-lumberjack-output.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Deleting old main logstash config file
+  file: path="{{ remote_conf }}/logstash.conf" state=absent
+  tags:
+      - logstash
+      - deploy
+
+- name: Merging partial config files into one main logstash config file 
+  assemble: src={{ remote_conf }} dest="{{ remote_conf }}/logstash.conf" delimiter='\n' mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash SSL certificate
+  copy: src={{ env }}.crt dest={{ cert_dir }}/logstash.crt mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash SSL public key
+  copy: src={{ env }}.key dest={{ cert_dir }}/logstash.key mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash nginx pattern
+  copy: src=nginx.pattern dest={{ remote_patterns }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash log4j pattern
+  copy: src=log4j.pattern dest={{ remote_patterns }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Copy logstash mongo pattern
+  copy: src=mongo.pattern dest={{ remote_patterns }} mode="u=rx,g=rx,o=rx"
+  tags:
+      - logstash
+      - deploy
+
+- name: Stop logstash docker containers
+  tags:
+    - logstash
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ logstash_image }}"
+    state: stopped
+  with_items: logstash_instances
+
+- name: Start logstash docker containers
+  tags:
+    - logstash
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ logstash_image }}"
+    command: "logstash agent --config {{ logstash_conf }}/logstash.conf --log {{ log_dir }}/logstash.log"
+    state: reloaded
+    restart_policy: always
+    expose:
+    - "{{ logstash_port }}"
+    ports:
+    - "{{ item.url }}:{{ item.port }}:{{ logstash_port }}"
+    links:
+    - "{{ elastic_instances[0].name }}:{{ elastic_instances[0].name }}"
+    volumes:
+    - "{{ remote_conf }}:{{ logstash_conf }}"
+    - "{{ remote_patterns }}:{{ logstash_patterns }}"
+    - "{{ remote_log_dir }}:{{ log_dir }}"
+    - "{{ cert_dir }}:{{ cert_dir }}"
+  with_items: logstash_instances
