@@ -1,7 +1,7 @@
 ---
 
 - name: Create loadbalancer html directory
-  file: path={{ html_dir }} state=directory mode="u=rwx,g=xr,o=x"
+  file: path={{ html_dir }} state=directory mode="u=rwx,g=xr,o=xr"
   tags:
     - loadbalancer
     - deploy
@@ -11,6 +11,13 @@
   tags:
     - loadbalancer
     - deploy
+
+- name: Copy loadbalancer htpasswd configuration
+  copy: src=htpasswd dest={{ html_dir }}/.htpasswd mode="u=rx,g=xr,o=xr"
+  notify: restart loadbalancer
+  tags:
+      - loadbalancer
+      - deploy
 
 - name: Copy loadbalancer error page for unhandled 40x errors
   template: src=40x.html dest={{ html_dir }} mode="u=rx,g=rx,o=rx"
