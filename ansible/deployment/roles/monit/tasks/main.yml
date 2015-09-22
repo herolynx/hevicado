@@ -1,0 +1,42 @@
+
+- name: Copy monit configuration
+  template: src=monitrc dest={{ config_dir }} mode="u=rx,g=,o="
+  notify: restart monit
+  tags:
+      - monit
+      - deploy
+
+- name: Copy nginx monitoring configuration
+  template: src=nginx.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
+  notify: restart monit
+  tags:
+      - monit
+      - deploy
+
+- name: Copy zabbix aggent monitoring configuration
+  template: src=zabbix_agent.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
+  notify: restart monit
+  tags:
+      - monit
+      - deploy
+
+- name: Copy docker monitoring configuration
+  template: src=docker.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
+  notify: restart monit
+  tags:
+      - monit
+      - deploy
+
+- name: Create directory for docker check scripts
+  file: path={{ config_docker_dir }} state=directory mode="u=rwx,g=rx,o=rx"
+  tags:
+      - monit
+      - deploy
+
+- name: Copy check script for docker containers
+  template: src=docker_check.sh dest="{{ config_docker_dir }}/check_{{ item }}.sh" mode="u=rx,g=,o="
+  notify: restart monit
+  with_items: montit_docker_containers
+  tags:
+      - monit
+      - deploy

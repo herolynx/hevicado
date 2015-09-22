@@ -8,6 +8,7 @@
     - docker
     - mongo
     - nginx
-    - ufw
     - loadbalancer
     - logstash-fwd
+    - zabbix
+    - monit

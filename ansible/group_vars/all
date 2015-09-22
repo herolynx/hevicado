@@ -1,5 +1,6 @@
 ---
 
+########################################## MAIN #######################################################
 app_name: hevicado
 
 # app directory structure
@@ -12,6 +13,13 @@ pkg_dir: "../../../../pkgs"
 fe_pkg: "frontend.tar.gz"
 be_pkg: "backend.tar.gz"
 
+########################################## LOAD-BALANCER #######################################################
+lb_http: 80
+lb_https: 443
+app_url: "hevicado.com, hevicado.pl"
+domain_prio: 1
+
+########################################## DOCKER #######################################################
 # docker generic images
 nginx_image: nginx
 mongo_image: mongo
@@ -19,3 +27,68 @@ logstash_fwd_image: logstash-forward
 
 # docker app specific images
 be_server_image: hevicado-be
+
+########################################## BACKEND #######################################################
+# ports for inter-container communication
+be_http: 8000
+# nginx docker instances with ports for outside world
+be_instances:
+  - name: "{{ app_name }}-{{ env }}-be-1"
+    url: 127.0.0.1
+    http_port: 10100
+
+########################################## FRONTEND #######################################################
+# ports for inter-container communication
+fe_http: 80
+fe_https: 443
+# nginx docker instances with ports for outside world
+fe_instances:
+  - name: "{{ app_name }}-{{ env }}-fe-1"
+    http_port: 10200
+    https_port: 10201
+    url: 127.0.0.1
+
+########################################## DATABASE #######################################################
+# mongo docker instance with ports for outside world
+mongo_name: "{{ app_name }}-{{ env }}-mongo-1"
+mongo_url: 127.0.0.1
+mongo_port: 10010
+mongo_db_name: hevicadoDB
+# port for inter-container communication
+mongo_db_port: 27017
+
+########################################## MONITORING #######################################################
+# logstash forward docker instances with ports for outside world
+logstash_fwd_port: 5000
+
+logstash_fwd_instances:
+  - name: "{{ app_name }}-{{ env }}-logstash_fwd-1"
+    port: 5000
+
+# agents (outer communication)
+zabbix_dist_name: trusty
+logstash_agent_port: 5000
+zabbix_agent_port: 10050
+
+#monit
+#freq how often in secs services will be checked whether they're up
+monit_service_check: 15
+#delay the first monit check by seconds
+monit_check_delay: 15
+
+#containers to be monitored
+montit_docker_containers:
+  - "{{ be_instances[0].name }}"
+  - "{{ fe_instances[0].name }}"
+  - "{{ mongo_name }}"
+  - "{{ logstash_fwd_instances[0].name }}"
+
+########################################## FIREWALL #######################################################
+ssh_port: 22
+
+firewall_ports_open:
+  - "{{ ssh_port }}"
+  - "{{ lb_http }}"
+  - "{{ lb_https }}"
+  - "{{ logstash_fwd_instances[0].port }}"
+  - "{{ zabbix_agent_port }}"

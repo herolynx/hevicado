@@ -6,7 +6,7 @@
     - elasticsearch
   tasks:
     - name: waiting till elasticsearch is up
-      wait_for: port="{{ elastic_port_1 }}" delay=10
+      wait_for: port="{{ elastic_instances[0].port_1 }}" delay=10
 
 - hosts: all
   sudo: yes
@@ -14,10 +14,13 @@
     - logstash
   tasks:
     - name: waiting till logstash is up
-      wait_for: port="{{ logstash_port }}" delay=10
+      wait_for: port="{{ logstash_instances[0].port }}" delay=10
 
 - hosts: all
   sudo: yes
   roles:
     - kibana
+    - zabbix
     - loadbalancer
+    - ufw
+    - monit
