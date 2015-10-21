@@ -1,5 +1,6 @@
 package com.kunishu.users.logic
 
+import com.kunishu.core.monit.Instrumented
 import com.kunishu.core.processing
 import com.kunishu.core.processing.{ UnauthorizedError, ValidationError, Result}
 import com.kunishu.core.security.Encryption._
@@ -16,7 +17,7 @@ import com.kunishu.model.user.UserValidator._
  * @author Michal Wronski
  * @since 1.0
  */
-trait UserAccount {
+trait UserAccount extends Instrumented {
 
   protected val userRepo: UserRepo
 
@@ -26,7 +27,7 @@ trait UserAccount {
    * @param user user accessing account
    * @return non-nullable result
    */
-  def updateAccount(userToUpdate: AnyUser, user: AnyUser): Result[Boolean] = {
+  def updateAccount(userToUpdate: AnyUser, user: AnyUser): Result[Boolean] = segment("updateAccount") {
     var result: Result[Boolean] = null
     if (userToUpdate.id.isEmpty || !user.id.get.equals(userToUpdate.id.get)) {
       result = UnauthorizedError("Cannot update user's account: " + userToUpdate.id)
@@ -49,7 +50,7 @@ trait UserAccount {
    * @param user account to be created
    * @return non-nullable result
    */
-  def createAccount(user: AnyUser): Result[String] = {
+  def createAccount(user: AnyUser): Result[String] = segment("createAccount") {
     var result: Result[String] = null
     val validationResult = isValid[String](user)
     val hashedPassword = user.attributes.get(attPassword).map(p => hash(p.toString)).getOrElse("")

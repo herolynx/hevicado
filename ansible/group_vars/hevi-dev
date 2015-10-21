@@ -1,6 +1,0 @@
-
-logstash_servers:
-  - "46.101.141.36:{{ logstash_agent_port }}"
-
-zabbix_servers:
-  - "46.101.141.36"

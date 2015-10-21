@@ -1,0 +1,49 @@
+---
+
+- name: Create graphite data directory
+  file: path={{ remote_graphite_data }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - kamon
+    - deploy
+
+- name: Create grafana data directory
+  file: path={{ remote_grafana_data }} state=directory mode="u=rwx,g=xr,o=xr"
+  tags:
+    - kamon
+    - deploy
+
+- name: Stop Grafana docker containers
+  tags:
+    - kamon
+    - deploy
+    - just-restart
+    - just-stop
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ grafana_image }}"
+    state: stopped
+  with_items: kamon_instances
+
+- name: Start Grafana docker containers
+  tags:
+    - kamon
+    - deploy
+    - just-restart
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ grafana_image }}"
+    state: reloaded
+    restart_policy: always
+    expose:
+    - "{{ kamon_web_port }}"
+    - "{{ kamon_statsd_port }}"
+    - "{{ kamon_statsd_admin_port }}"
+    ports:
+    - "{{ item.url }}:{{ item.web_port }}:{{ kamon_web_port }}"
+    - "{{ item.url }}:{{ item.statsd_port }}:{{ kamon_statsd_port }}"
+    - "0.0.0.0:{{ item.statsd_port }}:{{ kamon_statsd_port }}/udp"
+    - "{{ item.url }}:{{ item.statsd_admin_port }}:{{ kamon_statsd_admin_port }}"
+    volumes:
+    - "{{ remote_graphite_data }}:{{ graphite_data }}"
+    - "{{ remote_grafana_data }}:{{ grafana_data }}"
+  with_items: kamon_instances

@@ -10,5 +10,4 @@
     - nginx
     - loadbalancer
     - logstash-fwd
-    - zabbix
     - monit

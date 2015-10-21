@@ -7,6 +7,7 @@ import com.kunishu.model.security.AccessPass
 import com.kunishu.model.user.AnyUser
 import com.kunishu.security.logic.{TokenAuthentication, UserAuthentication}
 import com.kunishu.security.io.AuthenticationRepo
+import com.kunishu.services.monit.ServiceHealthCheck
 import com.kunishu.services.users.UserService.UserModifiedNotification
 
 /**
@@ -34,7 +35,7 @@ object AuthenticationService {
  * @author Michal Wronski
  * @since 1.0
  */
-class AuthenticationService(repo: AuthenticationRepo, eMailService: EmailGateway) extends Actor with ActorLogging
+class AuthenticationService(repo: AuthenticationRepo, eMailService: EmailGateway) extends Actor with ActorLogging with ServiceHealthCheck
 with UserAuthentication with TokenAuthentication {
 
   import com.kunishu.services.security.AuthenticationService._
@@ -44,29 +45,33 @@ with UserAuthentication with TokenAuthentication {
 
   override def receive = LoggingReceive {
 
-    case Auth(token) => {
-      log.debug("Authenticating token: {}", token)
-      sender() ! AuthResult(authToken(token))
-    }
+    healthCheck orElse {
 
-    case Login(login, password) => {
-      log.debug("Loging user - login: {}", login)
-      sender() ! LoginResp(authUser(login, password))
-    }
+      case Auth(token) => {
+        log.debug("Authenticating token: {}", token)
+        sender() ! AuthResult(authToken(token))
+      }
 
-    case Logout(token) => {
-      log.debug("Invalidating token: {}", token)
-      invalidateToken(token)
-    }
+      case Login(login, password) => {
+        log.debug("Loging user - login: {}", login)
+        sender() ! LoginResp(authUser(login, password))
+      }
 
-    case LostPassword(user) => {
-      log.debug("Regaining lost account of user: {}", user.eMail)
-      regainAccount(user)
-    }
+      case Logout(token) => {
+        log.debug("Invalidating token: {}", token)
+        invalidateToken(token)
+      }
 
-    case UserModifiedNotification(user) => {
-      log.debug("User has changed {} - updating existing tokens", user)
-      updateUserInfo(user)
+      case LostPassword(user) => {
+        log.debug("Regaining lost account of user: {}", user.eMail)
+        regainAccount(user)
+      }
+
+      case UserModifiedNotification(user) => {
+        log.debug("User has changed {} - updating existing tokens", user)
+        updateUserInfo(user)
+      }
+
     }
 
   }

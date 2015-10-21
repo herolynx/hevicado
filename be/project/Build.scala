@@ -1,5 +1,5 @@
 import sbt._
-import Keys._
+import sbt.Keys._
 import sbtassembly.AssemblyKeys._
 
 object HevicadoBuild extends Build {
@@ -12,9 +12,10 @@ object HevicadoBuild extends Build {
   lazy val hevicado = Project(
     "hevicado",
     file("."),
-    settings = buildSettings ++ Seq(
-      test in assembly := {}
-    )
+    settings = buildSettings ++
+      Seq(
+        test in assembly := {}
+      )
   ).aggregate(
       moduleDomain,
       moduleIOStorage,
@@ -34,7 +35,8 @@ object HevicadoBuild extends Build {
         libraryDependencies ++= (
           GenericDependencies.commonDeps ++
             AkkaDependencies.allDeps ++
-            SprayDependencies.allDeps
+            SprayDependencies.allDeps ++
+            MonitoringDependencies.webDeps
           )
       )
   ).dependsOn(
@@ -56,7 +58,8 @@ object HevicadoBuild extends Build {
         resolvers := projectResolvers,
         libraryDependencies ++= (
           GenericDependencies.commonDeps ++
-            AkkaDependencies.allDeps
+            AkkaDependencies.allDeps ++
+            MonitoringDependencies.serviceDeps
           )
       )
   ).dependsOn(
@@ -75,7 +78,8 @@ object HevicadoBuild extends Build {
         resolvers := projectResolvers,
         libraryDependencies ++= (
           GenericDependencies.commonDeps ++
-            DbDependencies.allDeps
+            DbDependencies.allDeps ++
+            MonitoringDependencies.coreDeps
           )
       ),
     dependencies = Seq(moduleDomain % depCompileTest)
@@ -95,7 +99,8 @@ object HevicadoBuild extends Build {
       Seq(
         resolvers := projectResolvers,
         libraryDependencies ++= (
-          GenericDependencies.commonDeps
+          GenericDependencies.commonDeps ++
+            MonitoringDependencies.coreDeps
           )
       ),
     dependencies = Seq(moduleDomain % depCompileTest)
@@ -108,7 +113,8 @@ object HevicadoBuild extends Build {
       Seq(
         resolvers := projectResolvers,
         libraryDependencies ++= (
-          GenericDependencies.commonDeps
+          GenericDependencies.commonDeps ++
+            MonitoringDependencies.coreDeps
           )
       ),
     dependencies = Seq(moduleDomain % depCompileTest)
@@ -121,7 +127,8 @@ object HevicadoBuild extends Build {
       Seq(
         resolvers := projectResolvers,
         libraryDependencies ++= (
-          GenericDependencies.commonDeps
+          GenericDependencies.commonDeps ++
+            MonitoringDependencies.coreDeps
           )
       ),
     dependencies = Seq(moduleDomain % depCompileTest)
@@ -135,7 +142,8 @@ object HevicadoBuild extends Build {
       Seq(
         resolvers := projectResolvers,
         libraryDependencies ++= (
-          GenericDependencies.commonDeps
+          GenericDependencies.commonDeps ++
+            MonitoringDependencies.coreDeps
           )
       )
   )

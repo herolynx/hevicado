@@ -1,4 +1,10 @@
 
+- name: "Including monit credentials"
+  include_vars: creds.yml
+  tags:
+      - monit
+      - deploy
+      
 - name: Copy monit configuration
   template: src=monitrc dest={{ config_dir }} mode="u=rx,g=,o="
   notify: restart monit
@@ -8,13 +14,6 @@
 
 - name: Copy nginx monitoring configuration
   template: src=nginx.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
-  notify: restart monit
-  tags:
-      - monit
-      - deploy
-
-- name: Copy zabbix aggent monitoring configuration
-  template: src=zabbix_server.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
   notify: restart monit
   tags:
       - monit

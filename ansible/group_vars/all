@@ -49,32 +49,37 @@ fe_instances:
     url: 127.0.0.1
 
 ########################################## DATABASE #######################################################
-# mongo docker instance with ports for outside world
+# mongo docker instance
 mongo_name: "{{ app_name }}-{{ env }}-mongo-1"
 mongo_url: 127.0.0.1
+#mongo outer port
 mongo_port: 10010
 mongo_db_name: hevicadoDB
 # port for inter-container communication
 mongo_db_port: 27017
 
 ########################################## MONITORING #######################################################
-# logstash forward docker instances with ports for outside world
+# logstash docker instance inner port
 logstash_fwd_port: 5000
+# logstash outer port
+logstash_agent_port: 5000
 
 logstash_fwd_instances:
   - name: "{{ app_name }}-{{ env }}-logstash_fwd-1"
-    port: 5000
-
-# agents (outer communication)
-zabbix_dist_name: trusty
-logstash_agent_port: 5000
-zabbix_agent_port: 10050
+    port: "{{ logstash_agent_port }}"
 
 #monit
 #freq how often in secs services will be checked whether they're up
 monit_service_check: 15
 #delay the first monit check by seconds
 monit_check_delay: 15
+monit_alert_cpu: 80%
+monit_alert_memory: "1500.0 MB"
+monit_users:
+  - herolynxcom@gmail.com
+  - michal.robert.wronski@gmail.com
+  - tomasz.cimicki@gmail.com
+  - krooshon@gmail.com
 
 #containers to be monitored
 montit_docker_containers:
@@ -82,6 +87,26 @@ montit_docker_containers:
   - "{{ fe_instances[0].name }}"
   - "{{ mongo_name }}"
   - "{{ logstash_fwd_instances[0].name }}"
+
+web_admin_token: "Q8enThKhPEKkflEC9UgxMg38WwgEoXHPlicIX9sFd0dFS0MqiTa2CsfHnDkzxpbw"
+
+healthcheck_paths:
+  - "/health/{{ web_admin_token }}"
+  - "/health/{{ web_admin_token }}/repository"
+  #- "/health/{{ web_admin_token }}/mail"
+  - "/health/{{ web_admin_token }}/captcha"
+  - "/health/{{ web_admin_token }}/users"
+  - "/health/{{ web_admin_token }}/calendar"
+  - "/health/{{ web_admin_token }}/security"
+
+################# METRICS #####################
+#in seconds
+statsd_port: 8125
+kamon_flush_interval: 20
+kamon_log_reporter_start: "no"
+kamon_statsd_start: "yes"
+
+aspect_version: 1.8.7
 
 ########################################## FIREWALL #######################################################
 ssh_port: 22
@@ -91,4 +116,4 @@ firewall_ports_open:
   - "{{ lb_http }}"
   - "{{ lb_https }}"
   - "{{ logstash_fwd_instances[0].port }}"
-  - "{{ zabbix_agent_port }}"
+  - "{{ statsd_port }}"

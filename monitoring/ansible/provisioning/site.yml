@@ -9,5 +9,5 @@
     - elasticsearch
     - kibana
     - loadbalancer
-    - zabbix
+    - kamon
     - monit

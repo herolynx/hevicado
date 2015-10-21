@@ -1,5 +1,6 @@
 package com.kunishu.chronos.logic
 
+import com.kunishu.core.monit.Instrumented
 import com.kunishu.model.calendar.{Visit}
 import com.kunishu.model.calendar.VisitValidator._
 import com.kunishu.chronos.io.{UserGateway, CalendarRepo}
@@ -17,7 +18,7 @@ import scala.concurrent.Future
  * @author Michal Wronski
  * @since 1.0
  */
-trait Visits {
+trait Visits extends Instrumented {
 
   protected val calendarRepo: CalendarRepo
   protected val userGateway: UserGateway
@@ -28,7 +29,7 @@ trait Visits {
    * @param user user accessing data
    * @return non-nullable result
    */
-  def getVisit(id: String, user: AnyUser): Result[Visit] = {
+  def getVisit(id: String, user: AnyUser): Result[Visit] = segment("getVisit") {
     val visit = calendarRepo.get(id).
       filter(v => userParticipates(v, user))
     asResult(visit, "Visit not found: " + id)
@@ -39,7 +40,7 @@ trait Visits {
    * @param changedUser info about changed user
    * @return future result of update
    */
-  def changeUserInVisits(changedUser: AnyUser): Future[Boolean] =
+  def changeUserInVisits(changedUser: AnyUser): Future[Boolean] = futureSegment("changeUserInVisits") {
     userGateway.
       getUser(changedUser.id.get, changedUser).
       map(_.get).
@@ -72,6 +73,7 @@ trait Visits {
 
         }
       )
+  }
 
 
 }

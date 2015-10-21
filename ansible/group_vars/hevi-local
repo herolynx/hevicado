@@ -2,5 +2,5 @@
 logstash_servers:
   - "10.10.2.30:{{ logstash_agent_port }}"
 
-zabbix_servers:
+metrics_servers:
   - "10.10.2.30"

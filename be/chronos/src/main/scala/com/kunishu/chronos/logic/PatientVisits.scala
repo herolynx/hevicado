@@ -39,10 +39,11 @@ trait PatientVisits extends Visits {
    * @param user user access data
    * @return non-nullable result
    */
-  def getPatientVisits(ownerId: String, start: DateTime, end: DateTime, user: AnyUser): Result[Seq[Visit]] =
+  def getPatientVisits(ownerId: String, start: DateTime, end: DateTime, user: AnyUser): Result[Seq[Visit]] = segment("getPatientVisits") {
     chainOf[Seq[Visit]].
       check(isOwner(ownerId, user)).
       then(() => Success(calendarRepo.getPatientVisits(ownerId, start, end)))
+  }
 
   /**
    * Find doctors based on given criteria
@@ -50,7 +51,7 @@ trait PatientVisits extends Visits {
    * @param user user accessing data
    * @return non-nullable future results
    */
-  def findDoctors(criteria: SearchDoctorCriteria, user: AnyUser): Future[Result[Seq[Doctor]]] = {
+  def findDoctors(criteria: SearchDoctorCriteria, user: AnyUser): Future[Result[Seq[Doctor]]] = futureSegment("findDoctors") {
     userGateway.
       findDoctors(new SearchUserCriteria(criteria.map, false), user).
       map(
@@ -79,7 +80,7 @@ trait PatientVisits extends Visits {
    * @param user user accessing data
    * @return non-nullable result with promise of ID of newly created visit
    */
-  def createPatientVisit(visit: Visit, user: AnyUser): Future[Result[String]] = {
+  def createPatientVisit(visit: Visit, user: AnyUser): Future[Result[String]] = futureSegment("createPatientVisit") {
     userGateway.
       getUser(visit.doctor.id.get, user).
       map(
@@ -117,7 +118,7 @@ trait PatientVisits extends Visits {
    * @param user user accessing data
    * @return non-nullable result with update status
    */
-  def updatePatientVisit(visit: Visit, user: AnyUser): Result[Boolean] = {
+  def updatePatientVisit(visit: Visit, user: AnyUser): Result[Boolean] = segment("updatePatientVisit") {
     val repoVisit = calendarRepo.get(visit.id.get)
     chainOf[Boolean].
       check(() => isPresent(repoVisit, "Visit not found: " + visit.id.get)).
@@ -143,7 +144,7 @@ trait PatientVisits extends Visits {
    * @param visits visits to be summarized
    * @return new instance of doctor with summary calendar info
    */
-  private def attachCalendarInfo(doctor: Doctor, start: DateTime, end: DateTime, visits: Seq[Visit]): Doctor = {
+  private def attachCalendarInfo(doctor: Doctor, start: DateTime, end: DateTime, visits: Seq[Visit]): Doctor = segment("attachCalendarInfo") {
     val locations = scala.collection.mutable.ListBuffer[Map[String, Any]]()
     for (location <- doctor.locations) {
       val info = for (
