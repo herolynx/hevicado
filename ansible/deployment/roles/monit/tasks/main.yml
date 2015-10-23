@@ -13,7 +13,7 @@
       - monit
       - deploy
 
-- name: Copy zabbix aggent monitoring configuration
+- name: Copy zabbix agent monitoring configuration
   template: src=zabbix_agent.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
   notify: restart monit
   tags:
