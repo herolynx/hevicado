@@ -1,0 +1,65 @@
+---
+
+- name: Add Zabbix 2.4 repository
+  apt_repository: repo="deb http://repo.zabbix.com/zabbix/2.4/ubuntu/ {{ zabbix_dist_name }} main" state=present
+  tags:
+      - zabbix
+      - provision
+
+- name: Add Zabbix 2.4 source repository
+  apt_repository: repo="deb-src http://repo.zabbix.com/zabbix/2.4/ubuntu/ {{ zabbix_dist_name }} main" state=present
+  tags:
+      - zabbix
+      - provision
+
+- name: "Install gpg key for Zabbix"
+  apt_key: id=79EA5ED4 url=http://repo.zabbix.com/zabbix-official-repo.key
+  sudo: yes
+  tags:
+      - zabbix
+      - provision
+
+- apt: update_cache=yes
+  tags:
+      - zabbix
+      - provision
+
+
+- name: Set root password for MySQL
+  shell: echo 'mysql-server-{{ mysql_version }} mysql-server/root_password password {{ mysql_admin_pass }}' | debconf-set-selections
+  sudo: yes
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - provision
+
+- name: Confirm root password for MySQL
+  shell: echo 'mysql-server-{{ mysql_version }} mysql-server/root_password_again password {{ mysql_admin_pass }}' | debconf-set-selections
+  sudo: yes
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - provision
+
+- name: "Install Zabbix"
+  apt: pkg={{ item }}
+      state=present
+  sudo: yes
+  tags:
+      - zabbix
+      - provision
+  with_items:
+      - "mysql-server-{{ mysql_version }}"
+      - apache2
+      - libapache2-mod-php5
+      - php5
+      - php5-mysql
+      - zabbix-server-mysql
+      - zabbix-frontend-php
+      - python-mysqldb
+
+- name: "Stop apache2 service"
+  command: service apache2 stop
+  tags:
+      - zabbix
+      - provision

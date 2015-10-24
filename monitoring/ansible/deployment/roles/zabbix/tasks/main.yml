@@ -1,0 +1,106 @@
+---
+
+- name: "Create MySQL db for Zabbix"
+  mysql_db:
+    name="{{ mysql_zabbix_db }}"
+    state=present
+    login_user={{ mysql_admin }}
+    login_password={{ mysql_admin_pass }}
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - deploy
+
+- name: "Creating Zabbix user for MySQL db"
+  mysql_user:
+    name={{ mysql_zabbix_user }}
+    password={{  mysql_zabbix_user_pass }}
+    state=present
+    priv="{{ mysql_zabbix_db }}.*:ALL"
+    host="{{ mysql_host }}"
+    login_user={{ mysql_admin }}
+    login_password={{ mysql_admin_pass }}
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - deploy
+
+- name: Import initial Zabbix schema
+  shell: mysql -uroot -p{{ mysql_admin_pass }} {{mysql_zabbix_db}} < {{zabbix_server_db_intial_dir}}/schema.sql
+  register: mysql_schema
+  changed_when: "mysql_schema.rc == 0"
+  failed_when: "mysql_schema.rc != 0 and 'already exists' not in mysql_schema.stderr"
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - deploy
+
+- name: Import initial Zabbix images
+  shell: mysql -uroot -p{{ mysql_admin_pass }} {{mysql_zabbix_db}} < {{zabbix_server_db_intial_dir}}/images.sql
+  register: mysql_images
+  changed_when: "mysql_images.rc == 0"
+  failed_when: "mysql_images.rc != 0 and 'Duplicate entry' not in mysql_images.stderr"
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - deploy
+
+- name: Import initial Zabbix data
+  shell: mysql -uroot -p{{ mysql_admin_pass }} {{mysql_zabbix_db}} < {{zabbix_server_db_intial_dir}}/data.sql
+  register: mysql_data
+  changed_when: "mysql_data.rc == 0"
+  failed_when: "mysql_data.rc != 0 and 'Duplicate entry' not in mysql_data.stderr"
+  tags:
+      - zabbix
+      - zabbix-mysql
+      - deploy
+
+- name: "Copy Zabbix apache conf"
+  template: src=apache.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  notify:
+    - restart zabbix-server
+    - restart apache2
+  tags:
+      - zabbix
+      - zabbix-server
+      - deploy
+
+- name: "Copy Zabbix DB conf"
+  template: src=dbconfig.php dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  notify:
+    - restart zabbix-server
+    - restart apache2
+  tags:
+      - zabbix
+      - zabbix-server
+      - deploy
+
+- name: "Copy Zabbix server conf"
+  template: src=zabbix_server.conf dest={{ remote_conf }} mode="u=rx,g=rx,o=rx"
+  notify:
+    - restart zabbix-server
+    - restart apache2
+  tags:
+      - zabbix
+      - zabbix-server
+      - deploy
+
+- name: "Copy apache ports conf"
+  template: src=apache_ports.conf dest={{ apache_conf }}/ports.conf mode="u=rx,g=rx,o=rx"
+  notify:
+    - restart zabbix-server
+    - restart apache2
+  tags:
+      - zabbix
+      - zabbix-server
+      - deploy
+
+- name: Restart zabbix
+  command: "echo Restart Zabbix"
+  notify:
+    - restart zabbix-server
+    - restart apache2
+  tags:
+      - zabbix
+      - zabbix-server
+      - deploy

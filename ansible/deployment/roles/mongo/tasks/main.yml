@@ -12,14 +12,14 @@
       - mongo
       - deploy
 
-- name: Create mongo log file
-  file: path={{ log_dir }}/{{ log_file_name }} state=touch mode="u=rwx,g=rwx,o=rwx"
+- name: Create mongo log directory
+  file: path={{ log_dir }} state=directory mode="u=rwx,g=rwx,o=rx"
   tags:
     - mongo
     - deploy
 
-- name: Create mongo log directory
-  file: path={{ log_dir }} state=directory mode="u=rwx,g=rwx,o=rx"
+- name: Create mongo log file
+  file: path={{ log_dir }}/{{ log_file_name }} state=touch mode="u=rwx,g=rwx,o=rwx"
   tags:
     - mongo
     - deploy
@@ -35,6 +35,7 @@
     - mongo
     - deploy
     - just-restart
+    - mongo-restart
     - just-stop
   docker:
     name: "{{ mongo_name }}"
@@ -46,6 +47,7 @@
     - mongo
     - deploy
     - just-restart
+    - mongo-restart
   docker:
     name: "{{ mongo_name }}"
     image: "{{ mongo_image }}"

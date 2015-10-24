@@ -16,3 +16,14 @@
       - base
       - provision
 
+- name: Make sure curl in installed
+  apt: name=curl state=present
+  tags:
+      - base
+      - provision
+
+- name: Make sure ufw in installed
+  apt: name=ufw state=present
+  tags:
+      - base
+      - provision

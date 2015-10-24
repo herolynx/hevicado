@@ -10,8 +10,9 @@ Generic:
 
 * Docker: 1.6.0 or newer
 * Ansible: 1.9.0.1 or newer
+* Vagrant: for local development
 
-Backend: 
+Backend:
 
 * Scala: 2.10.3
 * Sbt: 0.13:6
@@ -24,6 +25,16 @@ Frontend:
 * gulp
 
 ## Backend
+
+*** Note: *** Use shorcut ***run-be.sh*** script to do bellow steps.
+
+*** Note: *** MongoDB must be up and running in order to make local development.
+
+0) Go to backend
+
+```
+cd be
+```
 
 1) Run sbt
 
@@ -63,9 +74,17 @@ After that server will be run at port 8000
 
 a) Project for Postman plugin (postman.json) which holds API with sample calls that can be made to back-end
 
-b) Sample data that can be imported into hevicadoDB 
+b) Sample data that can be imported into hevicadoDB
 
 ## Frontend
+
+***Note: *** Use shorcut ***run-fe.sh*** script to do bellow steps.
+
+0) Go to frontend
+
+```
+cd fe
+```
 
 1) Install dependencies
 
@@ -138,9 +157,7 @@ Hevicado has monitoring prepared that is tracing:
 
 * hevicado modules: mongo, backend, frontend
 
-Monitoring is done using ELK stack: elasticsearch-logstash-kibana.
-
-All trafic between hevicado and monitoring is done using SSL.
+Monitoring is done using ELK stack (elasticsearch-logstash-kibana) and Zabbix.
 
 ##### Monitoring build & deployment
 
@@ -164,7 +181,7 @@ ansible-playbook -i {{env}} deployment/site.yml
 
 ##### Generating self-signed certificate:
 
-***Note:*** Project contains all needed certificates. This section is valid in case some certificate expires. 
+***Note:*** Project contains all needed certificates. This section is valid in case some certificate expires.
 
 1) Set up IP in v3_ca in /etc/ssl/openssl.cnf or provide separate config where it's set
 
@@ -177,7 +194,59 @@ subjectAltName = IP:{ node_ip }
 
 openssl req -x509 -batch -nodes -newkey rsa:2048 -keyout dev.key -out dev.crt -days 999
 
+## Local environment
+
+Local environment can be created with any number of nodes using vagrant.
+
+If vagrant is started with provisioning (--provision parameter) then provisioning and deployment is triggered thus all services will be started automatically on VMs.
+
+###### Local hevicado application
+
+1) Start VMs for hevicado
+
+```
+vagrant up --provision
+```
+
+2) Stop VMs for hevicado
+
+```
+vagrant halt
+```
+
+###### Local monitoring
+
+1) Go to monitoring:
+
+```
+cd monitoring
+```
+
+2) Start VMs for monitoring
+
+```
+vagrant up --provision
+```
+
+3) Stop VMs for monitoring
+
+```
+vagrant halt
+```
+
 ## Other
+
+## Zabbix
+
+##### Zabbix - common commands
+
+1) Check communication with zabbix aggent
+
+```shell
+zabbix_get -s <host_ip> -p 10050 -k "system.cpu.load[all,avg1]"
+```
+
+## Ansible
 
 ##### Ansible - common commands
 
@@ -302,20 +371,6 @@ docker pull mongo:latest
 
 ```shell
 docker run -d --name mongodb01 -v $PWD:/data/db -p 27017:27017 -t mongo
-```
-
-##### Docker - Exim4
-
-1) Build Exim4 docker image
-
-```shell
-docker build -t hevicado-exim4 .
-```
-
-2) Run Exim4 in a docker container
-
-```shell
-docker run -d --name exim4 -p 25:25 -v /var/log/exim4:/var/log/exim4 -t hevicado-exim4
 ```
 
 ##### Docker - Nginx

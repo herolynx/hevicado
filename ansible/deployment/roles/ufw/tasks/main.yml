@@ -1,0 +1,30 @@
+---
+
+- name: "Disable firewall for a moment"
+  ufw: state=disabled policy=allow
+  tags:
+    - ufw
+    - firewall
+    - deploy
+
+- name: "Closing all ports"
+  ufw: policy=deny
+  tags:
+      - ufw
+      - firewall
+      - deploy
+
+- name: "Opening chosen ports"
+  ufw: rule=allow port={{ item }}
+  with_items: firewall_ports_open
+  tags:
+    - ufw
+    - firewall
+    - deploy
+
+- name: "Enabling firewall"
+  ufw: state=enabled
+  tags:
+    - ufw
+    - firewall
+    - deploy

@@ -1,5 +1,6 @@
 ---
 
+########################################## MAIN #######################################################
 app_name: hevicado-monitoring
 
 # app directory structure
@@ -11,3 +12,86 @@ log_root_dir: "/var/log/lynx/{{ env }}/{{ app_name }}"
 logstash_image: logstash
 elasticsearch_image: elasticsearch
 kibana_image: kibana
+zabbix_server_image: zabbix/zabbix-server-2.4
+mysql_image: mysql
+
+########################################## LOAD-BALANCER #######################################################
+lb_http: 80
+lb_https: 443
+app_url: "mon.hevicado.com, mon.hevicado.pl"
+domain_prio: 1
+
+########################################## MONITORING - ELK #######################################################
+# logstash
+logstash_port: 5000
+logstash_instances:
+  - name: "{{ app_name }}-{{ env }}-logstash-1"
+    url: 0.0.0.0
+    port: 5000
+
+# elasticsearch
+elastic_port_1: 9200
+elastic_port_2: 9300
+elastic_instances:
+  - name: "{{ app_name }}-{{ env }}-elasticsearch-1"
+    url: 127.0.0.1
+    port_1: 9200
+    port_2: 9300
+
+# kibana
+kibana_port: 5601
+kibana_instances:
+  - name: "{{ app_name }}-{{ env }}-kibana-1"
+    url: 127.0.0.1
+    port: 5601
+
+########################################## MONITORING - Zabbix #######################################################
+zabbix_dist_name: trusty
+
+# mysql for zabbix
+mysql_version: 5.6
+mysql_host: 127.0.0.1
+mysql_port: 3306
+mysql_admin: root
+mysql_admin_pass: "#kunishu@for#life!2411"
+
+mysql_zabbix_db: zabbix
+mysql_zabbix_user: zabbix
+mysql_zabbix_user_pass: "khjSs$dkjGhs9#98f7as897aszn!mbzjhgf"
+
+# zabbix server
+zabbix_host: 127.0.0.1
+zabbix_http_port: 80
+zabbix_https_port: 443
+zabbix_agent_port1: 10050
+zabbix_agent_port2: 10051
+zabbix_agent_port3: 10052
+
+# apache2
+apache2_host: 127.0.0.1
+apache2_http: 18080
+apache2_https: 18088
+
+#monit
+#freq how often in secs services will be checked whether they're up
+monit_service_check: 15
+#delay the first monit check by seconds
+monit_check_delay: 15
+
+#containers to be monitored
+montit_docker_containers:
+  - "{{ logstash_instances[0].name }}"
+  - "{{ elastic_instances[0].name }}"
+  - "{{ kibana_instances[0].name }}"
+
+########################################## FIREWALL #######################################################
+ssh_port: 22
+
+firewall_ports_open:
+  - "{{ ssh_port }}"
+  - "{{ lb_http }}"
+  - "{{ lb_https }}"
+  - "{{ logstash_instances[0].port }}"
+  - "{{ zabbix_agent_port1 }}"
+  - "{{ zabbix_agent_port2 }}"
+  - "{{ zabbix_agent_port3 }}"

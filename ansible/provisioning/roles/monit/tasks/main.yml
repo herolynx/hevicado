@@ -1,0 +1,25 @@
+---
+
+- name: Make sure monit in installed
+  apt: name=monit state=present
+  tags:
+      - base
+      - monit
+
+- name: Register monit in systemd
+  copy: src="monit.service" dest={{ systemd_lib }} mode="u=r,g=r,o=r"
+  tags:
+      - base
+      - monit
+
+- name: Enabling monit service
+  service: name=monit enabled=yes state=started
+  tags:
+      - base
+      - monit
+
+- name: Reloading systemctl
+  command: systemctl daemon-reload
+  tags:
+      - base
+      - monit

@@ -74,3 +74,10 @@
   tags:
       - loadbalancer
       - deploy
+
+- name: Restart loadbalancer
+  command: "echo Restart loadbalancer"
+  notify: restart loadbalancer
+  tags:
+    - just-restart
+    - deploy
