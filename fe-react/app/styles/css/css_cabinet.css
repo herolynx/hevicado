@@ -1,0 +1,632 @@
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.fn {
+  float: none;
+}
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.clear {
+  clear: both;
+}
+.dib {
+  display: inline-block;
+}
+.di {
+  display: inline;
+}
+.db {
+  display: block;
+}
+.dn {
+  display: none;
+}
+/* fonts */
+/* fonts */
+/* fonts */
+/* fonts */
+.bold {
+  font-weight: 600;
+}
+.lighter {
+  font-weight: 300;
+}
+.normal {
+  font-weight: normal;
+}
+.italic {
+  font-style: italic;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.tdn {
+  text-decoration: none;
+}
+.tdu {
+  text-decoration: underline;
+}
+.center {
+  text-align: center;
+}
+.justify {
+  text-align: justify;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+/* OTHER */
+/* OTHER */
+/* OTHER */
+/* OTHER */
+.pointer {
+  cursor: pointer;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.list {
+  list-style-type: none;
+}
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* COLOR BASE */
+/* COLOR BASE */
+section#cabinet .col,
+section#cabinet .row {
+  height: 100%;
+}
+section#cabinet .window {
+  padding: 15px 10px;
+  min-height: 95%;
+}
+section#cabinet .add {
+  margin: auto;
+  color: #0090ff;
+  font-size: 32px;
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+}
+section#cabinet ul.list {
+  float: left;
+  width: 100%;
+}
+section#cabinet ul.list li {
+  float: left;
+  display: table;
+  border-top: 1px solid #e6e6e6;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 300;
+  position: relative;
+}
+section#cabinet ul.list li:first-child {
+  border-top: 0;
+}
+section#cabinet ul.list li.deactive:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+}
+section#cabinet ul.list li.deactive span {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+section#cabinet ul.list li.deactive a {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+section#cabinet ul.list li.deactive a:hover {
+  color: #005494 !important;
+}
+section#cabinet .info {
+  display: inline-block;
+  vertical-align: middle;
+  width: 85%;
+  position: relative;
+  float: left;
+}
+section#cabinet .info span.time,
+section#cabinet .info span.title {
+  float: left;
+}
+section#cabinet .info span.title {
+  width: 100%;
+  margin-bottom: 10px;
+}
+section#cabinet .info span.title i {
+  float: left;
+  position: relative;
+  top: 2px;
+}
+section#cabinet .info span.title span {
+  float: left;
+  width: 80%;
+  margin-left: 10px;
+}
+section#cabinet .info span.title.name {
+  margin-bottom: 0;
+}
+section#cabinet .info .field {
+  width: 100%;
+  float: left;
+  min-height: 45px;
+}
+section#cabinet .info .field:hover .delete {
+  display: inline-block;
+}
+section#cabinet .info .field span {
+  font-size: 16px;
+  margin: 0 !important;
+}
+section#cabinet .info .field .delete {
+  font-size: 20px;
+  float: left;
+  width: auto;
+  line-height: 40px;
+  height: 40px;
+  padding: 0 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 26px;
+  color: #0090ff;
+  position: absolute;
+  right: -45px;
+  top: -3px;
+}
+section#cabinet .info .field fieldset {
+  float: left;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 40px;
+}
+section#cabinet .info .field.check .checkbox {
+  float: left;
+  position: relative;
+  top: 5px;
+  width: 27px;
+  height: 27px;
+  margin-right: 10px;
+  line-height: normal;
+}
+section#cabinet .info .field.check .checkbox label.check {
+  width: 25px !important;
+  height: 25px !important;
+}
+section#cabinet .info .field.check .checkbox label.check:after {
+  font-size: 18px;
+  top: 4px;
+  left: 4px;
+}
+section#cabinet .info .field.check input[type=text] {
+  width: 84%;
+}
+section#cabinet input[type=text],
+section#cabinet textarea {
+  float: left;
+  width: 100%;
+  padding: 8px 10px;
+  background: #f4f4f4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 16px;
+  color: #2f2f2f;
+  font-weight: 300;
+  margin-bottom: 5px;
+  border: 1px solid #e6e6e4;
+}
+section#cabinet input[type=text]:disabled,
+section#cabinet textarea:disabled {
+  background: none;
+  border: 0;
+  padding: 8px 0;
+}
+section#cabinet textarea {
+  resize: none;
+  min-height: 40px !important;
+  max-width: 764px;
+}
+section#cabinet .info.one fieldset {
+  width: 100%;
+}
+section#cabinet .info.one fieldset input[type=text] {
+  width: 100%;
+}
+section#cabinet .info.two fieldset {
+  width: 50%;
+  padding-left: 2%;
+}
+section#cabinet .info.two fieldset:first-child {
+  padding-left: 0;
+}
+section#cabinet .info.three fieldset {
+  width: 33.3%;
+  padding-left: 2%;
+}
+section#cabinet .info.three fieldset:first-child {
+  padding-left: 0;
+}
+section#cabinet .action.line,
+section#cabinet .action.block {
+  display: inline-block;
+  float: right;
+  vertical-align: middle;
+  font-size: 26px;
+  position: relative;
+  z-index: 2;
+  text-align: right;
+  min-width: 60px;
+  width: 10%;
+}
+section#cabinet .action.line a,
+section#cabinet .action.block a {
+  margin: 5px 3px;
+}
+section#cabinet .action.line {
+  min-width: 120px;
+  width: 10%;
+}
+section#cabinet .action.line a {
+  display: inline-block;
+}
+section#cabinet .action.line .switch {
+  display: inline-block;
+  top: 5px;
+}
+section#cabinet .action.block {
+  min-width: 60px;
+  width: 10%;
+}
+section#cabinet .action.block a {
+  display: block;
+  width: 100%;
+}
+section#cabinet .info.list {
+  display: table-cell;
+  float: none;
+}
+section#cabinet .info.list a {
+  text-decoration: none;
+  float: left;
+  width: 95%;
+  font-size: 18px;
+}
+section#cabinet .info.current fieldset {
+  width: 80%;
+  float: left;
+}
+section#cabinet .info.current .time {
+  font-size: 14px;
+  float: left;
+}
+section#cabinet .info.current .time label {
+  height: 40px;
+  line-height: 40px;
+  float: left;
+}
+section#cabinet .info.current .time fieldset {
+  width: 150px;
+}
+section#cabinet .info.current .time fieldset input[type=text] {
+  width: 45px;
+  display: inline-block;
+  float: left;
+  text-align: center;
+  margin: 0 10px 0 10px;
+}
+section#cabinet .info.current .time fieldset input[type=text]:disabled {
+  margin: 0;
+}
+section#cabinet .color {
+  float: left;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #e6e6e4;
+  border-radius: 1px;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  -o-border-radius: 1px;
+  padding: 2px;
+  margin-right: 10px;
+}
+section#cabinet .color .minicolors-theme-default.minicolors {
+  width: 100%;
+  height: 100%;
+}
+section#cabinet .images {
+  float: left;
+  width: 120px;
+  margin: 5px 0;
+  position: relative;
+  text-align: center;
+  text-align: left;
+}
+section#cabinet .images img {
+  display: inline-block;
+  border: 1px solid #e6e6e4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: #ffffff;
+}
+section#cabinet .images a {
+  right: 10px;
+  top: 1px;
+  font-size: 16px;
+  padding: 1px 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  position: absolute;
+  width: auto;
+  background: #ffffff;
+}
+section#cabinet ul.doctor {
+  float: left;
+  width: 100%;
+  display: table;
+}
+section#cabinet ul.doctor li {
+  display: table-cell;
+  vertical-align: top;
+  text-align: center;
+  margin: 5px 0;
+}
+section#cabinet ul.doctor li .box {
+  display: inline-block;
+  width: 98%;
+  border: 1px solid #e6e6e4;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 300px;
+  position: relative;
+  margin-left: 10px;
+}
+section#cabinet ul.doctor li .box:first-child {
+  margin-left: 0;
+}
+section#cabinet ul.doctor li.deactive .box:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  z-index: 1;
+}
+section#cabinet ul.doctor span.name {
+  height: auto;
+  line-height: normal;
+  width: 100%;
+  float: left;
+}
+section#cabinet ul.doctor .pic {
+  margin: 10px auto;
+  width: 100%;
+  min-width: 60px;
+  float: left;
+  text-align: center;
+}
+section#cabinet ul.doctor .images {
+  float: none;
+  width: 100px;
+  margin: 5px 0;
+  position: relative;
+  text-align: center;
+  text-align: left;
+  margin: auto;
+  display: inline-block;
+}
+section#cabinet ul.doctor .images a {
+  position: relative;
+}
+section#cabinet ul.doctor .images img {
+  display: inline-block;
+  border: 1px solid #e6e6e4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: #ffffff;
+}
+section#cabinet ul.doctor span {
+  display: block;
+  width: 100%;
+  float: left;
+}
+section#cabinet ul.doctor span a {
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+section#cabinet ul.doctor span.title {
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 300;
+  color: #b9b9b9;
+  padding: 0;
+}
+section#cabinet ul.doctor span.specialization {
+  font-size: 12px;
+}
+section#cabinet ul.doctor span.address {
+  margin-top: 10px;
+  width: 100%;
+}
+section#cabinet ul.doctor .action.line {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+@media only screen and (max-width: 768px) {
+  section#cabinet .info {
+    width: 95%;
+  }
+  section#cabinet .info span.title {
+    margin: 5px 0 10px;
+  }
+  section#cabinet .action.block {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 100%;
+  }
+  section#cabinet .action.block a {
+    display: inline-block;
+    width: auto;
+    margin: 0 5spx;
+  }
+  section#cabinet ul.doctor {
+    display: inline-block;
+  }
+  section#cabinet ul.doctor li {
+    display: inline-block;
+    padding: 0;
+    width: 49.6%;
+  }
+  section#cabinet ul.doctor li .box {
+    width: 95%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  section#cabinet .info,
+  section#my_account .info {
+    width: 100%;
+  }
+  section#cabinet .info.one,
+  section#my_account .info.one {
+    width: 90%;
+  }
+  section#cabinet .info.two,
+  section#my_account .info.two {
+    width: 90%;
+  }
+  section#cabinet .info.two fieldset,
+  section#my_account .info.two fieldset {
+    width: 100%;
+    padding-left: 0;
+    margin-top: 5px;
+  }
+  section#cabinet .info.two fieldset:first-child,
+  section#my_account .info.two fieldset:first-child {
+    padding-left: 0;
+  }
+  section#cabinet .info.three,
+  section#my_account .info.three {
+    width: 90%;
+  }
+  section#cabinet .info.three fieldset,
+  section#my_account .info.three fieldset {
+    padding-right: 5px;
+    padding-left: 0;
+    margin-top: 5px;
+  }
+  section#cabinet .info.three fieldset:first-child,
+  section#my_account .info.three fieldset:first-child {
+    width: 100%;
+    padding-right: 0;
+  }
+  section#cabinet .action.line,
+  section#my_account .action.line {
+    float: left;
+    width: 100%;
+  }
+  section#cabinet .info.list,
+  section#my_account .info.list {
+    display: inline-block;
+    float: left;
+  }
+  section#cabinet ul.doctor li,
+  section#my_account ul.doctor li {
+    width: 100%;
+  }
+  section#cabinet ul.doctor li .box,
+  section#my_account ul.doctor li .box {
+    width: 100%;
+    min-height: auto;
+  }
+  section#cabinet ul.doctor li .pic,
+  section#my_account ul.doctor li .pic {
+    float: left;
+    width: 100%;
+  }
+  section#cabinet ul.doctor li .pic .images,
+  section#my_account ul.doctor li .pic .images {
+    float: none;
+  }
+}

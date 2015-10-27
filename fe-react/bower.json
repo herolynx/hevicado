@@ -1,0 +1,21 @@
+{
+  "name": "fe-react",
+  "version": "2.0",
+  "authors": [
+    "HeroLynx"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "modernizr": "~2.8.3"
+  }
+}
