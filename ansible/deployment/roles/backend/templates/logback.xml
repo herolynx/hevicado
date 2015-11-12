@@ -14,6 +14,8 @@
         </rollingPolicy>
     </appender>
 
+    <logger name="com.mongodb.casbah" level="INFO" />
+
     <root level="DEBUG">
         <appender-ref ref="file"/>
     </root>

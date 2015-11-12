@@ -9,6 +9,7 @@ import com.kunishu.model.calendar.{SearchDoctorCriteria, Visit}
 import com.kunishu.model.messages.EmailGateway
 import com.kunishu.model.user.{AnyUser, Doctor, User}
 import com.kunishu.services.chronos.CalendarService._
+import com.kunishu.services.monit.ServiceHealthCheck
 import com.kunishu.services.users.UserService.UserModifiedNotification
 import org.joda.time.DateTime
 import scala.util.{Failure, Success}
@@ -80,7 +81,7 @@ object CalendarService {
  * @param userGatewayProvider user data provider
  * @param emailGatewayProvider e-mail service provider
  */
-class CalendarService(calendarVisitsRepo: CalendarRepo, userGatewayProvider: UserGateway, emailGatewayProvider: EmailGateway) extends Actor with ActorLogging
+class CalendarService(calendarVisitsRepo: CalendarRepo, userGatewayProvider: UserGateway, emailGatewayProvider: EmailGateway) extends Actor with ActorLogging with ServiceHealthCheck
 with PatientVisits with DoctorVisits {
 
   protected override val calendarRepo = calendarVisitsRepo
@@ -89,69 +90,73 @@ with PatientVisits with DoctorVisits {
 
   override def receive = LoggingReceive {
 
-    case GetVisit(id, user) => {
-      log.debug("Getting visit - event id: {}, user id: {}", id, user.id)
-      sender() ! GetVisitResponse(getVisit(id, user))
-    }
+    healthCheck orElse {
 
-    case GetVisits(ownerId, start, end, user, asDoctor) => {
-      log.debug("Getting doctor's - ownerId: {}, start: {}, end: {}, user id: {}", ownerId, start, end, user.id)
-      asDoctor match {
-        case true =>
-          sender() ! GetVisitsResponse(getDoctorVisits(ownerId, start, end, user))
-
-        case false =>
-          sender() ! GetVisitsResponse(getPatientVisits(ownerId, start, end, user))
+      case GetVisit(id, user) => {
+        log.debug("Getting visit - event id: {}, user id: {}", id, user.id)
+        sender() ! GetVisitResponse(getVisit(id, user))
       }
-    }
 
-    case UpdateVisit(visit, user) => {
-      log.debug("Update visit - visit: {}, user: {}", visit, user)
-      if (isOwner(visit, user).isSuccess) {
-        sender() ! UpdateVisitResponse(updateDoctorVisit(visit, user.asInstanceOf[Doctor]))
-      } else {
-        sender() ! UpdateVisitResponse(updatePatientVisit(visit, user))
+      case GetVisits(ownerId, start, end, user, asDoctor) => {
+        log.debug("Getting doctor's - ownerId: {}, start: {}, end: {}, user id: {}", ownerId, start, end, user.id)
+        asDoctor match {
+          case true =>
+            sender() ! GetVisitsResponse(getDoctorVisits(ownerId, start, end, user))
+
+          case false =>
+            sender() ! GetVisitsResponse(getPatientVisits(ownerId, start, end, user))
+        }
       }
-    }
 
-    case CreateVisit(visit, user) => {
-      log.debug("Create visit -  user: {}, visit: {}", user.eMail, visit)
-      if (isOwner(visit, user).isSuccess) {
-        sender() ! CreateVisitResponse(createDoctorVisit(visit, user.asInstanceOf[Doctor]))
-      } else {
+      case UpdateVisit(visit, user) => {
+        log.debug("Update visit - visit: {}, user: {}", visit, user)
+        if (isOwner(visit, user).isSuccess) {
+          sender() ! UpdateVisitResponse(updateDoctorVisit(visit, user.asInstanceOf[Doctor]))
+        } else {
+          sender() ! UpdateVisitResponse(updatePatientVisit(visit, user))
+        }
+      }
+
+      case CreateVisit(visit, user) => {
+        log.debug("Create visit -  user: {}, visit: {}", user.eMail, visit)
+        if (isOwner(visit, user).isSuccess) {
+          sender() ! CreateVisitResponse(createDoctorVisit(visit, user.asInstanceOf[Doctor]))
+        } else {
+          val responseTo = sender()
+          createPatientVisit(visit, user) onComplete {
+
+            case Success(visitId) => responseTo ! CreateVisitResponse(visitId)
+
+            case Failure(ex) => {
+              log.error(ex, "Couldn't create visit - user: {}, visit: {}", user.eMail, visit)
+              responseTo ! CreateVisitResponse(Fault("Unexpected server error occurred"))
+            }
+
+          }
+        }
+      }
+
+      case SearchDoctors(criteria, user) => {
+        log.debug("Search doctors - criteria: {}, user: {}", criteria, user)
         val responseTo = sender()
-        createPatientVisit(visit, user) onComplete {
+        findDoctors(criteria, user) onComplete {
 
-          case Success(visitId) => responseTo ! CreateVisitResponse(visitId)
+          case Success(doctors) => responseTo ! SearchDoctorsResponse(doctors)
 
           case Failure(ex) => {
-            log.error(ex, "Couldn't create visit - user: {}, visit: {}", user.eMail, visit)
-            responseTo ! CreateVisitResponse(Fault("Unexpected server error occurred"))
+            log.error(ex, "Couldn't get doctors - user: {}, criteria: {}", user.eMail, criteria)
+            responseTo ! SearchDoctorsResponse(Fault("Unexpected server error occurred"))
           }
 
         }
-      }
-    }
-
-    case SearchDoctors(criteria, user) => {
-      log.debug("Search doctors - criteria: {}, user: {}", criteria, user)
-      val responseTo = sender()
-      findDoctors(criteria, user) onComplete {
-
-        case Success(doctors) => responseTo ! SearchDoctorsResponse(doctors)
-
-        case Failure(ex) => {
-          log.error(ex, "Couldn't get doctors - user: {}, criteria: {}", user.eMail, criteria)
-          responseTo ! SearchDoctorsResponse(Fault("Unexpected server error occurred"))
-        }
 
       }
 
-    }
+      case UserModifiedNotification(user) => {
+        log.debug("User has changed {} - updating future visits", user)
+        changeUserInVisits(user)
+      }
 
-    case UserModifiedNotification(user) => {
-      log.debug("User has changed {} - updating future visits", user)
-      changeUserInVisits(user)
     }
 
   }

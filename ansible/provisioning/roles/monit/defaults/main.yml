@@ -1,2 +1,2 @@
 
-systemd_lib: /lib/systemd/system/
+systemd_lib: /lib/systemd/system

@@ -3,6 +3,7 @@ package com.kunishu.services.config
 import com.kunishu.chronos.io.CalendarRepo
 import com.kunishu.security.io.AuthenticationRepo
 import com.kunishu.storage.chronos.CalendarStorage
+import com.kunishu.storage.monit.StorageHealthCheck
 import com.kunishu.storage.security.AuthStorage
 import com.kunishu.storage.users.UserStorage
 import com.kunishu.users.io.UserRepo
@@ -30,18 +31,23 @@ object RepoProvider {
     repoConfig.getString("name")
   )
 
-  def securedRepo: AuthenticationRepo = new Object() with AuthStorage {
+  def securedRepo: AuthenticationRepo = new AuthStorage {
     protected override val collectionName = repoConfig.getString("collections.tokens")
     protected override val db = dbClient
     protected override val users = db(repoConfig.getString("collections.users"))
   }
 
-  def calendarRepo: CalendarRepo = new Object() with CalendarStorage {
+  def calendarRepo: CalendarRepo = new CalendarStorage {
     protected override val collectionName = repoConfig.getString("collections.calendar")
     protected override val db = dbClient
   }
 
-  def userRepo: UserRepo = new Object() with UserStorage {
+  def userRepo: UserRepo = new UserStorage {
+    protected override val collectionName = repoConfig.getString("collections.users")
+    protected override val db = dbClient
+  }
+
+  def healthCheck : StorageHealthCheck = new StorageHealthCheck with UserStorage {
     protected override val collectionName = repoConfig.getString("collections.users")
     protected override val db = dbClient
   }

@@ -144,7 +144,7 @@ sudo build.sh
 3) Deploy all:
 
 ```shell
-ansible-playbook -i {{env}} deployment/site.yml
+ansible-playbook -i {{env}} deployment/site.yml --vault-password-file ~/.hevicado_vault.txt
 ```
 
 ## Monitoring
@@ -176,7 +176,7 @@ ansible-playbook -i {{env}} provisioning/site.yml
 3) Deploy all to monitoring cluster:
 
 ```shell
-ansible-playbook -i {{env}} deployment/site.yml
+ansible-playbook -i {{env}} deployment/site.yml --vault-password-file ~/.hevicado_vault.txt
 ```
 
 ##### Generating self-signed certificate:

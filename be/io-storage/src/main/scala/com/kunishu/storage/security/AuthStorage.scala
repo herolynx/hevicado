@@ -19,7 +19,7 @@ trait AuthStorage extends Storage[AccessPass] with AuthenticationRepo {
 
   protected val users: MongoCollection
 
-  override def findUserById(id: String): Option[AnyUser] = {
+  override def findUserById(id: String): Option[AnyUser] = segment("findUserById") {
     val queryById = MongoDBObject(attId -> asId(id))
     users.
       findOne(queryById).
@@ -28,7 +28,7 @@ trait AuthStorage extends Storage[AccessPass] with AuthenticationRepo {
       map(map => Users.asUser(map))
   }
 
-  override def findUserByLogin(login: String): Option[AnyUser] = {
+  override def findUserByLogin(login: String): Option[AnyUser] = segment("findUserByLogin") {
     val queryByLogin = MongoDBObject(attEMail -> login)
     users.
       findOne(queryByLogin).
@@ -37,7 +37,7 @@ trait AuthStorage extends Storage[AccessPass] with AuthenticationRepo {
       map(map => Users.asUser(map))
   }
 
-  override def findByToken(token: String): Option[AccessPass] = {
+  override def findByToken(token: String): Option[AccessPass] = segment("findAccessPassByToken") {
     val tokenId = MongoDBObject("token" -> token)
     repo.
       findOne(tokenId).
@@ -46,7 +46,7 @@ trait AuthStorage extends Storage[AccessPass] with AuthenticationRepo {
       map(map => AccessPass.create(map))
   }
 
-  override def findByLogin(login: String): Seq[AccessPass] = {
+  override def findByLogin(login: String): Seq[AccessPass] = segment("findAccessPassByLogin") {
     val byUserLogin = MongoDBObject(subAttribute("user", attEMail) -> login)
     repo.
       find(byUserLogin).
@@ -56,7 +56,7 @@ trait AuthStorage extends Storage[AccessPass] with AuthenticationRepo {
       toSeq
   }
 
-  override def findByUserId(id: String): Seq[AccessPass] = {
+  override def findByUserId(id: String): Seq[AccessPass] = segment("findAccessPassByUserId") {
     val byUserId = MongoDBObject(subAttribute("user", attId) -> asId(id))
     repo.
       find(byUserId).

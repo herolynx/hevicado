@@ -31,7 +31,7 @@ trait DoctorVisits extends Visits {
    * @param user user accessing data
    * @return non-nullable result
    */
-  def getDoctorVisits(ownerId: String, start: DateTime, end: DateTime, user: AnyUser): Result[Seq[Visit]] =
+  def getDoctorVisits(ownerId: String, start: DateTime, end: DateTime, user: AnyUser): Result[Seq[Visit]] = segment("getDoctorVisits") {
     chainOf[Seq[Visit]].
       then(
         () =>
@@ -43,6 +43,7 @@ trait DoctorVisits extends Visits {
               map(v => v.get)
           )
       )
+  }
 
   /**
    * Create doctor's visit
@@ -50,7 +51,7 @@ trait DoctorVisits extends Visits {
    * @param user user accessing data
    * @return non-nullable result with promise of ID of newly created visit
    */
-  def createDoctorVisit(visit: Visit, user: Doctor): Result[String] = {
+  def createDoctorVisit(visit: Visit, user: Doctor): Result[String] = segment("createDoctorVisit") {
     chainOf[String].
       check(isOwner(visit, user)).
       check(VisitValidator.isValid(visit, user)).
@@ -71,7 +72,7 @@ trait DoctorVisits extends Visits {
    * @param user user accessing data
    * @return non-nullable result
    */
-  def updateDoctorVisit(visit: Visit, user: Doctor): Result[Boolean] = {
+  def updateDoctorVisit(visit: Visit, user: Doctor): Result[Boolean] = segment("updateDoctorVisit") {
     val repoVisit = calendarRepo.get(visit.id.get)
     chainOf[Boolean].
       check(() => isPresent(repoVisit, "Visit not found: " + visit.id.get)).

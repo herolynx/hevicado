@@ -6,9 +6,17 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 import akka.actor.ActorLogging
+import com.kunishu.core.monit.Instrumented
 import com.kunishu.services.config.ConfigProvider
 import com.kunishu.services.config.ServiceProvider._
 import ConfigProvider.config
+import com.typesafe.scalalogging.slf4j.LazyLogging
+
+object EmailSender {
+
+  def apply() = new EmailSender {}
+
+}
 
 /**
  * E-mail sender
@@ -16,9 +24,7 @@ import ConfigProvider.config
  * @author Michal Wronski
  * @since 1.1
  */
-trait EmailSender {
-
-  logger: ActorLogging =>
+trait EmailSender extends LazyLogging with Instrumented {
 
   private def mailConfig = {
     val mailConfig = config.getConfig("mail")
@@ -32,7 +38,7 @@ trait EmailSender {
 
   private val session = Session.getDefaultInstance(mailConfig)
 
-  def send(subject: String, body: String, toRecipients: List[String], from: String = "no_reply@hevicado.com"): Boolean = {
+  def send(subject: String, body: String, toRecipients: List[String], from: String = "no_reply@hevicado.com"): Boolean = segment("sendEmail") {
     try {
       val message = new MimeMessage(session)
       message.setSubject(subject)
@@ -48,7 +54,7 @@ trait EmailSender {
       true
     } catch {
       case e: Exception => {
-        logger.log.error(e, "Couldn't send e-mail")
+        logger.error("Couldn't send e-mail", e)
         false
       }
     }

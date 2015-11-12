@@ -1,5 +1,0 @@
-[monit-dev]
-yoshinari ansible_ssh_host=46.101.141.36  ansible_connection=ssh  ansible_ssh_user=root
-
-[monit-dev:vars]
-env=dev

@@ -158,7 +158,7 @@ class PatientVisitsAsyncTest extends FunSpec with GivenWhenThen with MockFactory
         calendarRepoStub.doctorsVisitsResult = Map(
           UsersTestData.zbigniewReliga.id.get -> List(
             pulsantisVisit(new DateTime(2015, 1, 19, 7, 30, 0), 30),
-            pulsantisVisit(new DateTime(2015, 1, 19, 8, 00, 0), 30),
+            pulsantisVisit(new DateTime(2015, 1, 19, 8, 0, 0), 30),
             luxMedVisit(new DateTime(2015, 1, 21, 8, 30, 0), 0),
             luxMedVisit(new DateTime(2015, 1, 21, 9, 0, 0), 45)
           )
@@ -218,7 +218,7 @@ class PatientVisitsAsyncTest extends FunSpec with GivenWhenThen with MockFactory
         And("events from different locations are created in working hours of a location")
         calendarRepoStub.doctorsVisitsResult = Map(
           UsersTestData.zbigniewReliga.id.get -> List(
-            pulsantisVisit(new DateTime(2015, 1, 19, 8, 00, 0), 30),
+            pulsantisVisit(new DateTime(2015, 1, 19, 8, 0, 0), 30),
             luxMedVisit(new DateTime(2015, 1, 19, 8, 30, 0), 30),
             luxMedVisit(new DateTime(2015, 1, 21, 8, 30, 0), 0),
             luxMedVisit(new DateTime(2015, 1, 21, 9, 0, 0), 45)

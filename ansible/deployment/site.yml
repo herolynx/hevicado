@@ -9,6 +9,5 @@
     - frontend
     - loadbalancer
     - logstash-fwd
-    - zabbix
     - ufw
     - monit

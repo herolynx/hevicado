@@ -1,8 +1,0 @@
----
-
-# zabbix
-remote_conf: /etc/zabbix
-zabbix_server_db_intial_dir: /usr/share/zabbix-server-mysql
-
-# apache2
-apache_conf: /etc/apache2

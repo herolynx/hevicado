@@ -1,0 +1,6 @@
+
+remote_graphite_data: "{{ app_root_dir }}/kamon/graphite"
+graphite_data: /opt/graphite/storage/whisper
+
+remote_grafana_data: "{{ app_root_dir }}/kamon/grafana"
+grafana_data: /opt/grafana/data

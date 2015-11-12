@@ -18,7 +18,7 @@ import com.kunishu.model.user.UserAttrs._
 trait UserStorage extends Storage[AnyUser] with UserRepo with StorageQueries with CondBuilder
 with UserFilters with RegExp {
 
-  override def isLoginFree(eMail: String): Boolean = {
+  override def isLoginFree(eMail: String): Boolean = segment("isLoginFree") {
     val userByMail = MongoDBObject(attEMail -> eMail)
     val mailOnly = MongoDBObject(attEMail -> true)
     repo.
@@ -26,7 +26,7 @@ with UserFilters with RegExp {
       isEmpty
   }
 
-  def get(id: String): Option[AnyUser] = {
+  def get(id: String): Option[AnyUser] = segment("getById") {
     repo.
       findOne(queryById(id), without(attPassword)).
       map(doc => doc.asInstanceOf[java.util.Map[String, Any]]).
@@ -34,7 +34,7 @@ with UserFilters with RegExp {
       map(map => Users.asUser(map))
   }
 
-  override def find(criteria: SearchUserCriteria): Seq[AnyUser] = {
+  override def find(criteria: SearchUserCriteria): Seq[AnyUser] = segment("find") {
     val userCriteria = scala.collection.mutable.ListBuffer[DBObject]()
     addCriteria(userCriteria, criteria.roles, List(attRole))
     addCriteria(userCriteria, criteria.nameParts, List(attFirstName, attLastName, attEMail))

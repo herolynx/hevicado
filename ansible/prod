@@ -1,5 +1,5 @@
 [hevi-prod]
-musashi ansible_ssh_host=46.101.141.12  ansible_connection=ssh  ansible_ssh_user=root
+hevi-prod-app-fr-1 ansible_ssh_host=46.101.141.12  ansible_connection=ssh  ansible_ssh_user=root
 
 [all:children]
 hevi-prod

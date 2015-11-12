@@ -1,4 +1,10 @@
 
+- name: "Including monit credentials"
+  include_vars: creds.yml
+  tags:
+      - monit
+      - deploy
+
 - name: Copy monit configuration
   template: src=monitrc dest={{ config_dir }} mode="u=rx,g=,o="
   notify: restart monit
@@ -8,13 +14,6 @@
 
 - name: Copy nginx monitoring configuration
   template: src=nginx.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
-  notify: restart monit
-  tags:
-      - monit
-      - deploy
-
-- name: Copy zabbix agent monitoring configuration
-  template: src=zabbix_agent.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
   notify: restart monit
   tags:
       - monit
@@ -37,6 +36,13 @@
   template: src=docker_check.sh dest="{{ config_docker_dir }}/check_{{ item }}.sh" mode="u=rx,g=,o="
   notify: restart monit
   with_items: montit_docker_containers
+  tags:
+      - monit
+      - deploy
+
+- name: Copy healthcheck monitoring configuration
+  template: src=healthcheck.conf dest={{ config_app_dir }} mode="u=rx,g=rx,o=rx"
+  notify: restart monit
   tags:
       - monit
       - deploy

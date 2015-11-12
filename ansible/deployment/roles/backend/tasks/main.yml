@@ -62,8 +62,14 @@
     - backend
     - deploy
 
+- name: Copy aspectj-weaver
+  copy: src="aspectjweaver-{{ aspect_version }}.jar" dest="{{ remote_pkg_dir }}/aspectjweaver.jar" mode="u=rw,g=r,o=r"
+  tags:
+    - backend
+    - deploy
+
 - name: Stop backend docker containers
-  tags: 
+  tags:
     - backend
     - deploy
     - just-restart

@@ -1,8 +1,7 @@
 package com.kunishu.storage.chronos
 
 import com.kunishu.chronos.io.CalendarRepo
-import com.kunishu.model.user.{Location, AnyUser, Users, Doctor}
-import com.kunishu.model.user.UserAttrs._
+import com.kunishu.model.user.{Location, AnyUser}
 import com.kunishu.storage.conversion.StorageConversions._
 import com.mongodb.casbah.Imports._
 import com.kunishu.model.calendar.Visit
@@ -11,7 +10,6 @@ import org.joda.time.DateTime
 import com.kunishu.model.calendar.VisitAttrs._
 import scala.collection.mutable.ListBuffer
 import com.mongodb.casbah.commons.MongoDBObject
-import com.mongodb.casbah.query.dsl.QueryExpressionObject
 
 /**
  * Storage managing calendar visits
@@ -21,26 +19,26 @@ import com.mongodb.casbah.query.dsl.QueryExpressionObject
  */
 trait CalendarStorage extends Storage[Visit] with CalendarRepo with StorageQueries {
 
-  override def get(id: String): Option[Visit] = {
+  override def get(id: String): Option[Visit] = segment("getById") {
     findOne(repo, id).
       map(objMap => new Visit(objMap))
   }
 
-  override def getPatientVisits(userId: String, start: DateTime, end: DateTime): Seq[Visit] = {
+  override def getPatientVisits(userId: String, start: DateTime, end: DateTime): Seq[Visit] = segment("getPatientVisits") {
     val queryPatientVisits = MongoDBObject(subAttribute(attPatient, attId) -> asId(userId)) ++ (attStart $gte start) ++ (attEnd $lte end)
     find(repo, queryPatientVisits).
       map(map => new Visit(map)).
       toSeq
   }
 
-  override def getDoctorVisits(userId: String, start: DateTime, end: DateTime): Seq[Visit] = {
+  override def getDoctorVisits(userId: String, start: DateTime, end: DateTime): Seq[Visit] = segment("getDoctorVisits") {
     val queryDoctorVisits = MongoDBObject(subAttribute(attDoctor, attId) -> asId(userId)) ++ (attStart $gte start) ++ (attEnd $lte end)
     find(repo, queryDoctorVisits).
       map(map => new Visit(map)).
       toSeq
   }
 
-  override def isDoctorTimeWindowFree(userId: String, start: DateTime, end: DateTime): Boolean = {
+  override def isDoctorTimeWindowFree(userId: String, start: DateTime, end: DateTime): Boolean = segment("isDoctorTimeWindowFree") {
     val timeWindow = $and(
       MongoDBObject(
         subAttribute(attDoctor, attId) -> asId(userId)),
@@ -58,7 +56,7 @@ trait CalendarStorage extends Storage[Visit] with CalendarRepo with StorageQueri
       isEmpty
   }
 
-  override def getDoctorsVisits(usersIds: List[String], start: DateTime, end: DateTime): Map[String, Seq[Visit]] = {
+  override def getDoctorsVisits(usersIds: List[String], start: DateTime, end: DateTime): Map[String, Seq[Visit]] = segment("getDoctorsVisits") {
     val queryDoctorVisits = $and(
       (subAttribute(attDoctor, attId) $in usersIds.map(id => asId(id))),
       (attStart $gte start),
@@ -73,7 +71,7 @@ trait CalendarStorage extends Storage[Visit] with CalendarRepo with StorageQueri
       toMap
   }
 
-  override def updatePatientInfo(user: AnyUser, start: DateTime): Boolean = {
+  override def updatePatientInfo(user: AnyUser, start: DateTime): Boolean = segment("updatePatientInfo") {
     val queryPatientVisits = $and(
       MongoDBObject(subAttribute(attPatient, attId) -> asId(user.id.get)),
       (attCancelled $exists false),
@@ -88,7 +86,7 @@ trait CalendarStorage extends Storage[Visit] with CalendarRepo with StorageQueri
       getN >= 1
   }
 
-  override def updateDoctorInfo(doctor: AnyUser, start: DateTime): Boolean = {
+  override def updateDoctorInfo(doctor: AnyUser, start: DateTime): Boolean = segment("updateDoctorInfo") {
     val queryDoctorVisits = $and(
       MongoDBObject(subAttribute(attDoctor, attId) -> asId(doctor.id.get)),
       (attCancelled $exists false),
@@ -103,7 +101,7 @@ trait CalendarStorage extends Storage[Visit] with CalendarRepo with StorageQueri
       getN >= 1
   }
 
-  override def updateLocationInfo(doctorId: String, location: Location, start: DateTime): Boolean = {
+  override def updateLocationInfo(doctorId: String, location: Location, start: DateTime): Boolean = segment("updateLocationInfo") {
     val queryDoctorVisits = $and(
       MongoDBObject(subAttribute(attDoctor, attId) -> asId(doctorId)),
       MongoDBObject(subAttribute(attLocation, attId) -> asId(location.id.get)),

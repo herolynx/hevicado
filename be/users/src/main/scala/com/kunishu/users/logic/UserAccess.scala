@@ -1,5 +1,6 @@
 package com.kunishu.users.logic
 
+import com.kunishu.core.monit.Instrumented
 import com.kunishu.core.processing.{NotFoundError, UnauthorizedError, Success, Result}
 import com.kunishu.model.user.UserValidator._
 import com.kunishu.model.user.{SearchUserCriteria, Doctor, User, AnyUser}
@@ -11,7 +12,7 @@ import com.kunishu.users.io.UserRepo
  * @author Michal Wronski
  * @since 1.0
  */
-trait UserAccess {
+trait UserAccess extends Instrumented {
 
   protected val userRepo: UserRepo
 
@@ -21,7 +22,7 @@ trait UserAccess {
    * @param user user doing search
    * @return non-nullable result
    */
-  def findUsers(criteria: SearchUserCriteria, user: AnyUser): Result[Seq[AnyUser]] = {
+  def findUsers(criteria: SearchUserCriteria, user: AnyUser): Result[Seq[AnyUser]] = segment("findUsers") {
     val showProperInfo = (u: AnyUser) => if (criteria.contactInfoOnly) new User(u.attributes).info() else u.info()
     val showProperUsers = (u: AnyUser) => if (!user.isInstanceOf[Doctor]) u.isInstanceOf[Doctor] else true
     Success(
@@ -39,7 +40,7 @@ trait UserAccess {
    * @param user user accessing account
    * @return non-nullable result
    */
-  def getUser(id: String, user: AnyUser): Result[AnyUser] = {
+  def getUser(id: String, user: AnyUser): Result[AnyUser] = segment("getUser") {
     val foundUser = userRepo.get(id)
 
     var result: Result[AnyUser] = null

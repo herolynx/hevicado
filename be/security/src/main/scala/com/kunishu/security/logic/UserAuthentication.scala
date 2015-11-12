@@ -1,5 +1,6 @@
 package com.kunishu.security.logic
 
+import com.kunishu.core.monit.Instrumented
 import com.kunishu.core.security.Encryption
 import com.kunishu.model.messages.{LostPasswordEmail, EmailGateway}
 import com.kunishu.model.security.{Token, TempPassword, AccessPass}
@@ -12,7 +13,7 @@ import com.kunishu.security.io.AuthenticationRepo
  * @author Michal Wronski
  * @since 1.1
  */
-trait UserAuthentication {
+trait UserAuthentication extends Instrumented {
 
   tokens: TokenAuthentication =>
 
@@ -25,18 +26,19 @@ trait UserAuthentication {
    * @param password user's password
    * @return non-nullable option with authentication user
    */
-  def authUser(login: String, password: String): Option[AccessPass] =
+  def authUser(login: String, password: String): Option[AccessPass] = segment("authUser") {
     authByCredentials(login, password).
       toLeft(authByOneTimePass(login, password)) match {
       case Right(credToken) => credToken
       case Left(tempPassToken) => Some(tempPassToken)
     }
+  }
 
   /**
    * Regain access to account by generation of temporary password
    * @param user user who wants to regain access to his account
    */
-  def regainAccount(user: AnyUser): Unit = {
+  def regainAccount(user: AnyUser): Unit = segment("regainAccount") {
     val repoUser = authRepo.findUserByLogin(user.eMail)
     repoUser.
       map(
@@ -54,7 +56,7 @@ trait UserAuthentication {
    * @param password user's password
    * @return optional access pass
    */
-  private def authByOneTimePass(login: String, password: String): Option[Token] = {
+  private def authByOneTimePass(login: String, password: String): Option[Token] = segment("authByOneTimePass") {
     val pass = authRepo.findByLogin(login)
     val givenPass = Encryption.hash(password)
     val tempPass = pass.
@@ -85,7 +87,7 @@ trait UserAuthentication {
    * @param password user's password
    * @return optional access pass
    */
-  private def authByCredentials(login: String, password: String): Option[Token] = {
+  private def authByCredentials(login: String, password: String): Option[Token] = segment("authByCredentials") {
     val user = authRepo.findUserByLogin(login)
     user.
       map(_.attributes.get(UserAttrs.attPassword)).

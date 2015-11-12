@@ -1,0 +1,15 @@
+---
+
+- name: Check if kamon image is present
+  shell: "docker images -q {{ grafana_image }}"
+  register: is_kamon_image_present
+  tags:
+    - kamon
+    - provision
+
+- name: Download kamon image if it's not present
+  shell: "docker pull {{ grafana_image }}"
+  tags:
+    - kamon
+    - provision
+  when: is_kamon_image_present.stdout == ""
