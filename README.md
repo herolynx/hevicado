@@ -76,6 +76,8 @@ a) Project for Postman plugin (postman.json) which holds API with sample calls t
 
 b) Sample data that can be imported into hevicadoDB
 
+c) Rest API in Postman can be imported from: https://www.getpostman.com/collections/ae766dcb9ce1d95aeb7a
+
 ## Frontend
 
 ***Note: *** Use shorcut ***run-fe.sh*** script to do bellow steps.

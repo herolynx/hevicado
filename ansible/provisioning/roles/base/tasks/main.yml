@@ -27,3 +27,10 @@
   tags:
       - base
       - provision
+
+- name: Make sure locale is set properly
+  copy: src="locale" dest="/etc/default" mode="u=r,g=r,o=r"
+  tags:
+      - base
+      - provision
+      - locale

@@ -19,11 +19,11 @@ object EmailSender {
 }
 
 /**
- * E-mail sender
- *
- * @author Michal Wronski
- * @since 1.1
- */
+  * E-mail sender
+  *
+  * @author Michal Wronski
+  * @since 1.1
+  */
 trait EmailSender extends LazyLogging with Instrumented {
 
   private def mailConfig = {
@@ -36,13 +36,24 @@ trait EmailSender extends LazyLogging with Instrumented {
     properties
   }
 
-  private val session = Session.getDefaultInstance(mailConfig)
+  private val session = Session.getDefaultInstance(
+    mailConfig,
+    new javax.mail.Authenticator() {
+      override def getPasswordAuthentication: PasswordAuthentication = {
+        val mailConfig = config.getConfig("mail")
+        new PasswordAuthentication(mailConfig.getString("user"), mailConfig.getString("password"))
+      }
+    }
+  )
+
+  private def encoding = config.getConfig("mail.templates").getString("coding")
 
   def send(subject: String, body: String, toRecipients: List[String], from: String = "no_reply@hevicado.com"): Boolean = segment("sendEmail") {
     try {
       val message = new MimeMessage(session)
-      message.setSubject(subject)
-      message.setText(body)
+      message.setHeader("Content-Type", "text/html; charset=\"" + encoding + "\"")
+      message.setSubject(subject, encoding)
+      message.setText(body, encoding)
 
       message.setFrom(new InternetAddress(from))
 

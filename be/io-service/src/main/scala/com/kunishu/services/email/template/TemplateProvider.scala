@@ -50,8 +50,8 @@ trait TemplateProvider {
       val engine = new VelocityEngine()
       val tptConfig = config.getConfig("mail.templates")
       engine.setProperty(RuntimeConstants.RESOURCE_LOADER, tptConfig.getString("resource-loaded"))
-      engine.setProperty("classpath.resource.loader.class", tptConfig.getString("loaded-class"))
-      engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, tptConfig.getString("loaded-path"))
+      engine.setProperty("classpath.resource.loader.class", tptConfig.getString("loader-class"))
+      engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, tptConfig.getString("loader-path"))
       engine.setProperty(RuntimeConstants.FILE_RESOURCE_LOADER_CACHE, tptConfig.getString("cache"))
       engine.setProperty("file.resource.loader.modificationCheckInterval", tptConfig.getString("refresh")) //in seconds
       engine.init()
