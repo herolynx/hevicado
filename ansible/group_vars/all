@@ -80,6 +80,8 @@ monit_users:
   - michal.robert.wronski@gmail.com
   - tomasz.cimicki@gmail.com
   - krooshon@gmail.com
+monit_lifecycles: 5
+monit_timeout: "10 seconds"
 
 #containers to be monitored
 montit_docker_containers:
