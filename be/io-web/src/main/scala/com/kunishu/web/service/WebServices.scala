@@ -1,7 +1,6 @@
 package com.kunishu.web.service
 
 import akka.actor.{ActorRefFactory, Props}
-import com.kunishu.web.service.SecurityWebService
 import spray.routing.RequestContext
 
 /**

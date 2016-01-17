@@ -4,7 +4,6 @@ import akka.actor.{Actor, ActorLogging}
 import akka.event.LoggingReceive
 import com.kunishu.model.user.Users
 import com.kunishu.services.config.ServiceProvider.securityService
-import com.kunishu.services.security.AuthenticationService
 import com.kunishu.services.security.AuthenticationService._
 import com.kunishu.web.monit.HealthCheckWebService
 import com.kunishu.web.parsing.StorageModelParser.toJson
@@ -12,7 +11,6 @@ import spray.http.StatusCodes
 import spray.routing.RequestContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent._
 
 /**
  * Controller responsible for logging in and out users

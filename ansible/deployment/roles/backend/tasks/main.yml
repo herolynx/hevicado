@@ -1,5 +1,12 @@
 ---
-# This task build the package jar
+
+- name: "Including backend credentials"
+  include_vars: creds.yml
+  tags:
+    - backend
+    - deploy
+    - backend-config
+
 - name: Create backend remote package directory
   file: path={{ remote_pkg_dir }} state=directory
   tags:
@@ -43,30 +50,35 @@
   tags:
     - backend
     - deploy
+    - backend-config
 
 - name: Copy backend log configuration file
   template: src="logback.xml" dest={{ remote_pkg_dir }} mode="u=rw,g=r,o=r"
   tags:
     - backend
     - deploy
+    - backend-config
 
 - name: Create mails directory in remote package directory
   file: path="{{ mails_remote_dir_name }}" state=directory
   tags:
     - backend
     - deploy
+    - backend-config
 
 - name: Copy mail templates
   copy: src="{{ mails_dir_name }}/" dest="{{ mails_remote_dir_name }}" mode="u=rw,g=r,o=r"
   tags:
     - backend
     - deploy
+    - backend-config
 
 - name: Copy aspectj-weaver
   copy: src="aspectjweaver-{{ aspect_version }}.jar" dest="{{ remote_pkg_dir }}/aspectjweaver.jar" mode="u=rw,g=r,o=r"
   tags:
     - backend
     - deploy
+    - package
 
 - name: Stop backend docker containers
   tags:
@@ -74,6 +86,7 @@
     - deploy
     - just-restart
     - just-stop
+    - backend-restart
   docker:
     name: "{{ item.name }}"
     image: "{{ be_server_image }}"
@@ -85,6 +98,7 @@
     - backend
     - deploy
     - just-restart
+    - backend-restart
   docker:
     name: "{{ item.name }}"
     image: "{{ be_server_image }}"
@@ -97,4 +111,5 @@
     volumes:
     - "{{ remote_pkg_dir }}:{{ home_dir }}"
     - "{{ remote_log_dir }}/{{ item.name }}:{{ log_dir }}"
+    - "{{ mails_remote_dir_name }}:{{ home_dir }}/{{ mails_dir_name }}"
   with_items: be_instances
