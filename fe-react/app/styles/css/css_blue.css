@@ -1,0 +1,199 @@
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.fn {
+  float: none;
+}
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.clear {
+  clear: both;
+}
+.dib {
+  display: inline-block;
+}
+.di {
+  display: inline;
+}
+.db {
+  display: block;
+}
+.dn {
+  display: none;
+}
+/* fonts */
+/* fonts */
+/* fonts */
+/* fonts */
+.bold {
+  font-weight: 600;
+}
+.lighter {
+  font-weight: 300;
+}
+.normal {
+  font-weight: normal;
+}
+.italic {
+  font-style: italic;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.tdn {
+  text-decoration: none;
+}
+.tdu {
+  text-decoration: underline;
+}
+.center {
+  text-align: center;
+}
+.justify {
+  text-align: justify;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+/* OTHER */
+/* OTHER */
+/* OTHER */
+/* OTHER */
+.pointer {
+  cursor: pointer;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.list {
+  list-style-type: none;
+}
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* COLOR BASE */
+/* COLOR BASE */
+.blue section#navigation {
+  background: #0090ff;
+}
+.blue section#navigation .user {
+  background: #005494;
+}
+.blue section#navigation ul li:hover {
+  background: #005494;
+}
+.blue section#navigation ul .active {
+  background: #005494;
+}
+.blue #title {
+  background: #0090ff;
+}
+.blue #title nav ul li:hover:before {
+  border-color: #0090ff transparent transparent transparent;
+}
+.blue section#cabinet .info span.title,
+.blue section#my_account .info span.title {
+  color: #0090ff;
+}
+.blue section#cabinet a,
+.blue section#my_account a,
+.blue section#cabinet .upload,
+.blue section#my_account .upload {
+  color: #0090ff;
+  cursor: pointer;
+}
+.blue section#cabinet a:hover,
+.blue section#my_account a:hover,
+.blue section#cabinet .upload:hover,
+.blue section#my_account .upload:hover {
+  color: #005494;
+}
+.blue section#cabinet .info.current .time label {
+  color: #0090ff;
+}
+.blue section#cabinet .info.current .time fieldset input[type=text]:disabled {
+  color: #0090ff;
+}
+.blue section#cabinet ul.doctor .images a.more i {
+  background: #0090ff;
+}
+.blue section#calendar ul.days li {
+  color: #0090ff;
+}
+.blue section#calendar .month .day .box .mark {
+  background: #0090ff;
+}
+.blue section#calendar .month .day .info-box ul {
+  background: #0090ff;
+}
+.blue section#calendar .month .day .info-box .more {
+  color: #0090ff;
+}
+.blue section#calendar .oneday .window ul.data i {
+  color: #005494;
+}
+.blue section#calendar .oneday .window ul.data a {
+  color: #0090ff;
+}
+.blue section#calendar .title-window .box span {
+  color: #005494;
+}
+.blue section#calendar .title-window .box a {
+  color: #0090ff;
+}
+.blue section#calendar .title-window .box a:hover {
+  color: #0099ff;
+}
+.blue section#calendar .title-window .visit span {
+  background: #0090ff;
+}
+.blue section#message ul li .action a {
+  color: #0090ff;
+}
+@media only screen and (max-width: 992px) {
+  .blue section#calendar .month .day .info-box .count {
+    background: #0090ff;
+  }
+}
+.blue .pagination a {
+  color: #005494;
+}
+.blue .pagination a:hover {
+  background: #0090ff;
+}

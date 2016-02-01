@@ -1,0 +1,360 @@
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.fn {
+  float: none;
+}
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.clear {
+  clear: both;
+}
+.dib {
+  display: inline-block;
+}
+.di {
+  display: inline;
+}
+.db {
+  display: block;
+}
+.dn {
+  display: none;
+}
+/* fonts */
+/* fonts */
+/* fonts */
+/* fonts */
+.bold {
+  font-weight: 600;
+}
+.lighter {
+  font-weight: 300;
+}
+.normal {
+  font-weight: normal;
+}
+.italic {
+  font-style: italic;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.tdn {
+  text-decoration: none;
+}
+.tdu {
+  text-decoration: underline;
+}
+.center {
+  text-align: center;
+}
+.justify {
+  text-align: justify;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+/* OTHER */
+/* OTHER */
+/* OTHER */
+/* OTHER */
+.pointer {
+  cursor: pointer;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.list {
+  list-style-type: none;
+}
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* COLOR BASE */
+/* COLOR BASE */
+section#account .col,
+section#account .row {
+  height: 100%;
+}
+section#account .window {
+  padding: 15px 10px;
+  min-height: 95%;
+}
+section#account .add {
+  margin: auto;
+  color: #0090ff;
+  font-size: 32px;
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+}
+section#account ul.list {
+  float: left;
+  width: 100%;
+}
+section#account ul.list li {
+  float: left;
+  display: table;
+  border-top: 1px solid #e6e6e6;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 300;
+  position: relative;
+}
+section#account ul.list li:first-child {
+  border-top: 0;
+}
+section#account ul.list li.deactive:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+}
+section#account ul.list li.deactive span {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+section#account ul.list li.deactive a {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+section#account ul.list li.deactive a:hover {
+  color: #005494 !important;
+}
+section#account .info {
+  display: inline-block;
+  vertical-align: middle;
+  width: 85%;
+  position: relative;
+  float: left;
+}
+section#account .info span.time,
+section#account .info span.title {
+  float: left;
+}
+section#account .info span.title {
+  width: 100%;
+  margin-bottom: 10px;
+}
+section#account .info .field {
+  width: 100%;
+  float: left;
+  min-height: 45px;
+}
+section#account .info .field:hover .delete {
+  display: inline-block;
+}
+section#account .info .field span {
+  font-size: 16px;
+  margin: 0 !important;
+}
+section#account .info .field .delete {
+  font-size: 20px;
+  float: left;
+  width: auto;
+  line-height: 40px;
+  height: 40px;
+  padding: 0 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #ffffff;
+  font-size: 26px;
+  color: #0090ff;
+  position: absolute;
+  right: -45px;
+  top: 0;
+}
+section#account .info .field fieldset {
+  float: left;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+section#account input[type=text],
+section#account textarea {
+  float: left;
+  width: 100%;
+  padding: 8px 10px;
+  background: #f4f4f4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 18px;
+  color: #2f2f2f;
+  font-weight: 300;
+  margin-bottom: 5px;
+  border: 1px solid #e6e6e4;
+}
+section#account input[type=text]:disabled,
+section#account textarea:disabled {
+  background: none;
+  border: 0;
+  padding: 8px 0;
+}
+section#account textarea {
+  resize: none;
+  min-height: 40px !important;
+  max-width: 764px;
+}
+section#account .info.one fieldset {
+  width: 100%;
+}
+section#account .info.one fieldset input[type=text] {
+  width: 100%;
+}
+section#account .info.two fieldset {
+  width: 50%;
+  padding-left: 2%;
+}
+section#account .info.two fieldset:first-child {
+  padding-left: 0;
+}
+section#account .info.two .btn {
+  top: 6px;
+  left: 10px;
+  position: relative;
+}
+section#account .info.three fieldset {
+  width: 33.3%;
+  padding-left: 2%;
+}
+section#account .info.three fieldset:first-child {
+  padding-left: 0;
+}
+section#account .action.line,
+section#account .action.block {
+  display: inline-block;
+  float: right;
+  vertical-align: middle;
+  font-size: 26px;
+  position: relative;
+  z-index: 2;
+  text-align: right;
+  min-width: 60px;
+  width: 10%;
+}
+section#account .action.line a,
+section#account .action.block a {
+  margin: 5px 3px;
+}
+section#account .action.line {
+  min-width: 120px;
+  width: 10%;
+}
+section#account .action.line a {
+  display: inline-block;
+}
+section#account .action.line .switch {
+  display: inline-block;
+  top: 5px;
+}
+section#account .action.block {
+  min-width: 60px;
+  width: 10%;
+}
+section#account .action.block a {
+  display: block;
+  width: 100%;
+}
+@media only screen and (max-width: 768px) {
+  section#account .info {
+    width: 95%;
+  }
+  section#account .info span.title {
+    margin-top: 15px;
+  }
+  section#account .action.block {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 100%;
+  }
+  section#account .action.block a {
+    display: inline-block;
+    width: auto;
+    margin: 0 5spx;
+  }
+}
+@media only screen and (max-width: 480px) {
+  section#account .info {
+    width: 100%;
+  }
+  section#account .info.one {
+    width: 90%;
+  }
+  section#account .info.two {
+    width: 90%;
+  }
+  section#account .info.two fieldset {
+    width: 100%;
+    padding-left: 0;
+    margin-top: 5px;
+  }
+  section#account .info.two fieldset:first-child {
+    padding-left: 0;
+  }
+  section#account .info.three {
+    width: 90%;
+  }
+  section#account .info.three fieldset {
+    padding-right: 5px;
+    padding-left: 0;
+    margin-top: 5px;
+  }
+  section#account .info.three fieldset:first-child {
+    width: 100%;
+    padding-right: 0;
+  }
+  section#account .action.line {
+    float: left;
+    width: 100%;
+  }
+}

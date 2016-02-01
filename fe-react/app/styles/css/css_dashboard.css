@@ -1,0 +1,194 @@
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* BORDER */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* PADDING */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* MARGIN */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.fn {
+  float: none;
+}
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+/* FLOAT */
+.clear {
+  clear: both;
+}
+.dib {
+  display: inline-block;
+}
+.di {
+  display: inline;
+}
+.db {
+  display: block;
+}
+.dn {
+  display: none;
+}
+/* fonts */
+/* fonts */
+/* fonts */
+/* fonts */
+.bold {
+  font-weight: 600;
+}
+.lighter {
+  font-weight: 300;
+}
+.normal {
+  font-weight: normal;
+}
+.italic {
+  font-style: italic;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.tdn {
+  text-decoration: none;
+}
+.tdu {
+  text-decoration: underline;
+}
+.center {
+  text-align: center;
+}
+.justify {
+  text-align: justify;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+/* OTHER */
+/* OTHER */
+/* OTHER */
+/* OTHER */
+.pointer {
+  cursor: pointer;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.list {
+  list-style-type: none;
+}
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+/* COLOR BASE */
+/* COLOR BASE */
+section#dashboard {
+  padding-top: 60px;
+}
+section#dashboard .window {
+  padding: 15px 10px;
+  text-align: left;
+  position: relative;
+  width: 32.3%;
+  margin: 10px 0.5%;
+}
+section#dashboard .window section {
+  padding-top: 0;
+}
+section#dashboard .title-window .box {
+  font-size: 18px;
+  font-weight: 300;
+}
+section#dashboard section#calendar .month .day .number {
+  font-size: 14px;
+}
+section#dashboard section#calendar .event {
+  font-size: 10px;
+  padding: 1px 2px;
+}
+section#dashboard section#visit .date-visit {
+  max-width: 40px;
+}
+section#dashboard section#visit .box.first {
+  width: 100%;
+}
+section#dashboard section#cabinet .info.list a {
+  font-size: 16px;
+}
+section#dashboard section#message ul li:first-child {
+  border: 0;
+}
+section#dashboard section#message ul.list li {
+  padding: 10px 5px;
+}
+section#dashboard section#message ul.list li div {
+  font-size: 14px;
+}
+section#dashboard #canvas {
+  width: 100% !important;
+}
+@media only screen and (max-width: 992px) {
+  section#dashboard .window {
+    width: 49%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  section#dashboard #grid {
+    width: 97%;
+    margin: auto;
+  }
+  section#dashboard .window {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+@media only screen and (max-width: 480px) {
+  section#message ul.list li .describe {
+    width: 100%;
+  }
+  section#message ul.list li .date {
+    right: 0;
+    text-align: right;
+    padding-right: 5px;
+  }
+  section#visit ul.list li {
+    padding: 0;
+  }
+  section#visit .date-visit {
+    display: table-cell;
+    max-width: 45px;
+    width: 45px;
+    border-right: 1px solid #0090ff;
+  }
+  section#visit .box.first {
+    width: 100%;
+    padding-left: 25px;
+  }
+}
