@@ -1,5 +1,5 @@
 var Reflux = require('reflux');
-var Api = require('../utils/api');
+var Api = require('../core/api');
 
 var AuthActions = Reflux.createActions({
   'login': {children: ['completed', 'failed']}

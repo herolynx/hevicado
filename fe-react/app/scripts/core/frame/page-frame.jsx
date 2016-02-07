@@ -1,8 +1,8 @@
 var React = require('react');
-var Navbar = require('./navigation/navbar');
-var MainContent = require('./main-content');
+var MainMenu = require('./main-menu');
+var PageContent = require('./page-content');
 
-var Main = React.createClass({
+var PageFrame = React.createClass({
   render: function() {
     return (
       <div id="page" className="blue">
@@ -10,13 +10,13 @@ var Main = React.createClass({
         <label htmlFor="trigger">
           <i className="fa fa-bars"></i>
         </label>
-        <Navbar />
-        <MainContent>
+        <MainMenu />
+        <PageContent>
           {this.props.children}
-        </MainContent>
+        </PageContent>
       </div>
     );
   }
 });
 
-module.exports = Main;
+module.exports = PageFrame;

@@ -1,6 +1,6 @@
 var React = require('react');
 
-var Navbar = React.createClass({
+var MainMenu = React.createClass({
   getDefaultProps: function() {
     return {
       navigation: {
@@ -63,4 +63,4 @@ var Navbar = React.createClass({
 
 });
 
-module.exports = Navbar;
+module.exports = MainMenu;

@@ -1,6 +1,6 @@
 var React = require('react');
 
-var MainContent = React.createClass({
+var PageContent = React.createClass({
   getDefaultProps: function() {
     return {
       mainContent: {
@@ -39,4 +39,4 @@ var MainContent = React.createClass({
 
 });
 
-module.exports = MainContent;
+module.exports = PageContent;

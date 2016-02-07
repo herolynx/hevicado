@@ -1,8 +1,8 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 var Reflux = require('reflux');
-var AuthActions = require('../../actions/auth-actions');
-var AuthStore = require('../../stores/auth-store');
+var AuthActions = require('../auth-actions');
+var AuthStore = require('../auth-store');
 
 var History = ReactRouter.History;
 
@@ -103,7 +103,7 @@ var Login = React.createClass({
             </div>
           </div>
         </div>
-      </div>  
+      </div>
     );
   }
 });

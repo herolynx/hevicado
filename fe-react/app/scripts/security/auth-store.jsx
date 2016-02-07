@@ -1,6 +1,6 @@
 var Reflux = require('reflux');
-var AuthActions = require('../actions/auth-actions');
-var Session = require('../utils/session');
+var AuthActions = require('./auth-actions');
+var Session = require('./session');
 
 var AuthStore = Reflux.createStore({
   listenables: [AuthActions],
