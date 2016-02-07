@@ -11,8 +11,9 @@ var Main = React.createClass({
           <i className="fa fa-bars"></i>
         </label>
         <Navbar />
-        <MainContent />
-        {this.props.children}
+        <MainContent>
+          {this.props.children}
+        </MainContent>
       </div>
     );
   }
