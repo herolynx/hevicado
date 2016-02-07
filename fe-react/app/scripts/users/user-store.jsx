@@ -1,6 +1,6 @@
 var Reflux = require('reflux');
-var UserActions = require('../actions/user-actions');
-var Api = require('../utils/api');
+var UserActions = require('./user-actions');
+var Api = require('../core/api');
 
 var UserStore = Reflux.createStore({
   listenables: [UserActions],

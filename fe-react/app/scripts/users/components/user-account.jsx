@@ -3,9 +3,9 @@ var ReactRouter = require('react-router');
 var Reflux = require('reflux');
 var History = ReactRouter.History;
 
-var UserActions = require('../../actions/user-actions');
-var UserStore = require('../../stores/user-store');
-var AuthStore = require('../../stores/auth-store');
+var UserActions = require('../user-actions');
+var UserStore = require('../user-store');
+var AuthStore = require('../../security/auth-store');
 
 var Account = React.createClass({
   mixins: [

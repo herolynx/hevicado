@@ -6,10 +6,10 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
 var PageFrame = require('./core//frame/page-frame');
-var Login = require('./components/auth/login');
-var Account = require('./components/account/account');
+var Login = require('./security/components/login');
+var Account = require('./users/components/user-account');
 
-var AuthStore = require('./stores/auth-store');
+var AuthStore = require('./security/auth-store');
 
 function requireAuth(nextState, replaceState) {
   if (!AuthStore.isLoggedIn()) {

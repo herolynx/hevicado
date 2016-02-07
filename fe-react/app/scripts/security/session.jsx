@@ -1,5 +1,5 @@
 var Cookie = require('react-cookie');
-var UserUtils = require('./user-utils');
+var UserUtils = require('../users/user-utils');
 
 module.exports = {
   CURRENT_USER: 'currentUser',
