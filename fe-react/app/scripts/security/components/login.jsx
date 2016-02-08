@@ -1,14 +1,13 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Reflux = require('reflux');
-var AuthActions = require('../auth-actions');
-var AuthStore = require('../auth-store');
+import React from 'react';
+import ReactRouter from 'react-router';
+import Reflux from 'reflux';
+import AuthActions from '../auth-actions';
+import AuthStore from '../auth-store';
 
-var History = ReactRouter.History;
-
-var Login = React.createClass({
+//TODO mixins are deprecated and not supported by react in ES6. use composition instead!
+let login = React.createClass({
   mixins: [
-    History, Reflux.listenTo(AuthStore, 'onLoginComplete')
+    ReactRouter.History, Reflux.listenTo(AuthStore, 'onLoginComplete')
   ],
   getInitialState: function() {
     return {login: '', password: '', error: false, isLogged: false};
@@ -17,21 +16,19 @@ var Login = React.createClass({
     return {
       windowLogin: {
         name: 'Zaloguj się do systemu',
-        email: 'Adres e-mail:',
-        password: 'Hasło:',
-        signIn: 'Zaloguj się',
-        forgotPassword: 'Nie pamiętam hasła ;(',
-        loginWithFacebook: 'Zaloguj się przez Facebook',
-        loginWithGoogle: 'Zaloguj się przez Google'
+        email : 'Adres e-mail:',
+        password : 'Hasło:',
+        signIn : 'Zaloguj się',
+        forgotPassword : 'Nie pamiętam hasła ;(',
+        loginWithFacebook : 'Zaloguj się przez Facebook',
+        loginWithGoogle : 'Zaloguj się przez Google'
       }
     };
   },
   onLoginComplete: function(result) {
     console.log('onLoginComplete', result.user, result.token);
     this.setState({user: result.user, isLogged: result.isLogged});
-    if (this.state.isLogged === true) {
-      this.history.replaceState(null, '/account', null);
-    } else {
+    if (this.state.isLogged === true) {this.history.replaceState(null, '/account', null);} else {
       this.state.error = true;
     }
   },
@@ -79,22 +76,26 @@ var Login = React.createClass({
                   <ul className="action">
                     <li>
                       <button type="submit" className="btn blue md" onTouchTap={this.handleLogin}>
-                        <i className="fa fa-sign-in"></i> {this.props.windowLogin.signIn}
+                        <i className="fa fa-sign-in"></i>
+                        {this.props.windowLogin.signIn}
                       </button>
                     </li>
                     <li className="block line">
                       <a href="#">
-                        <i className="fa fa-question-circle"></i> {this.props.windowLogin.forgotPassword}
+                        <i className="fa fa-question-circle"></i>
+                        {this.props.windowLogin.forgotPassword}
                       </a>
                     </li>
                     <li className="block">
                       <a href="#" className="social facebook">
-                        <i className="fa fa-facebook"></i> {this.props.windowLogin.loginWithFacebook}
+                        <i className="fa fa-facebook"></i>
+                        {this.props.windowLogin.loginWithFacebook}
                       </a>
                     </li>
                     <li className="block">
                       <a href="#" className="social google">
-                        <i className="fa fa-google-plus"></i> {this.props.windowLogin.loginWithGoogle}
+                        <i className="fa fa-google-plus"></i>
+                        {this.props.windowLogin.loginWithGoogle}
                       </a>
                     </li>
                   </ul>
@@ -108,4 +109,4 @@ var Login = React.createClass({
   }
 });
 
-module.exports = Login;
+export default login;

@@ -1,4 +1,4 @@
-module.exports = {
+let user = {
   getContactInfo: function(user) {
     return {
       id: user.id,
@@ -11,3 +11,5 @@ module.exports = {
     };
   }
 };
+
+export default user;

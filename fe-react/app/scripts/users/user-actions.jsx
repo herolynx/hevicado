@@ -1,7 +1,5 @@
-var Reflux = require('reflux');
+import Reflux from 'reflux';
 
-var UserActions = Reflux.createActions([
-  'getUser'
-]);
+let userActions = Reflux.createActions(['getUser']);
 
-module.exports = UserActions;
+export default userActions;

@@ -1,22 +1,22 @@
-var React = require('react');
-var MainMenu = require('./main-menu');
-var PageContent = require('./page-content');
+import React from 'react';
+import MainMenu from './main-menu';
+import PageContent from './page-content';
 
-var PageFrame = React.createClass({
-  render: function() {
+export default class PageFrame extends React.Component {
+
+  render() {
     return (
       <div id="page" className="blue">
-        <input type="checkbox" id="trigger" className="trigger" />
+        <input type="checkbox" id="trigger" className="trigger"/>
         <label htmlFor="trigger">
           <i className="fa fa-bars"></i>
         </label>
-        <MainMenu />
+        <MainMenu/>
         <PageContent>
           {this.props.children}
         </PageContent>
       </div>
     );
   }
-});
 
-module.exports = PageFrame;
+}
