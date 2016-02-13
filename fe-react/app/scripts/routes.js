@@ -9,9 +9,9 @@ import Account from './users/components/user-account';
 import AuthStore from './security/auth-store';
 
 function requireAuth(nextState, replaceState) {
-  if (!AuthStore.isLoggedIn()) {replaceState({
-      nextPathname: nextState.location.pathname
-    }, '/login');}
+  if (!AuthStore.isLoggedIn()) {
+    replaceState({nextPathname: nextState.location.pathname}, '/login');
+  }
 }
 
 let routes = (

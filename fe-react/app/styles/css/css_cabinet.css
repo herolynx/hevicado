@@ -220,7 +220,7 @@ section#cabinet .info .field .delete {
   color: #0090ff;
   position: absolute;
   right: -45px;
-  top: -3px;
+  top: 4px;
 }
 section#cabinet .info .field fieldset {
   float: left;
@@ -341,33 +341,36 @@ section#cabinet .info.list a {
   text-decoration: none;
   float: left;
   width: 95%;
-  font-size: 18px;
+  font-size: 16px;
 }
 section#cabinet .info.current fieldset {
   width: 80%;
   float: left;
 }
-section#cabinet .info.current .time {
-  font-size: 14px;
+section#cabinet .info.current .option {
+  font-size: 16px;
   float: left;
 }
-section#cabinet .info.current .time label {
+section#cabinet .info.current .option label {
   height: 40px;
   line-height: 40px;
   float: left;
 }
-section#cabinet .info.current .time fieldset {
+section#cabinet .info.current .option fieldset {
   width: 150px;
 }
-section#cabinet .info.current .time fieldset input[type=text] {
+section#cabinet .info.current .option fieldset input[type=text] {
   width: 45px;
   display: inline-block;
   float: left;
   text-align: center;
   margin: 0 10px 0 10px;
 }
-section#cabinet .info.current .time fieldset input[type=text]:disabled {
+section#cabinet .info.current .option fieldset input[type=text]:disabled {
   margin: 0;
+}
+section#cabinet .info.current .option.price fieldset input[type=text] {
+  width: 60px;
 }
 section#cabinet .color {
   float: left;
@@ -388,13 +391,10 @@ section#cabinet .color .minicolors-theme-default.minicolors {
 section#cabinet .images {
   float: left;
   width: 120px;
-  margin: 5px 0;
+  margin: 5px;
   position: relative;
   text-align: center;
   text-align: left;
-}
-section#cabinet .images img {
-  display: inline-block;
   border: 1px solid #e6e6e4;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -404,23 +404,38 @@ section#cabinet .images img {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
-  background: #ffffff;
 }
-section#cabinet .images a {
-  right: 10px;
-  top: 1px;
-  font-size: 16px;
-  padding: 1px 5px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+section#cabinet .images img {
+  display: inline-block;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
-  position: absolute;
-  width: auto;
   background: #ffffff;
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+section#cabinet .images a {
+  color: #ffffff;
+  background: #0090ff;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  border: 2px solid #ffffff;
+  position: absolute;
+  bottom: -8px;
+  right: -1px;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  text-align: center;
+}
+section#cabinet .images a i {
+  font-size: 14px;
+  color: #ffffff;
+  margin-right: 0;
 }
 section#cabinet ul.doctor {
   float: left;
@@ -445,7 +460,7 @@ section#cabinet ul.doctor li .box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  min-height: 300px;
+  min-height: 250px;
   position: relative;
   margin-left: 10px;
 }
@@ -464,7 +479,7 @@ section#cabinet ul.doctor li.deactive .box:before {
   display: inline-block;
   z-index: 1;
 }
-section#cabinet ul.doctor span.name {
+section#cabinet ul.doctor .name {
   height: auto;
   line-height: normal;
   width: 100%;
@@ -486,22 +501,46 @@ section#cabinet ul.doctor .images {
   text-align: left;
   margin: auto;
   display: inline-block;
-}
-section#cabinet ul.doctor .images a {
-  position: relative;
+  padding: 4px;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  background: #ffffff;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 section#cabinet ul.doctor .images img {
   display: inline-block;
-  border: 1px solid #e6e6e4;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 5px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -o-border-radius: 5px;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
   background: #ffffff;
+  width: 100%;
+}
+section#cabinet ul.doctor .images a.more {
+  color: #ffffff;
+  background: #0090ff;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  border: 2px solid #ffffff;
+  position: absolute;
+  bottom: -3px;
+  right: 10px;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  text-align: center;
+}
+section#cabinet ul.doctor .images a.more i {
+  font-size: 14px;
+  color: #ffffff;
+  margin-right: 0;
 }
 section#cabinet ul.doctor span {
   display: block;
@@ -522,10 +561,6 @@ section#cabinet ul.doctor span.title {
 }
 section#cabinet ul.doctor span.specialization {
   font-size: 12px;
-}
-section#cabinet ul.doctor span.address {
-  margin-top: 10px;
-  width: 100%;
 }
 section#cabinet ul.doctor .action.line {
   display: inline-block;

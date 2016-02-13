@@ -2,80 +2,94 @@
 
 	$(window).resize(function() {
 		var windowSize = $(window).outerWidth();
-		
+
 		if ($(window).width() <= 767) {
-			
-		
+
+
 			console.log('mobile');
 		}
-		
+
 		// else if (($(window).width() >= 768) && ($(window).width() <= 1024)) {
-		
-				
+
+
 			// console.log('tablet');
 		// }
-		
-		
-		
+
+
+
 		else {
-			
+
+			// RESIZE FILTER IF SCROLL
+
+			$(function(){
+				$(window).scroll(function() {
+					if ($(this).scrollTop() > 20) {
+						$('.filter').addClass('small');
+						$('label[for="trigger"]').addClass('small');
+					} else {
+						$('.filter').removeClass('small');
+						$('label[for="trigger"]').removeClass('small');
+					}
+				});
+			});
+
 			$(window).change(function(){
-			
+
 				$(window).resize(function(){
-					var screen = $(this);    
+					var screen = $(this);
 					var screen_width = $(this).outerWidth();
 					var check = $('#trigger');
-				
+
 					if(check.is(':checked'))  {
-						$('#main-content').animate({			
+						$('#main-content').animate({
 							width: screen_width - 200,
 						},190);
 					} else {
-						$('#main-content').animate({			
+						$('#main-content').animate({
 							width: screen_width,
 						},50);
 					}
 				});
-				
+
 			 $(window).resize();
 			});
-			
+
 			console.log('destop');
 		}
 	});
-	
+
 	$(window).resize();
 
-	
-	
+
+
 	$(window).resize(function(){
 		var height_box = $('#calendar .week ul li+li .day .box, #calendar .oneday ul li+li .day .box').outerHeight();
-		
+
 		$('#calendar .week ul li.hour .day, #calendar .oneday ul li.hour .day').css('height', height_box);
 
 	});
-		
+
 	$(window).resize();
-	
-	
 
-// -----------------------------------------------------------------------------------	
-	
 
-// DELETE COMPONENT LETTER	
 
-	// WINDOW ACTION 
-		
+// -----------------------------------------------------------------------------------
+
+
+// DELETE COMPONENT LETTER
+
+	// WINDOW ACTION
+
 		$('#layer .close').click(function(e){
 			e.preventDefault();
 			$('#layer').slideToggle('fast');
 			$('#page').css({
 				'height': 'auto',
 				'overflow': 'visible'
-			});		
+			});
 		});
-		
-		$('.title-window .calendar').click(function(e){
+
+		$('.title-window .btn-calendar').click(function(e){
 			e.preventDefault();
 			$('.calendar_mini').slideToggle('fast');
 			$('#page').css({
@@ -83,7 +97,7 @@
 				'overflow': 'hidden'
 			});
 		});
-		
+
 		$('#cabinet ul li .delete').click(function(e){
 			e.preventDefault();
 			$('.delete_cabinet').slideToggle('fast');
@@ -93,10 +107,10 @@
 			});
 		});
 
-	// TABS 
+	// TABS
 
 	$(document).ready(function(){
-		
+
 		$('nav li').click(function(){
 			var tab_id = $(this).attr('data-tab');
 
@@ -110,8 +124,8 @@
 	});
 
 
-	// SLIDER SEARCH 
-	if ($('.bxslider').length > 0) { 
+	// SLIDER SEARCH
+	if ($('.bxslider').length > 0) {
 	   $('.bxslider').bxSlider({
 			pagerCustom: '#bx-pager',
 			mode: 'horizontal',
@@ -144,10 +158,11 @@
 
 		}
 		window.onload = function(){
-				var ctx = document.getElementById("canvas").getContext("2d");
-				window.myBar = new Chart(ctx).Bar(barChartData, {
-				responsive : true
-			});
+			var canvasElement = document.getElementById("canvas");
+			if (canvasElement) {
+				var ctx = canvasElement.getContext("2d");
+				window.myBar = new Chart(ctx).Bar(barChartData, {responsive : true});
+			}
 		}
 	});
 
@@ -161,7 +176,7 @@
 // SCROLL NAVIGATON
 
 $(window).load(function(){
-	$("#navigation #wrapper").mCustomScrollbar({	
+	$("#navigation #wrapper").mCustomScrollbar({
 		scrollbarPosition:"outside"
 	});
 });
@@ -171,69 +186,59 @@ $(window).load(function(){
 
 
 $(document).ready(function() {
-	
-	// TITLE PAGE 
-			
+
+	// TITLE PAGE
+
 	if ($("#title nav").length > 0){
 	} else {
 		$('#title').addClass('small');
 	}
 
-	
-	// RESIZE FILTER IF SCROLL
 
-	$(function(){
-		$(window).scroll(function() {
-			if ($(this).scrollTop() > 20) {
-				$('.filter').addClass('small');
-			} else {
-				$('.filter').removeClass('small');
-			}
-		});			
-	});
-	
+
+
 	// MASONRY DASHBOARD
-	
+
 	$(function(){
 		var container = $('#grid');
 		container.masonry({
 		itemSelector: '.window',
 		columnWidth: function( containerWidth ) {
 		return containerWidth /3;
-		}(), 
+		}(),
 		isAnimated: true,
-		percentPosition: true			
+		percentPosition: true
 		});
 	});
-	
-	
+
+
 	// HIDE FILTER FIELD - CREATE BEAUTIFU HIDDEN ANIMATION :)
-	
+
 	$('.hide').click(function(){
 		$(this).parent().toggleClass('hidden');
-	
+
 	});
-	
+
 	// LEGEND CALLENDAR SHOW / HIDE
-	
-	$('.legend a.open').click(function(e){
+
+	$('.btn-legend').click(function(e){
 		e.preventDefault();
-		$('.position').slideToggle('fast');	
+		$('.legend').slideToggle('fast');
 	});
-	
+
 	// TEXTAREA CABINET HEIGHT
-	
-	if ($('.elastic').length > 0) { 
+
+	if ($('.elastic').length > 0) {
 		$('.elastic').elastic();
 	}
-		
+
 	// SELECT STYLE
 
 	$('select').niceSelect();
-	
+
 	// COLOR PICKER
-	
-	if ($('.colorpicker').length > 0) { 
+
+	if ($('.colorpicker').length > 0) {
 		$('.colorpicker').each( function() {
 				$(this).minicolors({
 				control: $(this).attr('data-control') || 'hue',
@@ -257,5 +262,3 @@ $(document).ready(function() {
 		});
 	}
 });
-
-

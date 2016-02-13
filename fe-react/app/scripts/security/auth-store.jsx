@@ -10,9 +10,7 @@ let authStore = Reflux.createStore({
     isLogged: false
   },
   isLoggedIn: function() {
-    return this.getToken()
-      ? true
-      : false;
+    return this.getToken() ? true : false;
   },
   getToken: function() {
     return session.getToken();

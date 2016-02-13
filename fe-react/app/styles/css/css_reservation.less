@@ -1,5 +1,5 @@
 /* BORDER */ /* BORDER */ /* BORDER */ /* BORDER */
-	
+
 	.b (@bb:none) {
 		border:@bb;
 	}
@@ -15,12 +15,12 @@
 	.br (@br:none) {
 		border-right:@br;
 	}
-			
+
 /* PADDING */ /* PADDING */ /* PADDING */ /* PADDING */
-	
+
 	.pp (@pp:10px 10px 10px 10px) {
 		padding:@pp;
-	}	
+	}
 	.pt (@pt:10px) {
 		padding-top:@pt
 	}
@@ -32,13 +32,13 @@
 	}
 	.pr (@pt:10px) {
 		padding-right:@pt
-	}	
-	
+	}
+
 /* MARGIN */ /* MARGIN */ /* MARGIN */ /* MARGIN */
-	
+
 	.m (@m:10px) {
 		margin:@m;
-	}	
+	}
 	.mt (@mt:10px) {
 		margin-top:@mt
 	}
@@ -50,10 +50,10 @@
 	}
 	.mr (@mr:10px) {
 		margin-right:@mr
-	}		
-		
+	}
+
 /* FLOAT */ /* FLOAT */ /* FLOAT */ /* FLOAT */
-	
+
 	.fl {
 		float:left;
 	}
@@ -63,21 +63,21 @@
 	.fn {
 		float:none;
 	}
-	
+
 /* FLOAT */ /* FLOAT */ /* FLOAT */ /* FLOAT */
-	
+
 	.clear {
 		clear:both;
-	}	
+	}
 	.dib {
 		display:inline-block;
-	}	
+	}
 	.di {
 		display:inline;
-	}	
+	}
 	.db {
 		display:block;
-	}	
+	}
 	.dn {
 		display:none;
 }
@@ -85,22 +85,22 @@
 /* fonts */ /* fonts */ /* fonts */ /* fonts */
 	.c(@color:#FFF){
 		color:@color;
-	}	
+	}
 	.bold {
-		font-weight:600;	
-	}	
+		font-weight:600;
+	}
 	.lighter {
-		font-weight:300;	
-	}	
+		font-weight:300;
+	}
 	.normal{
-		font-weight:normal;	
-	}	
+		font-weight:normal;
+	}
 	.italic {
 		font-style:italic;
-	}		
+	}
 	.left {
 		text-align:left;
-	}	
+	}
 	.right {
 		text-align:right;
 	}
@@ -117,14 +117,14 @@
 		text-align:justify;
 	}
 	.uppercase {
-		text-transform: uppercase;	
-	}	
+		text-transform: uppercase;
+	}
 	.lowercase {
-		text-transform: lowercase;	
-	}	
+		text-transform: lowercase;
+	}
 	.text-shadow (@shadow: 1px 1px 0 #e0e0e0) {
-		text-shadow:@shadow;		
-	}	
+		text-shadow:@shadow;
+	}
 	.lh (@lh:23px) {
 		line-height:@lh;
 	}
@@ -135,7 +135,7 @@
 		font-weight:@font-weight;
 	}
 /* OTHER */	/* OTHER */	/* OTHER */	/* OTHER */
-	
+
 	.pointer {
 		cursor:pointer;
 	}
@@ -144,19 +144,19 @@
 	}
 	.absolute {
 		position:absolute;
-	}	
+	}
 	.bg (@bg:#FFF) {
 		background:@bg;
-	}	
+	}
 	.bp (@bp:0 0) {
 		background-position:@bp;
-	}	
+	}
 	.list {
 		list-style-type:none;
-	}	
+	}
 	.w (@w:100%) {
 		width:@w;
-	}	
+	}
 	.minw (@minw:50%) {
 		min-width:@minw;
 	}
@@ -164,13 +164,13 @@
 		max-width:@maxw;
 	}
 	.h (@h:100%) {
-		height:@h;		
+		height:@h;
 	}
 	.minh (@minh:100%) {
-		min-height:@minh;		
+		min-height:@minh;
 	}
 	.maxh (@maxh:100%) {
-		max-height:@maxh;		
+		max-height:@maxh;
 	}
 	.radius (@radius:10px) {
 		border-radius: @radius;
@@ -180,13 +180,13 @@
 	}
 	.box-sizing {
 		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;    
-		box-sizing: border-box; 
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 	.box-shadow (@bs:0px 0px 2px #c6c6c6) {
 		box-shadow:@bs;
-	}	
-	
+	}
+
 /* CONTENT */ /* CONTENT */ /* CONTENT */ /* CONTENT */
 
 
@@ -207,22 +207,22 @@
 
 
 section#reservation {
-	
+
 	.col, .row {
 		.h(100%);
 		vertical-align:top;
 	}
-	
+
 	.window {
-		.pp(15px 10px);	
+		.pp(15px 10px);
 		.minh(95%);
 		.mb(10px);
-	}	
-			
+	}
+
 	ul.list {
 		.fl;
 		.w;
-		
+
 		li {
 			.fl;
 			display:table;
@@ -234,64 +234,65 @@ section#reservation {
 			.size(16px);
 			.fw(300);
 			.relative;
-			
+
 			&:first-child {
 				.bt(0);
 			}
 		}
-	}	
-	
+	}
+
 	.info {
 		.dib;
 		vertical-align:middle;
-		.w;	
+		.w;
 		.relative;
 		.fl;
-		
+
 		span.time, span.title {
 			.fl;
-		}	
-				
+		}
+
 		span.title {
 			.w;
 			.mb(10px);
-			
+
 			i {
 				.fl;
 				.relative;
 				top:2px;
 			}
-			
+
 			span {
 				.fl;
 				.w(80%);
 				.ml(10px);
 			}
-		}	
-		
+		}
+
 		.field {
 			.w;
 			.fl;
 			.minh(45px);
-			
+
 			&:hover {
 				.delete {
 					.dib;
 				}
 			}
-			
+
 			span {
 				.size(16px);
 				.m(0);
 			}
-						
+
 			fieldset {
 				.fl;
 				.relative;
-				.box-sizing;				
+				.box-sizing;
+				.mb(5px);
 			}
 		}
-		
+
 		.field.check {
 			.checkbox {
 				.fl;
@@ -301,11 +302,11 @@ section#reservation {
 				.h(27px);
 				.mr(10px);
 				.lh(normal);
-				
+
 				label.check {
 					.w(25px)!important;
 					.h(25px)!important;
-					
+
 					&:after {
 						.size(18px);
 						top:4px;
@@ -313,17 +314,17 @@ section#reservation {
 					}
 				}
 			}
-			
+
 			input[type=text] {
 				.w(84%);
 			}
-			
+
 			span {
 				.lh(40px);
 			}
 		}
 	}
-		
+
 	input[type=text], textarea {
 		.fl;
 		.w;
@@ -334,69 +335,71 @@ section#reservation {
 		.size(16px);
 		.c(#2f2f2f);
 		.fw(300);
-		.mb(5px);
 		.b(1px solid @border-1);
 	}
-	
+
 	input[type=text]:disabled, textarea:disabled {
-		.bg(none);	
+		.bg(none);
 		.b(0);
 		.pp(8px 0);
 	}
-	
+
 	textarea {
 		resize:none;
 		.minh(40px)!important;
 	}
-	
-	
+
 	.info.one {
 		fieldset {
 			.w;
-			
+
 			input[type=text] {
 				.w;
 			}
 		}
-	}	
-	
+	}
+
 	.info.two {
 		fieldset {
 			.w(50%);
 			.pl(2%);
-			
+
 			&:first-child {
 				.pl(0);
-			}	
-			
-		}	
+			}
+
+		}
 	}
-	
+
 	.info.three {
 		fieldset {
 			.w(33.3%);
 			.pl(2%);
-			
+
 			&:first-child {
 				.pl(0);
 			}
-			
-		}	
+
+		}
 	}
-	
+
 	.info_doctor {
 		.fl;
 		.w;
-		
+
+		.title {
+			.size(14px);
+		}
+
+		.col {
+			.left;
+		}
+
 		span {
 			.fl;
 			.w;
 		}
-		
-		.title {
-			.size(14px);
-		}
-		
+
 		span.name {
 			.fw(600);
 		}
@@ -404,54 +407,90 @@ section#reservation {
 		span.address {
 			.m(10px 0);
 		}
-		
-		span.date {
-			.b(0);
-			cursor:auto;
-			.bg(@blue-1);
+
+		span {
 			.w(auto);
-			.pp(10px );
-			.relative;
-			
-			.delete {
-				.c(@blue-1);
-				.absolute;
-				top:8px;
-				right:-45px;
-				.size(32px);
-				
-				i {
-					.c(@blue-1)!important;
-				}
-			}
-			
+			.db;
+			float:none;
 		}
-		
-		span.payment {
-			.size(14px);
-			.mt(10px);
-		}
-		
-		.images {
+
+		.info {
 			.fl;
 			.w;
 			.mb(10px);
-			
-			a {
+
+			.images {
 				.fl;
 				.mr(20px);
-				
+				.w(150px);
+				.relative;
+
 				img {
 					.fl;
-					.w;					
+					.w;
+					.radius(100%);
+				}
+
+				a.more {
+					.c(#FFF);
+					.bg(@blue-1);
+					.w(30px);
+					.h(30px);
+					.lh(30px);
+					.b(3px solid #FFF);
+					.absolute;
+					bottom:0;
+					right:10px;
+					.radius(100%);
+					.center;
+
+					i {
+						.size(16px);
+						.c(#FFF);
+						.mr(0);
+					}
 				}
 			}
-			
-			span {
-				.w(auto);
-				.db;
-				float:none;
+		}
+	}
+
+	.info_cabinet {
+		.mt(10px);
+
+		span.title {
+			.fl;
+			.w;
+			.fw(600);
+		}
+
+		ul {
+
+			li {
+				.b(0);
+				.pp(0);
+				.m(0);
+
+				span {
+					.w(55%);
+					.dib;
+				}
 			}
+		}
+	}
+
+	.calendar {
+		.fl;
+	}
+
+	.maps {
+		.fl;
+		.w;
+		.b(1px solid @border-1);
+		.pp(5px);
+		.box-sizing;
+
+		iframe {
+			.fl;
 		}
 	}
 
@@ -478,20 +517,20 @@ section#reservation {
 
 
 @media only screen and (max-width : 480px){
-	
+
 	section#reservation {
 
 		.info {
 			fieldset {
 				.w!important;
 				.pl(0)!important;
-				
+
 				span.text {
 					.mb(10px)!important;
-					.dib;					
+					.dib;
 				}
 			}
-		
+
 			.field.check {
 				span {
 					.dib;
@@ -500,24 +539,24 @@ section#reservation {
 				}
 			}
 		}
-		
+
 		.info_doctor {
 			.images {
 				a {
 					.w(60px);
 				}
 			}
-			
+
 			span.address {
 				.m(20px 0 0);
 			}
-		
+
 			span.date {
 				.w(85%);
-			
+
 			}
 		}
-		
+
 	}
-	
+
 }
