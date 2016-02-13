@@ -1,6 +1,6 @@
-var ReactDOM = require('react-dom');
-var Routes = require('./routes');
-var injectTapEventPlugin = require('react-tap-event-plugin');
+import ReactDOM from 'react-dom';
+import Routes from './routes';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 

@@ -1,24 +1,30 @@
-var Reflux = require('reflux');
-var AuthActions = require('./auth-actions');
-var Session = require('./session');
+import Reflux from 'reflux';
+import AuthActions from './auth-actions';
+import Session from './session';
 
-var AuthStore = Reflux.createStore({
+let session = new Session();
+
+let authStore = Reflux.createStore({
   listenables: [AuthActions],
-  auth: { isLogged: false },
+  auth: {
+    isLogged: false
+  },
   isLoggedIn: function() {
-    return this.getToken() ? true : false;
+    return this.getToken()
+      ? true
+      : false;
   },
   getToken: function() {
-    return Session.getToken();
+    return session.getToken();
   },
   getUserId: function() {
-    return Session.getUserId();
+    return session.getUserId();
   },
   onLoginCompleted: function(response) {
     this.auth.user = response.user;
     this.auth.token = response.token;
     this.auth.isLogged = true;
-    Session.create(response);
+    session.create(response);
     this.trigger(this.auth);
   },
   onLoginFailed: function(status, statusText) {
@@ -27,4 +33,4 @@ var AuthStore = Reflux.createStore({
   }
 });
 
-module.exports = AuthStore;
+export default authStore;

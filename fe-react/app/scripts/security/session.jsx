@@ -1,15 +1,15 @@
-var Cookie = require('react-cookie');
-var UserUtils = require('../users/user-utils');
+import Cookie from 'react-cookie';
+import UserUtils from '../users/user-utils'
 
-module.exports = {
-  CURRENT_USER: 'currentUser',
-  getToken: function() {
-    return this.loadUser().token;
-  },
-  getUserId: function() {
-    return this.loadUser().id;
-  },
-  getDefaultUser: function() {
+export default class Session {
+
+  static _CURRENT_USER = 'currentUser';
+
+  getToken () {return this.loadUser().token;}
+
+  getUserId () {return this.loadUser().id;}
+
+  getDefaultUser () {
     return {
       'token': null,
       'id': null,
@@ -18,19 +18,20 @@ module.exports = {
         theme: 'turquoise'
       }
     };
-  },
-  loadUser: function() {
-    var sessionUser = Cookie.load(this.CURRENT_USER);
-    if (sessionUser) {
-      return sessionUser;
-    } else {
+  }
+
+  loadUser () {
+    var sessionUser = Cookie.load(this._CURRENT_USER);
+    if (sessionUser) {return sessionUser;} else {
       return this.getDefaultUser();
     }
-  },
-  create: function(accessPass) {
+  }
+
+  create (accessPass) {
     var currentUser = UserUtils.getContactInfo(accessPass.user);
     currentUser.token = accessPass.token;
     currentUser.profile = accessPass.user.profile;
-    Cookie.save(this.CURRENT_USER, currentUser);
+    Cookie.save(this._CURRENT_USER, currentUser);
   }
-};
+
+}

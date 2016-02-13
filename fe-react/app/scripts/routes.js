@@ -1,23 +1,20 @@
-var React = require('react');
-var createHashHistory = require('history').createHashHistory;
-var ReactRouter = require('react-router');
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var IndexRoute = ReactRouter.IndexRoute;
+import React from 'react';
+import {Router, Route, IndexRoute} from 'react-router';
+import createHashHistory from 'history/lib/createHashHistory';
 
-var PageFrame = require('./core//frame/page-frame');
-var Login = require('./security/components/login');
-var Account = require('./users/components/user-account');
+import PageFrame from './core/frame/page-frame';
+import Login from './security/components/login';
+import Account from './users/components/user-account';
 
-var AuthStore = require('./security/auth-store');
+import AuthStore from './security/auth-store';
 
 function requireAuth(nextState, replaceState) {
-  if (!AuthStore.isLoggedIn()) {
-    replaceState({ nextPathname: nextState.location.pathname }, '/login');
-  }
+  if (!AuthStore.isLoggedIn()) {replaceState({
+      nextPathname: nextState.location.pathname
+    }, '/login');}
 }
 
-var Routes = (
+let routes = (
   <Router history={createHashHistory({queryKey: false})}>
     <Route path="/login" component={Login}/>
     <Route path="/" component={PageFrame}>
@@ -27,4 +24,4 @@ var Routes = (
   </Router>
 );
 
-module.exports = Routes;
+export default routes;

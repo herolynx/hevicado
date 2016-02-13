@@ -1,15 +1,15 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Reflux = require('reflux');
-var History = ReactRouter.History;
+import React from 'react';
+import ReactRouter from 'react-router';
+import Reflux from 'reflux';
 
-var UserActions = require('../user-actions');
-var UserStore = require('../user-store');
-var AuthStore = require('../../security/auth-store');
+import UserActions from '../user-actions';
+import UserStore from '../user-store';
+import AuthStore from '../../security/auth-store';
 
-var Account = React.createClass({
+//TODO mixins are deprecated and not supported by react in ES6. use composition instead!
+let account = React.createClass({
   mixins: [
-    History, Reflux.listenTo(UserStore, 'onChange')
+    ReactRouter.History, Reflux.listenTo(UserStore, 'onChange')
   ],
   getInitialState: function() {
     return {
@@ -47,7 +47,7 @@ var Account = React.createClass({
                         <span className="title">Login:</span>
                         <div className="field one">
                           <fieldset>
-                            <input type="text" value={this.state.user.email} disabled />
+                            <input type="text" value={this.state.user.email} disabled/>
                           </fieldset>
                         </div>
                       </div>
@@ -57,7 +57,7 @@ var Account = React.createClass({
                         <span className="title">Zmiana hasła:</span>
                         <div className="field">
                           <fieldset>
-                            <input type="text" value="" placeholder="Hasło" />
+                            <input type="text" value="" placeholder="Hasło"/>
                           </fieldset>
                           <fieldset>
                             <input type="text" value="" placeholder="Powtórz hasło"/>
@@ -68,13 +68,13 @@ var Account = React.createClass({
                             <input type="text" value="" placeholder="Nowe Hasło"/>
                           </fieldset>
                           <fieldset>
-                            <button className="btn md blue"><i className="fa fa-unlock-alt"></i> Zmień hasło</button>
+                            <button className="btn md blue">
+                              <i className="fa fa-unlock-alt"></i>
+                              Zmień hasło</button>
                           </fieldset>
                         </div>
                       </div>
-                      <div className="action block">
-
-                      </div>
+                      <div className="action block"></div>
                     </li>
 
                     <li>
@@ -95,7 +95,9 @@ var Account = React.createClass({
                         </div>
                       </div>
                       <div className="action block">
-                        <a href="#" id="edit"><i className="fa fa-pencil"></i></a>
+                        <a href="#" id="edit">
+                          <i className="fa fa-pencil"></i>
+                        </a>
                       </div>
                     </li>
                     <li>
@@ -129,13 +131,13 @@ var Account = React.createClass({
                               <option value="7">Niedziela</option>
                             </select>
                           </fieldset>
-                          <fieldset>
-
-                          </fieldset>
+                          <fieldset></fieldset>
                         </div>
                       </div>
                       <div className="action block">
-                        <a href="#" id="edit"><i className="fa fa-pencil"></i></a>
+                        <a href="#" id="edit">
+                          <i className="fa fa-pencil"></i>
+                        </a>
                       </div>
                     </li>
 
@@ -178,13 +180,13 @@ var Account = React.createClass({
                               <option value="7">Niedziela</option>
                             </select>
                           </fieldset>
-                          <fieldset>
-
-                          </fieldset>
+                          <fieldset></fieldset>
                         </div>
                       </div>
                       <div className="action block">
-                        <a href="#" id="edit"><i className="fa fa-pencil"></i></a>
+                        <a href="#" id="edit">
+                          <i className="fa fa-pencil"></i>
+                        </a>
                       </div>
                     </li>
                   </ul>
@@ -199,4 +201,4 @@ var Account = React.createClass({
 
 });
 
-module.exports = Account;
+export default account;
