@@ -127,6 +127,25 @@ section#reservation {
   section#message .col {
     width: 99% !important;
   }
+  section#profile .col-6.first {
+    width: 80% !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  section#profile .col-6.first {
+    width: 99% !important;
+  }
+  section#profile .col-3 {
+    width: 100%;
+    margin-left: 0;
+  }
+  section#profile .cabinet .service {
+    margin-top: 20px;
+  }
+  section#profile .cabinet .service ul {
+    width: 100% !important;
+    margin: 0 !important;
+  }
 }
 @media only screen and (max-width: 480px) {
   section#visit,
@@ -134,7 +153,8 @@ section#reservation {
   section#calendar,
   section#account,
   section#message,
-  section#reservation {
+  section#reservation,
+  section#profile {
     padding-top: 20px;
   }
   section#visit .window,
@@ -142,7 +162,8 @@ section#reservation {
   section#calendar .window,
   section#account .window,
   section#message .window,
-  section#reservation .window {
+  section#reservation .window,
+  section#profile .window {
     padding: 10px 5px !important;
   }
 }

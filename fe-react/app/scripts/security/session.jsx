@@ -5,11 +5,15 @@ export default class Session {
 
   static _CURRENT_USER = 'currentUser';
 
-  getToken () {return this.loadUser().token;}
+  getToken() {
+    return this.loadUser().token;
+  }
 
-  getUserId () {return this.loadUser().id;}
+  getUserId() {
+    return this.loadUser().id;
+  }
 
-  getDefaultUser () {
+  getDefaultUser() {
     return {
       'token': null,
       'id': null,
@@ -20,14 +24,16 @@ export default class Session {
     };
   }
 
-  loadUser () {
+  loadUser() {
     var sessionUser = Cookie.load(this._CURRENT_USER);
-    if (sessionUser) {return sessionUser;} else {
+    if (sessionUser) {
+      return sessionUser;
+    } else {
       return this.getDefaultUser();
     }
   }
 
-  create (accessPass) {
+  create(accessPass) {
     var currentUser = UserUtils.getContactInfo(accessPass.user);
     currentUser.token = accessPass.token;
     currentUser.profile = accessPass.user.profile;

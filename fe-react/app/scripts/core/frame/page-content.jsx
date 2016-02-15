@@ -14,8 +14,8 @@ export default class PageContent extends React.Component {
     }
   };
 
-  render () {
-    return(
+  render() {
+    return (
       <section id="main-content">
         <div id="title">
           <div className="content">

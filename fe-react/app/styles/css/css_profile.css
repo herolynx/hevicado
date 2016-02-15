@@ -115,9 +115,572 @@ section#profile .window {
   position: relative;
   margin-bottom: 10px;
 }
+section#profile .col.first {
+  max-width: 1170px;
+}
 section#profile .col {
   text-align: left;
+  vertical-align: top;
 }
-section#profile .title-window {
-  height: 50px;
+section#profile .line-rt {
+  border-right: 1px solid #e6e6e4;
+}
+section#profile .line-lt {
+  border-left: 1px solid #e6e6e4;
+  padding-left: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+section#profile .title {
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0090ff;
+  margin: 10px 0;
+}
+section#profile .hour {
+  float: left;
+  width: 100%;
+}
+section#profile .hour ul {
+  float: left;
+  width: 100%;
+}
+section#profile .hour ul li {
+  margin: 5px 0;
+  width: 100%;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 300;
+  color: #2f2f2f;
+}
+section#profile .hour ul li span {
+  float: right;
+}
+section#profile .row ul {
+  float: left;
+  width: 100%;
+}
+section#profile .row ul li {
+  margin: 5px 0;
+  width: 100%;
+  display: inline-block;
+  font-weight: 300;
+  color: #2f2f2f;
+}
+section#profile .row ul li span {
+  float: right;
+}
+section#profile .ratting i {
+  font-size: 20px;
+  color: #ffb300;
+}
+section#profile .describe {
+  float: left;
+  width: 100%;
+  line-height: 24px;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+section#profile .describe p {
+  margin: 5px 0;
+  display: inline-block;
+}
+section#profile .describe p:first-child {
+  margin-top: 0;
+}
+section#profile .images {
+  float: left;
+  width: 75px;
+  margin: 5px;
+  position: relative;
+  text-align: center;
+  text-align: left;
+  border: 1px solid #e6e6e4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 3px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+section#profile .images img {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  background: #ffffff;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  float: left;
+}
+section#profile .profile {
+  float: left;
+  width: 100%;
+  margin-top: 10px;
+}
+section#profile .profile .image-profile {
+  display: block;
+  width: 70%;
+  margin: auto;
+}
+section#profile .profile .image-profile img {
+  width: 100%;
+  float: left;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  padding: 5px;
+  background: #f4f4f4;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+section#profile .profile .info-profile {
+  float: left;
+  width: 100%;
+}
+section#profile .profile .ratting {
+  float: left;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+section#profile .profile .name {
+  float: left;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+}
+section#profile .profile .specialization {
+  float: left;
+  width: 100%;
+  color: #b9b9b9;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 300;
+  text-align: center;
+}
+section#profile .info-cabinet {
+  float: left;
+  width: 100%;
+  padding-right: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+section#profile .info-cabinet .info {
+  float: left;
+  width: 100%;
+}
+section#profile .info-cabinet .info .address {
+  float: left;
+  width: 70%;
+  font-weight: 300;
+  color: #2f2f2f;
+  line-height: 24px;
+}
+section#profile .info-cabinet .info .address a {
+  color: #0090ff;
+  font-size: 18px;
+  font-weight: 600;
+}
+section#profile .info-cabinet .info .visit {
+  float: right;
+}
+section#profile .info-cabinet .info .visit a {
+  display: inline-block;
+}
+section#profile .info-cabinet .maps {
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
+}
+section#profile .info-cabinet .service {
+  float: left;
+  width: 100%;
+}
+section#profile .info-cabinet .service ul {
+  float: left;
+  width: 49%;
+  margin-top: 20px;
+  margin-left: 2%;
+}
+section#profile .info-cabinet .service ul li {
+  margin: 5px 0;
+  width: 100%;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 300;
+  color: #2f2f2f;
+}
+section#profile .info-cabinet .service ul li span {
+  float: right;
+}
+section#profile .info-cabinet .service ul:first-child {
+  margin-left: 0;
+}
+section#profile .info-cabinet .cabinet-images {
+  float: left;
+  width: 100%;
+  border-top: 1px solid #e6e6e4;
+  margin-top: 10px;
+}
+section#profile .opinion {
+  float: left;
+  width: 100%;
+}
+section#profile .opinion .ratting {
+  display: inline-block;
+  width: auto;
+  margin-left: 10px;
+}
+section#profile .opinion .choose {
+  float: left;
+  width: 200px;
+}
+section#profile .opinion .chart {
+  float: right;
+  margin-top: -50px;
+}
+section#profile .opinion .chart .box {
+  width: 65px;
+  display: inline-block;
+  text-align: center;
+  margin: 0 10px;
+}
+section#profile .opinion .chart .box .chart-css {
+  width: 65px;
+  height: 65px;
+  border: 3px solid #0090ff;
+  display: inline-block;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+}
+section#profile .opinion .chart .box span {
+  font-size: 14px;
+  display: inline-block;
+  top: -5px;
+  position: relative;
+}
+section#profile .opinion ul.opinion {
+  margin-top: 20px;
+}
+section#profile .opinion ul.opinion li {
+  margin: 10px 0;
+  width: 80%;
+  display: table;
+}
+section#profile .opinion ul.opinion li:first-child {
+  margin: 0;
+}
+section#profile .opinion ul.opinion li:first-child .title {
+  width: auto;
+}
+section#profile .opinion ul.opinion li .btn {
+  float: right;
+  padding: 5px 15px;
+}
+section#profile .opinion ul.opinion li .user {
+  float: none;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  top: -14px;
+  right: -24%;
+  width: 100px;
+  line-height: 16px;
+}
+section#profile .opinion ul.opinion li .user .images {
+  width: 100%;
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+  background: #f4f4f4;
+  border: 0;
+  padding: 5px;
+}
+section#profile .opinion ul.opinion li .user .images img {
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  width: 100%;
+  float: left;
+}
+section#profile .opinion ul.opinion li .user span {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+}
+section#profile .opinion ul.opinion li .describe {
+  display: table-cell;
+  vertical-align: middle;
+  float: none;
+  height: 83px;
+  background: #f4f4f4;
+  padding: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  border: 1px solid #e6e6e4;
+}
+section#profile .opinion ul.opinion li .describe:before {
+  content: '';
+  position: absolute;
+  top: 30px;
+  right: -20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0px 0 15px 20px;
+  border-color: transparent transparent transparent #f4f4f4;
+}
+section#profile .opinion ul.opinion li span.date {
+  font-size: 14px;
+  font-weight: 600;
+  float: left;
+  width: 100%;
+}
+section#profile .opinion ul.opinion li .answer {
+  float: left;
+  width: 95%;
+  background: #ffffff;
+  padding: 10px 40px 10px 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-top: 20px;
+  margin-left: 5%;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  position: relative;
+}
+section#profile .opinion ul.opinion li .answer:before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 6px 8px 6px;
+  border-color: transparent transparent #FFF transparent;
+}
+section#profile .opinion ul.opinion li .answer .images {
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+  margin: 0;
+  position: absolute;
+  top: -10px;
+  right: -7px;
+  width: 45px;
+  background: #ffffff;
+  border: 0;
+}
+section#profile .opinion ul.opinion li .answer .images img {
+  border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  -o-border-radius: 100%;
+}
+section#profile .opinion ul.opinion li .answer span.date {
+  color: #b9b9b9;
+}
+section#profile .opinion ul.opinion li .answer span.answer-doctor {
+  color: #0090ff;
+  font-weight: 600;
+  float: left;
+  margin-right: 5px;
+}
+section#profile ul.navigation {
+  width: 100%;
+  float: left;
+  margin-bottom: 10px;
+}
+section#profile ul.navigation li {
+  float: left;
+  display: inline-block;
+  width: auto;
+  padding-bottom: 5px;
+  margin: 0 10px;
+  border-bottom: 2px solid transparent;
+}
+section#profile ul.navigation li:hover {
+  border-bottom: 2px solid #0090ff;
+}
+section#profile ul.navigation li a {
+  text-decoration: none;
+  color: #b9b9b9;
+}
+section#profile ul.navigation li a:hover {
+  color: #2f2f2f;
+}
+@media only screen and (max-width: 1200px) {
+  section#profile .col-6.first {
+    width: 80% !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  section#profile .col-6.first {
+    width: 99% !important;
+  }
+  section#profile .col-3 {
+    width: 100%;
+    margin-left: 0;
+  }
+  section#profile .info-cabinet .service {
+    margin-top: 20px;
+  }
+  section#profile .info-cabinet .service ul {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  section#profile {
+    padding-top: 30px;
+  }
+  section#profile ul.navigation {
+    font-size: 14px;
+    text-align: center;
+  }
+  section#profile ul.navigation li {
+    float: none;
+  }
+  section#profile .cabinet .col {
+    width: 100%;
+    margin: 0;
+  }
+  section#profile .cabinet .line-rt,
+  section#profile .cabinet .line-lt {
+    border: 0;
+  }
+  section#profile .info-cabinet {
+    padding: 0;
+  }
+  section#profile .info-cabinet .cabinet-images {
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 10px;
+  }
+  section#profile .opinion ul.opinion li {
+    width: 77%;
+  }
+  section#profile .opinion ul.opinion li .user {
+    width: 85px;
+    right: -30%;
+  }
+}
+@media only screen and (max-width: 480px) {
+  section#profile .col {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  section#profile .line-rt,
+  section#profile .line-lt {
+    border: 0;
+  }
+  section#profile .info-cabinet .info .visit {
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+  }
+  section#profile .describe {
+    margin-bottom: 0;
+  }
+  section#profile .profile {
+    text-align: center;
+  }
+  section#profile .profile .image-profile {
+    width: 35%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  section#profile .profile .info-profile {
+    width: 60%;
+    display: inline-block;
+    float: none;
+  }
+  section#profile .profile .name {
+    line-height: 24px;
+  }
+  section#profile .profile .specialization,
+  section#profile .profile .ratting {
+    margin-top: 5;
+  }
+  section#profile .opinion .choose {
+    width: 100%;
+    float: left;
+  }
+  section#profile .opinion .chart {
+    margin-top: 15px;
+    width: 100%;
+    float: left;
+    text-align: center;
+  }
+  section#profile .opinion .chart .box {
+    width: 75px;
+    margin: 0 10px;
+  }
+  section#profile .opinion ul.opinion li {
+    width: 100%;
+  }
+  section#profile .opinion ul.opinion li .describe {
+    padding: 10px 5px;
+  }
+  section#profile .opinion ul.opinion li .describe:before {
+    content: none;
+  }
+  section#profile .opinion ul.opinion li .user {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    top: -5px;
+    right: 0;
+    text-align: left;
+  }
+  section#profile .opinion ul.opinion li .user .images {
+    width: 75px;
+    display: inline-block;
+    float: left;
+  }
+  section#profile .opinion ul.opinion li .user span {
+    width: auto;
+    float: left;
+    font-size: 14px;
+    margin: 35px 5px 0 0;
+  }
+  section#profile .opinion ul.opinion li span.date {
+    width: auto;
+  }
+  section#profile .opinion ul.opinion li .answer {
+    width: 98%;
+    margin-left: 0;
+  }
+  section#profile .opinion ul.opinion li .answer span.answer-doctor {
+    width: 100%;
+  }
 }

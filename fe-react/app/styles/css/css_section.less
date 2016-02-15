@@ -1,5 +1,5 @@
 /* BORDER */ /* BORDER */ /* BORDER */ /* BORDER */
-	
+
 	.b (@bb:none) {
 		border:@bb;
 	}
@@ -15,12 +15,12 @@
 	.br (@br:none) {
 		border-right:@br;
 	}
-			
+
 /* PADDING */ /* PADDING */ /* PADDING */ /* PADDING */
-	
+
 	.pp (@pp:10px 10px 10px 10px) {
 		padding:@pp;
-	}	
+	}
 	.pt (@pt:10px) {
 		padding-top:@pt
 	}
@@ -32,13 +32,13 @@
 	}
 	.pr (@pt:10px) {
 		padding-right:@pt
-	}	
-	
+	}
+
 /* MARGIN */ /* MARGIN */ /* MARGIN */ /* MARGIN */
-	
+
 	.m (@m:10px) {
 		margin:@m;
-	}	
+	}
 	.mt (@mt:10px) {
 		margin-top:@mt
 	}
@@ -50,10 +50,10 @@
 	}
 	.mr (@mr:10px) {
 		margin-right:@mr
-	}		
-		
+	}
+
 /* FLOAT */ /* FLOAT */ /* FLOAT */ /* FLOAT */
-	
+
 	.fl {
 		float:left;
 	}
@@ -63,21 +63,21 @@
 	.fn {
 		float:none;
 	}
-	
+
 /* FLOAT */ /* FLOAT */ /* FLOAT */ /* FLOAT */
-	
+
 	.clear {
 		clear:both;
-	}	
+	}
 	.dib {
 		display:inline-block;
-	}	
+	}
 	.di {
 		display:inline;
-	}	
+	}
 	.db {
 		display:block;
-	}	
+	}
 	.dn {
 		display:none;
 }
@@ -85,22 +85,22 @@
 /* fonts */ /* fonts */ /* fonts */ /* fonts */
 	.c(@color:#FFF){
 		color:@color;
-	}	
+	}
 	.bold {
-		font-weight:600;	
-	}	
+		font-weight:600;
+	}
 	.lighter {
-		font-weight:300;	
-	}	
+		font-weight:300;
+	}
 	.normal{
-		font-weight:normal;	
-	}	
+		font-weight:normal;
+	}
 	.italic {
 		font-style:italic;
-	}		
+	}
 	.left {
 		text-align:left;
-	}	
+	}
 	.right {
 		text-align:right;
 	}
@@ -117,14 +117,14 @@
 		text-align:justify;
 	}
 	.uppercase {
-		text-transform: uppercase;	
-	}	
+		text-transform: uppercase;
+	}
 	.lowercase {
-		text-transform: lowercase;	
-	}	
+		text-transform: lowercase;
+	}
 	.text-shadow (@shadow: 1px 1px 0 #e0e0e0) {
-		text-shadow:@shadow;		
-	}	
+		text-shadow:@shadow;
+	}
 	.lh (@lh:23px) {
 		line-height:@lh;
 	}
@@ -135,7 +135,7 @@
 		font-weight:@font-weight;
 	}
 /* OTHER */	/* OTHER */	/* OTHER */	/* OTHER */
-	
+
 	.pointer {
 		cursor:pointer;
 	}
@@ -144,19 +144,19 @@
 	}
 	.absolute {
 		position:absolute;
-	}	
+	}
 	.bg (@bg:#FFF) {
 		background:@bg;
-	}	
+	}
 	.bp (@bp:0 0) {
 		background-position:@bp;
-	}	
+	}
 	.list {
 		list-style-type:none;
-	}	
+	}
 	.w (@w:100%) {
 		width:@w;
-	}	
+	}
 	.minw (@minw:50%) {
 		min-width:@minw;
 	}
@@ -164,13 +164,13 @@
 		max-width:@maxw;
 	}
 	.h (@h:100%) {
-		height:@h;		
+		height:@h;
 	}
 	.minh (@minh:100%) {
-		min-height:@minh;		
+		min-height:@minh;
 	}
 	.maxh (@maxh:100%) {
-		max-height:@maxh;		
+		max-height:@maxh;
 	}
 	.radius (@radius:10px) {
 		border-radius: @radius;
@@ -180,13 +180,13 @@
 	}
 	.box-sizing {
 		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;    
-		box-sizing: border-box; 
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 	.box-shadow (@bs:0px 0px 2px #c6c6c6) {
 		box-shadow:@bs;
-	}	
-	
+	}
+
 /* CONTENT */ /* CONTENT */ /* CONTENT */ /* CONTENT */
 
 section#visit, section#cabinet, section#account, section#message, section#profile, section#reservation {
@@ -197,24 +197,55 @@ section#visit, section#cabinet, section#account, section#message, section#profil
 }
 
 @media only screen and (max-width : 1200px){
-	
+
 	section#visit, section#cabinet, section#search, section#account, section#message {
-	
+
 		.col {
 			.w(99%)!important;
 		}
 	}
+
+	section#profile {
+		.col-6.first {
+			.w(80%)!important;
+		}
+	}
 }
 
+@media only screen and (max-width : 992px){
+	section#profile {
+		.col-6.first {
+			.w(99%)!important;
+		}
+
+		.col-3 {
+			.w;
+			.ml(0);
+		}
+
+		.cabinet {
+			.service {
+				.mt(20px);
+
+				ul {
+					.w!important;
+					.m(0)!important;
+				}
+			}
+		}
+	}
+}
+
+
+
 @media only screen and (max-width : 480px){
-	
-	
-	section#visit, section#cabinet, section#calendar, section#account, section#message, section#reservation {
-		.pt(20px);		
-		
+
+
+	section#visit, section#cabinet, section#calendar, section#account, section#message, section#reservation, section#profile{
+		.pt(20px);
+
 		.window {
 			.pp(10px 5px)!important;
 		}
 	}
 }
-

@@ -70,7 +70,8 @@ let account = React.createClass({
                           <fieldset>
                             <button className="btn md blue">
                               <i className="fa fa-unlock-alt"></i>
-                              Zmień hasło</button>
+                              Zmień hasło
+                            </button>
                           </fieldset>
                         </div>
                       </div>

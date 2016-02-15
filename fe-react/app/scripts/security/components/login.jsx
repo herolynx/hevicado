@@ -16,19 +16,20 @@ let login = React.createClass({
     return {
       windowLogin: {
         name: 'Zaloguj się do systemu',
-        email : 'Adres e-mail:',
-        password : 'Hasło:',
-        signIn : 'Zaloguj się',
-        forgotPassword : 'Nie pamiętam hasła ;(',
-        loginWithFacebook : 'Zaloguj się przez Facebook',
-        loginWithGoogle : 'Zaloguj się przez Google'
+        email: 'Adres e-mail:',
+        password: 'Hasło:',
+        signIn: 'Zaloguj się',
+        forgotPassword: 'Nie pamiętam hasła ;(',
+        loginWithFacebook: 'Zaloguj się przez Facebook',
+        loginWithGoogle: 'Zaloguj się przez Google'
       }
     };
   },
   onLoginComplete: function(result) {
-    console.log('onLoginComplete', result.user, result.token);
     this.setState({user: result.user, isLogged: result.isLogged});
-    if (this.state.isLogged === true) {this.history.replaceState(null, '/account', null);} else {
+    if (this.state.isLogged === true) {
+      this.props.history.replaceState(null, '/account', null);
+    } else {
       this.state.error = true;
     }
   },
