@@ -48,7 +48,7 @@ export default class MainMenu extends React.Component {
           <ul>
             <li className="active"><a href="search.html"><i className="fa fa-search"></i> Szukaj</a></li>
             <li><a href="dashboard.html"><i className="fa fa-area-chart"></i>Pulpit</a></li>
-            <li><a href="calendar_30days.html"><i className="fa fa-calendar"></i>Kalnedarz</a></li>
+            <li><a href="#/calendar/weekly"><i className="fa fa-calendar"></i>Kalnedarz</a></li>
             <li><a href="#"><i className="fa fa-folder-open-o"></i>Karta Pacjenta</a></li>
             <li><a href="visit.html"><i className="fa fa-folder-open-o"></i>Moje wizyty</a></li>
             <li><a href="cabinet_list.html"><i className="fa fa-hospital-o"></i>Gabinet</a></li>

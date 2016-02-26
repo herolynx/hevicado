@@ -1,6 +1,5 @@
 import React from 'react';
 import MainMenu from './main-menu';
-import PageContent from './page-content';
 
 export default class PageFrame extends React.Component {
 
@@ -12,9 +11,7 @@ export default class PageFrame extends React.Component {
           <i className="fa fa-bars"></i>
         </label>
         <MainMenu/>
-        <PageContent>
-          {this.props.children}
-        </PageContent>
+        {this.props.children}
       </div>
     );
   }
