@@ -4,7 +4,8 @@ import createHashHistory from 'history/lib/createHashHistory';
 
 import PageFrame from './core/frame/page-frame';
 import Login from './security/components/login';
-import Account from './users/components/user-account';
+import AccountPage from './users/components/pages/account-page';
+import CalendarPage from './calendar/components/pages/calendar-page';
 
 import AuthStore from './security/auth-store';
 
@@ -18,8 +19,9 @@ let routes = (
   <Router history={createHashHistory({queryKey: false})}>
     <Route path="/login" component={Login}/>
     <Route path="/" component={PageFrame}>
-      <IndexRoute component={Account}/>
-      <Route path="/account" component={Account} onEnter={requireAuth}/>
+      <IndexRoute component={AccountPage}/>
+      <Route path="/account" component={AccountPage} onEnter={requireAuth}/>
+      <Route path="/calendar/weekly" component={CalendarPage} />
     </Route>
   </Router>
 );
