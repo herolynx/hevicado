@@ -1,0 +1,12 @@
+{
+  "code": "en",
+  "name": "english",
+  "calendar": {
+    "weekly": "Weekly",
+    "daily": "Daily"
+  },
+  "users": {
+    "userProfile": "User profile",
+    "payments": "Payments"
+  }
+}
