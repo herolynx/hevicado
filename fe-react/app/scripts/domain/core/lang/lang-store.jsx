@@ -1,7 +1,7 @@
 import Reflux from 'reflux';
 import LangActions from './lang-actions';
-import PL from '../../../lang/pl.json';
-import EN from '../../../lang/en.json';
+import PL from '../../../../lang/pl.json';
+import EN from '../../../../lang/en.json';
 
 let langs = {
   'pl': PL,

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactRouter from 'react-router';
 import Reflux from 'reflux';
 
-import UserActions from '../user-actions';
-import UserStore from '../user-store';
-import AuthStore from '../../security/auth-store';
+import UserActions from '../../domain/users/user-actions';
+import UserStore from '../../domain/users/user-store';
+import AuthStore from '../../domain/security/auth-store';
 
 //TODO mixins are deprecated and not supported by react in ES6. use composition instead!
 let account = React.createClass({

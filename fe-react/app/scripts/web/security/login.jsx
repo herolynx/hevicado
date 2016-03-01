@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactRouter from 'react-router';
 import Reflux from 'reflux';
-import AuthActions from '../auth-actions';
-import AuthStore from '../auth-store';
+import AuthActions from '../../domain/security/auth-actions';
+import AuthStore from '../../domain/security/auth-store';
 
 //TODO mixins are deprecated and not supported by react in ES6. use composition instead!
 let login = React.createClass({

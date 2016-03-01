@@ -1,8 +1,8 @@
 import React from 'react';
 
-import PageMenu from '../../../core/frame/page-menu';
+import PageMenu from '../../core/frame/page-menu';
 import UserAccount from '../user-account';
-import LangStore from '../../../core/lang/lang-store';
+import LangStore from '../../../domain/core/lang/lang-store';
 
 export default class AccountPage extends React.Component {
 
