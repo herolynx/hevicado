@@ -2,9 +2,9 @@ import React from 'react';
 import ReactRouter from 'react-router';
 import Reflux from 'reflux';
 
-import UserActions from '../../../users/user-actions';
-import UserStore from '../../../users/user-store';
-import AuthStore from '../../../security/auth-store';
+import UserActions from '../../../domain/users/user-actions';
+import UserStore from '../../../domain/users/user-store';
+import AuthStore from '../../../domain/security/auth-store';
 
 import TopMenu from '../widgets/menu/top-menu';
 import TimeFrame from '../widgets/table/time-frame';

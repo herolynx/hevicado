@@ -2,12 +2,12 @@ import React from 'react';
 import {Router, Route, IndexRoute} from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
-import PageFrame from './core/frame/page-frame';
-import Login from './security/components/login';
-import AccountPage from './users/components/pages/account-page';
-import CalendarPage from './calendar/components/pages/calendar-page';
+import PageFrame from './web/core/frame/page-frame';
+import Login from './web/security/login';
+import AccountPage from './web/users/pages/account-page';
+import CalendarPage from './web/calendar/pages/calendar-page';
 
-import AuthStore from './security/auth-store';
+import AuthStore from './domain/security/auth-store';
 
 function requireAuth(nextState, replaceState) {
   if (!AuthStore.isLoggedIn()) {
