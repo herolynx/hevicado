@@ -2,13 +2,16 @@ import Reflux from 'reflux';
 import LangActions from './lang-actions';
 import PL from '../../../../lang/pl.json';
 import EN from '../../../../lang/en.json';
+import moment from 'moment';
+import momentPL from 'moment/locale/pl';
+import momentEN from 'moment/locale/en-gb';
 
 let langs = {
   'pl': PL,
   'en': EN
 };
-console.debug('Loading default language: PL');
-let currentLang = PL;
+
+let currentLang = undefined;
 
 let langStore = Reflux.createStore({
   listenables: [LangActions],
@@ -21,6 +24,7 @@ let langStore = Reflux.createStore({
   onLangChanged: function(newLang) {
     console.debug('Changing language to: ' + newLang);
     currentLang = langs[newLang];
+    moment.locale(newLang);
   },
 
   /**
@@ -31,5 +35,8 @@ let langStore = Reflux.createStore({
   }
 
 });
+
+console.debug('Loading default language: PL');
+langStore.onLangChanged('pl');
 
 export default langStore;
