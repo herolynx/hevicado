@@ -1,5 +1,5 @@
 import Reflux from 'reflux';
 
-let userActions = Reflux.createActions(['getUser']);
+let userActions = Reflux.createActions(['getUser', 'updateUser']);
 
 export default userActions;

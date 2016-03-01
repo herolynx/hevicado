@@ -22,10 +22,25 @@ export default class Api {
         'Authorization': token
       }
     }).then(function(response) {
-      return response.json();
+      return response;
     }).catch(function(error) {
       return error;
     });
   }
+
+  put(url, jsonObject, token) {
+    return fetch(rootUrl + url, {
+      method: 'PUT',
+      body: JSON.stringify(jsonObject),
+      headers: {
+        'Authorization': token
+      }
+    }).then(function(response) {
+      return response;
+    }).catch(function(error) {
+      return error;
+    });
+  }
+
 
 }
