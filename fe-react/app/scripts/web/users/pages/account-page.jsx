@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PageMenu from '../../core/frame/page-menu';
-import UserAccount from '../user-account';
+import UserAccount from '../views/user-account';
 import LangStore from '../../../domain/core/lang/lang-store';
 
 export default class AccountPage extends React.Component {
@@ -11,28 +11,28 @@ export default class AccountPage extends React.Component {
     this.i18n = LangStore.get();
   }
 
-  pageMenuItems () {
+  pageMenuItems() {
     return {
-      title: 'Konto uzytkownika',
+      title: 'Kalendarz',
       items: [
         {
           id: 'data-tab-1',
-          name: this.i18n.users.userProfile,
+          name: this.i18n.calendar.daily,
           uri: '#',
-          class: 'fa fa-user',
-          selected: true
+          class: 'fa fa-calendar'
         }, {
           id: 'data-tab-2',
-          name: this.i18n.users.payments,
-          uri: '#',
-          class: 'fa fa-credit-card'
+          name: this.i18n.calendar.weekly,
+          uri: '#/calendar/weekly',
+          class: 'fa fa-calendar',
+          selected: true
         }
       ]
     };
   }
 
-  render () {
-    return(
+  render() {
+    return (
       <section id="main-content">
         <PageMenu values={this.pageMenuItems()}/>
         <UserAccount/>

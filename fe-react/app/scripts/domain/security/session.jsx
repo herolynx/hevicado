@@ -25,7 +25,7 @@ export default class Session {
   }
 
   loadUser() {
-    var sessionUser = Cookie.load(this._CURRENT_USER);
+    var sessionUser = Cookie.load(Session._CURRENT_USER);
     if (sessionUser) {
       return sessionUser;
     } else {
@@ -37,7 +37,11 @@ export default class Session {
     var currentUser = UserUtils.getContactInfo(accessPass.user);
     currentUser.token = accessPass.token;
     currentUser.profile = accessPass.user.profile;
-    Cookie.save(this._CURRENT_USER, currentUser);
+    Cookie.save(Session._CURRENT_USER, currentUser);
+  }
+
+  destroy() {
+    Cookie.remove(Session._CURRENT_USER);
   }
 
 }
