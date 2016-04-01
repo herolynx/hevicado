@@ -1,4 +1,4 @@
-Hevicado [![Circle CI](https://circleci.com/gh/m-wrona/hevicado.svg?style=svg&circle-token=84be672fc11e78f986d3d14439eac2ddc9cfc8cd)](https://circleci.com/gh/m-wrona/hevicado)
+Hevicado [![Circle CI](https://circleci.com/gh/herolynx/hevicado.svg?style=svg)](https://circleci.com/gh/herolynx/hevicado)
 ==============
 
 Hevicado is an application for office and schedule management for doctors and small organizations.
